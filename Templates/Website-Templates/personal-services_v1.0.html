@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- v1.0 — Initial release: elegant dark design, booking CTA, services+pricing, gallery, testimonials -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[BUSINESS_NAME] | Premium [SERVICE_TYPE] in [CITY], [STATE]</title>
+    <meta name="description" content="Discover premium [SERVICE_TYPE] services at [BUSINESS_NAME]. Expert stylists and relaxing treatments. Book your appointment today.">
+    <meta name="keywords" content="[SERVICE_TYPE], [CITY], [STATE], salon, spa, appointments">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "[BUSINESS_NAME]",
+        "description": "[SERVICE_DESCRIPTION]",
+        "telephone": "[PHONE]",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "[STREET_ADDRESS]",
+            "addressLocality": "[CITY]",
+            "addressRegion": "[STATE]",
+            "postalCode": "[ZIP_CODE]"
+        },
+        "image": "https://via.placeholder.com/600x400",
+        "url": "https://[DOMAIN_NAME].com",
+        "priceRange": "$$-$$$"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2d2d2d;
+            --accent-gold: #d4af37;
+            --accent-light: #f5f1e8;
+            --text-light: #e8e8e8;
+            --text-muted: #b0b0b0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: var(--primary-dark);
+        }
+
+        a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--primary-dark);
+            border-bottom: 1px solid var(--accent-gold);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+        }
+
+        .phone-call {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .phone-call a {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--accent-light);
+            padding: 6rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 0.3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background-color: #e8c547;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--secondary-dark);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Services + Pricing Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--secondary-dark);
+            padding: 2rem;
+            border-radius: 0;
+            border-top: 3px solid var(--accent-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background-color: var(--secondary-dark);
+            border: 1px solid var(--accent-gold);
+            border-radius: 0;
+            overflow: hidden;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 3rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            opacity: 0.8;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--secondary-dark);
+            padding: 2rem;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .stars {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            background-color: var(--secondary-dark);
+            padding: 2rem;
+            border-top: 3px solid var(--accent-gold);
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item h4 {
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-item p {
+            color: var(--text-muted);
+        }
+
+        .location-placeholder {
+            background-color: var(--secondary-dark);
+            border: 1px solid var(--accent-gold);
+            border-radius: 0;
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--accent-gold);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-text {
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .footer-credit {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-button {
+                display: block;
+                width: 100%;
+                max-width: 300px;
+                margin: 0.5rem auto;
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">[BUSINESS_NAME]</div>
+            <div class="phone-call">
+                <span>✨</span>
+                <a href="tel:[PHONE]">[PHONE]</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Premium [SERVICE_TYPE]</h1>
+            <p>Experience luxury and relaxation at [BUSINESS_NAME]. Expert care. Exceptional results.</p>
+            <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Book Your Appointment</button>
+        </div>
+    </section>
+
+    <!-- Services + Pricing Section -->
+    <section id="services">
+        <div class="container">
+            <h2>Services & Pricing</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💇</div>
+                    <h3>[SERVICE_1]</h3>
+                    <p>Professional [SERVICE_1] tailored to your style and preferences.</p>
+                    <div class="price">[PRICE_1]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💅</div>
+                    <h3>[SERVICE_2]</h3>
+                    <p>Luxurious [SERVICE_2] using premium products and techniques.</p>
+                    <div class="price">[PRICE_2]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🧖</div>
+                    <h3>[SERVICE_3]</h3>
+                    <p>Relaxing [SERVICE_3] for ultimate pampering and rejuvenation.</p>
+                    <div class="price">[PRICE_3]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💆</div>
+                    <h3>[SERVICE_4]</h3>
+                    <p>Therapeutic [SERVICE_4] to ease tension and promote wellness.</p>
+                    <div class="price">[PRICE_4]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3>[SERVICE_5]</h3>
+                    <p>Specialty [SERVICE_5] for a complete beauty transformation.</p>
+                    <div class="price">[PRICE_5]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💄</div>
+                    <h3>[SERVICE_6]</h3>
+                    <p>Custom [SERVICE_6] designed to enhance your natural beauty.</p>
+                    <div class="price">[PRICE_6]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="container">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+                <div class="gallery-item">📸</div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-muted);">Replace placeholders with your before/after photos</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <h2>Client Reviews</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"[BUSINESS_NAME] exceeded my expectations! The service was impeccable and the atmosphere is so welcoming. I'm already booking my next appointment."</p>
+                    <p class="testimonial-author">— [CUSTOMER_NAME_1]</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The staff is incredibly talented and professional. I felt pampered from the moment I walked in. Definitely my new favorite place!"</p>
+                    <p class="testimonial-author">— [CUSTOMER_NAME_2]</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Best experience I've had. [BUSINESS_NAME] is worth every dollar. Can't wait to come back and bring my friends!"</p>
+                    <p class="testimonial-author">— [CUSTOMER_NAME_3]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>📞 Phone</h4>
+                        <p><a href="tel:[PHONE]">[PHONE]</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📍 Location</h4>
+                        <p>[STREET_ADDRESS]<br>[CITY], [STATE] [ZIP_CODE]</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>⏰ Hours</h4>
+                        <p>Monday - Friday: [OPEN_TIME] - [CLOSE_TIME]<br>
+                        Saturday: [SAT_HOURS]<br>
+                        Sunday: [SUN_HOURS]</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>✉️ Email</h4>
+                        <p><a href="mailto:[EMAIL]">[EMAIL]</a></p>
+                    </div>
+                </div>
+                <div class="location-placeholder">
+                    [INSERT GOOGLE MAPS EMBED HERE]<br>
+                    Replace with: &lt;iframe src="https://www.google.com/maps/embed?pb=..."&gt;&lt;/iframe&gt;
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2026 [BUSINESS_NAME]. All rights reserved.</p>
+            <p class="footer-text">[STREET_ADDRESS] | [CITY], [STATE] [ZIP_CODE] | <a href="tel:[PHONE]">[PHONE]</a></p>
+            <p class="footer-credit">Website by [AGENCY_NAME] | Powered by AI | — Benjamin Rodriguez</p>
+        </div>
+    </footer>
+</body>
+</html>

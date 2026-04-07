@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-03-25T01:14:17.707249",
+  "total_generated": 5,
+  "total_skipped": 0,
+  "output_directory": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2",
+  "sites": [
+    {
+      "filename": "mike-s-plumbing-co-austin.html",
+      "filepath": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2/mike-s-plumbing-co-austin.html",
+      "business_name": "Mike's Plumbing Co",
+      "city": "Austin",
+      "state": "TX",
+      "niche": "Plumbing",
+      "template_used": "home-services_v1.0.html",
+      "phone": "(512) 555-0101",
+      "generated_at": "2026-03-25T01:14:17.700076"
+    },
+    {
+      "filename": "downtown-hair-salon-denver.html",
+      "filepath": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2/downtown-hair-salon-denver.html",
+      "business_name": "Downtown Hair Salon",
+      "city": "Denver",
+      "state": "CO",
+      "niche": "Hair Salon",
+      "template_used": "personal-services_v1.0.html",
+      "phone": "(303) 555-0202",
+      "generated_at": "2026-03-25T01:14:17.702437"
+    },
+    {
+      "filename": "tony-s-auto-repair-seattle.html",
+      "filepath": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2/tony-s-auto-repair-seattle.html",
+      "business_name": "Tony's Auto Repair",
+      "city": "Seattle",
+      "state": "WA",
+      "niche": "Mechanic",
+      "template_used": "auto_v1.0.html",
+      "phone": "(206) 555-0303",
+      "generated_at": "2026-03-25T01:14:17.704457"
+    },
+    {
+      "filename": "sunny-fitness-gym-denver.html",
+      "filepath": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2/sunny-fitness-gym-denver.html",
+      "business_name": "Sunny Fitness Gym",
+      "city": "Denver",
+      "state": "CO",
+      "niche": "Gym",
+      "template_used": "health-wellness_v1.0.html",
+      "phone": "(720) 555-0404",
+      "generated_at": "2026-03-25T01:14:17.705947"
+    },
+    {
+      "filename": "la-bella-cafe-san-francisco.html",
+      "filepath": "/sessions/peaceful-jolly-ritchie/mnt/Website Agency/Scripts/test-output-v2/la-bella-cafe-san-francisco.html",
+      "business_name": "La Bella Cafe",
+      "city": "San Francisco",
+      "state": "CA",
+      "niche": "Cafe",
+      "template_used": "food-drink_v1.0.html",
+      "phone": "(415) 555-0505",
+      "generated_at": "2026-03-25T01:14:17.707238"
+    }
+  ]
+}

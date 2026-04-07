@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- v1.0 — Initial release: bold design, quote CTA, services with pricing, why choose us, reviews, contact -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony's Auto Repair | Auto Repair & Detailing in Seattle, WA</title>
+    <meta name="description" content="Expert auto repair and detailing services in Seattle, WA. Professional technicians, quality workmanship, fair pricing. Get a quote today!">
+    <meta name="keywords" content="auto repair, Seattle, WA, car maintenance, detailing, mechanic">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Tony's Auto Repair",
+        "description": "8:00 AM",
+        "telephone": "(206) 555-0303",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "234 Pike Place",
+            "addressLocality": "Seattle",
+            "addressRegion": "WA",
+            "postalCode": "98101"
+        },
+        "image": "https://via.placeholder.com/600x400",
+        "url": "https://tony-s-auto-repair.com",
+        "priceRange": "$$"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --secondary-dark: #1a1a1a;
+            --accent-gray: #424242;
+            --text-light: #e8e8e8;
+            --text-muted: #999999;
+            --white: #ffffff;
+            --border-dark: #2a2a2a;
+            --gold: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: var(--secondary-dark);
+        }
+
+        a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(to right, var(--secondary-dark), var(--accent-gray));
+            border-bottom: 3px solid var(--primary-red);
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary-red);
+            letter-spacing: 1px;
+        }
+
+        .phone-call {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .phone-call a {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--accent-gray) 100%);
+            border-top: 3px solid var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+            color: var(--text-light);
+            padding: 6rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-red);
+            color: var(--white);
+            padding: 1.2rem 2.5rem;
+            border-radius: 0.3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background-color: #b71c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+        }
+
+        .cta-button.secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary-red);
+        }
+
+        .cta-button.secondary:hover {
+            background-color: var(--primary-red);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, var(--accent-gray) 0%, #333 100%);
+            padding: 2rem;
+            border-radius: 0;
+            border-left: 4px solid var(--primary-red);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.2);
+        }
+
+        .service-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-red);
+            letter-spacing: 0.5px;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .price-range {
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Why Choose Us Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-card {
+            background-color: var(--accent-gray);
+            padding: 2rem;
+            border-radius: 0.3rem;
+            text-align: center;
+            border-top: 3px solid var(--primary-red);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-red);
+        }
+
+        .benefit-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Reviews Section */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background-color: var(--accent-gray);
+            padding: 2rem;
+            border-radius: 0.3rem;
+            border-left: 4px solid var(--primary-red);
+        }
+
+        .stars {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .review-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .review-author {
+            font-weight: 700;
+            color: var(--primary-red);
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            background-color: var(--accent-gray);
+            padding: 2rem;
+            border-radius: 0.3rem;
+            border-top: 3px solid var(--primary-red);
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item h4 {
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-item p {
+            color: var(--text-muted);
+        }
+
+        .contact-item a {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .map-placeholder {
+            background-color: var(--accent-gray);
+            border: 1px solid var(--border-dark);
+            border-radius: 0.3rem;
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid var(--primary-red);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-text {
+            margin-bottom: 0.5rem;
+            opacity: 0.85;
+        }
+
+        .footer-credit {
+            font-size: 0.85rem;
+            color: var(--gold);
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Tony's Auto Repair</div>
+            <div class="phone-call">
+                <span>🔧</span>
+                <a href="tel:(206) 555-0303">(206) 555-0303</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Auto Repair & Detailing</h1>
+            <p>Expert technicians. Quality workmanship. Fair pricing. Serving Seattle for Brake Service years.</p>
+            <div class="cta-buttons">
+                <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get a Quote</button>
+                <button class="cta-button secondary" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">View Services</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>Oil Changes</h3>
+                    <p>Professional Oil Changes with certified technicians and quality parts.</p>
+                    <div class="price-range">[PRICE_RANGE_1]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛞</div>
+                    <h3>Professional Services</h3>
+                    <p>Complete Professional Services services including alignment and balancing.</p>
+                    <div class="price-range">[PRICE_RANGE_2]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛢️</div>
+                    <h3>Professional Services</h3>
+                    <p>Routine Professional Services to keep your vehicle running smoothly.</p>
+                    <div class="price-range">[PRICE_RANGE_3]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💨</div>
+                    <h3>Professional Services</h3>
+                    <p>Expert Professional Services for optimal engine performance.</p>
+                    <div class="price-range">[PRICE_RANGE_4]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3>Professional Services</h3>
+                    <p>Professional Professional Services to restore your vehicle's appearance.</p>
+                    <div class="price-range">[PRICE_RANGE_5]</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Professional Services</h3>
+                    <p>Comprehensive Professional Services for any make and model.</p>
+                    <div class="price-range">[PRICE_RANGE_6]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us">
+        <div class="container">
+            <h2>Why Choose Tony's Auto Repair</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⭐</div>
+                    <h3>Expert Technicians</h3>
+                    <p>Certified professionals with years of experience on all vehicle types.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Fair Pricing</h3>
+                    <p>Transparent pricing with no hidden fees. Free estimates on all work.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Fast Service</h3>
+                    <p>Quick turnaround times without compromising quality or safety.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Warranty Coverage</h3>
+                    <p>[WARRANTY_PERIOD] warranty on all repairs and services.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔧</div>
+                    <h3>Quality Parts</h3>
+                    <p>We use OEM and quality aftermarket parts from trusted suppliers.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3>Customer Service</h3>
+                    <p>Friendly, professional staff dedicated to your satisfaction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <h2>Customer Reviews</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Tony's Auto Repair fixed my car right the first time. Great service, fair prices, and very professional. Highly recommend!"</p>
+                    <p class="review-author">— John Smith</p>
+                </div>
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Best auto shop in Seattle. The technicians know their stuff and explain everything clearly. I trust them completely."</p>
+                    <p class="review-author">— Sarah Johnson</p>
+                </div>
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Fast, reliable, and honest. Tony's Auto Repair always gets the job done right. My go-to shop for all my vehicle needs."</p>
+                    <p class="review-author">— Michael Williams</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>📞 Phone</h4>
+                        <p><a href="tel:(206) 555-0303">(206) 555-0303</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📍 Address</h4>
+                        <p>234 Pike Place<br>Seattle, WA 98101</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>⏰ Hours</h4>
+                        <p>Monday - Friday: Engine Repair - Transmission Service<br>
+                        Saturday: Wheel Alignment<br>
+                        Sunday: Closed</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>✉️ Email</h4>
+                        <p><a href="mailto:service@tonysauto.com">service@tonysauto.com</a></p>
+                    </div>
+                </div>
+                <div class="map-placeholder">
+                    <p style="color: #999; font-size: 0.9rem;">📍 Seattle, WA</p><br>
+                    Replace with: &lt;iframe src="https://www.google.com/maps/embed?pb=..."&gt;&lt;/iframe&gt;
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2026 Tony's Auto Repair. All rights reserved.</p>
+            <p class="footer-text">234 Pike Place | Seattle, WA 98101 | <a href="tel:(206) 555-0303" style="color: var(--gold);">(206) 555-0303</a></p>
+            <p class="footer-credit">Website by Tony's Auto Repair | Powered by AI | — Benjamin Rodriguez</p>
+        </div>
+    </footer>
+</body>
+</html>

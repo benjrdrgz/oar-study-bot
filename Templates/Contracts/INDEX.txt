@@ -1,0 +1,182 @@
+SERVICE AGREEMENT CONTRACT — FILE INDEX
+═══════════════════════════════════════════════════════════════════════════════
+
+LOCATION: /Website Agency/Templates/Contracts/
+
+MAIN DELIVERABLES
+─────────────────────────────────────────────────────────────────────────────
+
+1. Service_Agreement_v1.0.docx (40 KB) — MASTER TEMPLATE
+   → The contract template to use for all clients
+   → Contains 10 legal sections + 3-tier pricing table
+   → Ready to customize with client information
+   → Status: PRODUCTION READY
+
+2. Service_Agreement_Smith_Plumbing_v1.0.docx (40 KB) — SAMPLE/EXAMPLE
+   → Example of filled contract (for reference only)
+   → Shows how placeholders are replaced with real data
+   → Can be deleted or kept as reference
+   → Status: REFERENCE ONLY
+
+DOCUMENTATION
+─────────────────────────────────────────────────────────────────────────────
+
+3. README.md (6 KB)
+   → Complete usage guide
+   → Full contract structure explanation
+   → All customization options
+   → Legal notes and disclaimers
+   → Version history and future enhancements
+
+4. QUICK_REFERENCE.md (3 KB)
+   → Quick start guide — TL;DR version
+   → 30-second setup instructions
+   → Common scenarios and troubleshooting
+   → Perfect for quick lookups
+
+5. INDEX.txt (this file)
+   → File listing and organization
+   → Quick navigation guide
+
+SCRIPTS (Located in /Website Agency/Scripts/)
+─────────────────────────────────────────────────────────────────────────────
+
+6. generate_service_agreement.py (17 KB)
+   → Python script to recreate the template from scratch
+   → Use if: You need to modify contract structure
+   → Don't use: For creating client contracts (use fill_contract.py instead)
+
+7. fill_contract.py (3.8 KB)
+   → Python script to auto-fill contract placeholders
+   → Use: For every client (RECOMMENDED)
+   → Example: python3 fill_contract.py --agency "..." --client "..." --business "..."
+
+SUPPORTING DOCUMENTATION (Located in /Website Agency/Outputs/)
+─────────────────────────────────────────────────────────────────────────────
+
+8. CONTRACT_DELIVERY_SUMMARY.md (10 KB)
+   → Full delivery documentation
+   → Complete feature list and usage instructions
+   → Automation opportunities and next steps
+   → Version control guidelines
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK START (3 STEPS)
+═════════════════════════════════════════════════════════════════════════════
+
+Step 1: Navigate to scripts folder
+  $ cd ~/Website\ Agency/Scripts
+
+Step 2: Run fill_contract.py with client details
+  $ python3 fill_contract.py \
+      --agency "Your Agency Name" \
+      --client "Client Name" \
+      --business "Business Name" \
+      --date "2026-03-25" \
+      --state "Wisconsin" \
+      --billing-day "15"
+
+Step 3: Print, customize, sign, and send to client
+  → Output file created in /Website Agency/Templates/Contracts/
+  → Open in Word/Docs
+  → Print for signature
+  → Both parties sign and date
+
+═══════════════════════════════════════════════════════════════════════════════
+
+CONTRACT SECTIONS AT A GLANCE
+═════════════════════════════════════════════════════════════════════════════
+
+Section 1:  PARTIES — Identifies Agency, Client, Effective Date
+Section 2:  SCOPE OF SERVICES — Website design, hosting, SSL, SEO, revisions
+Section 3:  SERVICE TIERS & PRICING — 3 tiers with feature comparison table
+Section 4:  PAYMENT TERMS — Setup fees, monthly billing, penalties, methods
+Section 5:  TIMELINE & DELIVERABLES — 5-day draft, 7-day review, 24-hr go-live
+Section 6:  CLIENT RESPONSIBILITIES — Info delivery, feedback, domain setup
+Section 7:  IP & OWNERSHIP — Agency ownership + $497 transfer option
+Section 8:  TERM & TERMINATION — 3-month minimum, month-to-month, 30-day cancel
+Section 9:  LIABILITY & INDEMNIFICATION — Capped liability + third-party exclusions
+Section 10: MISCELLANEOUS — Governing law, amendments, severability
+
+═════════════════════════════════════════════════════════════════════════════════
+
+PRICING TIERS (Built Into Contract)
+═══════════════════════════════════════════════════════════════════════════════
+
+TIER 1: QUICK START
+  Setup: $997 | Monthly: $149
+  Website: 5-page single-page | Revisions: 1 round
+
+TIER 2: GROWTH
+  Setup: $1,997 | Monthly: $249
+  Website: 5-10 page multi-page | Revisions: 3 rounds
+
+TIER 3: DOMINATE
+  Setup: $3,497 | Monthly: $397
+  Website: Unlimited pages | Revisions: Unlimited
+
+═══════════════════════════════════════════════════════════════════════════════
+
+CUSTOMIZABLE PLACEHOLDERS
+═════════════════════════════════════════════════════════════════════════════════
+
+Replace these in the contract:
+
+[AGENCY_NAME]              → "Local Web Solutions"
+[CLIENT_NAME]              → "John Smith"
+[CLIENT_BUSINESS_NAME]     → "Smith Plumbing"
+[DATE]                     → "March 25, 2026"
+[STATE]                    → "Wisconsin"
+[BILLING_DAY]              → "15"
+
+═════════════════════════════════════════════════════════════════════════════════
+
+RECOMMENDED WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+1. CLIENT SAYS YES → Customer decides on service tier
+2. RUN SCRIPT → python3 fill_contract.py (customize with their info)
+3. REVIEW CONTRACT → Open in Word/Docs, verify all placeholders filled
+4. PRINT & SIGN → Print 2 copies, both parties sign
+5. PAYMENT → Setup fee must be received before work begins
+6. FILE & TRACK → Save signed copy, track 3-month term end date
+7. DELIVER → Build their website, deploy, launch
+
+═════════════════════════════════════════════════════════════════════════════════
+
+KEY DATES TO TRACK
+═════════════════════════════════════════════════════════════════════════════════
+
+Date Signed → Start Date
+Start Date + 3 months → Initial Term End (send 30-day notice by this date to cancel)
+Start Date + ongoing → Monthly billing on [BILLING_DAY]
+Days past due + 30 days → Service suspension date (if unpaid)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS & VERSION
+═════════════════════════════════════════════════════════════════════════════════
+
+Version: v1.0
+Created: March 25, 2026
+Status: PRODUCTION READY
+Ready to use: YES
+Tested: YES (sample contract generated and validated)
+Attorney reviewed: RECOMMENDED (not yet done)
+
+═════════════════════════════════════════════════════════════════════════════════
+
+SUPPORT & DOCUMENTATION
+═════════════════════════════════════════════════════════════════════════════════
+
+Need help? See:
+  • README.md — Complete reference guide
+  • QUICK_REFERENCE.md — Quick lookup
+  • CONTRACT_DELIVERY_SUMMARY.md — Full delivery docs
+
+═════════════════════════════════════════════════════════════════════════════════
+
+End of Index
+Created: March 25, 2026
+By: Benjamin Rodriguez

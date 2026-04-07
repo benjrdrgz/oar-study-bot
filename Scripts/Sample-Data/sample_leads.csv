@@ -1,0 +1,11 @@
+business_name,owner_name,phone,email,city,state,niche,rating,review_count,review_quote,demo_site_url
+Mike's Plumbing Co,Mike Thompson,512-555-0101,mike@mikesplumbing.com,Austin,TX,Plumber,4.8,47,Best plumber in town - fast and honest,https://demo.site/mikes-plumbing
+The Cut House,David Martinez,512-555-0102,david@thecuthouse.com,Austin,TX,Barber,4.9,62,Amazing haircuts and friendly staff,https://demo.site/cutthouse
+Maria's Italian Kitchen,Maria Rossi,512-555-0103,maria@mariasitalian.com,Austin,TX,Restaurant,4.7,128,Authentic Italian food - highly recommend,https://demo.site/marias-italian
+Smile Dental Studio,Dr. Sarah Chen,512-555-0104,sarah@smiledental.com,Austin,TX,Dentist,4.9,84,Painless experience - Dr. Chen is the best,https://demo.site/smile-dental
+Joe's Auto Repair,Joe Patterson,512-555-0105,joe@joesauto.com,Austin,TX,Auto Repair,4.6,71,Fair prices and honest work - trust Joe,https://demo.site/joes-auto
+Fresh Cuts Salon,Jessica Lee,720-555-0201,jessica@freshcuts.com,Denver,CO,Hair Salon,4.8,95,Best color and cut in Denver,https://demo.site/freshcuts
+Tony's Plumbing,Tony Valdez,720-555-0202,tony@tonysplumb.com,Denver,CO,Plumber,4.7,53,Reliable and professional,https://demo.site/tonys-plumbing
+The Urban Kitchen,Chef Marcus,720-555-0203,marcus@urbankitchen.com,Denver,CO,Restaurant,4.9,176,Modern American cuisine - fantastic,https://demo.site/urbankitchen
+Peak Performance Dental,Dr. James Wilson,720-555-0204,james@peakdental.com,Denver,CO,Dentist,4.8,67,Top-notch care and friendly team,https://demo.site/peak-dental
+Rocky Mountain Auto,Frank Lopez,720-555-0205,frank@rockymtnauto.com,Denver,CO,Auto Repair,4.7,89,Expert mechanics you can trust,https://demo.site/rockymtn-auto

@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional websites for local businesses, delivered in 48 hours. No contracts. No surprises. Get found on Google.">
+    <meta name="keywords" content="local business website, web design, 48 hour websites, affordable web design">
+    <meta name="theme-color" content="#1a365d">
+    
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "[AGENCY_NAME]",
+        "url": "https://localaisites.com",
+        "logo": "https://localaisites.com/logo.png",
+        "description": "Professional websites for local businesses, delivered in 48 hours",
+        "sameAs": ["https://www.facebook.com/localaisites", "https://www.linkedin.com/company/localaisites"],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Sales",
+            "telephone": "[1-XXX-XXX-XXXX]",
+            "email": "hello@localaisites.com"
+        }
+    }
+    </script>
+    
+    <title>[AGENCY_NAME] - Professional Websites for Local Businesses</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --accent: #3b82f6;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --dark-gray: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success: #10b981;
+            
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Courier New', monospace;
+            
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--dark-gray);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.25rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.25rem; }
+
+        p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .section.dark {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .section.light {
+            background: var(--light-gray);
+        }
+
+        /* Header / Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-xl);
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.15;
+        }
+
+        .hero .subheading {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.5;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Bar */
+        .social-proof {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: var(--spacing-2xl);
+            background: var(--white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .proof-item {
+            text-align: center;
+        }
+
+        .proof-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .proof-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--spacing-sm);
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-2xl);
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .step {
+            position: relative;
+            padding: var(--spacing-2xl);
+            background: var(--white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .step:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            width: 3rem;
+            height: 3rem;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .step h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--primary);
+        }
+
+        .step p {
+            margin: 0;
+        }
+
+        /* Portfolio Grid */
+        .portfolio {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .portfolio-card {
+            background: var(--white);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .portfolio-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .portfolio-content {
+            padding: var(--spacing-xl);
+        }
+
+        .portfolio-business {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .portfolio-niche {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .portfolio-link {
+            display: inline-block;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Cards */
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-2xl);
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 0.75rem;
+            padding: var(--spacing-2xl);
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.featured .badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.375rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pricing-name {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .pricing-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .pricing-features li {
+            padding: var(--spacing-sm) 0;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            font-size: 0.9rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-2xl);
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .testimonial {
+            background: var(--white);
+            border-radius: 0.75rem;
+            padding: var(--spacing-2xl);
+            border: 1px solid var(--border-color);
+        }
+
+        .stars {
+            color: #fbbf24;
+            margin-bottom: var(--spacing-md);
+            font-size: 0.875rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--dark-gray);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .testimonial-role {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ Accordion */
+        .faq {
+            max-width: 700px;
+            margin: var(--spacing-3xl) auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--spacing-xl) 0;
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            color: var(--text-muted);
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: var(--spacing-md);
+        }
+
+        /* Final CTA Section */
+        .cta-final {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: var(--spacing-3xl) 0;
+            border-radius: 0.75rem;
+            margin: var(--spacing-3xl) 0;
+        }
+
+        .cta-final h2 {
+            color: var(--white);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-final p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-form {
+            display: flex;
+            gap: var(--spacing-md);
+            max-width: 500px;
+            margin: 0 auto var(--spacing-xl);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.875rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .email-form input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .email-form .btn {
+            flex-shrink: 0;
+        }
+
+        .cta-phone {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .cta-phone a {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: var(--spacing-3xl) 0 var(--spacing-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .footer-section h4 {
+            color: var(--white);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .footer-signature {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-copyright {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .fade-in.delay-1 { animation-delay: 0.1s; }
+        .fade-in.delay-2 { animation-delay: 0.2s; }
+        .fade-in.delay-3 { animation-delay: 0.3s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.25rem; }
+
+            .container {
+                padding: 0 var(--spacing-lg);
+            }
+
+            .section {
+                padding: var(--spacing-2xl) 0;
+            }
+
+            .hero {
+                padding: 3rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheading {
+                font-size: 1.1rem;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            .nav-links {
+                gap: var(--spacing-lg);
+                font-size: 0.85rem;
+            }
+
+            .social-proof {
+                flex-direction: column;
+                gap: var(--spacing-xl);
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .steps,
+            .portfolio,
+            .pricing,
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-form input,
+            .email-form .btn {
+                width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span style="color: #3b82f6;">→</span> [AGENCY_NAME]
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#cta" class="btn btn-primary btn-sm">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>Your Business Deserves a Website That Actually Works</h1>
+                <p class="subheading">We build professional, mobile-ready websites for local businesses — and we do it faster than anyone else.</p>
+                <div class="hero-ctas">
+                    <a href="#cta" class="btn btn-primary">See a Free Preview of YOUR Site</a>
+                    <a href="#portfolio" class="btn btn-secondary">View Our Work</a>
+                </div>
+            </div>
+
+            <!-- Social Proof Bar -->
+            <div class="social-proof fade-in delay-1">
+                <div class="proof-item">
+                    <div class="proof-number">500+</div>
+                    <div class="proof-label">Local Businesses Online</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-number">24hrs</div>
+                    <div class="proof-label">Average Launch Time</div>
+                </div>
+                <div class="proof-item">
+                    <div class="proof-number">100%</div>
+                    <div class="proof-label">Satisfaction Guarantee</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-3xl);">How It Works</h2>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>We Build It First</h3>
+                    <p>We create a professional preview of your website before you spend a penny. You'll see exactly what your site looks like with your photos, business name, and services.</p>
+                </div>
+                <div class="step fade-in delay-1">
+                    <div class="step-number">2</div>
+                    <h3>You Review It</h3>
+                    <p>See your new website live and ready. Request any changes you want. We handle revisions so you get exactly what you need, not just what we think you should have.</p>
+                </div>
+                <div class="step fade-in delay-2">
+                    <div class="step-number">3</div>
+                    <h3>Go Live in 24 Hours</h3>
+                    <p>Say yes, and your site is live with your own domain tomorrow. It's optimized for Google, connected to your phone, and ready to get you real customers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio / Showcase -->
+    <section class="section light" id="portfolio">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-3xl);">Recent Client Websites</h2>
+            <div class="portfolio">
+                <div class="portfolio-card fade-in">
+                    <div class="portfolio-image">Elite Plumbing Solutions</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">Elite Plumbing</div>
+                        <div class="portfolio-niche">Plumbing • Denver, CO</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in delay-1">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Swift HVAC Experts</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">Swift HVAC</div>
+                        <div class="portfolio-niche">HVAC • Austin, TX</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in delay-2">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">Bright Cleaning Co</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">Bright Cleaning</div>
+                        <div class="portfolio-niche">Cleaning Services • Phoenix, AZ</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">Rooftop Repairs LLC</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">Rooftop Repairs</div>
+                        <div class="portfolio-niche">Roofing • Portland, OR</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in delay-1">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);">Garden Masters</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">Garden Masters</div>
+                        <div class="portfolio-niche">Landscaping • Nashville, TN</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in delay-2">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">NextGen Electric</div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-business">NextGen Electric</div>
+                        <div class="portfolio-niche">Electrical • Atlanta, GA</div>
+                        <a href="#" class="portfolio-link">View Live Site →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-3xl);">Simple, Transparent Pricing</h2>
+            <div class="pricing">
+                <div class="pricing-card fade-in">
+                    <h3 class="pricing-name">Quick Start</h3>
+                    <div class="pricing-price">$697<span>/one-time</span></div>
+                    <p class="pricing-description">Perfect for getting started</p>
+                    <ul class="pricing-features">
+                        <li>Single page website</li>
+                        <li>Mobile responsive</li>
+                        <li>Contact form</li>
+                        <li>Google optimized</li>
+                        <li>24-hour launch</li>
+                    </ul>
+                    <button class="btn btn-secondary">Get Started</button>
+                </div>
+                <div class="pricing-card featured fade-in delay-1">
+                    <div class="badge">Most Popular</div>
+                    <h3 class="pricing-name">Growth</h3>
+                    <div class="pricing-price">$1,497<span>/one-time</span></div>
+                    <p class="pricing-description">Full professional site</p>
+                    <ul class="pricing-features">
+                        <li>5-page website</li>
+                        <li>Mobile responsive</li>
+                        <li>Contact & booking forms</li>
+                        <li>Google & Maps optimized</li>
+                        <li>Review showcase</li>
+                        <li>24-hour launch</li>
+                    </ul>
+                    <button class="btn btn-primary">Get Started</button>
+                </div>
+                <div class="pricing-card fade-in delay-2">
+                    <h3 class="pricing-name">Dominate</h3>
+                    <div class="pricing-price">$2,497<span>/one-time</span></div>
+                    <p class="pricing-description">Advanced growth features</p>
+                    <ul class="pricing-features">
+                        <li>10+ page website</li>
+                        <li>Mobile responsive</li>
+                        <li>Advanced booking system</li>
+                        <li>Blog & content sections</li>
+                        <li>Google & Maps optimized</li>
+                        <li>Email list capture</li>
+                        <li>24-hour launch</li>
+                    </ul>
+                    <button class="btn btn-secondary">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section light">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-3xl);">What Our Clients Say</h2>
+            <div class="testimonials">
+                <div class="testimonial fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"I was skeptical about getting a professional website in 48 hours, but they delivered. We've already had 12 new customer inquiries. Best investment I've made this year."</p>
+                    <div class="testimonial-author">Marcus Johnson</div>
+                    <div class="testimonial-role">Owner, Elite Plumbing Solutions</div>
+                </div>
+                <div class="testimonial fade-in delay-1">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"No monthly fees, no contracts, and I own the website. That's what sold me. The site looks better than competitors who pay $3K/month. Highly recommended."</p>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-role">Owner, Swift HVAC Experts</div>
+                </div>
+                <div class="testimonial fade-in delay-2">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"They understood our business in 30 minutes and built exactly what we needed. It shows up on Google, customers can book online, and it's professional. Worth every penny."</p>
+                    <div class="testimonial-author">David Martinez</div>
+                    <div class="testimonial-role">Owner, Bright Cleaning Co</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-3xl);">Frequently Asked Questions</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much does it cost?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We have three packages: Quick Start at $697, Growth at $1,497 (most popular), and Dominate at $2,497. That's a one-time fee — no monthly charges, no contracts, and you own the website forever. One customer inquiry typically pays for the entire site.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long does it take?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We build a preview of your website in 24 hours. You review it, request any changes, and then we launch it. Most clients go live within 48 hours total. No waiting 6 months like traditional agencies.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I need to provide anything?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Just your business info and photos. If you don't have photos, we can use placeholders and you can update them later. You don't need to know anything about web design or tech — that's our job.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What if I don't like it?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We'll revise the design until you love it. But honestly, most clients are amazed by the preview and only ask for small tweaks. We don't release your site until you say it's perfect.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I cancel anytime?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>There's nothing to cancel. You own the website outright. We can help you maintain it if you want, but there's no lock-in, no monthly billing, and no surprise fees. It's yours forever.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you help with Google?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes. Every website comes optimized for Google search. We set up your Google Business Profile, optimize your pages, and submit your site to Google. You'll start showing up in local search results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section" id="cta">
+        <div class="container">
+            <div class="cta-final">
+                <h2>Ready to Get Your Business Online?</h2>
+                <p>We'll build a free preview of your website. No commitment. No credit card. Just reply to see what your site could look like.</p>
+                <form class="email-form" onsubmit="handleSubmit(event)">
+                    <input type="email" placeholder="you@business.com" required>
+                    <button type="submit" class="btn btn-primary">Get My Free Preview</button>
+                </form>
+                <div class="cta-phone">Prefer to call? <a href="tel:1-XXX-XXX-XXXX">(XXX) XXX-XXXX</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#pricing">Web Design</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:1-XXX-XXX-XXXX">(XXX) XXX-XXXX</a></li>
+                        <li><a href="mailto:hello@localaisites.com">hello@localaisites.com</a></li>
+                        <li><a href="#">Schedule a Call</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-signature">Powered by AI. Crafted by Humans. — Benjamin Rodriguez</div>
+                <div class="footer-copyright">© 2026 [AGENCY_NAME]. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Smooth scroll and fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.step, .portfolio-card, .testimonial, .pricing-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('open');
+            });
+        });
+
+        // Form submission handler
+        function handleSubmit(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            // Replace with your actual form endpoint
+            alert(`We'll be in touch! Look for an email at ${email}`);
+            e.target.reset();
+        }
+
+        // Add scroll event for header
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.style.boxShadow = 'var(--shadow-sm)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>

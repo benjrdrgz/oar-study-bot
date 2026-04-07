@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- v1.0 — Initial release: warm color scheme, menu highlights, order CTAs, story section, hours+location -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Bella Cafe | [CUISINE_TYPE] Restaurant in San Francisco, CA</title>
+    <meta name="description" content="Delicious [CUISINE_TYPE] food at La Bella Cafe. View our menu, order online, or visit us at 321 Mission Street. Open [HOURS]">
+    <meta name="keywords" content="[CUISINE_TYPE], restaurant, San Francisco, CA, food delivery, online ordering">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "La Bella Cafe",
+        "description": "[RESTAURANT_DESCRIPTION]",
+        "telephone": "(415) 555-0505",
+        "servesCuisine": "[CUISINE_TYPE]",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "321 Mission Street",
+            "addressLocality": "San Francisco",
+            "addressRegion": "CA",
+            "postalCode": "94103"
+        },
+        "image": "https://via.placeholder.com/600x400",
+        "url": "https://[DOMAIN_NAME].com",
+        "priceRange": "$$"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-red: #c41e3a;
+            --secondary-orange: #ff6b35;
+            --accent-cream: #fff8e7;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+            --white: #ffffff;
+            --border-color: #e0d5c8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        a {
+            color: var(--primary-red);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--primary-red);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(196, 30, 58, 0.2);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .phone-call a {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-orange) 100%);
+            color: var(--white);
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--primary-red);
+            padding: 1rem 2rem;
+            border-radius: 0.3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button.secondary {
+            background-color: transparent;
+            border: 2px solid var(--white);
+        }
+
+        .cta-button.secondary:hover {
+            background-color: var(--white);
+            color: var(--primary-red);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+            text-align: center;
+        }
+
+        /* Menu Highlights Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .menu-item {
+            background-color: var(--accent-cream);
+            padding: 1.5rem;
+            border-radius: 0.3rem;
+            border-left: 4px solid var(--secondary-orange);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.1);
+        }
+
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-red);
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            color: var(--secondary-orange);
+            font-weight: 600;
+        }
+
+        /* Story Section */
+        .story-content {
+            background-color: var(--accent-cream);
+            padding: 2.5rem;
+            border-radius: 0.3rem;
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            font-size: 1.05rem;
+        }
+
+        /* Reviews Section */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background-color: var(--accent-cream);
+            padding: 1.5rem;
+            border-radius: 0.3rem;
+            border-top: 3px solid var(--secondary-orange);
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .review-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--primary-red);
+        }
+
+        /* Info Section */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background-color: var(--accent-cream);
+            padding: 2rem;
+            border-radius: 0.3rem;
+            text-align: center;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .info-card p {
+            color: var(--text-light);
+        }
+
+        .info-card a {
+            color: var(--secondary-orange);
+            font-weight: 600;
+        }
+
+        .map-placeholder {
+            background-color: #f0f0f0;
+            border-radius: 0.3rem;
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            border: 2px dashed var(--border-color);
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-red);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-text {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .footer-credit {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">La Bella Cafe</div>
+            <div class="header-actions">
+                <div class="phone-call">
+                    <a href="tel:(415) 555-0505">📞 (415) 555-0505</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Delicious [CUISINE_TYPE] Food</h1>
+            <p>Fresh ingredients, authentic recipes, and unforgettable flavors at La Bella Cafe.</p>
+            <div class="cta-buttons">
+                <button class="cta-button" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">📋 View Menu</button>
+                <button class="cta-button secondary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">🛒 Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights Section -->
+    <section id="menu">
+        <div class="container">
+            <h2>Menu Highlights</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-icon">🍽️</div>
+                    <h3>[DISH_1]</h3>
+                    <p>[DISH_1_DESCRIPTION]</p>
+                    <div class="price">[PRICE_1]</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🍜</div>
+                    <h3>[DISH_2]</h3>
+                    <p>[DISH_2_DESCRIPTION]</p>
+                    <div class="price">[PRICE_2]</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🍲</div>
+                    <h3>[DISH_3]</h3>
+                    <p>[DISH_3_DESCRIPTION]</p>
+                    <div class="price">[PRICE_3]</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🥘</div>
+                    <h3>[DISH_4]</h3>
+                    <p>[DISH_4_DESCRIPTION]</p>
+                    <div class="price">[PRICE_4]</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🍱</div>
+                    <h3>[DISH_5]</h3>
+                    <p>[DISH_5_DESCRIPTION]</p>
+                    <div class="price">[PRICE_5]</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🍰</div>
+                    <h3>[DESSERT_1]</h3>
+                    <p>[DESSERT_1_DESCRIPTION]</p>
+                    <div class="price">[PRICE_6]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="story">
+        <div class="container">
+            <h2>Our Story</h2>
+            <div class="story-content">
+                <p>Welcome to La Bella Cafe, where we've been serving San Francisco with authentic [CUISINE_TYPE] cuisine since [YEAR_FOUNDED]. Our passion for quality ingredients and traditional recipes drives everything we do.</p>
+                <p>Founded by [OWNER_NAME], La Bella Cafe started as a small family operation and has grown into a beloved community restaurant. We believe in honoring our culinary heritage while embracing modern techniques to create unforgettable dining experiences.</p>
+                <p>Every dish is prepared fresh, with care and attention to detail. We source the finest ingredients from local suppliers whenever possible, supporting our community and ensuring the best quality for our guests.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <h2>What Customers Say</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"La Bella Cafe has the best [DISH_TYPE] in the city! Every bite is absolutely delicious. Can't wait to go back."</p>
+                    <p class="review-author">— John Smith</p>
+                </div>
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Authentic flavors, friendly service, and a wonderful atmosphere. This is our new favorite spot for [MEAL_TYPE]. Highly recommend!"</p>
+                    <p class="review-author">— Sarah Johnson</p>
+                </div>
+                <div class="review-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"The food is consistently excellent and the staff is so welcoming. Worth every penny. Already planning our next visit!"</p>
+                    <p class="review-author">— Michael Williams</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Hours Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Visit Us</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <h3>Location</h3>
+                    <p>321 Mission Street<br>San Francisco, CA 94103</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📞</div>
+                    <h3>Contact</h3>
+                    <p><a href="tel:(415) 555-0505">(415) 555-0505</a><br><a href="mailto:reservations@labelcafe.com">reservations@labelcafe.com</a></p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⏰</div>
+                    <h3>Hours</h3>
+                    <p>Monday - Thursday: Lunch Bowls - Salads<br>
+                    Friday - Saturday: Lunch Bowls - [LATE_CLOSE]<br>
+                    Sunday: Lunch Bowls - Salads</p>
+                </div>
+            </div>
+
+            <div class="map-placeholder">
+                [INSERT GOOGLE MAPS EMBED HERE]<br>
+                Replace with: &lt;iframe src="https://www.google.com/maps/embed?pb=..."&gt;&lt;/iframe&gt;
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2026 La Bella Cafe. All rights reserved.</p>
+            <p class="footer-text">321 Mission Street | San Francisco, CA 94103 | <a href="tel:(415) 555-0505" style="color: white;">(415) 555-0505</a></p>
+            <p class="footer-credit">Website by [AGENCY_NAME] | Powered by AI | — Benjamin Rodriguez</p>
+        </div>
+    </footer>
+</body>
+</html>

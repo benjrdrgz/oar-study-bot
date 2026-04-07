@@ -1,0 +1,187 @@
+================================================================================
+SITE GENERATOR v1.0 — QUICK START
+================================================================================
+
+The fastest way to go from lead list to deployed websites.
+
+================================================================================
+ONE-LINE START (5 websites in 1 second)
+================================================================================
+
+cd /Website Agency/Scripts/
+python3 site_generator_v1.0.py -i your_leads.csv -o ./Generated-Sites/ --manifest
+
+
+================================================================================
+YOUR CSV NEEDS THESE COLUMNS
+================================================================================
+
+REQUIRED:
+  • business_name     (string) - Name of business
+  • niche             (string) - Type: Plumbing, Gym, Cafe, Hair Salon, Mechanic
+  • phone             (string) - Phone number
+  • city              (string) - City
+  • state             (string) - State abbreviation (e.g., TX, CO, WA)
+
+OPTIONAL:
+  • address           (string) - Street address
+  • zip               (string) - ZIP code
+  • email             (string) - Email
+  • services          (string) - Comma-separated: "Drain Cleaning,Pipe Repair,..."
+  • years             (number) - Years in business
+  • open_time         (string) - e.g., "9:00 AM"
+  • close_time        (string) - e.g., "5:00 PM"
+  • rating            (number) - e.g., 4.8
+  • service_description (string) - Short description
+
+
+================================================================================
+EXAMPLE CSV ROW
+================================================================================
+
+business_name,niche,phone,address,city,state,zip,email,services,years
+"Acme Plumbing","Plumbing","(555) 123-4567","123 Main St","Denver","CO","80202","info@acmeplumbing.com","Drain Cleaning,Pipe Repair,Water Heater Installation",10
+
+
+================================================================================
+COMMON COMMANDS
+================================================================================
+
+Generate all leads:
+  python3 site_generator_v1.0.py -i leads.csv
+
+Generate with tracking manifest:
+  python3 site_generator_v1.0.py -i leads.csv --manifest
+
+Test with first 5 leads only:
+  python3 site_generator_v1.0.py -i leads.csv --preview 5
+
+Filter by niche (plumbing, gym, cafe, etc.):
+  python3 site_generator_v1.0.py -i leads.csv --niche plumbing
+
+Custom output directory:
+  python3 site_generator_v1.0.py -i leads.csv -o /path/to/output/
+
+
+================================================================================
+WHAT YOU GET
+================================================================================
+
+For each lead, you get:
+  ✓ 1 standalone HTML website
+  ✓ Fully customized with business info
+  ✓ Mobile responsive
+  ✓ SEO optimized
+  ✓ Ready to deploy
+
+Output location:
+  Generated-Sites/
+  ├── business-name-city.html         ← Deployment-ready
+  ├── another-business-city.html      ← Just upload to web host
+  └── generation_manifest.json        ← Tracking file
+
+
+================================================================================
+SUPPORTED NICHES & TEMPLATES
+================================================================================
+
+Home Services (plumbing, electrical, hvac, carpentry, roofing, painting)
+  → Generates home-services template (hero, services grid, testimonials)
+
+Personal Services (hair salon, beauty, spa, massage, barbering)
+  → Generates personal-services template (stylish, appointment-focused)
+
+Food & Drink (restaurant, cafe, bakery, pizza, bar)
+  → Generates food-drink template (appetizing, hours, menu-focused)
+
+Health & Wellness (gym, fitness, yoga, doctor, dentist, therapy)
+  → Generates health-wellness template (professional, benefits-focused)
+
+Auto (mechanic, automotive, car repair, auto shop)
+  → Generates auto template (services, trust-building)
+
+Unknown niche?
+  → Falls back to home-services template
+
+
+================================================================================
+EXAMPLE WORKFLOW
+================================================================================
+
+Step 1: Create your leads CSV
+  business_name,niche,phone,city,state,zip
+  Mike's Plumbing,Plumbing,(512) 555-0101,Austin,TX,78701
+  John's Gym,Gym,(303) 555-0202,Denver,CO,80202
+  Sarah's Cafe,Cafe,(415) 555-0303,San Francisco,CA,94103
+
+Step 2: Generate websites
+  python3 site_generator_v1.0.py -i my_leads.csv -o ./Generated-Sites/ --manifest
+
+Step 3: Deploy generated HTML files
+  • Upload .html files to your hosting (Netlify, Vercel, AWS S3, etc.)
+  • Point domain names to hosting
+  • Sites go live
+
+Step 4: Track results
+  • Check generation_manifest.json for list of all generated sites
+  • Use phone numbers to track inbound calls
+  • Monitor traffic to each site
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+"Template not found"
+  → Make sure templates exist in ../Templates/Website-Templates/
+  → Or use: --template-dir /path/to/templates/
+
+CSV not processing
+  → Check for required columns: business_name, niche, phone, city, state
+  → Ensure CSV is UTF-8 encoded
+
+Empty output
+  → Check console for rows that were SKIPPED
+  → Look for "Missing required field" errors
+
+Files won't delete/rerun
+  → Use different output directory each time
+  → Or manually delete old files
+
+
+================================================================================
+ADVANCED USAGE
+================================================================================
+
+Combine flags:
+  python3 site_generator_v1.0.py -i leads.csv --niche plumbing --preview 3 --manifest
+
+Use in batch script:
+  for file in leads_*.csv; do
+    python3 site_generator_v1.0.py -i "$file" -o ./batch-output/ --manifest
+  done
+
+Parse manifest and deploy:
+  python3 << 'EOF'
+  import json
+  with open('./Generated-Sites/generation_manifest.json') as f:
+      manifest = json.load(f)
+  for site in manifest['sites']:
+      print(f"Deploy: {site['filename']} for {site['business_name']}")
+  EOF
+
+
+================================================================================
+MORE INFO
+================================================================================
+
+Full documentation:   SITE_GENERATOR_README.md
+Test results:         TEST_RESULTS.md
+Sample CSV:           sample_site_generation_input.csv
+
+
+================================================================================
+AUTHOR: Benjamin Rodriguez
+VERSION: 1.0
+STATUS: Production Ready
+================================================================================

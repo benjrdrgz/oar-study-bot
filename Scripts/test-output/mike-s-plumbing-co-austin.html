@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- v1.0 — Initial release: hero, services, testimonials, contact, sticky header -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mike's Plumbing Co | Professional Home Services in Austin, TX</title>
+    <meta name="description" content="Expert Drain Cleaning services in Austin, TX. Fast, reliable, and affordable. Call (512) 555-0101 for a free estimate.">
+    <meta name="keywords" content="Drain Cleaning, Austin, TX, residential services">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Mike's Plumbing Co",
+        "description": "7:00 AM",
+        "telephone": "(512) 555-0101",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "456 Oak Street",
+            "addressLocality": "Austin",
+            "addressRegion": "TX",
+            "postalCode": "78704"
+        },
+        "image": "https://via.placeholder.com/600x400",
+        "url": "https://[DOMAIN_NAME].com",
+        "priceRange": "$$",
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "Water Heater Installation",
+            "closes": "Leak Detection"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --secondary-blue: #0055cc;
+            --accent-light: #e8f1f8;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --success: #27ae60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        a {
+            color: var(--secondary-blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .phone-call {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .phone-call a {
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--primary-blue);
+            padding: 1rem 2.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--accent-light);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 51, 102, 0.1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* About Section */
+        .about-content {
+            background-color: var(--accent-light);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--accent-light);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            background-color: var(--accent-light);
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item p {
+            color: var(--text-light);
+        }
+
+        .contact-item a {
+            color: var(--secondary-blue);
+            font-weight: 500;
+        }
+
+        .map-placeholder {
+            background-color: #f0f0f0;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            border: 2px dashed var(--border-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-text {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .footer-credit {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-button {
+                display: block;
+                margin: 0.5rem 0;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .phone-call {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Mike's Plumbing Co</div>
+            <div class="phone-call">
+                <span>📞</span>
+                <a href="tel:(512) 555-0101">(512) 555-0101</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Professional Drain Cleaning Services</h1>
+            <p>Fast, reliable, and affordable. Serving Austin and surrounding areas for Pipe Repair years.</p>
+            <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Call Now for a Free Estimate</button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>Drain Cleaning</h3>
+                    <p>Professional Drain Cleaning with expert technicians and quality workmanship.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Professional Services</h3>
+                    <p>Reliable Professional Services to keep your home running smoothly.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Professional Services</h3>
+                    <p>Expert Professional Services crafted to the highest standards.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛠️</div>
+                    <h3>Professional Services</h3>
+                    <p>Quality Professional Services with attention to detail and customer satisfaction.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💡</div>
+                    <h3>Professional Services</h3>
+                    <p>Professional Professional Services for peace of mind and comfort.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3>Professional Services</h3>
+                    <p>Comprehensive Professional Services to meet all your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Mike's Plumbing Co</h2>
+            <div class="about-content">
+                <p>With over Pipe Repair years of experience in the Drain Cleaning industry, Mike's Plumbing Co has built a reputation for excellence and reliability in Austin and the surrounding areas.</p>
+                <p>Our team of certified professionals is dedicated to delivering top-quality workmanship and exceptional customer service. We take pride in every project, no matter the size.</p>
+                <p>Whether you need emergency service or routine maintenance, we're here to help. Contact us today for a free estimate.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Mike's Plumbing Co was professional, timely, and did excellent work. I was very impressed with their attention to detail. Highly recommend!"</p>
+                    <p class="testimonial-author">— John Smith</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Great service at a fair price. The technicians were courteous and explained everything they were doing. Will definitely use them again."</p>
+                    <p class="testimonial-author">— Sarah Johnson</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Best Drain Cleaning company in Austin! They responded quickly to my emergency call and resolved the issue professionally. Worth every penny."</p>
+                    <p class="testimonial-author">— Michael Williams</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>📞 Phone</h4>
+                        <p><a href="tel:(512) 555-0101">(512) 555-0101</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📍 Address</h4>
+                        <p>456 Oak Street<br>Austin, TX 78704</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>⏰ Hours</h4>
+                        <p>Monday - Friday: Water Heater Installation - Leak Detection<br>
+                        Saturday: Emergency Service<br>
+                        Sunday: Bathroom Remodeling</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>✉️ Email</h4>
+                        <p><a href="mailto:info@mikesplumbing.com">info@mikesplumbing.com</a></p>
+                    </div>
+                </div>
+                <div class="map-placeholder">
+                    [INSERT GOOGLE MAPS EMBED HERE]<br>
+                    Replace with: &lt;iframe src="https://www.google.com/maps/embed?pb=..."&gt;&lt;/iframe&gt;
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2026 Mike's Plumbing Co. All rights reserved.</p>
+            <p class="footer-text">456 Oak Street | Austin, TX 78704 | <a href="tel:(512) 555-0101" style="color: white;">(512) 555-0101</a></p>
+            <p class="footer-credit">Website by [AGENCY_NAME] | Powered by AI | — Benjamin Rodriguez</p>
+        </div>
+    </footer>
+</body>
+</html>
