@@ -43,3 +43,22 @@
 - Magnetic field diagram: https://courses.mometrix.com/wp-content/uploads/2025/05/oar_perfectbound_00462-import-Electricity-and-Magnetism-17b498ac-1607-4002-801f-500d6c610ebf.png
 
 --- Benjamin Rodriguez
+SCRAPE PROGRESS - Thu Apr  9 14:29:20 PDT 2026
+
+## Practice Tests Scraped:
+- PT1 Math: 30 questions ✅
+- PT1 Mechanical: 30 questions (image-heavy, conceptual) ✅
+- PT2 Math: 30 questions ✅
+- PT2 Mechanical: 30 questions (image-heavy, A/B/C format) ✅
+- PT3 Math: 30 questions ✅
+
+## Still Need:
+- PT3 Mechanical, PT3 Reading
+- PT1/2/3 Reading (all 3)
+- LAYG1 all 3 sections
+- LAYG2 all 3 sections
+- Strategy content (Secret Keys 2-5, Q/A strategies)
+- Remaining math/mech lesson pages
+
+## Total Questions Available: ~450 across all tests
+## Total Scraped So Far: 150 (5 practice tests)
