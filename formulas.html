@@ -8,7 +8,7 @@
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},
-  "HTML-CSS":{scale:115,availableFonts:["TeX"]},
+  "HTML-CSS":{scale:120,availableFonts:["TeX"]},
   showProcessingMessages:false,messageStyle:"none"
 });
 </script>
@@ -58,7 +58,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .btn-print:hover{border-color:var(--accent);color:var(--accent)}
 
 /* SECTIONS */
-.formula-section{margin-bottom:24px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);transition:border-color .2s}
+.formula-section{margin-bottom:12px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);transition:border-color .2s}
 .formula-section:hover{border-color:var(--border-hover)}
 .section-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .15s}
 .section-header:hover{background:var(--surface-2)}
@@ -67,26 +67,30 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .section-count{font-size:12px;color:var(--text-3);background:var(--surface-2);padding:3px 10px;border-radius:20px;font-weight:600}
 .section-chevron{color:var(--text-3);transition:transform .2s;font-size:14px}
 .formula-section.open .section-chevron{transform:rotate(180deg)}
-.section-body{display:none;padding:0 20px 20px}
+.section-body{display:none;padding:0 16px 16px}
 .formula-section.open .section-body{display:block}
 
 /* FORMULA CARDS */
 .formula-group-title{font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.formula-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+.formula-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:border-color .15s}
 .formula-card:hover{border-color:var(--border-hover)}
 .formula-card:last-child{margin-bottom:0}
-.formula-name{font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.formula-expr{font-family:'SF Mono','Fira Code',monospace;font-size:18px;font-weight:600;padding:12px 16px;background:var(--surface-2);border-radius:8px;margin-bottom:10px;line-height:1.5;overflow-x:auto}
-.formula-desc .MathJax{font-size:110% !important}
+.formula-name{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.formula-expr{font-family:'SF Mono','Fira Code',monospace;font-size:18px;font-weight:600;padding:12px 16px;background:var(--surface-2);border-radius:8px;margin-bottom:6px;line-height:1.5;overflow-x:auto}
+.formula-expr.has-mathjax{display:none}
 .formula-expr .var-a{color:var(--accent)}
 .formula-expr .var-b{color:var(--green)}
 .formula-expr .var-c{color:var(--yellow)}
 .formula-expr .var-d{color:var(--purple)}
 .formula-expr .op{color:var(--text-3)}
-.formula-desc{font-size:13px;color:var(--text-2);margin-bottom:8px}
-.formula-example{font-size:13px;color:var(--text-2);padding:8px 12px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--accent)}
+.formula-mathjax{padding:10px 16px;background:var(--surface-2);border-radius:8px;margin-bottom:6px;text-align:center;line-height:1.8;overflow-x:auto}
+.formula-mathjax .MathJax{font-size:130% !important}
+.MathJax{color:#e0e7ff !important}
+.formula-card .mjx-chtml{margin:4px 0 !important}
+.formula-desc{font-size:13px;color:var(--text-2);margin-bottom:4px}
+.formula-example{font-size:13px;color:var(--text-2);padding:8px 12px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--accent);margin-top:6px}
 .formula-example strong{color:var(--text)}
-.memory-trick{font-size:13px;padding:8px 12px;background:var(--yellow-bg);border-radius:6px;border-left:3px solid var(--yellow);color:var(--yellow);margin-top:8px}
+.memory-trick{font-size:13px;padding:8px 12px;background:var(--yellow-bg);border-radius:6px;border-left:3px solid var(--yellow);color:var(--yellow);margin-top:6px}
 .memory-trick::before{content:'💡 ';font-size:12px}
 
 /* DIAGRAMS */
@@ -124,6 +128,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   .section-body{display:block!important;padding:8px 12px 12px}
   .section-header{padding:8px 12px}
   .formula-expr{background:#f5f5f5;font-size:14px;padding:6px 10px}
+  .formula-mathjax{background:#f5f5f5;padding:6px 10px;text-align:center}
+  .formula-mathjax .MathJax{color:#000 !important}
+  .MathJax{color:#000 !important}
   .formula-card{padding:8px;margin-bottom:4px}
   .page-header{padding:12px 0;margin-bottom:12px}
   .page-title{font-size:22px}
@@ -217,7 +224,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Mult: <span class="var-a">ac</span> / <span class="var-b">bd</span> &nbsp;&nbsp;|&nbsp;&nbsp;
             Div: flip &amp; multiply
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{a}{b} + \frac{c}{d} = \frac{ad+bc}{bd} \quad|\quad \frac{a}{b} \times \frac{c}{d} = \frac{ac}{bd} \quad|\quad \frac{a}{b} \div \frac{c}{d} = \frac{a}{b} \times \frac{d}{c} \)</div>
+          <div class="formula-mathjax">\( \frac{a}{b} + \frac{c}{d} = \frac{ad+bc}{bd} \quad|\quad \frac{a}{b} \times \frac{c}{d} = \frac{ac}{bd} \quad|\quad \frac{a}{b} \div \frac{c}{d} = \frac{a}{b} \times \frac{d}{c} \)</div>
           <div class="formula-desc">To add fractions, cross multiply and add. To divide, flip the second fraction and multiply.</div>
           <div class="formula-example"><strong>Example:</strong> 1/3 + 1/4 = (4+3)/12 = <strong>7/12</strong></div>
           <div class="memory-trick">KCF for division: Keep, Change, Flip</div>
@@ -228,7 +235,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">Percent</span> <span class="op">=</span> (<span class="var-b">Part</span> / <span class="var-c">Whole</span>) <span class="op">&times;</span> 100
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \text{Percent} = \frac{\text{Part}}{\text{Whole}} \times 100 \)</div>
+          <div class="formula-mathjax">\( \text{Percent} = \frac{\text{Part}}{\text{Whole}} \times 100 \)</div>
           <div class="formula-desc">Find what percentage a part is of the whole.</div>
           <div class="formula-example"><strong>Example:</strong> 15 out of 60 = (15/60) &times; 100 = <strong>25%</strong></div>
         </div>
@@ -238,7 +245,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">% Change</span> <span class="op">=</span> (<span class="var-b">New</span> <span class="op">&minus;</span> <span class="var-c">Old</span>) / <span class="var-c">Old</span> <span class="op">&times;</span> 100
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \text{% Change} = \frac{\text{New} - \text{Old}}{\text{Old}} \times 100 \)</div>
+          <div class="formula-mathjax">\( \text{% Change} = \frac{\text{New} - \text{Old}}{\text{Old}} \times 100 \)</div>
           <div class="formula-desc">Always divide by the ORIGINAL value. Positive = increase, negative = decrease.</div>
           <div class="formula-example"><strong>Example:</strong> Price goes from $80 to $100: (100-80)/80 &times; 100 = <strong>25% increase</strong></div>
           <div class="memory-trick">New minus Old, over Old. Always Old on the bottom.</div>
@@ -249,7 +256,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">a</span>/<span class="var-b">b</span> <span class="op">=</span> <span class="var-c">c</span>/<span class="var-d">d</span> &nbsp;&nbsp;<span class="op">&rarr;</span>&nbsp;&nbsp; <span class="var-a">a</span><span class="var-d">d</span> <span class="op">=</span> <span class="var-b">b</span><span class="var-c">c</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{a}{b} = \frac{c}{d} \;\Rightarrow\; ad = bc \)</div>
+          <div class="formula-mathjax">\( \frac{a}{b} = \frac{c}{d} \;\Rightarrow\; ad = bc \)</div>
           <div class="formula-desc">Set up proportions and cross multiply to solve for unknowns.</div>
           <div class="formula-example"><strong>Example:</strong> 3/x = 9/12 &rarr; 36 = 9x &rarr; x = <strong>4</strong></div>
         </div>
@@ -274,7 +281,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">x<sup>0</sup></span> = <span class="var-b">1</span> &nbsp;|&nbsp;
             <span class="var-a">x<sup>&minus;n</sup></span> = <span class="var-b">1</span>/<span class="var-a">x<sup>n</sup></span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( x^a \cdot x^b = x^{a+b} \;\;|\;\; \frac{x^a}{x^b} = x^{a-b} \;\;|\;\; (x^a)^b = x^{ab} \;\;|\;\; x^0 = 1 \;\;|\;\; x^{-n} = \frac{1}{x^n} \)</div>
+          <div class="formula-mathjax">\( x^a \cdot x^b = x^{a+b} \;\;|\;\; \frac{x^a}{x^b} = x^{a-b} \;\;|\;\; (x^a)^b = x^{ab} \;\;|\;\; x^0 = 1 \;\;|\;\; x^{-n} = \frac{1}{x^n} \)</div>
           <div class="formula-desc">Multiply bases = add exponents. Divide bases = subtract exponents. Power of a power = multiply exponents.</div>
           <div class="formula-example"><strong>Example:</strong> 2<sup>3</sup> &times; 2<sup>4</sup> = 2<sup>7</sup> = <strong>128</strong></div>
           <div class="memory-trick">Same base? Add when multiplying, subtract when dividing.</div>
@@ -285,7 +292,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">x</span> <span class="op">=</span> (<span class="op">&minus;</span><span class="var-b">b</span> <span class="op">&plusmn;</span> &radic;(<span class="var-b">b</span>&sup2; <span class="op">&minus;</span> 4<span class="var-a">a</span><span class="var-c">c</span>)) / 2<span class="var-a">a</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \)</div>
+          <div class="formula-mathjax">\( x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \)</div>
           <div class="formula-desc">Solves ax&sup2; + bx + c = 0. The discriminant (b&sup2; &minus; 4ac) tells you: positive = 2 solutions, zero = 1, negative = none.</div>
           <div class="formula-example"><strong>Example:</strong> x&sup2; &minus; 5x + 6 = 0 &rarr; x = (5 &plusmn; &radic;(25&minus;24))/2 = (5&plusmn;1)/2 &rarr; x = <strong>3 or 2</strong></div>
           <div class="memory-trick">Negative boy couldn't decide (plus or minus) to go to the radical party. The boy was too square, he missed out on four awesome chicks. The party was over at 2am.</div>
@@ -317,7 +324,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">a</span>&sup2; <span class="op">+</span> <span class="var-b">b</span>&sup2; <span class="op">=</span> <span class="var-c">c</span>&sup2;
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( a^2 + b^2 = c^2 \)</div>
+          <div class="formula-mathjax">\( a^2 + b^2 = c^2 \)</div>
           <div class="formula-desc">For right triangles only. c is always the hypotenuse (longest side, opposite the right angle).</div>
           <div class="formula-example"><strong>Common triples:</strong> 3-4-5, 5-12-13, 8-15-17 and their multiples (6-8-10, 10-24-26)</div>
           <div class="memory-trick">Memorize 3-4-5 and 5-12-13 — they show up constantly on the OAR.</div>
@@ -341,7 +348,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Circle: <span class="var-c">&pi;r</span>&sup2; &nbsp;|&nbsp;
             Trapezoid: <span class="op">&frac12;</span>(<span class="var-a">b&#8321;</span>+<span class="var-b">b&#8322;</span>)<span class="var-c">h</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( A_{\text{rect}} = LW \;\;|\;\; A_{\text{tri}} = \frac{1}{2}bh \;\;|\;\; A_{\text{circ}} = \pi r^2 \;\;|\;\; A_{\text{trap}} = \frac{1}{2}(b_1+b_2)h \)</div>
+          <div class="formula-mathjax">\( A_{\text{rect}} = LW \;\;|\;\; A_{\text{tri}} = \frac{1}{2}bh \;\;|\;\; A_{\text{circ}} = \pi r^2 \;\;|\;\; A_{\text{trap}} = \frac{1}{2}(b_1+b_2)h \)</div>
           <div class="formula-desc">Remember: area is always in square units. Circle uses radius, not diameter.</div>
           <div class="formula-example"><strong>Example:</strong> Circle with r=5: A = &pi;(25) &asymp; <strong>78.54</strong></div>
         </div>
@@ -353,7 +360,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Sphere: <span class="var-b">&#8532;&pi;r&sup3;</span> &nbsp;|&nbsp;
             Cone: <span class="var-c">&#8531;&pi;r&sup2;h</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( V_{\text{cyl}} = \pi r^2 h \;\;|\;\; V_{\text{sph}} = \frac{4}{3}\pi r^3 \;\;|\;\; V_{\text{cone}} = \frac{1}{3}\pi r^2 h \)</div>
+          <div class="formula-mathjax">\( V_{\text{cyl}} = \pi r^2 h \;\;|\;\; V_{\text{sph}} = \frac{4}{3}\pi r^3 \;\;|\;\; V_{\text{cone}} = \frac{1}{3}\pi r^2 h \)</div>
           <div class="formula-desc">Cone = 1/3 of cylinder. Sphere = 4/3 &pi;r cubed.</div>
           <div class="formula-example"><strong>Example:</strong> Cylinder r=3, h=10: V = &pi;(9)(10) = <strong>90&pi; &asymp; 282.7</strong></div>
           <div class="memory-trick">A cone is 1/3 of a cylinder — literally chop a cylinder into 3 cones.</div>
@@ -364,7 +371,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">C</span> <span class="op">=</span> 2<span class="var-b">&pi;r</span> <span class="op">=</span> <span class="var-b">&pi;d</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( C = 2\pi r = \pi d \)</div>
+          <div class="formula-mathjax">\( C = 2\pi r = \pi d \)</div>
           <div class="formula-desc">Circumference is the perimeter of a circle. Diameter = 2 &times; radius.</div>
           <div class="formula-example"><strong>Example:</strong> r = 7: C = 2&pi;(7) = 14&pi; &asymp; <strong>43.98</strong></div>
         </div>
@@ -376,7 +383,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Distance: <span class="var-c">&radic;(&Delta;x&sup2;+&Delta;y&sup2;)</span> &nbsp;|&nbsp;
             <span class="var-d">y = mx + b</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( m = \frac{y_2-y_1}{x_2-x_1} \;\;|\;\; d = \sqrt{(\Delta x)^2+(\Delta y)^2} \;\;|\;\; y = mx + b \)</div>
+          <div class="formula-mathjax">\( m = \frac{y_2-y_1}{x_2-x_1} \;\;|\;\; d = \sqrt{(\Delta x)^2+(\Delta y)^2} \;\;|\;\; y = mx + b \)</div>
           <div class="formula-desc">Slope = rise over run. Distance formula is just Pythagorean theorem on a coordinate plane.</div>
           <div class="formula-example"><strong>Example:</strong> Points (1,2) and (4,6): slope = (6&minus;2)/(4&minus;1) = <strong>4/3</strong></div>
           <div class="memory-trick">Rise over run: how much you go UP divided by how much you go RIGHT.</div>
@@ -398,7 +405,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">D</span> <span class="op">=</span> <span class="var-b">R</span> <span class="op">&times;</span> <span class="var-c">T</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( D = R \times T \)</div>
+          <div class="formula-mathjax">\( D = R \times T \)</div>
           <div class="formula-desc">Also: R = D/T and T = D/R. Watch units: if rate is mph, time must be in hours!</div>
           <div class="formula-example"><strong>Example:</strong> 60 mph for 2.5 hours = <strong>150 miles</strong></div>
           <div class="memory-trick">D-R-T triangle: cover what you need, the rest is the formula (just like VIR).</div>
@@ -409,7 +416,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">1/A</span> <span class="op">+</span> <span class="var-b">1/B</span> <span class="op">=</span> <span class="var-c">1/T</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{1}{A} + \frac{1}{B} = \frac{1}{T} \)</div>
+          <div class="formula-mathjax">\( \frac{1}{A} + \frac{1}{B} = \frac{1}{T} \)</div>
           <div class="formula-desc">A and B are individual completion times. T is time working together. Add the rates, not the times!</div>
           <div class="formula-example"><strong>Example:</strong> Worker A: 6 hrs, Worker B: 3 hrs &rarr; 1/6 + 1/3 = 1/2 &rarr; Together = <strong>2 hours</strong></div>
           <div class="memory-trick">Add RATES (1/time), never add times directly.</div>
@@ -420,7 +427,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">I</span> <span class="op">=</span> <span class="var-b">P</span> <span class="op">&times;</span> <span class="var-c">r</span> <span class="op">&times;</span> <span class="var-d">t</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( I = P \times r \times t \)</div>
+          <div class="formula-mathjax">\( I = P \times r \times t \)</div>
           <div class="formula-desc">P = principal (initial amount), r = rate (as decimal), t = time (usually years).</div>
           <div class="formula-example"><strong>Example:</strong> $1000 at 5% for 3 years: I = 1000 &times; 0.05 &times; 3 = <strong>$150</strong></div>
         </div>
@@ -430,7 +437,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">favorable outcomes</span> / <span class="var-c">total outcomes</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( P(\text{event}) = \frac{\text{favorable outcomes}}{\text{total outcomes}} \)</div>
+          <div class="formula-mathjax">\( P(\text{event}) = \frac{\text{favorable outcomes}}{\text{total outcomes}} \)</div>
           <div class="formula-desc">Always between 0 and 1 (or 0% to 100%). P(not A) = 1 &minus; P(A).</div>
           <div class="formula-example"><strong>Example:</strong> Drawing a heart from a deck: 13/52 = <strong>1/4 = 25%</strong></div>
         </div>
@@ -440,7 +447,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">Average</span> <span class="op">=</span> <span class="var-b">Sum of all values</span> / <span class="var-c">Number of values</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \text{Average} = \frac{\text{Sum}}{\text{Count}} \)</div>
+          <div class="formula-mathjax">\( \text{Average} = \frac{\text{Sum}}{\text{Count}} \)</div>
           <div class="formula-desc">Can rearrange: Sum = Average &times; Count. Useful for "what score do I need" problems.</div>
           <div class="formula-example"><strong>Example:</strong> Scores: 85, 90, 92, 88 &rarr; Average = 355/4 = <strong>88.75</strong></div>
           <div class="memory-trick">To find a missing value: Total needed = target avg &times; count, then subtract known values.</div>
@@ -462,7 +469,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">F</span> <span class="op">=</span> <span class="var-b">m</span> <span class="op">&times;</span> <span class="var-c">a</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( F = ma \)</div>
+          <div class="formula-mathjax">\( F = ma \)</div>
           <div class="formula-desc">Force (Newtons) = mass (kg) &times; acceleration (m/s&sup2;). More mass or more acceleration = more force.</div>
           <div class="formula-example"><strong>Example:</strong> 10 kg object, a = 3 m/s&sup2;: F = <strong>30 N</strong></div>
         </div>
@@ -472,7 +479,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">W</span> <span class="op">=</span> <span class="var-b">m</span> <span class="op">&times;</span> <span class="var-c">g</span> &nbsp;&nbsp;<span class="op">(g = 9.8 m/s&sup2;)</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( W = mg \quad (g = 9.8 \text{ m/s}^2) \)</div>
+          <div class="formula-mathjax">\( W = mg \quad (g = 9.8 \text{ m/s}^2) \)</div>
           <div class="formula-desc">Weight is a force. Mass stays the same everywhere; weight changes with gravity.</div>
           <div class="formula-example"><strong>Example:</strong> 70 kg person: W = 70 &times; 9.8 = <strong>686 N</strong></div>
         </div>
@@ -483,7 +490,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">v</span> <span class="op">=</span> <span class="var-b">g</span><span class="var-c">t</span> &nbsp;&nbsp;|&nbsp;&nbsp;
             <span class="var-a">d</span> <span class="op">=</span> &frac12;<span class="var-b">g</span><span class="var-c">t</span>&sup2;
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( v = gt \;\;|\;\; d = \frac{1}{2}gt^2 \)</div>
+          <div class="formula-mathjax">\( v = gt \;\;|\;\; d = \frac{1}{2}gt^2 \)</div>
           <div class="formula-desc">Objects in free fall accelerate at g = 9.8 m/s&sup2; (no air resistance). Velocity and distance increase with time.</div>
           <div class="formula-example"><strong>Example:</strong> After 3 seconds: v = 9.8(3) = 29.4 m/s, d = &frac12;(9.8)(9) = <strong>44.1 m</strong></div>
         </div>
@@ -504,7 +511,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">F&#8321;</span> <span class="op">&times;</span> <span class="var-b">D&#8321;</span> <span class="op">=</span> <span class="var-c">F&#8322;</span> <span class="op">&times;</span> <span class="var-d">D&#8322;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( F_1 \times D_1 = F_2 \times D_2 \)</div>
+          <div class="formula-mathjax">\( F_1 \times D_1 = F_2 \times D_2 \)</div>
           <div class="formula-desc">Force times distance on one side equals force times distance on the other. This is how seesaws work.</div>
           <div class="formula-example"><strong>Example:</strong> 50 lb at 4 ft = ? at 2 ft &rarr; 200 = 2x &rarr; x = <strong>100 lb</strong></div>
         </div>
@@ -514,7 +521,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">MA</span> <span class="op">=</span> <span class="var-b">Effort Arm</span> / <span class="var-c">Load Arm</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( MA = \frac{\text{Effort Arm}}{\text{Load Arm}} \)</div>
+          <div class="formula-mathjax">\( MA = \frac{\text{Effort Arm}}{\text{Load Arm}} \)</div>
           <div class="formula-desc">MA &gt; 1 means you use less force. Longer effort arm = more advantage.</div>
           <div class="formula-example"><strong>Example:</strong> Effort arm 8 ft, load arm 2 ft: MA = <strong>4</strong> (you lift 4x the weight)</div>
         </div>
@@ -575,7 +582,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">&tau;</span> <span class="op">=</span> <span class="var-b">F</span> <span class="op">&times;</span> <span class="var-c">d</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \tau = F \times d \)</div>
+          <div class="formula-mathjax">\( \tau = F \times d \)</div>
           <div class="formula-desc">Torque is rotational force. d is the perpendicular distance from the pivot to the force line. Units: N&middot;m.</div>
           <div class="formula-example"><strong>Example:</strong> 20 N force at 0.5 m from pivot: &tau; = <strong>10 N&middot;m</strong></div>
         </div>
@@ -596,7 +603,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">T&#8321;</span> <span class="op">&times;</span> <span class="var-b">RPM&#8321;</span> <span class="op">=</span> <span class="var-c">T&#8322;</span> <span class="op">&times;</span> <span class="var-d">RPM&#8322;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( T_1 \times RPM_1 = T_2 \times RPM_2 \)</div>
+          <div class="formula-mathjax">\( T_1 \times RPM_1 = T_2 \times RPM_2 \)</div>
           <div class="formula-desc">Teeth &times; RPM is constant across meshed gears. More teeth = slower speed.</div>
           <div class="formula-example"><strong>Example:</strong> Gear A: 20 teeth at 100 RPM, Gear B: 40 teeth &rarr; RPM = 2000/40 = <strong>50 RPM</strong></div>
         </div>
@@ -751,7 +758,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">Force</span> <span class="op">=</span> <span class="var-b">Weight</span> / <span class="var-c">MA</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( F = \frac{W}{MA} \)</div>
+          <div class="formula-mathjax">\( F = \frac{W}{MA} \)</div>
           <div class="formula-desc">Trade-off: less force = more rope to pull. You never get something for nothing (conservation of energy).</div>
           <div class="formula-example"><strong>Example:</strong> 300 lb load, MA=3: Pull force = <strong>100 lb</strong> (but pull 3x the distance)</div>
         </div>
@@ -772,7 +779,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">W</span> <span class="op">=</span> <span class="var-b">F</span> <span class="op">&times;</span> <span class="var-c">d</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( W = F \times d \)</div>
+          <div class="formula-mathjax">\( W = F \times d \)</div>
           <div class="formula-desc">Work (Joules) = Force (N) &times; distance (m) in the direction of the force. No movement = no work!</div>
           <div class="formula-example"><strong>Example:</strong> Push 50 N for 3 m: W = <strong>150 J</strong></div>
         </div>
@@ -782,7 +789,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">KE</span> <span class="op">=</span> &frac12;<span class="var-b">m</span><span class="var-c">v</span>&sup2;
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( KE = \frac{1}{2}mv^2 \)</div>
+          <div class="formula-mathjax">\( KE = \frac{1}{2}mv^2 \)</div>
           <div class="formula-desc">Energy of motion. Velocity is SQUARED, so double the speed = 4x the energy. This is a common trap!</div>
           <div class="formula-example"><strong>Example:</strong> 2 kg at 3 m/s: KE = &frac12;(2)(9) = <strong>9 J</strong></div>
           <div class="memory-trick">v is SQUARED! If speed doubles, KE quadruples. This is the #1 KE trap on the OAR.</div>
@@ -793,7 +800,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">PE</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">g</span><span class="var-d">h</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( PE = mgh \)</div>
+          <div class="formula-mathjax">\( PE = mgh \)</div>
           <div class="formula-desc">Energy stored by position. Higher up = more PE. At ground level, PE = 0 (if ground is reference).</div>
           <div class="formula-example"><strong>Example:</strong> 5 kg at 10 m: PE = 5 &times; 9.8 &times; 10 = <strong>490 J</strong></div>
         </div>
@@ -803,7 +810,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">W</span> / <span class="var-c">t</span> &nbsp;&nbsp;<span class="op">(Watts)</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( P = \frac{W}{t} \)</div>
+          <div class="formula-mathjax">\( P = \frac{W}{t} \)</div>
           <div class="formula-desc">Power is how FAST you do work. Same work in less time = more power.</div>
           <div class="formula-example"><strong>Example:</strong> 500 J in 10 seconds: P = <strong>50 W</strong></div>
         </div>
@@ -813,7 +820,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">MA</span> <span class="op">=</span> <span class="var-b">Length</span> / <span class="var-c">Height</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( MA = \frac{\text{Length}}{\text{Height}} \)</div>
+          <div class="formula-mathjax">\( MA = \frac{\text{Length}}{\text{Height}} \)</div>
           <div class="formula-desc">A ramp trades distance for force. Longer ramp = less force needed to reach the same height.</div>
           <div class="formula-example"><strong>Example:</strong> Ramp 12 ft long, 3 ft high: MA = <strong>4</strong></div>
         </div>
@@ -844,7 +851,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">F</span> / <span class="var-c">A</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( P = \frac{F}{A} \)</div>
+          <div class="formula-mathjax">\( P = \frac{F}{A} \)</div>
           <div class="formula-desc">Pressure = Force per unit Area. Same force on smaller area = higher pressure (think stiletto vs sneaker).</div>
           <div class="formula-example"><strong>Example:</strong> 100 N on 0.5 m&sup2;: P = <strong>200 Pa</strong></div>
         </div>
@@ -854,7 +861,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">F&#8321;</span>/<span class="var-b">A&#8321;</span> <span class="op">=</span> <span class="var-c">F&#8322;</span>/<span class="var-d">A&#8322;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{F_1}{A_1} = \frac{F_2}{A_2} \)</div>
+          <div class="formula-mathjax">\( \frac{F_1}{A_1} = \frac{F_2}{A_2} \)</div>
           <div class="formula-desc">Pressure is transmitted equally. Small piston pushes small force, big piston pushes big force. This is how hydraulics work.</div>
           <div class="formula-example"><strong>Example:</strong> Small piston: 10 N on 2 cm&sup2;. Large piston: 20 cm&sup2; &rarr; F = <strong>100 N</strong></div>
           <div class="memory-trick">Hydraulic brakes, car jacks — same principle. Small effort, big result.</div>
@@ -865,7 +872,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">A&#8321;</span><span class="var-b">v&#8321;</span> <span class="op">=</span> <span class="var-c">A&#8322;</span><span class="var-d">v&#8322;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( A_1 v_1 = A_2 v_2 \)</div>
+          <div class="formula-mathjax">\( A_1 v_1 = A_2 v_2 \)</div>
           <div class="formula-desc">Flow rate is constant. Smaller pipe = faster flow. Thumb over a garden hose = faster water.</div>
           <div class="formula-example"><strong>Example:</strong> Pipe narrows from 4 cm&sup2; to 1 cm&sup2;: velocity increases <strong>4x</strong></div>
         </div>
@@ -905,7 +912,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-b">I</span> <span class="op">=</span> <span class="var-a">V</span>/<span class="var-c">R</span> &nbsp;&nbsp;|&nbsp;&nbsp;
             <span class="var-c">R</span> <span class="op">=</span> <span class="var-a">V</span>/<span class="var-b">I</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( V = IR \;\;|\;\; I = \frac{V}{R} \;\;|\;\; R = \frac{V}{I} \)</div>
+          <div class="formula-mathjax">\( V = IR \;\;|\;\; I = \frac{V}{R} \;\;|\;\; R = \frac{V}{I} \)</div>
           <div class="formula-desc">V = Voltage (Volts), I = Current (Amps), R = Resistance (Ohms). Cover the variable you want.</div>
 
           <!-- VIR TRIANGLE DIAGRAM -->
@@ -932,7 +939,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">V</span><span class="var-c">I</span> <span class="op">=</span> <span class="var-c">I</span>&sup2;<span class="var-d">R</span> <span class="op">=</span> <span class="var-b">V</span>&sup2;/<span class="var-d">R</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( P = VI = I^2 R = \frac{V^2}{R} \)</div>
+          <div class="formula-mathjax">\( P = VI = I^2 R = \frac{V^2}{R} \)</div>
           <div class="formula-desc">Power in Watts. Three forms — use whichever matches the variables you have.</div>
           <div class="formula-example"><strong>Example:</strong> 120V, 2A: P = 120 &times; 2 = <strong>240 W</strong></div>
         </div>
@@ -942,7 +949,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">R<sub>total</sub></span> <span class="op">=</span> <span class="var-b">R&#8321;</span> <span class="op">+</span> <span class="var-c">R&#8322;</span> <span class="op">+</span> <span class="var-d">R&#8323;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( R_{\text{total}} = R_1 + R_2 + R_3 \)</div>
+          <div class="formula-mathjax">\( R_{\text{total}} = R_1 + R_2 + R_3 \)</div>
           <div class="formula-desc">Same current everywhere. Voltage divides across components. One break = entire circuit dies (Christmas lights).</div>
 
           <!-- SERIES CIRCUIT DIAGRAM -->
@@ -980,7 +987,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           <div class="formula-expr">
             <span class="var-a">1/R</span> <span class="op">=</span> <span class="var-b">1/R&#8321;</span> <span class="op">+</span> <span class="var-c">1/R&#8322;</span>
           </div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{1}{R_{\text{total}}} = \frac{1}{R_1} + \frac{1}{R_2} \)</div>
+          <div class="formula-mathjax">\( \frac{1}{R_{\text{total}}} = \frac{1}{R_1} + \frac{1}{R_2} \)</div>
           <div class="formula-desc">Same voltage across each branch. Current divides. Each branch is independent — one break doesn't kill others.</div>
 
           <!-- PARALLEL CIRCUIT DIAGRAM -->
@@ -1037,7 +1044,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">p</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">v</span>
           </div>
           <div class="formula-desc">Momentum = mass &times; velocity. Units: kg&middot;m/s. A vector quantity (has direction).</div>
-          <div class="formula-desc" style="margin-top:4px">\( p = mv \)</div>
+          <div class="formula-mathjax">\( p = mv \)</div>
           <div class="formula-example"><strong>Example:</strong> 2 kg at 5 m/s &rarr; p = 2 &times; 5 = <strong>10 kg&middot;m/s</strong></div>
         </div>
 
@@ -1047,7 +1054,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">J</span> <span class="op">=</span> <span class="var-b">F</span><span class="var-c">&Delta;t</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">&Delta;v</span>
           </div>
           <div class="formula-desc">Impulse = force &times; time = change in momentum. Units: N&middot;s (same as kg&middot;m/s).</div>
-          <div class="formula-desc" style="margin-top:4px">\( J = F\Delta t = m\Delta v \)</div>
+          <div class="formula-mathjax">\( J = F\Delta t = m\Delta v \)</div>
           <div class="formula-example"><strong>Example:</strong> 20 N for 3 s &rarr; J = 20 &times; 3 = <strong>60 N&middot;s</strong></div>
           <div class="memory-trick">Impulse is the PUSH over TIME &mdash; bigger force or longer time = more impulse.</div>
         </div>
@@ -1058,7 +1065,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">p<sub>before</sub></span> <span class="op">=</span> <span class="var-b">p<sub>after</sub></span>
           </div>
           <div class="formula-desc">In a closed system (no external forces), total momentum before = total momentum after.</div>
-          <div class="formula-desc" style="margin-top:4px">\( m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2' \)</div>
+          <div class="formula-mathjax">\( m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2' \)</div>
           <div class="formula-example"><strong>Example:</strong> 3 kg at 4 m/s hits stationary 1 kg &rarr; 12 kg&middot;m/s total before = total after</div>
         </div>
 
@@ -1077,7 +1084,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-b">m&#8321;</span><span class="var-c">v&#8321;</span> <span class="op">=</span> (<span class="var-b">m&#8321;</span> <span class="op">+</span> <span class="var-b">m&#8322;</span>)<span class="var-c">v<sub>f</sub></span>
           </div>
           <div class="formula-desc">Only momentum is conserved. Objects stick together. KE is lost (converted to heat/deformation).</div>
-          <div class="formula-desc" style="margin-top:4px">\( m_1 v_1 = (m_1 + m_2) v_f \)</div>
+          <div class="formula-mathjax">\( m_1 v_1 = (m_1 + m_2) v_f \)</div>
           <div class="formula-example"><strong>Example:</strong> 0.5 kg at 8 m/s sticks to 1.5 kg &rarr; v = 4/2 = <strong>2 m/s</strong></div>
         </div>
       </div>
@@ -1098,7 +1105,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">&Delta;x</span> <span class="op">=</span> <span class="var-b">x<sub>f</sub></span> <span class="op">-</span> <span class="var-c">x<sub>i</sub></span>
           </div>
           <div class="formula-desc">Displacement = final position &minus; initial position. A vector (has direction).</div>
-          <div class="formula-desc" style="margin-top:4px">\( \Delta x = x_f - x_i \)</div>
+          <div class="formula-mathjax">\( \Delta x = x_f - x_i \)</div>
           <div class="formula-example"><strong>Example:</strong> Start at 3 m, end at 11 m &rarr; &Delta;x = 11 &minus; 3 = <strong>8 m</strong></div>
         </div>
 
@@ -1108,7 +1115,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">v</span> <span class="op">=</span> <span class="var-b">&Delta;x</span> / <span class="var-c">&Delta;t</span>
           </div>
           <div class="formula-desc">Average velocity = displacement &divide; time. Units: m/s.</div>
-          <div class="formula-desc" style="margin-top:4px">\( v = \frac{\Delta x}{\Delta t} \)</div>
+          <div class="formula-mathjax">\( v = \frac{\Delta x}{\Delta t} \)</div>
           <div class="formula-example"><strong>Example:</strong> 100 m in 20 s &rarr; v = 100/20 = <strong>5 m/s</strong></div>
         </div>
 
@@ -1118,7 +1125,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">a</span> <span class="op">=</span> <span class="var-b">&Delta;v</span> / <span class="var-c">&Delta;t</span>
           </div>
           <div class="formula-desc">Acceleration = change in velocity &divide; time. Units: m/s&sup2;.</div>
-          <div class="formula-desc" style="margin-top:4px">\( a = \frac{\Delta v}{\Delta t} \)</div>
+          <div class="formula-mathjax">\( a = \frac{\Delta v}{\Delta t} \)</div>
           <div class="formula-example"><strong>Example:</strong> 0 to 20 m/s in 5 s &rarr; a = 20/5 = <strong>4 m/s&sup2;</strong></div>
         </div>
 
@@ -1128,7 +1135,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">v<sub>f</sub></span> <span class="op">=</span> <span class="var-b">v<sub>i</sub></span> <span class="op">+</span> <span class="var-c">a</span><span class="var-d">t</span>
           </div>
           <div class="formula-desc">Final velocity = initial velocity + (acceleration &times; time).</div>
-          <div class="formula-desc" style="margin-top:4px">\( v_f = v_i + at \)</div>
+          <div class="formula-mathjax">\( v_f = v_i + at \)</div>
           <div class="formula-example"><strong>Example:</strong> Start at rest, a = 4 m/s&sup2;, t = 5 s &rarr; v = 0 + 4&times;5 = <strong>20 m/s</strong></div>
         </div>
 
@@ -1138,7 +1145,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">&Delta;x</span> <span class="op">=</span> <span class="var-b">v<sub>i</sub></span><span class="var-c">t</span> <span class="op">+</span> &frac12;<span class="var-d">a</span><span class="var-c">t</span>&sup2;
           </div>
           <div class="formula-desc">Displacement with constant acceleration. Use when you don't know final velocity.</div>
-          <div class="formula-desc" style="margin-top:4px">\( \Delta x = v_i t + \tfrac{1}{2}at^2 \)</div>
+          <div class="formula-mathjax">\( \Delta x = v_i t + \tfrac{1}{2}at^2 \)</div>
           <div class="formula-example"><strong>Example:</strong> From rest, a = 2 m/s&sup2;, t = 10 s &rarr; d = 0 + &frac12;(2)(100) = <strong>100 m</strong></div>
         </div>
 
@@ -1148,7 +1155,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">v<sub>f</sub></span>&sup2; <span class="op">=</span> <span class="var-b">v<sub>i</sub></span>&sup2; <span class="op">+</span> 2<span class="var-c">a</span><span class="var-d">&Delta;x</span>
           </div>
           <div class="formula-desc">Use when time is NOT given. Relates velocity, acceleration, and displacement.</div>
-          <div class="formula-desc" style="margin-top:4px">\( v_f^2 = v_i^2 + 2a\Delta x \)</div>
+          <div class="formula-mathjax">\( v_f^2 = v_i^2 + 2a\Delta x \)</div>
           <div class="formula-example"><strong>Example:</strong> 20 m/s brakes over 50 m &rarr; 0 = 400 + 100a &rarr; a = <strong>-4 m/s&sup2;</strong></div>
         </div>
 
@@ -1159,7 +1166,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-c">v<sub>0y</sub></span> <span class="op">=</span> v&#8320;sin&theta;
           </div>
           <div class="formula-desc">Break initial velocity into horizontal and vertical components for projectile problems.</div>
-          <div class="formula-desc" style="margin-top:4px">\( v_{0x} = v_0 \cos\theta \quad|\quad v_{0y} = v_0 \sin\theta \)</div>
+          <div class="formula-mathjax">\( v_{0x} = v_0 \cos\theta \quad|\quad v_{0y} = v_0 \sin\theta \)</div>
           <div class="formula-example"><strong>Example:</strong> 50 m/s at 30&deg; &rarr; v<sub>0x</sub> = 50 cos30&deg; = 43.3, v<sub>0y</sub> = 50 sin30&deg; = 25</div>
         </div>
 
@@ -1169,7 +1176,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">a<sub>c</sub></span> <span class="op">=</span> <span class="var-b">v</span>&sup2; / <span class="var-c">r</span>
           </div>
           <div class="formula-desc">Centripetal acceleration points toward the center. Faster speed or smaller radius = more acceleration.</div>
-          <div class="formula-desc" style="margin-top:4px">\( a_c = \frac{v^2}{r} \)</div>
+          <div class="formula-mathjax">\( a_c = \frac{v^2}{r} \)</div>
           <div class="formula-example"><strong>Example:</strong> v = 10 m/s, r = 5 m &rarr; a<sub>c</sub> = 100/5 = <strong>20 m/s&sup2;</strong></div>
           <div class="memory-trick">SUVAT equations &mdash; know any 3 variables, find the other 2. No time? Use v&sup2; = v&sub;i&sup2; + 2a&Delta;x.</div>
         </div>
@@ -1191,7 +1198,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">P</span><span class="var-b">V</span> <span class="op">=</span> <span class="var-c">n</span><span class="var-d">R</span><span class="var-a">T</span>
           </div>
           <div class="formula-desc">P = pressure, V = volume, n = moles, R = gas constant (8.314 J/mol&middot;K), T = temperature (Kelvin).</div>
-          <div class="formula-desc" style="margin-top:4px">\( PV = nRT \)</div>
+          <div class="formula-mathjax">\( PV = nRT \)</div>
           <div class="formula-example"><strong>Key:</strong> Temperature must be in Kelvin (K = &deg;C + 273).</div>
         </div>
 
@@ -1201,7 +1208,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">P&#8321;</span><span class="var-b">V&#8321;</span> <span class="op">=</span> <span class="var-a">P&#8322;</span><span class="var-b">V&#8322;</span>
           </div>
           <div class="formula-desc">At constant temperature, pressure and volume are inversely related. Squeeze &rarr; smaller volume, higher pressure.</div>
-          <div class="formula-desc" style="margin-top:4px">\( P_1 V_1 = P_2 V_2 \)</div>
+          <div class="formula-mathjax">\( P_1 V_1 = P_2 V_2 \)</div>
           <div class="formula-example"><strong>Example:</strong> 5 L at 1 atm &rarr; 2 atm &rarr; V = 5&times;1/2 = <strong>2.5 L</strong></div>
           <div class="memory-trick">Boyle = Boys squeeze Balloons &mdash; more pressure = less volume.</div>
         </div>
@@ -1212,7 +1219,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-b">V&#8321;</span>/<span class="var-a">T&#8321;</span> <span class="op">=</span> <span class="var-b">V&#8322;</span>/<span class="var-a">T&#8322;</span>
           </div>
           <div class="formula-desc">At constant pressure, volume and temperature are directly related. Heat it &rarr; it expands.</div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{V_1}{T_1} = \frac{V_2}{T_2} \)</div>
+          <div class="formula-mathjax">\( \frac{V_1}{T_1} = \frac{V_2}{T_2} \)</div>
           <div class="formula-example"><strong>Example:</strong> 6 L at 300 K &rarr; 600 K &rarr; V = 6&times;600/300 = <strong>12 L</strong></div>
         </div>
 
@@ -1222,7 +1229,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">P&#8321;</span><span class="var-b">V&#8321;</span>/<span class="var-c">T&#8321;</span> <span class="op">=</span> <span class="var-a">P&#8322;</span><span class="var-b">V&#8322;</span>/<span class="var-c">T&#8322;</span>
           </div>
           <div class="formula-desc">Use when both pressure AND temperature change. Combines Boyle's and Charles's Laws.</div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{P_1 V_1}{T_1} = \frac{P_2 V_2}{T_2} \)</div>
+          <div class="formula-mathjax">\( \frac{P_1 V_1}{T_1} = \frac{P_2 V_2}{T_2} \)</div>
           <div class="formula-example"><strong>Key:</strong> If T is constant &rarr; Boyle's. If P is constant &rarr; Charles's.</div>
         </div>
       </div>
@@ -1243,7 +1250,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">k</span><span class="var-c">A</span>(<span class="var-d">&Delta;T</span>/<span class="var-a">&Delta;x</span>)
           </div>
           <div class="formula-desc">Heat through direct contact. k = thermal conductivity, A = area, &Delta;T = temp difference, &Delta;x = thickness.</div>
-          <div class="formula-desc" style="margin-top:4px">\( q = kA\frac{\Delta T}{\Delta x} \)</div>
+          <div class="formula-mathjax">\( q = kA\frac{\Delta T}{\Delta x} \)</div>
           <div class="formula-example"><strong>Example:</strong> Metal spoon in hot soup &mdash; heat conducts through the solid from hot to cold end.</div>
         </div>
 
@@ -1253,7 +1260,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">h</span><span class="var-c">A</span><span class="var-d">&Delta;T</span>
           </div>
           <div class="formula-desc">Heat through fluid movement (liquid or gas). h = heat transfer coefficient. Warm fluid rises, cool sinks.</div>
-          <div class="formula-desc" style="margin-top:4px">\( q = hA\Delta T \)</div>
+          <div class="formula-mathjax">\( q = hA\Delta T \)</div>
           <div class="formula-example"><strong>Example:</strong> Warm air rising from a heater, boiling water &mdash; fluid carries heat via circulation.</div>
         </div>
 
@@ -1263,7 +1270,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">e</span><span class="var-c">&sigma;</span><span class="var-d">A</span><span class="var-a">T</span>&#8308;
           </div>
           <div class="formula-desc">Heat via electromagnetic waves. No medium needed &mdash; works through vacuum (how the Sun heats Earth).</div>
-          <div class="formula-desc" style="margin-top:4px">\( q = e\sigma A T^4 \)</div>
+          <div class="formula-mathjax">\( q = e\sigma A T^4 \)</div>
           <div class="formula-example"><strong>Example:</strong> Feeling warmth from a campfire without touching it &mdash; that's radiant heat.</div>
         </div>
 
@@ -1332,7 +1339,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             <span class="var-a">V&#8321;</span>/<span class="var-b">V&#8322;</span> <span class="op">=</span> <span class="var-c">N&#8321;</span>/<span class="var-d">N&#8322;</span>
           </div>
           <div class="formula-desc">Voltage ratio equals turns ratio. More turns on secondary = step-up (higher voltage). Fewer = step-down.</div>
-          <div class="formula-desc" style="margin-top:4px">\( \frac{V_1}{V_2} = \frac{N_1}{N_2} \)</div>
+          <div class="formula-mathjax">\( \frac{V_1}{V_2} = \frac{N_1}{N_2} \)</div>
           <div class="formula-example"><strong>Example:</strong> 120V input, 100 turns primary, 500 turns secondary &rarr; V&#8322; = 120 &times; 500/100 = <strong>600V</strong></div>
         </div>
 
@@ -1343,7 +1350,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
             Generator: <span class="var-c">Mechanical</span> <span class="op">&rarr;</span> <span class="var-b">Electrical</span>
           </div>
           <div class="formula-desc">Motors convert electricity to motion. Generators do the reverse. Diodes allow current in one direction only. Capacitance: C = Q/V.</div>
-          <div class="formula-desc" style="margin-top:4px">\( C = \frac{Q}{V} \) &nbsp;(Capacitance in Farads)</div>
+          <div class="formula-mathjax">\( C = \frac{Q}{V} \) &nbsp;(Capacitance in Farads)</div>
           <div class="formula-example"><strong>OAR Tip:</strong> Motor = electricity powers movement. Generator = movement creates electricity.</div>
         </div>
       </div>
@@ -1601,6 +1608,14 @@ searchInput.addEventListener('input', () => {
   });
 
   noResults.style.display = anyVisible ? 'none' : '';
+});
+
+// Hide formula-expr when MathJax version exists in the same card
+document.querySelectorAll('.formula-card').forEach(card => {
+  if (card.querySelector('.formula-mathjax')) {
+    const expr = card.querySelector('.formula-expr');
+    if (expr) expr.classList.add('has-mathjax');
+  }
 });
 </script>
 </body>
