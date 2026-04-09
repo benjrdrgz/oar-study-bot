@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "oar-dashboard",
+      "name": "oar-landing",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8091", "-d", "/Users/breakbread/Documents/Claude/Projects/OAR Study Bot"],
-      "port": 8091
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "/Users/breakbread/Documents/Claude/Projects/OAR Study Bot"],
+      "port": 8090
     }
   ]
 }

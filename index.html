@@ -3,1086 +3,720 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OAR Pro — Dashboard</title>
+<title>OAR Pro — Ace the Officer Aptitude Rating</title>
+<meta name="description" content="The most comprehensive OAR study platform. 180+ practice questions, 21 lessons, MathJax formulas, and science-backed study tools. One-time payment, lifetime access.">
+<meta property="og:title" content="OAR Pro — Ace the Officer Aptitude Rating">
+<meta property="og:description" content="180+ practice questions, 21 lessons, and science-backed study tools. Built by someone who took the test.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0B1120;--surface:#111827;--surface-2:#1F2937;--surface-3:#374151;
-  --border:#1E293B;--border-hover:#334155;
-  --accent:#3B82F6;--accent-hover:#2563EB;--accent-glow:rgba(59,130,246,.15);
-  --green:#10B981;--green-bg:rgba(16,185,129,.1);
-  --red:#EF4444;--red-bg:rgba(239,68,68,.1);
-  --yellow:#F59E0B;--yellow-bg:rgba(245,158,11,.1);
-  --purple:#8B5CF6;
-  --text:#F9FAFB;--text-2:#9CA3AF;--text-3:#6B7280;
+  --bg:#0B1120;
+  --surface:#111827;
+  --surface-2:#1F2937;
+  --surface-3:#374151;
+  --border:#1E293B;
+  --border-hover:#334155;
+  --accent:#3B82F6;
+  --accent-hover:#2563EB;
+  --accent-glow:rgba(59,130,246,.15);
+  --green:#10B981;
+  --red:#EF4444;
+  --yellow:#F59E0B;
+  --text:#F9FAFB;
+  --text-2:#9CA3AF;
+  --text-3:#6B7280;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(11,17,32,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center}
-.nav-inner{max-width:1200px;width:100%;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.3px}
-.nav-links{display:flex;gap:4px}
-.nav-link{color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;padding:6px 14px;border-radius:8px;transition:all .15s;position:relative}
-.nav-link:hover{color:var(--text);background:var(--surface-2)}
-.nav-link.active{color:var(--accent);background:var(--accent-glow)}
-.nav-link.active::after{content:'';position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--accent);border-radius:1px}
-
-/* LAYOUT */
-.page{max-width:1200px;margin:0 auto;padding:80px 24px 60px}
-.section{margin-bottom:32px}
-.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-3);margin-bottom:16px}
-
-/* CARDS */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .2s,box-shadow .2s}
-.card:hover{border-color:var(--border-hover)}
-
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;cursor:pointer;border:none;font-weight:600;transition:all .15s}
-.btn-primary{background:var(--accent);color:#fff;border-radius:10px;padding:12px 24px;font-size:14px}
-.btn-primary:hover{background:var(--accent-hover);box-shadow:0 0 20px var(--accent-glow)}
-.btn-secondary{background:var(--surface-2);color:var(--text);border-radius:10px;padding:10px 20px;font-size:13px;border:1px solid var(--border)}
-.btn-secondary:hover{border-color:var(--border-hover);background:var(--surface-3)}
-.btn-sm{padding:8px 16px;font-size:13px;border-radius:8px}
-
-/* HERO */
-.hero{text-align:center;padding:40px 0 24px}
-.hero-greeting{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
-.hero-sub{font-size:16px;color:var(--text-2);margin-bottom:32px}
-.hero-ring-wrap{position:relative;width:180px;height:180px;margin:0 auto 16px}
-.hero-ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
-.hero-ring-pct{font-size:42px;font-weight:800;letter-spacing:-1px}
-.hero-ring-text{font-size:12px;color:var(--text-2);font-weight:500}
-.hero-predicted{font-size:15px;color:var(--text-2);margin-top:8px}
-.hero-predicted span{color:var(--accent);font-weight:700;font-size:18px}
-
-/* QUICK ACTIONS */
-.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.quick-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;text-decoration:none;color:var(--text);transition:all .2s;cursor:pointer;position:relative;overflow:hidden}
-.quick-card::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .2s}
-.quick-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.quick-card:hover::before{opacity:1}
-.quick-card .qc-icon{font-size:28px;margin-bottom:12px;display:block}
-.quick-card .qc-title{font-size:15px;font-weight:700;margin-bottom:4px}
-.quick-card .qc-sub{font-size:12px;color:var(--text-3);line-height:1.4}
-.quick-card:nth-child(1)::before{background:linear-gradient(135deg,rgba(59,130,246,.06),transparent)}
-.quick-card:nth-child(2)::before{background:linear-gradient(135deg,rgba(16,185,129,.06),transparent)}
-.quick-card:nth-child(3)::before{background:linear-gradient(135deg,rgba(139,92,246,.06),transparent)}
-.quick-card:nth-child(4)::before{background:linear-gradient(135deg,rgba(245,158,11,.06),transparent)}
-
-/* PROGRESS GRID */
-.progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.prog-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px}
-.prog-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.prog-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
-.prog-name{font-size:16px;font-weight:700}
-.prog-stats{display:flex;justify-content:space-between;margin-bottom:12px}
-.prog-stat-label{font-size:12px;color:var(--text-3)}
-.prog-stat-val{font-size:14px;font-weight:600}
-.prog-bar{height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-bottom:12px}
-.prog-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
-.prog-weak{font-size:12px;color:var(--text-3)}
-.prog-weak span{color:var(--yellow);font-weight:600}
-
-/* SCORE PREDICTOR */
-.predictor{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
-.predictor-gauge{flex:0 0 200px;position:relative}
-.predictor-details{flex:1;min-width:200px}
-.predictor-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
-.predictor-row:last-child{border:none}
-.predictor-section{font-size:14px;font-weight:500}
-.predictor-score{font-size:18px;font-weight:700}
-.predictor-basis{font-size:12px;color:var(--text-3);margin-top:12px}
-
-/* STREAK */
-.streak-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
-.streak-badge{background:var(--accent-glow);border:1px solid rgba(59,130,246,.3);border-radius:10px;padding:8px 16px;font-weight:700;color:var(--accent);font-size:14px;white-space:nowrap}
-.heatmap{display:grid;grid-template-columns:repeat(15,1fr);gap:4px}
-.heatmap-cell{aspect-ratio:1;border-radius:4px;background:var(--surface-2);transition:all .15s;position:relative}
-.heatmap-cell:hover{transform:scale(1.3);z-index:2}
-.heatmap-cell[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--surface-3);color:var(--text);font-size:11px;padding:4px 8px;border-radius:6px;white-space:nowrap;z-index:3}
-.hm-0{background:var(--surface-2)}.hm-1{background:rgba(59,130,246,.25)}.hm-2{background:rgba(59,130,246,.5)}.hm-3{background:var(--accent)}
-
-/* WEAK TOPICS */
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.topic-cell{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.topic-cell:hover{transform:translateY(-2px);border-color:var(--border-hover)}
-.topic-cell .tc-pct{font-size:20px;font-weight:800;margin-bottom:2px}
-.topic-cell .tc-name{color:var(--text-2);font-weight:500}
-.tc-green .tc-pct{color:var(--green)}.tc-yellow .tc-pct{color:var(--yellow)}.tc-red .tc-pct{color:var(--red)}.tc-none .tc-pct{color:var(--text-3)}
-
-/* COUNTDOWN */
-.countdown-wrap{text-align:center}
-.countdown-digits{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
-.countdown-label{font-size:14px;color:var(--text-2)}
-.countdown-set{margin-top:16px}
-.countdown-input{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-family:inherit;font-size:14px;margin-right:8px}
-.countdown-input:focus{outline:none;border-color:var(--accent)}
-.countdown-today{font-size:28px;font-weight:800;color:var(--green);margin-bottom:8px}
-
-/* ACTIVITY FEED */
-.feed-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.feed-item:last-child{border:none}
-.feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.feed-label{font-size:14px;flex:1}
-.feed-time{font-size:12px;color:var(--text-3);white-space:nowrap}
-.feed-empty{text-align:center;color:var(--text-3);padding:24px;font-size:14px}
-
-/* SELF ASSESSMENT (embedded) */
-.eval-inline{text-align:center}
-.eval-q{font-size:18px;font-weight:700;margin:16px 0 8px}
-.eval-formula{font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:var(--yellow);background:var(--surface-2);border-radius:8px;padding:10px 16px;margin:8px auto;display:inline-block}
-.eval-context{font-size:13px;color:var(--text-2);margin-bottom:16px}
-.eval-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.eval-btns button{padding:14px 32px;border-radius:10px;font-size:16px;font-weight:800;border:none;cursor:pointer;transition:all .15s}
-.eval-yes{background:var(--green);color:#000}.eval-yes:hover{filter:brightness(1.15)}
-.eval-kinda{background:var(--yellow);color:#000;padding:14px 24px !important;font-size:14px !important;font-weight:700 !important}.eval-kinda:hover{filter:brightness(1.15)}
-.eval-no{background:var(--red);color:#fff}.eval-no:hover{filter:brightness(1.15)}
-.eval-progress{font-size:13px;color:var(--text-3);margin-bottom:8px}
-.eval-section-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;border-radius:20px;margin-bottom:8px}
-.eval-math{background:rgba(59,130,246,.1);color:var(--accent)}
-.eval-mech{background:rgba(245,158,11,.1);color:var(--yellow)}
-.eval-read{background:rgba(16,185,129,.1);color:var(--green)}
-.eval-results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0;text-align:center}
-.eval-score-box{background:var(--surface-2);border-radius:12px;padding:16px}
-.eval-score-num{font-size:28px;font-weight:800}
-.eval-score-label{font-size:12px;color:var(--text-2)}
-
-/* FOOTER */
-.footer{text-align:center;padding:40px 0 32px;border-top:1px solid var(--border);margin-top:40px}
-.footer-brand{font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:12px}
-.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:12px}
-.footer-links a{color:var(--text-3);text-decoration:none;font-size:13px;transition:color .15s}
-.footer-links a:hover{color:var(--accent)}
-.footer-version{font-size:11px;color:var(--text-3)}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
-.modal-overlay.show{opacity:1;pointer-events:auto}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:400px;width:90%;text-align:center;transform:scale(.95);transition:transform .2s}
-.modal-overlay.show .modal{transform:scale(1)}
-.modal h2{font-size:22px;margin-bottom:8px}
-.modal p{color:var(--text-2);font-size:14px;margin-bottom:20px}
-.modal input{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-family:inherit;font-size:16px;margin-bottom:16px}
-.modal input:focus{outline:none;border-color:var(--accent)}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{animation:fadeUp .4s ease both}
-.fade-up-1{animation-delay:.05s}.fade-up-2{animation-delay:.1s}.fade-up-3{animation-delay:.15s}
-.fade-up-4{animation-delay:.2s}.fade-up-5{animation-delay:.25s}.fade-up-6{animation-delay:.3s}
-.fade-up-7{animation-delay:.35s}.fade-up-8{animation-delay:.4s}.fade-up-9{animation-delay:.45s}
-@keyframes ringDraw{from{stroke-dashoffset:var(--ring-circum)}to{stroke-dashoffset:var(--ring-offset)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .hero-greeting{font-size:24px}
-  .quick-row{grid-template-columns:repeat(2,1fr);gap:12px}
-  .progress-grid{grid-template-columns:1fr}
-  .predictor{flex-direction:column;text-align:center}
-  .predictor-gauge{flex:none}
-  .heatmap{grid-template-columns:repeat(10,1fr)}
-  .eval-results-grid{grid-template-columns:1fr}
-  .nav-links{gap:0}
-  .nav-link{padding:6px 8px;font-size:12px}
+/* ── Top Bar ── */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--accent);
+  padding:8px 24px;
+  text-align:center;
+  font-size:13px;
+  font-weight:500;
+  color:#fff;
 }
-@media(max-width:480px){
-  .quick-row{grid-template-columns:1fr}
-  .topic-grid{grid-template-columns:repeat(2,1fr)}
-  .countdown-digits{font-size:28px}
+.top-bar a{text-decoration:underline;font-weight:600;margin-left:4px}
+
+/* ── Nav ── */
+.nav{
+  position:fixed;top:33px;left:0;right:0;height:60px;
+  background:rgba(11,17,32,.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  z-index:100;
+  display:flex;align-items:center;
+}
+.nav-inner{
+  max-width:1100px;width:100%;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{font-size:18px;font-weight:800;letter-spacing:-.5px}
+.nav-logo span{color:var(--accent)}
+.nav-cta{
+  background:var(--accent);color:#fff;
+  padding:8px 20px;border-radius:8px;
+  font-size:13px;font-weight:600;
+  border:none;cursor:pointer;
+  transition:background .15s;
+}
+.nav-cta:hover{background:var(--accent-hover)}
+
+/* ── Hero ── */
+.hero{
+  position:relative;
+  padding:180px 24px 120px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-200px;left:50%;transform:translateX(-50%);
+  width:900px;height:900px;
+  background:radial-gradient(circle,rgba(59,130,246,.12) 0%,rgba(59,130,246,.04) 40%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:200px;
+  background:linear-gradient(to top,var(--bg),transparent);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent-glow);
+  border:1px solid rgba(59,130,246,.25);
+  border-radius:100px;
+  padding:6px 16px;
+  font-size:12px;font-weight:600;
+  color:var(--accent);
+  margin-bottom:32px;
+  letter-spacing:.3px;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-size:clamp(40px,7vw,72px);
+  font-weight:800;
+  letter-spacing:-2px;
+  line-height:1.05;
+  margin-bottom:24px;
+  position:relative;z-index:1;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--accent),#818CF8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(16px,2vw,19px);
+  color:var(--text-2);
+  max-width:640px;
+  margin:0 auto 40px;
+  line-height:1.7;
+  position:relative;z-index:1;
+}
+.hero-buttons{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:16px 32px;border-radius:12px;
+  font-size:16px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+  border:none;font-family:inherit;
+}
+.btn-hero.primary{
+  background:var(--accent);color:#fff;
+  box-shadow:0 0 40px rgba(59,130,246,.25),0 4px 12px rgba(0,0,0,.3);
+}
+.btn-hero.primary:hover{
+  background:var(--accent-hover);
+  box-shadow:0 0 60px rgba(59,130,246,.35),0 6px 20px rgba(0,0,0,.4);
+  transform:translateY(-1px);
+}
+.btn-hero.secondary{
+  background:var(--surface-2);color:var(--text);
+  border:1px solid var(--border);
+}
+.btn-hero.secondary:hover{
+  border-color:var(--border-hover);background:var(--surface-3);
+  transform:translateY(-1px);
 }
 
-/* BANNERS */
-.banner{display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-radius:12px;margin-bottom:20px;font-size:14px;line-height:1.5;position:relative;animation:fadeUp .35s ease both}
-.banner-dismiss{position:absolute;top:10px;right:12px;background:none;border:none;color:inherit;font-size:18px;cursor:pointer;opacity:.6;line-height:1;padding:2px 4px;transition:opacity .15s}
-.banner-dismiss:hover{opacity:1}
-.banner-icon{font-size:18px;flex-shrink:0;margin-top:1px}
-.banner-anxiety{background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.14));border:1px solid rgba(139,92,246,.3);color:#C4B5FD}
-.banner-sleep{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(234,179,8,.1));border:1px solid rgba(245,158,11,.3);color:#FDE68A}
-.banner-text{flex:1;padding-right:20px}
-.banner-text strong{display:block;font-weight:700;margin-bottom:2px}
+/* ── Social Proof ── */
+.proof{
+  padding:0 24px 80px;
+  text-align:center;
+}
+.proof-label{
+  font-size:14px;color:var(--text-3);font-weight:500;
+  margin-bottom:32px;
+}
+.proof-stats{
+  display:flex;justify-content:center;gap:48px;flex-wrap:wrap;
+  max-width:700px;margin:0 auto;
+}
+.proof-stat{text-align:center}
+.proof-stat .num{font-size:32px;font-weight:800;letter-spacing:-1px}
+.proof-stat .label{font-size:13px;color:var(--text-3);font-weight:500;margin-top:4px}
 
-/* BRAIN DUMP */
-.brain-dump-overlay{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s}
-.brain-dump-overlay.show{opacity:1;pointer-events:auto}
-.bd-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
-.bd-title{font-size:18px;font-weight:800}
-.bd-timer{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent);letter-spacing:-1px}
-.bd-body{display:flex;flex-direction:column;flex:1;padding:20px 24px;gap:16px;overflow:hidden}
-.bd-instruction{font-size:13px;color:var(--text-2);line-height:1.6;background:var(--surface);border-radius:10px;padding:12px 16px;border-left:3px solid var(--purple);flex-shrink:0}
-.bd-instruction strong{color:var(--text);font-weight:700}
-.bd-textarea{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;resize:none;transition:border-color .15s}
-.bd-textarea:focus{outline:none;border-color:var(--accent)}
-.bd-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;gap:12px}
-.bd-wordcount{font-size:13px;color:var(--text-3)}
-.bd-saved-wrap{margin-top:16px}
-.bd-saved-box{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.6;color:var(--text-2);white-space:pre-wrap;max-height:120px;overflow-y:auto;text-align:left}
-.bd-science{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:12px 14px;font-size:12px;color:#A78BFA;line-height:1.5;margin-top:8px}
+/* ── Sections ── */
+.section{max-width:1100px;margin:0 auto;padding:80px 24px}
+.section-tag{
+  display:inline-block;
+  font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.section-title{
+  font-size:clamp(28px,4vw,40px);font-weight:800;
+  letter-spacing:-1px;line-height:1.15;
+  margin-bottom:16px;
+}
+.section-desc{
+  font-size:17px;color:var(--text-2);max-width:560px;line-height:1.7;
+  margin-bottom:48px;
+}
+.section-desc.center{margin-left:auto;margin-right:auto;text-align:center}
 
-/* STUDY SESSION */
-.session-display{text-align:center;padding:8px 0}
-.session-clock{font-size:48px;font-weight:800;letter-spacing:-2px;font-variant-numeric:tabular-nums;margin-bottom:4px}
-.session-status{font-size:13px;color:var(--text-3);margin-bottom:16px}
-.session-alert{border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:12px;line-height:1.4}
-.session-alert-good{background:var(--green-bg);color:var(--green);border:1px solid rgba(16,185,129,.2)}
-.session-alert-warn{background:var(--red-bg);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+/* ── Feature Grid ── */
+.features{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.feature-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px 28px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.feature-card:hover{
+  border-color:var(--border-hover);
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+}
+.feature-icon{
+  font-size:28px;
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface-2);
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.feature-card h3{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-.3px}
+.feature-card p{font-size:14px;color:var(--text-2);line-height:1.65}
 
-/* PRINT */
-@media print{
-  body{background:#fff;color:#000}
-  .nav,.quick-row,.eval-section,.countdown-wrap,.modal-overlay,.footer,.banner,.brain-dump-overlay,.session-display{display:none !important}
-  .card,.prog-card{border:1px solid #ddd;background:#fff}
-  .prog-bar{background:#eee}
-  .section-title{color:#666}
-  .hero-ring-pct{color:#000}
-  a{color:#000}
+/* ── Comparison ── */
+.comparison-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -24px;padding:0 24px}
+.comparison{
+  width:100%;min-width:680px;
+  border-collapse:separate;border-spacing:0;
+  font-size:14px;
+}
+.comparison th,.comparison td{
+  padding:14px 18px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.comparison thead th{
+  font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text-3);
+  background:var(--surface);
+  position:sticky;top:0;
+}
+.comparison thead th:first-child{border-radius:12px 0 0 0}
+.comparison thead th:last-child{border-radius:0 12px 0 0}
+.comparison tbody td:first-child{font-weight:600;color:var(--text)}
+.comparison tbody td{color:var(--text-2)}
+.comparison .col-highlight{
+  background:rgba(59,130,246,.06);
+  border-left:1px solid rgba(59,130,246,.15);
+  border-right:1px solid rgba(59,130,246,.15);
+}
+.comparison thead .col-highlight{
+  color:var(--accent);
+  background:rgba(59,130,246,.1);
+}
+.comparison tbody tr:last-child .col-highlight{
+  border-bottom:1px solid rgba(59,130,246,.15);
+}
+.comparison .check{color:var(--green);font-weight:700}
+.comparison .cross{color:var(--text-3)}
+.comparison .bold{color:var(--text);font-weight:700}
+
+/* ── Pricing ── */
+.pricing-section{
+  padding:100px 24px;
+  text-align:center;
+  position:relative;
+}
+.pricing-section::before{
+  content:'';position:absolute;
+  top:0;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(59,130,246,.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.pricing-card{
+  max-width:440px;margin:0 auto;
+  background:var(--surface);
+  border:1px solid rgba(59,130,246,.25);
+  border-radius:24px;
+  padding:48px 40px;
+  position:relative;z-index:1;
+  box-shadow:0 0 60px rgba(59,130,246,.08),0 20px 60px rgba(0,0,0,.3);
+}
+.pricing-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--accent),#818CF8);
+  color:#fff;
+  font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  padding:6px 16px;border-radius:100px;
+  margin-bottom:24px;
+}
+.pricing-card h3{font-size:22px;font-weight:700;margin-bottom:24px;letter-spacing:-.3px}
+.pricing-price{
+  display:flex;align-items:baseline;justify-content:center;gap:12px;
+  margin-bottom:8px;
+}
+.pricing-price .old{
+  font-size:24px;font-weight:600;color:var(--text-3);
+  text-decoration:line-through;
+}
+.pricing-price .current{
+  font-size:56px;font-weight:800;letter-spacing:-2px;
+  background:linear-gradient(135deg,#fff,var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.pricing-note{font-size:13px;color:var(--text-3);margin-bottom:32px}
+.pricing-features{
+  list-style:none;text-align:left;
+  margin-bottom:36px;
+}
+.pricing-features li{
+  padding:10px 0;
+  font-size:14px;font-weight:500;
+  color:var(--text-2);
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.pricing-features li:last-child{border-bottom:none}
+.pricing-features .icon{color:var(--green);font-size:16px;flex-shrink:0}
+.btn-pricing{
+  display:block;width:100%;
+  padding:18px;border-radius:12px;
+  background:var(--accent);color:#fff;
+  font-size:16px;font-weight:700;
+  border:none;cursor:pointer;
+  font-family:inherit;
+  transition:all .2s;
+  box-shadow:0 0 30px rgba(59,130,246,.2);
+}
+.btn-pricing:hover{
+  background:var(--accent-hover);
+  box-shadow:0 0 50px rgba(59,130,246,.3);
+  transform:translateY(-1px);
+}
+.pricing-footer{margin-top:20px;font-size:12px;color:var(--text-3);line-height:1.6}
+.pricing-footer a{color:var(--text-2);text-decoration:underline}
+
+/* ── FAQ ── */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{
+  border-bottom:1px solid var(--border);
+}
+.faq-q{
+  width:100%;
+  background:none;border:none;
+  color:var(--text);
+  font-family:inherit;
+  font-size:16px;font-weight:600;
+  text-align:left;
+  padding:20px 0;
+  cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:color .15s;
+}
+.faq-q:hover{color:var(--accent)}
+.faq-q .arrow{
+  font-size:18px;color:var(--text-3);
+  transition:transform .2s;
+  flex-shrink:0;margin-left:16px;
+}
+.faq-item.open .faq-q .arrow{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease,padding .3s ease;
+}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:20px}
+.faq-a p{font-size:14px;color:var(--text-2);line-height:1.7}
+
+/* ── Footer ── */
+.footer{
+  border-top:1px solid var(--border);
+  padding:48px 24px;
+  text-align:center;
+}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-brand{font-size:16px;font-weight:700;margin-bottom:16px;letter-spacing:-.3px}
+.footer-brand span{color:var(--accent)}
+.footer-links{
+  display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.footer-links a{font-size:13px;color:var(--text-3);font-weight:500;transition:color .15s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:12px;color:var(--text-3);line-height:1.6}
+.footer-copy a{color:var(--text-2)}
+
+/* ── Divider ── */
+.divider{
+  max-width:1100px;margin:0 auto;
+  border:none;border-top:1px solid var(--border);
+}
+
+/* ── Animations ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .features{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .top-bar{font-size:12px;padding:7px 16px}
+  .nav{top:30px;height:52px}
+  .hero{padding:140px 20px 80px}
+  .hero h1{letter-spacing:-1px}
+  .hero-buttons{flex-direction:column;align-items:center}
+  .btn-hero{width:100%;max-width:320px;justify-content:center}
+  .proof-stats{gap:32px}
+  .proof-stat .num{font-size:26px}
+  .features{grid-template-columns:1fr}
+  .section{padding:60px 20px}
+  .pricing-card{padding:36px 24px}
+  .pricing-price .current{font-size:44px}
+  .footer-links{gap:16px}
 }
 </style>
 </head>
 <body>
 
+<!-- Top Bar -->
+<div class="top-bar">
+  Already purchased? <a href="app.html">Access your account &rarr;</a>
+</div>
+
+<!-- Nav -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link active">Dashboard</a>
-      <a href="study.html" class="nav-link">Study</a>
-      <a href="practice.html" class="nav-link">Practice</a>
-      <a href="formulas.html" class="nav-link">Formulas</a>
-      <a href="strategies.html" class="nav-link">Strategies</a>
-    </div>
+    <div class="nav-logo">OAR <span>Pro</span></div>
+    <a href="#pricing" class="nav-cta">Get Instant Access</a>
   </div>
 </nav>
 
-<div class="page" id="app"></div>
-
-<!-- Brain Dump Overlay -->
-<div class="brain-dump-overlay" id="brainDumpOverlay">
-  <div class="bd-header">
-    <div class="bd-title">Brain Dump</div>
-    <div class="bd-timer" id="bdTimer">00:00</div>
-    <button class="btn btn-secondary btn-sm" onclick="closeBrainDump()">Close</button>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">Used by Navy OCS candidates</div>
+  <h1>Ace the OAR.<br><span>Guaranteed.</span></h1>
+  <p class="hero-sub">The most comprehensive Officer Aptitude Rating study platform &mdash; 180+ practice questions, 21 lessons, MathJax-rendered formulas, and science-backed study features. Built by someone who took the test.</p>
+  <div class="hero-buttons">
+    <a href="#pricing" class="btn-hero primary">Get Instant Access &mdash; $29</a>
+    <a href="study.html" class="btn-hero secondary">Preview the Platform</a>
   </div>
-  <div class="bd-body">
-    <div class="bd-instruction">
-      <strong>Write everything you know about OAR topics from memory.</strong>
-      Don't look anything up — just dump it all out. Formulas, rules, concepts, mnemonics. The messier the better.
-      This is scientifically proven to improve recall by 15-20% (Lyle &amp; Crawford, 2011).
-    </div>
-    <textarea class="bd-textarea" id="bdTextarea" placeholder="Start writing anything you remember about math formulas, mechanical concepts, reading strategies..." oninput="bdUpdateWordCount()"></textarea>
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-      <span class="bd-wordcount" id="bdWordCount">0 words</span>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-secondary btn-sm" onclick="closeBrainDump()">Cancel</button>
-        <button class="btn btn-primary btn-sm" onclick="saveBrainDump()">Save &amp; Review</button>
-      </div>
-    </div>
-  </div>
-</div>
+</section>
 
-<!-- Name Modal -->
-<div class="modal-overlay" id="nameModal">
-  <div class="modal">
-    <h2>Welcome to OAR Pro</h2>
-    <p>What should we call you?</p>
-    <input type="text" id="nameInput" placeholder="Your first name" autofocus>
-    <button class="btn btn-primary" style="width:100%" onclick="saveName()">Get Started</button>
+<!-- Social Proof -->
+<div class="proof reveal">
+  <p class="proof-label">Join candidates who scored 50+ on the OAR</p>
+  <div class="proof-stats">
+    <div class="proof-stat">
+      <div class="num">180+</div>
+      <div class="label">Questions</div>
+    </div>
+    <div class="proof-stat">
+      <div class="num">21</div>
+      <div class="label">Lessons</div>
+    </div>
+    <div class="proof-stat">
+      <div class="num">5</div>
+      <div class="label">Practice Tests</div>
+    </div>
+    <div class="proof-stat">
+      <div class="num">3</div>
+      <div class="label">Sections</div>
+    </div>
   </div>
 </div>
 
-<script>
-// ============================================================
-// EVAL ITEMS (from OAR_Eval.html)
-// ============================================================
-const EVAL_ITEMS=[
-{id:'pemdas',section:'math',topic:'Arithmetic',question:'Can you solve order of operations without a calculator?',formula:'3 + 4 x 2 = ? (NOT 14)'},
-{id:'fractions',section:'math',topic:'Arithmetic',question:'Can you add, multiply, and divide fractions quickly?',formula:'a/b + c/d = (ad + bc) / bd'},
-{id:'percents',section:'math',topic:'Arithmetic',question:'Can you calculate percent change quickly?',formula:'% Change = (New - Old) / Old x 100'},
-{id:'exponents',section:'math',topic:'Algebra',question:'Do you know the exponent rules cold?',formula:'x^a * x^b = x^(a+b)'},
-{id:'quadratic',section:'math',topic:'Algebra',question:'Can you use the quadratic formula?',formula:'x = (-b +/- sqrt(b^2-4ac)) / 2a'},
-{id:'inequalities',section:'math',topic:'Algebra',question:'Do you remember to flip the inequality sign?',formula:'-2x > 6 => x < -3 (FLIP!)'},
-{id:'pythag',section:'math',topic:'Geometry',question:'Do you know the Pythagorean triples by heart?',formula:'a^2 + b^2 = c^2 | 3-4-5, 5-12-13'},
-{id:'special-tri',section:'math',topic:'Geometry',question:'Do you know 30-60-90 and 45-45-90 ratios?',formula:'45-45-90: x,x,xsqrt2 | 30-60-90: x,xsqrt3,2x'},
-{id:'areas',section:'math',topic:'Geometry',question:'Can you calculate area of circle, triangle, trapezoid?',formula:'Circle: pi*r^2 | Tri: 1/2*bh'},
-{id:'slope',section:'math',topic:'Geometry',question:'Can you find slope, distance, midpoint?',formula:'Slope = (y2-y1)/(x2-x1)'},
-{id:'drt',section:'math',topic:'Word Problems',question:'Can you set up D = R x T problems?',formula:'D = R x T'},
-{id:'workrate',section:'math',topic:'Word Problems',question:'Can you solve combined work-rate problems?',formula:'1/A + 1/B = 1/T'},
-{id:'fma',section:'mech',topic:'Forces',question:'Can you use F = ma?',formula:'F = m x a'},
-{id:'newton3',section:'mech',topic:'Forces',question:'Do you understand Newton\'s 3rd Law pairs?',formula:'Action = Reaction (DIFFERENT objects)'},
-{id:'levers',section:'mech',topic:'Levers',question:'Can you identify all 3 lever classes?',formula:'FLE: 1st=F mid | 2nd=L mid | 3rd=E mid'},
-{id:'lever-balance',section:'mech',topic:'Levers',question:'Can you balance a lever using F1*D1 = F2*D2?',formula:'F1 x D1 = F2 x D2'},
-{id:'gears-dir',section:'mech',topic:'Gears',question:'Do you know gear direction rules?',formula:'Odd chain=SAME | Even=OPPOSITE'},
-{id:'gears-speed',section:'mech',topic:'Gears',question:'Can you calculate gear speed?',formula:'T1 x RPM1 = T2 x RPM2'},
-{id:'pulleys',section:'mech',topic:'Pulleys',question:'Do you know pulley mechanical advantages?',formula:'Fixed=MA1 | Movable=MA2'},
-{id:'ke',section:'mech',topic:'Energy',question:'Doubling speed QUADRUPLES kinetic energy?',formula:'KE = 1/2*mv^2'},
-{id:'pe',section:'mech',topic:'Energy',question:'Can you calculate PE = mgh?',formula:'PE = mgh | KE+PE = constant'},
-{id:'work-power',section:'mech',topic:'Energy',question:'Do you know Work = Fd and Power = W/t?',formula:'W = F x d | P = W / t'},
-{id:'pressure',section:'mech',topic:'Fluids',question:'Can you use Pascal\'s Law?',formula:'P = F/A | F1/A1 = F2/A2'},
-{id:'bernoulli',section:'mech',topic:'Fluids',question:'Do you know Bernoulli\'s principle?',formula:'Faster fluid = LOWER pressure'},
-{id:'ohms',section:'mech',topic:'Electricity',question:'Can you use Ohm\'s Law (V=IR)?',formula:'V = IR | P = VI'},
-{id:'circuits',section:'mech',topic:'Electricity',question:'Series vs parallel circuits?',formula:'Series: R adds | Parallel: 1/R adds'},
-{id:'read-rule',section:'read',topic:'Strategy',question:'Do you know the #1 reading comp rule?',formula:'If the passage didn\'t say it = WRONG'},
-{id:'read-eliminate',section:'read',topic:'Strategy',question:'Can you spot the 4 types of wrong answers?',formula:'Too extreme | True but not stated | Opposite | Too narrow'}
-];
+<hr class="divider">
 
-// ============================================================
-// TOPICS MAP
-// ============================================================
-const ALL_TOPICS=['Arithmetic','Algebra','Geometry','Word Problems','Main Idea','Inference','Forces','Levers','Gears','Pulleys','Energy','Fluids','Electricity'];
-const TOPIC_SECTIONS={Arithmetic:'math',Algebra:'math',Geometry:'math','Word Problems':'math','Main Idea':'reading',Inference:'reading',Forces:'mechanical',Levers:'mechanical',Gears:'mechanical',Pulleys:'mechanical',Energy:'mechanical',Fluids:'mechanical',Electricity:'mechanical'};
-
-// ============================================================
-// DATA HELPERS
-// ============================================================
-function getUser(){try{return JSON.parse(localStorage.getItem('oar_user'))||{}}catch{return{}}}
-function setUser(u){localStorage.setItem('oar_user',JSON.stringify(u))}
-function getProgress(){try{return JSON.parse(localStorage.getItem('oar_progress'))||defaultProgress()}catch{return defaultProgress()}}
-function setProgress(p){localStorage.setItem('oar_progress',JSON.stringify(p))}
-function getStreaks(){try{return JSON.parse(localStorage.getItem('oar_streaks'))||{dates:[],currentStreak:0}}catch{return{dates:[],currentStreak:0}}}
-function getActivity(){try{return JSON.parse(localStorage.getItem('oar_activity'))||[]}catch{return[]}}
-function getEval(){try{return JSON.parse(localStorage.getItem('oar_eval'))||{}}catch{return{}}}
-function setEval(e){localStorage.setItem('oar_eval',JSON.stringify(e))}
-
-function defaultProgress(){
-  return{
-    math:{attempted:0,correct:0,byTopic:{Arithmetic:{a:0,c:0},Algebra:{a:0,c:0},Geometry:{a:0,c:0},'Word Problems':{a:0,c:0}}},
-    reading:{attempted:0,correct:0,byTopic:{'Main Idea':{a:0,c:0},Inference:{a:0,c:0}}},
-    mechanical:{attempted:0,correct:0,byTopic:{Forces:{a:0,c:0},Levers:{a:0,c:0},Gears:{a:0,c:0},Pulleys:{a:0,c:0},Energy:{a:0,c:0},Fluids:{a:0,c:0},Electricity:{a:0,c:0}}}
-  };
-}
-
-function accuracy(a,c){return a===0?0:Math.round((c/a)*100)}
-function accColor(pct){return pct>=70?'var(--green)':pct>=50?'var(--yellow)':'var(--red)'}
-function accClass(pct){return pct>=70?'tc-green':pct>=50?'tc-yellow':'tc-red'}
-function totalAttempted(){const p=getProgress();return p.math.attempted+p.reading.attempted+p.mechanical.attempted}
-function totalCorrect(){const p=getProgress();return p.math.correct+p.reading.correct+p.mechanical.correct}
-
-function predictScore(section){
-  const p=getProgress();
-  const s=p[section];
-  if(!s||s.attempted===0)return 20;
-  const acc=s.correct/s.attempted;
-  return Math.round(20+acc*60);
-}
-function overallPredicted(){
-  const m=predictScore('math'),r=predictScore('reading'),mc=predictScore('mechanical');
-  return Math.round((m+r+mc)/3);
-}
-function readiness(){
-  const ta=totalAttempted();
-  if(ta===0)return 0;
-  const acc=totalCorrect()/ta;
-  const coverage=Math.min(ta/90,1);
-  return Math.round(acc*70+coverage*30);
-}
-
-function weakestTopic(section){
-  const p=getProgress();
-  const topics=p[section]?.byTopic||{};
-  let worst=null,worstAcc=101;
-  for(const[name,d]of Object.entries(topics)){
-    if(d.a>0){
-      const a=d.c/d.a*100;
-      if(a<worstAcc){worstAcc=a;worst=name}
-    }
-  }
-  return worst||'Not enough data';
-}
-
-function timeAgo(ts){
-  const diff=Date.now()-new Date(ts).getTime();
-  const m=Math.floor(diff/60000);
-  if(m<1)return'Just now';
-  if(m<60)return m+'m ago';
-  const h=Math.floor(m/60);
-  if(h<24)return h+'h ago';
-  const d=Math.floor(h/24);
-  return d+'d ago';
-}
-
-function formatDate(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
-
-// ============================================================
-// RENDER
-// ============================================================
-let evalState={phase:'idle',index:0,results:{}};
-
-function render(){
-  const user=getUser();
-  if(!user.name){
-    document.getElementById('nameModal').classList.add('show');
-    document.getElementById('nameInput').focus();
-  }
-  const app=document.getElementById('app');
-  app.innerHTML=`
-    ${renderHero()}
-    ${renderSleepBanner()}
-    ${renderAnxietyBanner()}
-    ${renderQuickActions()}
-    ${renderProgress()}
-    ${renderPredictor()}
-    ${renderStreak()}
-    ${renderTopics()}
-    ${renderCountdown()}
-    ${renderStudySession()}
-    ${renderBrainDump()}
-    ${renderActivity()}
-    ${renderEval()}
-    ${renderFooter()}
-  `;
-  animateRing();
-  animateGauge();
-  updateSessionDisplay();
-}
-
-function renderHero(){
-  const user=getUser();
-  const r=readiness();
-  const pred=overallPredicted();
-  const circum=2*Math.PI*76;
-  const offset=circum-(r/100)*circum;
-  return`
-  <div class="hero fade-up">
-    <div class="hero-greeting">Welcome back, ${user.name||'Sailor'}</div>
-    <div class="hero-sub">Your OAR readiness at a glance</div>
-    <div class="hero-ring-wrap">
-      <svg width="180" height="180" viewBox="0 0 180 180">
-        <circle cx="90" cy="90" r="76" fill="none" stroke="var(--surface-2)" stroke-width="8"/>
-        <circle id="heroRing" cx="90" cy="90" r="76" fill="none" stroke="var(--accent)" stroke-width="8"
-          stroke-linecap="round" transform="rotate(-90 90 90)"
-          stroke-dasharray="${circum}" stroke-dashoffset="${circum}"
-          style="--ring-circum:${circum};--ring-offset:${offset};transition:stroke-dashoffset 1s ease .3s"/>
-      </svg>
-      <div class="hero-ring-label">
-        <div class="hero-ring-pct" style="color:${accColor(r)}">${r}%</div>
-        <div class="hero-ring-text">Readiness</div>
-      </div>
+<!-- What's Inside -->
+<section class="section reveal">
+  <div style="text-align:center;margin-bottom:48px">
+    <span class="section-tag">What's Inside</span>
+    <h2 class="section-title">Everything you need to<br>score 50+ on the OAR</h2>
+    <p class="section-desc center">Six integrated tools designed to take you from zero to test-ready. No fluff, no filler &mdash; every feature exists because it moves your score.</p>
+  </div>
+  <div class="features">
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#128214;</div>
+      <h3>21 Comprehensive Lessons</h3>
+      <p>Math, Reading, and Mechanical Comprehension. Every topic on the OAR covered with clear explanations, worked examples, and memory tricks.</p>
     </div>
-    <div class="hero-predicted">Predicted OAR Score: <span>${pred}</span> / 80</div>
-  </div>`;
-}
-
-function renderQuickActions(){
-  return`
-  <div class="section fade-up fade-up-1">
-    <div class="section-title">Quick Actions</div>
-    <div class="quick-row">
-      <a href="practice.html?mode=drill" class="quick-card">
-        <span class="qc-icon">&#9889;</span>
-        <div class="qc-title">Quick Drill</div>
-        <div class="qc-sub">5 random questions, 2 min timer</div>
-      </a>
-      <a href="study.html" class="quick-card">
-        <span class="qc-icon">&#128218;</span>
-        <div class="qc-title">Resume Study</div>
-        <div class="qc-sub">Continue where you left off</div>
-      </a>
-      <a href="formulas.html" class="quick-card">
-        <span class="qc-icon">&#128220;</span>
-        <div class="qc-title">Formula Review</div>
-        <div class="qc-sub">All formulas in one place</div>
-      </a>
-      <a href="practice.html?mode=test" class="quick-card">
-        <span class="qc-icon">&#127919;</span>
-        <div class="qc-title">Full Practice Test</div>
-        <div class="qc-sub">30 questions, timed simulation</div>
-      </a>
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#127919;</div>
+      <h3>180+ Practice Questions</h3>
+      <p>From Mometrix practice tests plus original questions. Timed modes, topic filtering, and detailed explanations for every answer.</p>
     </div>
-  </div>`;
-}
-
-function renderProgress(){
-  const p=getProgress();
-  const sections=[
-    {key:'math',name:'Math',icon:'&#931;',color:'var(--accent)',bg:'rgba(59,130,246,.1)',total:50},
-    {key:'reading',name:'Reading',icon:'&#128196;',color:'var(--green)',bg:'var(--green-bg)',total:20},
-    {key:'mechanical',name:'Mechanical',icon:'&#9881;',color:'var(--yellow)',bg:'var(--yellow-bg)',total:20}
-  ];
-  let html='<div class="section fade-up fade-up-2"><div class="section-title">Progress Overview</div><div class="progress-grid">';
-  for(const s of sections){
-    const d=p[s.key];
-    const acc=accuracy(d.attempted,d.correct);
-    const weak=weakestTopic(s.key);
-    html+=`
-    <div class="prog-card">
-      <div class="prog-header">
-        <div class="prog-icon" style="background:${s.bg};color:${s.color}">${s.icon}</div>
-        <div class="prog-name">${s.name}</div>
-      </div>
-      <div class="prog-stats">
-        <div><div class="prog-stat-label">Attempted</div><div class="prog-stat-val">${d.attempted} / ${s.total}</div></div>
-        <div style="text-align:right"><div class="prog-stat-label">Accuracy</div><div class="prog-stat-val" style="color:${accColor(acc)}">${acc}%</div></div>
-      </div>
-      <div class="prog-bar"><div class="prog-bar-fill" style="width:${acc}%;background:${accColor(acc)}"></div></div>
-      <div class="prog-weak">Weakest: <span>${weak}</span></div>
-    </div>`;
-  }
-  html+='</div></div>';
-  return html;
-}
-
-function renderPredictor(){
-  const m=predictScore('math'),r=predictScore('reading'),mc=predictScore('mechanical');
-  const overall=Math.round((m+r+mc)/3);
-  const ta=totalAttempted();
-  const pct=Math.max(0,Math.min(100,((overall-20)/60)*100));
-  return`
-  <div class="section fade-up fade-up-3">
-    <div class="section-title">Score Predictor</div>
-    <div class="card">
-      <div class="predictor">
-        <div class="predictor-gauge">
-          <svg width="200" height="120" viewBox="0 0 200 120">
-            <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--surface-3)" stroke-width="12" stroke-linecap="round"/>
-            <path id="gaugeArc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round"
-              stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
-            <text x="100" y="88" text-anchor="middle" font-size="32" font-weight="800" fill="var(--text)" id="gaugeText">--</text>
-            <text x="100" y="108" text-anchor="middle" font-size="11" fill="var(--text-3)">Predicted Score</text>
-            <text x="24" y="116" text-anchor="middle" font-size="10" fill="var(--text-3)">20</text>
-            <text x="176" y="116" text-anchor="middle" font-size="10" fill="var(--text-3)">80</text>
-          </svg>
-        </div>
-        <div class="predictor-details">
-          <div class="predictor-row"><span class="predictor-section" style="color:var(--accent)">Math</span><span class="predictor-score">~${m}</span></div>
-          <div class="predictor-row"><span class="predictor-section" style="color:var(--green)">Reading</span><span class="predictor-score">~${r}</span></div>
-          <div class="predictor-row"><span class="predictor-section" style="color:var(--yellow)">Mechanical</span><span class="predictor-score">~${mc}</span></div>
-          <div class="predictor-basis">Based on ${ta} practice question${ta===1?'':'s'} answered</div>
-        </div>
-      </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#128208;</div>
+      <h3>MathJax Formula Reference</h3>
+      <p>Every formula you need, rendered with proper mathematical notation. Searchable, filterable, and printable.</p>
     </div>
-  </div>`;
-}
-
-function renderStreak(){
-  const streaks=getStreaks();
-  const days=[];
-  const today=new Date();
-  for(let i=29;i>=0;i--){
-    const d=new Date(today);
-    d.setDate(d.getDate()-i);
-    const key=d.toISOString().split('T')[0];
-    const count=streaks.dates?streaks.dates.filter(x=>x===key).length:0;
-    const level=count===0?0:count<=1?1:count<=3?2:3;
-    days.push({date:key,level,count});
-  }
-  return`
-  <div class="section fade-up fade-up-4">
-    <div class="section-title">Study Streak</div>
-    <div class="card">
-      <div class="streak-header">
-        <div class="streak-badge">${streaks.currentStreak||0} day streak</div>
-        <span style="font-size:13px;color:var(--text-3)">Last 30 days</span>
-      </div>
-      <div class="heatmap">
-        ${days.map(d=>`<div class="heatmap-cell hm-${d.level}" data-tip="${formatDate(d.date)}: ${d.count} session${d.count===1?'':'s'}"></div>`).join('')}
-      </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#129504;</div>
+      <h3>Science-Backed Study Tools</h3>
+      <p>Brain dump mode, anxiety reappraisal prompts, Pomodoro timer, and spaced repetition &mdash; based on peer-reviewed research.</p>
     </div>
-  </div>`;
-}
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#9889;</div>
+      <h3>CAT Adaptive Strategies</h3>
+      <p>The OAR is computer-adaptive. Our strategies teach you exactly how to maximize your score on the CAT format.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">&#128202;</div>
+      <h3>Progress Dashboard</h3>
+      <p>Track your readiness score, study streaks, weak topics, and predicted OAR score. Know exactly where you stand.</p>
+    </div>
+  </div>
+</section>
 
-function renderTopics(){
-  const p=getProgress();
-  let html='<div class="section fade-up fade-up-5"><div class="section-title">Topic Heatmap</div><div class="card"><div class="topic-grid">';
-  for(const topic of ALL_TOPICS){
-    const sec=TOPIC_SECTIONS[topic];
-    const sData=p[sec];
-    const tData=sData?.byTopic?.[topic];
-    let pct=null,cls='tc-none';
-    if(tData&&tData.a>0){
-      pct=Math.round(tData.c/tData.a*100);
-      cls=accClass(pct);
-    }
-    html+=`<div class="topic-cell ${cls}" onclick="location.href='study.html?topic=${encodeURIComponent(topic)}'">
-      <div class="tc-pct">${pct!==null?pct+'%':'--'}</div>
-      <div class="tc-name">${topic}</div>
-    </div>`;
-  }
-  html+='</div></div></div>';
-  return html;
-}
+<hr class="divider">
 
-function renderCountdown(){
-  const user=getUser();
-  const testDate=user.testDate;
-  let content='';
-  if(testDate){
-    const target=new Date(testDate+'T00:00:00');
-    const now=new Date();
-    const diff=target.getTime()-now.getTime();
-    if(diff<=0&&diff>-86400000){
-      content=`<div class="countdown-today">TEST DAY -- You got this! &#127919;</div>
-        <button class="btn btn-secondary btn-sm" onclick="clearTestDate()">Clear date</button>`;
-    }else if(diff<0){
-      content=`<div style="color:var(--text-2);font-size:15px">Test date has passed.</div>
-        <button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="clearTestDate()">Set new date</button>`;
-    }else{
-      const days=Math.floor(diff/86400000);
-      const hours=Math.floor((diff%86400000)/3600000);
-      content=`<div class="countdown-digits">${days} days, ${hours} hours</div>
-        <div class="countdown-label">until your OAR test (${formatDate(testDate)})</div>
-        <button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="clearTestDate()">Change date</button>`;
-    }
-  }else{
-    content=`<div style="color:var(--text-2);font-size:15px;margin-bottom:16px">Set your test date for a countdown timer</div>
-      <div class="countdown-set">
-        <input type="date" class="countdown-input" id="testDateInput" min="${new Date().toISOString().split('T')[0]}">
-        <button class="btn btn-primary btn-sm" onclick="saveTestDate()">Set Date</button>
-      </div>`;
-  }
-  return`
-  <div class="section fade-up fade-up-6">
-    <div class="section-title">Test Day Countdown</div>
-    <div class="card"><div class="countdown-wrap">${content}</div></div>
-  </div>`;
-}
+<!-- Comparison -->
+<section class="section reveal">
+  <div style="text-align:center;margin-bottom:48px">
+    <span class="section-tag">Compare</span>
+    <h2 class="section-title">OAR Pro vs. the competition</h2>
+    <p class="section-desc center">One payment. No subscription. More features where it matters.</p>
+  </div>
+  <div class="comparison-wrap">
+    <table class="comparison">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="col-highlight">OAR Pro</th>
+          <th>Mometrix ($60/mo)</th>
+          <th>Peterson's ($45/mo)</th>
+          <th>Books ($35)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Practice Questions</td>
+          <td class="col-highlight bold">180+</td>
+          <td>500+</td>
+          <td>200+</td>
+          <td>100+</td>
+        </tr>
+        <tr>
+          <td>Video Lessons</td>
+          <td class="col-highlight" style="color:var(--yellow)">Coming Soon</td>
+          <td class="check">&#10003; 160+</td>
+          <td class="check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>MathJax Formulas</td>
+          <td class="col-highlight check">&#10003;</td>
+          <td class="check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Brain Dump Mode</td>
+          <td class="col-highlight check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Anxiety Reappraisal</td>
+          <td class="col-highlight check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Progress Dashboard</td>
+          <td class="col-highlight check">&#10003;</td>
+          <td class="check">&#10003;</td>
+          <td class="check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Mobile Friendly</td>
+          <td class="col-highlight check">&#10003;</td>
+          <td class="check">&#10003;</td>
+          <td class="check">&#10003;</td>
+          <td class="cross">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Price</td>
+          <td class="col-highlight bold" style="color:var(--green)">$29 once</td>
+          <td>$60/mo</td>
+          <td>$45/mo</td>
+          <td>$35</td>
+        </tr>
+        <tr>
+          <td>Recurring Charges</td>
+          <td class="col-highlight bold" style="color:var(--green)">None</td>
+          <td>Monthly</td>
+          <td>Monthly</td>
+          <td>None</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-function renderActivity(){
-  const activity=getActivity().slice(0,10);
-  let items='';
-  if(activity.length===0){
-    items='<div class="feed-empty">No activity yet. Start studying to see your progress here.</div>';
-  }else{
-    const dotColors={study:'var(--accent)',practice:'var(--green)',drill:'var(--yellow)',test:'var(--purple)',eval:'var(--red)'};
-    for(const a of activity){
-      items+=`<div class="feed-item">
-        <div class="feed-dot" style="background:${dotColors[a.type]||'var(--accent)'}"></div>
-        <div class="feed-label">${a.label}</div>
-        <div class="feed-time">${timeAgo(a.timestamp)}</div>
-      </div>`;
-    }
-  }
-  return`
-  <div class="section fade-up fade-up-7">
-    <div class="section-title">Recent Activity</div>
-    <div class="card">${items}</div>
-  </div>`;
-}
+<hr class="divider">
 
-function renderEval(){
-  const existing=getEval();
-  if(evalState.phase==='idle'){
-    if(existing.completedAt){
-      const res=existing.results||{};
-      const yes=Object.values(res).filter(v=>v==='yes').length;
-      const kinda=Object.values(res).filter(v=>v==='kinda').length;
-      const no=Object.values(res).filter(v=>v==='no').length;
-      const score=Math.round(((yes+kinda*0.5)/EVAL_ITEMS.length)*100);
-      return`
-      <div class="section fade-up fade-up-8">
-        <div class="section-title">Self Assessment</div>
-        <div class="card eval-inline">
-          <div style="font-size:16px;font-weight:700;margin-bottom:4px">Last Assessment: ${score}% confident</div>
-          <div class="eval-results-grid">
-            <div class="eval-score-box"><div class="eval-score-num" style="color:var(--green)">${yes}</div><div class="eval-score-label">Know It</div></div>
-            <div class="eval-score-box"><div class="eval-score-num" style="color:var(--yellow)">${kinda}</div><div class="eval-score-label">Shaky</div></div>
-            <div class="eval-score-box"><div class="eval-score-num" style="color:var(--red)">${no}</div><div class="eval-score-label">Don't Know</div></div>
-          </div>
-          <div style="margin-top:12px;font-size:12px;color:var(--text-3)">Completed ${timeAgo(existing.completedAt)}</div>
-          <button class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="startEval()">Retake Assessment</button>
-        </div>
-      </div>`;
-    }
-    return`
-    <div class="section fade-up fade-up-8">
-      <div class="section-title">Self Assessment</div>
-      <div class="card eval-inline">
-        <div style="font-size:16px;font-weight:700;margin-bottom:4px">Check Your Readiness</div>
-        <div style="font-size:13px;color:var(--text-2);margin-bottom:16px">${EVAL_ITEMS.length} concepts -- rate your confidence on each one</div>
-        <button class="btn btn-primary" onclick="startEval()">Start Assessment</button>
-      </div>
-    </div>`;
-  }
-  if(evalState.phase==='assess'){
-    const item=EVAL_ITEMS[evalState.index];
-    const secClass=item.section==='math'?'eval-math':item.section==='mech'?'eval-mech':'eval-read';
-    const secLabel=item.section==='math'?'MATH':item.section==='mech'?'MECHANICAL':'READING';
-    return`
-    <div class="section fade-up fade-up-8">
-      <div class="section-title">Self Assessment</div>
-      <div class="card eval-inline">
-        <div class="eval-progress">${evalState.index+1} / ${EVAL_ITEMS.length}</div>
-        <div class="eval-section-tag ${secClass}">${secLabel} -- ${item.topic}</div>
-        <div class="eval-q">${item.question}</div>
-        <div class="eval-formula">${item.formula}</div>
-        <div style="height:8px"></div>
-        <div class="eval-btns">
-          <button class="eval-yes" onclick="answerEval('yes')">YES</button>
-          <button class="eval-kinda" onclick="answerEval('kinda')">KINDA</button>
-          <button class="eval-no" onclick="answerEval('no')">NO</button>
-        </div>
-      </div>
-    </div>`;
-  }
-  if(evalState.phase==='done'){
-    const res=evalState.results;
-    const yes=Object.values(res).filter(v=>v==='yes').length;
-    const kinda=Object.values(res).filter(v=>v==='kinda').length;
-    const no=Object.values(res).filter(v=>v==='no').length;
-    const score=Math.round(((yes+kinda*0.5)/EVAL_ITEMS.length)*100);
-    // Build weak areas list
-    const weak=EVAL_ITEMS.filter(i=>res[i.id]==='no'||res[i.id]==='kinda');
-    let weakHTML='';
-    if(weak.length>0){
-      weakHTML='<div style="text-align:left;margin-top:20px"><div style="font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Focus Areas</div>';
-      for(const w of weak.slice(0,8)){
-        const col=res[w.id]==='no'?'var(--red)':'var(--yellow)';
-        weakHTML+=`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-          <div style="width:6px;height:6px;border-radius:50%;background:${col};flex-shrink:0"></div>
-          <div style="font-size:13px;flex:1">${w.question}</div>
-          <div style="font-size:11px;color:${col};font-weight:600">${res[w.id].toUpperCase()}</div>
-        </div>`;
-      }
-      if(weak.length>8)weakHTML+=`<div style="font-size:12px;color:var(--text-3);padding:8px 0">+ ${weak.length-8} more</div>`;
-      weakHTML+='</div>';
-    }
-    return`
-    <div class="section fade-up fade-up-8">
-      <div class="section-title">Self Assessment -- Results</div>
-      <div class="card eval-inline">
-        <div style="font-size:20px;font-weight:800;margin-bottom:4px">${score}% Confident</div>
-        <div class="eval-results-grid">
-          <div class="eval-score-box"><div class="eval-score-num" style="color:var(--green)">${yes}</div><div class="eval-score-label">Know It</div></div>
-          <div class="eval-score-box"><div class="eval-score-num" style="color:var(--yellow)">${kinda}</div><div class="eval-score-label">Shaky</div></div>
-          <div class="eval-score-box"><div class="eval-score-num" style="color:var(--red)">${no}</div><div class="eval-score-label">Don't Know</div></div>
-        </div>
-        ${weakHTML}
-        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" onclick="evalState.phase='idle';render()">Done</button>
-          <button class="btn btn-secondary btn-sm" onclick="startEval()">Retake</button>
-          <a href="formulas.html" class="btn btn-secondary btn-sm" style="text-decoration:none">Review Formulas</a>
-        </div>
-      </div>
-    </div>`;
-  }
-  return'';
-}
+<!-- Pricing -->
+<section class="pricing-section" id="pricing">
+  <span class="section-tag">Pricing</span>
+  <h2 class="section-title" style="text-align:center;margin-bottom:48px">One price. Lifetime access.</h2>
+  <div class="pricing-card reveal">
+    <div class="pricing-badge">Launch Price &mdash; 50% Off</div>
+    <h3>OAR Pro &mdash; Lifetime Access</h3>
+    <div class="pricing-price">
+      <span class="old">$59</span>
+      <span class="current">$29</span>
+    </div>
+    <p class="pricing-note">One-time payment. No subscription. No hidden fees.</p>
+    <ul class="pricing-features">
+      <li><span class="icon">&#10003;</span> 180+ practice questions</li>
+      <li><span class="icon">&#10003;</span> 21 comprehensive lessons</li>
+      <li><span class="icon">&#10003;</span> Searchable formula reference</li>
+      <li><span class="icon">&#10003;</span> Science-backed study tools</li>
+      <li><span class="icon">&#10003;</span> Progress tracking dashboard</li>
+      <li><span class="icon">&#10003;</span> Test-taking strategies</li>
+      <li><span class="icon">&#10003;</span> Lifetime access &mdash; no subscription</li>
+      <li><span class="icon">&#10003;</span> Free updates forever</li>
+    </ul>
+    <a href="YOUR_STRIPE_PAYMENT_LINK_HERE" class="btn-pricing">Get Instant Access &rarr;</a>
+    <p class="pricing-footer">
+      Secure checkout powered by Stripe. 30-day money-back guarantee.<br>
+      One-time payment. No subscription. No hidden fees.
+    </p>
+  </div>
+</section>
 
-function renderFooter(){
-  return`
-  <div class="footer fade-up fade-up-9">
-    <div class="footer-brand">OAR Pro -- Built by Benjamin Rodriguez</div>
+<hr class="divider">
+
+<!-- FAQ -->
+<section class="section reveal">
+  <div style="text-align:center;margin-bottom:48px">
+    <span class="section-tag">FAQ</span>
+    <h2 class="section-title">Frequently asked questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">What is the OAR? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>The Officer Aptitude Rating (OAR) is the first 3 sections of the ASTB-E (Aviation Selection Test Battery). It measures math skills, reading comprehension, and mechanical comprehension. The OAR is used by the Navy, Marines, and Coast Guard to evaluate candidates for officer programs including OCS, NROTC, and STA-21.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What score do I need? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>The minimum qualifying score is 35, but competitive scores are 50+. Most successful OCS candidates score between 50 and 60. The higher your score, the stronger your application. OAR Pro is designed to get you above that 50 threshold.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How many times can I take the OAR? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>You get 3 lifetime attempts on the ASTB-E (which includes the OAR). The Navy uses your most recent score, not your highest. There is a mandatory wait period between attempts. This is why proper preparation before your first attempt is critical.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is this a subscription? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>No. OAR Pro is a one-time payment of $29. You get lifetime access to everything &mdash; all lessons, practice tests, formulas, and future updates. There are no recurring charges, ever.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I use this on my phone? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>Yes. OAR Pro is fully responsive and works on phones, tablets, and desktop. Study during lunch, on the bus, or at your desk &mdash; your progress syncs across sessions via your browser.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What if I'm not satisfied? <span class="arrow">+</span></button>
+      <div class="faq-a"><p>We offer a 30-day money-back guarantee, no questions asked. If OAR Pro doesn't help you prepare, email us and we'll refund your purchase in full.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">OAR <span>Pro</span> v3.0</div>
     <div class="footer-links">
-      <a href="index.html">Dashboard</a>
+      <a href="app.html">Dashboard</a>
       <a href="study.html">Study</a>
       <a href="practice.html">Practice</a>
       <a href="formulas.html">Formulas</a>
       <a href="strategies.html">Strategies</a>
     </div>
-    <div class="footer-version">v2.0</div>
-  </div>`;
-}
+    <p class="footer-copy">
+      Built by Benjamin Rodriguez<br>
+      Questions? <a href="mailto:benjamin@localrootsstudio.com">benjamin@localrootsstudio.com</a>
+    </p>
+  </div>
+</footer>
 
-// ============================================================
-// FEATURE 1: BRAIN DUMP
-// ============================================================
-let bdInterval=null;
-let bdSeconds=0;
-
-function renderBrainDump(){
-  const saved=localStorage.getItem('oar_braindump');
-  let savedHtml='';
-  if(saved){
-    try{
-      const obj=JSON.parse(saved);
-      const ago=timeAgo(obj.timestamp);
-      const preview=obj.text.length>300?obj.text.slice(0,300)+'...' : obj.text;
-      savedHtml=`<div class="bd-saved-wrap">
-        <div style="font-size:12px;color:var(--text-3);margin-bottom:6px">Last dump saved ${ago} — compare against the <a href="formulas.html" style="color:var(--accent)">Formula Sheet</a></div>
-        <div class="bd-saved-box">${preview.replace(/</g,'&lt;')}</div>
-      </div>`;
-    }catch(e){}
-  }
-  return`
-  <div class="section fade-up fade-up-7">
-    <div class="section-title">Brain Dump Mode</div>
-    <div class="card">
-      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
-        <div style="flex:1;min-width:200px">
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px">Write from memory. Strengthen recall.</div>
-          <div style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:16px">Open a full-screen writing space and dump everything you know about OAR topics — formulas, rules, strategies — without looking anything up. Scientifically proven to improve recall by 15–20%.</div>
-          <button class="btn btn-primary" onclick="openBrainDump()">Start Brain Dump</button>
-        </div>
-        <div style="flex:0 0 auto;max-width:280px;width:100%">
-          <div class="bd-science">The brain dump technique primes neural pathways immediately before use, reducing retrieval latency during your test. Retrieval practice is the single most effective learning strategy (Roediger &amp; Karpicke, 2006).</div>
-        </div>
-      </div>
-      ${savedHtml}
-    </div>
-  </div>`;
-}
-
-function openBrainDump(){
-  bdSeconds=0;
-  document.getElementById('bdTimer').textContent='00:00';
-  document.getElementById('bdTextarea').value='';
-  document.getElementById('bdWordCount').textContent='0 words';
-  document.getElementById('brainDumpOverlay').classList.add('show');
-  setTimeout(()=>document.getElementById('bdTextarea').focus(),100);
-  if(bdInterval)clearInterval(bdInterval);
-  bdInterval=setInterval(()=>{
-    bdSeconds++;
-    const m=String(Math.floor(bdSeconds/60)).padStart(2,'0');
-    const s=String(bdSeconds%60).padStart(2,'0');
-    const el=document.getElementById('bdTimer');
-    if(el)el.textContent=m+':'+s;
-  },1000);
-}
-
-function closeBrainDump(){
-  document.getElementById('brainDumpOverlay').classList.remove('show');
-  if(bdInterval){clearInterval(bdInterval);bdInterval=null;}
-}
-
-function saveBrainDump(){
-  const text=document.getElementById('bdTextarea').value.trim();
-  if(!text){alert('Write something first!');return;}
-  const obj={text,timestamp:new Date().toISOString(),durationSeconds:bdSeconds};
-  localStorage.setItem('oar_braindump',JSON.stringify(obj));
-  // Log activity
-  const activity=getActivity();
-  activity.unshift({type:'study',label:`Brain dump — ${text.split(/\s+/).length} words in ${Math.floor(bdSeconds/60)}m ${bdSeconds%60}s`,timestamp:new Date().toISOString()});
-  localStorage.setItem('oar_activity',JSON.stringify(activity.slice(0,50)));
-  closeBrainDump();
-  render();
-}
-
-function bdUpdateWordCount(){
-  const val=document.getElementById('bdTextarea').value.trim();
-  const count=val===''?0:val.split(/\s+/).length;
-  const el=document.getElementById('bdWordCount');
-  if(el)el.textContent=count+' word'+(count===1?'':'s');
-}
-
-// ============================================================
-// FEATURE 2: ANXIETY REAPPRAISAL BANNER
-// ============================================================
-const ANXIETY_MESSAGES=[
-  {icon:'⚡',title:'Feeling nervous? Good.',body:'That\'s your body getting READY. Reframe anxiety as excitement — it improves performance by 22% (Brooks, 2014).'},
-  {icon:'🌬️',title:'Physiological sigh.',body:'Double inhale through nose, long exhale through mouth. Fastest known way to reset your nervous system before a test.'},
-  {icon:'📈',title:'Harder questions = you\'re winning.',body:'Remember: harder questions on the CAT mean you\'re doing WELL. Don\'t panic — the algorithm is working in your favor.'},
-  {icon:'📝',title:'Brain dump before you go.',body:'Students who do a brain dump before tests score significantly higher (Lyle &amp; Crawford, 2011). Try it now.'},
-  {icon:'🏆',title:'You\'ve prepared. Trust it.',body:'Confidence builds momentum on adaptive tests. You know this material — let your preparation carry you.'}
-];
-
-function renderAnxietyBanner(){
-  if(sessionStorage.getItem('oar_anxiety_dismissed')==='1')return'';
-  const msg=ANXIETY_MESSAGES[Math.floor(Math.random()*ANXIETY_MESSAGES.length)];
-  return`
-  <div class="banner banner-anxiety" id="anxietyBanner">
-    <span class="banner-icon">${msg.icon}</span>
-    <div class="banner-text"><strong>${msg.title}</strong>${msg.body}</div>
-    <button class="banner-dismiss" onclick="dismissAnxiety()" title="Dismiss">&times;</button>
-  </div>`;
-}
-
-function dismissAnxiety(){
-  sessionStorage.setItem('oar_anxiety_dismissed','1');
-  const el=document.getElementById('anxietyBanner');
-  if(el){el.style.opacity='0';el.style.transition='opacity .2s';setTimeout(()=>el.remove(),200);}
-}
-
-// ============================================================
-// FEATURE 3: STUDY SESSION TIMER
-// ============================================================
-let sessionInterval=null;
-let sessionStartTime=null;
-let sessionRunning=false;
-
-function renderStudySession(){
-  return`
-  <div class="section fade-up fade-up-6">
-    <div class="section-title">Study Session</div>
-    <div class="card" id="studySessionCard">
-      <div id="sessionContent">
-        ${sessionRunning ? renderSessionActive() : renderSessionIdle()}
-      </div>
-    </div>
-  </div>`;
-}
-
-function renderSessionIdle(){
-  return`<div class="session-display">
-    <div style="font-size:15px;font-weight:700;margin-bottom:6px">Track your study sessions</div>
-    <div style="font-size:13px;color:var(--text-2);margin-bottom:16px">Pomodoro-aware — get nudges at 25 min and 2 hours.</div>
-    <button class="btn btn-primary" onclick="startSession()">Start Session</button>
-  </div>`;
-}
-
-function renderSessionActive(){
-  const elapsed=sessionStartTime?Math.floor((Date.now()-sessionStartTime)/1000):0;
-  const m=String(Math.floor(elapsed/60)).padStart(2,'0');
-  const s=String(elapsed%60).padStart(2,'0');
-  let alertHtml='';
-  if(elapsed>=7200){
-    alertHtml=`<div class="session-alert session-alert-warn">You've been studying for 2+ hours. Research shows diminishing returns after this point. Consider a longer break or sleep (Walker, 2017).</div>`;
-  }else if(elapsed>=1500){
-    alertHtml=`<div class="session-alert session-alert-good">Great session! Consider taking a 5-minute break — the Pomodoro technique improves long-term retention.</div>`;
-  }
-  return`<div class="session-display">
-    <div class="session-clock" style="color:${elapsed>=7200?'var(--red)':elapsed>=1500?'var(--yellow)':'var(--accent)'}">${m}:${s}</div>
-    <div class="session-status">Session in progress</div>
-    ${alertHtml}
-    <button class="btn btn-secondary btn-sm" onclick="endSession()">End Session</button>
-  </div>`;
-}
-
-function updateSessionDisplay(){
-  const el=document.getElementById('sessionContent');
-  if(!el)return;
-  el.innerHTML=sessionRunning ? renderSessionActive() : renderSessionIdle();
-}
-
-function startSession(){
-  sessionStartTime=Date.now();
-  sessionRunning=true;
-  if(sessionInterval)clearInterval(sessionInterval);
-  sessionInterval=setInterval(updateSessionDisplay,1000);
-  updateSessionDisplay();
-}
-
-function endSession(){
-  if(!sessionRunning||!sessionStartTime)return;
-  const durationSeconds=Math.floor((Date.now()-sessionStartTime)/1000);
-  // Log to localStorage
-  const activity=getActivity();
-  const mins=Math.round(durationSeconds/60);
-  activity.unshift({type:'study_session',label:`Study session — ${mins} min`,duration:durationSeconds,timestamp:new Date().toISOString()});
-  localStorage.setItem('oar_activity',JSON.stringify(activity.slice(0,50)));
-  sessionRunning=false;
-  sessionStartTime=null;
-  if(sessionInterval){clearInterval(sessionInterval);sessionInterval=null;}
-  updateSessionDisplay();
-  // Re-render activity feed
-  const af=document.querySelector('.section:nth-last-child(3) .card');
-  if(af)render(); // simpler to re-render
-}
-
-// ============================================================
-// FEATURE 4: SLEEP REMINDER BANNER
-// ============================================================
-function renderSleepBanner(){
-  if(sessionStorage.getItem('oar_sleep_dismissed')==='1')return'';
-  const hour=new Date().getHours();
-  if(hour<22)return'';
-  return`
-  <div class="banner banner-sleep" id="sleepBanner">
-    <span class="banner-icon">🌙</span>
-    <div class="banner-text"><strong>It's past 10 PM.</strong>Research shows stopping studying 30+ minutes before sleep improves memory consolidation. A well-rested brain outperforms a sleep-deprived one by a significant margin (Walker, 2017). Consider wrapping up soon.</div>
-    <button class="banner-dismiss" onclick="dismissSleep()" title="Dismiss">&times;</button>
-  </div>`;
-}
-
-function dismissSleep(){
-  sessionStorage.setItem('oar_sleep_dismissed','1');
-  const el=document.getElementById('sleepBanner');
-  if(el){el.style.opacity='0';el.style.transition='opacity .2s';setTimeout(()=>el.remove(),200);}
-}
-
-// ============================================================
-// ANIMATIONS
-// ============================================================
-function animateRing(){
-  const ring=document.getElementById('heroRing');
-  if(!ring)return;
-  requestAnimationFrame(()=>{
-    ring.style.strokeDashoffset=ring.style.getPropertyValue('--ring-offset');
+<script>
+// ── Scroll Reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
   });
-}
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-function animateGauge(){
-  const arc=document.getElementById('gaugeArc');
-  const text=document.getElementById('gaugeText');
-  if(!arc||!text)return;
-  const overall=overallPredicted();
-  const pct=Math.max(0,Math.min(100,((overall-20)/60)*100));
-  const maxDash=251.3;
-  const target=maxDash-(pct/100)*maxDash;
-  setTimeout(()=>{
-    arc.style.transition='stroke-dashoffset 1s ease';
-    arc.style.strokeDashoffset=target;
-    // Animate number
-    let current=20;
-    const step=Math.max(1,Math.round((overall-20)/30));
-    const interval=setInterval(()=>{
-      current+=step;
-      if(current>=overall){current=overall;clearInterval(interval)}
-      text.textContent=current;
-    },33);
-  },500);
-}
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ============================================================
-// ACTIONS
-// ============================================================
-function saveName(){
-  const name=document.getElementById('nameInput').value.trim();
-  if(!name)return;
-  const user=getUser();
-  user.name=name;
-  setUser(user);
-  document.getElementById('nameModal').classList.remove('show');
-  render();
-}
-
-function saveTestDate(){
-  const input=document.getElementById('testDateInput');
-  if(!input||!input.value)return;
-  const user=getUser();
-  user.testDate=input.value;
-  setUser(user);
-  render();
-}
-
-function clearTestDate(){
-  const user=getUser();
-  delete user.testDate;
-  setUser(user);
-  render();
-}
-
-function startEval(){
-  evalState={phase:'assess',index:0,results:{}};
-  render();
-  // Scroll to eval section
-  setTimeout(()=>{
-    const el=document.querySelector('.eval-inline');
-    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
-  },100);
-}
-
-function answerEval(answer){
-  const item=EVAL_ITEMS[evalState.index];
-  evalState.results[item.id]=answer;
-  if(evalState.index<EVAL_ITEMS.length-1){
-    evalState.index++;
-    render();
-    const el=document.querySelector('.eval-inline');
-    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
-  }else{
-    evalState.phase='done';
-    setEval({results:evalState.results,completedAt:new Date().toISOString()});
-    // Log activity
-    const activity=getActivity();
-    activity.unshift({type:'eval',label:'Completed self-assessment',timestamp:new Date().toISOString()});
-    localStorage.setItem('oar_activity',JSON.stringify(activity.slice(0,50)));
-    render();
-  }
-}
-
-// Enter key on name input
-document.getElementById('nameInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter')saveName();
+// ── FAQ Accordion ──
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    // Toggle clicked
+    if (!isOpen) item.classList.add('open');
+  });
 });
 
-// ============================================================
-// INIT
-// ============================================================
-render();
+// ── Smooth scroll for anchor links ──
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
+
 </body>
 </html>
