@@ -197,10 +197,45 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg)
   .countdown-digits{font-size:28px}
 }
 
+/* BANNERS */
+.banner{display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-radius:12px;margin-bottom:20px;font-size:14px;line-height:1.5;position:relative;animation:fadeUp .35s ease both}
+.banner-dismiss{position:absolute;top:10px;right:12px;background:none;border:none;color:inherit;font-size:18px;cursor:pointer;opacity:.6;line-height:1;padding:2px 4px;transition:opacity .15s}
+.banner-dismiss:hover{opacity:1}
+.banner-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.banner-anxiety{background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.14));border:1px solid rgba(139,92,246,.3);color:#C4B5FD}
+.banner-sleep{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(234,179,8,.1));border:1px solid rgba(245,158,11,.3);color:#FDE68A}
+.banner-text{flex:1;padding-right:20px}
+.banner-text strong{display:block;font-weight:700;margin-bottom:2px}
+
+/* BRAIN DUMP */
+.brain-dump-overlay{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s}
+.brain-dump-overlay.show{opacity:1;pointer-events:auto}
+.bd-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.bd-title{font-size:18px;font-weight:800}
+.bd-timer{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent);letter-spacing:-1px}
+.bd-body{display:flex;flex-direction:column;flex:1;padding:20px 24px;gap:16px;overflow:hidden}
+.bd-instruction{font-size:13px;color:var(--text-2);line-height:1.6;background:var(--surface);border-radius:10px;padding:12px 16px;border-left:3px solid var(--purple);flex-shrink:0}
+.bd-instruction strong{color:var(--text);font-weight:700}
+.bd-textarea{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;resize:none;transition:border-color .15s}
+.bd-textarea:focus{outline:none;border-color:var(--accent)}
+.bd-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;gap:12px}
+.bd-wordcount{font-size:13px;color:var(--text-3)}
+.bd-saved-wrap{margin-top:16px}
+.bd-saved-box{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;line-height:1.6;color:var(--text-2);white-space:pre-wrap;max-height:120px;overflow-y:auto;text-align:left}
+.bd-science{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:12px 14px;font-size:12px;color:#A78BFA;line-height:1.5;margin-top:8px}
+
+/* STUDY SESSION */
+.session-display{text-align:center;padding:8px 0}
+.session-clock{font-size:48px;font-weight:800;letter-spacing:-2px;font-variant-numeric:tabular-nums;margin-bottom:4px}
+.session-status{font-size:13px;color:var(--text-3);margin-bottom:16px}
+.session-alert{border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:12px;line-height:1.4}
+.session-alert-good{background:var(--green-bg);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.session-alert-warn{background:var(--red-bg);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+
 /* PRINT */
 @media print{
   body{background:#fff;color:#000}
-  .nav,.quick-row,.eval-section,.countdown-wrap,.modal-overlay,.footer{display:none !important}
+  .nav,.quick-row,.eval-section,.countdown-wrap,.modal-overlay,.footer,.banner,.brain-dump-overlay,.session-display{display:none !important}
   .card,.prog-card{border:1px solid #ddd;background:#fff}
   .prog-bar{background:#eee}
   .section-title{color:#666}
@@ -225,6 +260,30 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg)
 </nav>
 
 <div class="page" id="app"></div>
+
+<!-- Brain Dump Overlay -->
+<div class="brain-dump-overlay" id="brainDumpOverlay">
+  <div class="bd-header">
+    <div class="bd-title">Brain Dump</div>
+    <div class="bd-timer" id="bdTimer">00:00</div>
+    <button class="btn btn-secondary btn-sm" onclick="closeBrainDump()">Close</button>
+  </div>
+  <div class="bd-body">
+    <div class="bd-instruction">
+      <strong>Write everything you know about OAR topics from memory.</strong>
+      Don't look anything up — just dump it all out. Formulas, rules, concepts, mnemonics. The messier the better.
+      This is scientifically proven to improve recall by 15-20% (Lyle &amp; Crawford, 2011).
+    </div>
+    <textarea class="bd-textarea" id="bdTextarea" placeholder="Start writing anything you remember about math formulas, mechanical concepts, reading strategies..." oninput="bdUpdateWordCount()"></textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <span class="bd-wordcount" id="bdWordCount">0 words</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary btn-sm" onclick="closeBrainDump()">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveBrainDump()">Save &amp; Review</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Name Modal -->
 <div class="modal-overlay" id="nameModal">
@@ -362,18 +421,23 @@ function render(){
   const app=document.getElementById('app');
   app.innerHTML=`
     ${renderHero()}
+    ${renderSleepBanner()}
+    ${renderAnxietyBanner()}
     ${renderQuickActions()}
     ${renderProgress()}
     ${renderPredictor()}
     ${renderStreak()}
     ${renderTopics()}
     ${renderCountdown()}
+    ${renderStudySession()}
+    ${renderBrainDump()}
     ${renderActivity()}
     ${renderEval()}
     ${renderFooter()}
   `;
   animateRing();
   animateGauge();
+  updateSessionDisplay();
 }
 
 function renderHero(){
@@ -711,6 +775,212 @@ function renderFooter(){
     </div>
     <div class="footer-version">v2.0</div>
   </div>`;
+}
+
+// ============================================================
+// FEATURE 1: BRAIN DUMP
+// ============================================================
+let bdInterval=null;
+let bdSeconds=0;
+
+function renderBrainDump(){
+  const saved=localStorage.getItem('oar_braindump');
+  let savedHtml='';
+  if(saved){
+    try{
+      const obj=JSON.parse(saved);
+      const ago=timeAgo(obj.timestamp);
+      const preview=obj.text.length>300?obj.text.slice(0,300)+'...' : obj.text;
+      savedHtml=`<div class="bd-saved-wrap">
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:6px">Last dump saved ${ago} — compare against the <a href="formulas.html" style="color:var(--accent)">Formula Sheet</a></div>
+        <div class="bd-saved-box">${preview.replace(/</g,'&lt;')}</div>
+      </div>`;
+    }catch(e){}
+  }
+  return`
+  <div class="section fade-up fade-up-7">
+    <div class="section-title">Brain Dump Mode</div>
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:6px">Write from memory. Strengthen recall.</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:16px">Open a full-screen writing space and dump everything you know about OAR topics — formulas, rules, strategies — without looking anything up. Scientifically proven to improve recall by 15–20%.</div>
+          <button class="btn btn-primary" onclick="openBrainDump()">Start Brain Dump</button>
+        </div>
+        <div style="flex:0 0 auto;max-width:280px;width:100%">
+          <div class="bd-science">The brain dump technique primes neural pathways immediately before use, reducing retrieval latency during your test. Retrieval practice is the single most effective learning strategy (Roediger &amp; Karpicke, 2006).</div>
+        </div>
+      </div>
+      ${savedHtml}
+    </div>
+  </div>`;
+}
+
+function openBrainDump(){
+  bdSeconds=0;
+  document.getElementById('bdTimer').textContent='00:00';
+  document.getElementById('bdTextarea').value='';
+  document.getElementById('bdWordCount').textContent='0 words';
+  document.getElementById('brainDumpOverlay').classList.add('show');
+  setTimeout(()=>document.getElementById('bdTextarea').focus(),100);
+  if(bdInterval)clearInterval(bdInterval);
+  bdInterval=setInterval(()=>{
+    bdSeconds++;
+    const m=String(Math.floor(bdSeconds/60)).padStart(2,'0');
+    const s=String(bdSeconds%60).padStart(2,'0');
+    const el=document.getElementById('bdTimer');
+    if(el)el.textContent=m+':'+s;
+  },1000);
+}
+
+function closeBrainDump(){
+  document.getElementById('brainDumpOverlay').classList.remove('show');
+  if(bdInterval){clearInterval(bdInterval);bdInterval=null;}
+}
+
+function saveBrainDump(){
+  const text=document.getElementById('bdTextarea').value.trim();
+  if(!text){alert('Write something first!');return;}
+  const obj={text,timestamp:new Date().toISOString(),durationSeconds:bdSeconds};
+  localStorage.setItem('oar_braindump',JSON.stringify(obj));
+  // Log activity
+  const activity=getActivity();
+  activity.unshift({type:'study',label:`Brain dump — ${text.split(/\s+/).length} words in ${Math.floor(bdSeconds/60)}m ${bdSeconds%60}s`,timestamp:new Date().toISOString()});
+  localStorage.setItem('oar_activity',JSON.stringify(activity.slice(0,50)));
+  closeBrainDump();
+  render();
+}
+
+function bdUpdateWordCount(){
+  const val=document.getElementById('bdTextarea').value.trim();
+  const count=val===''?0:val.split(/\s+/).length;
+  const el=document.getElementById('bdWordCount');
+  if(el)el.textContent=count+' word'+(count===1?'':'s');
+}
+
+// ============================================================
+// FEATURE 2: ANXIETY REAPPRAISAL BANNER
+// ============================================================
+const ANXIETY_MESSAGES=[
+  {icon:'⚡',title:'Feeling nervous? Good.',body:'That\'s your body getting READY. Reframe anxiety as excitement — it improves performance by 22% (Brooks, 2014).'},
+  {icon:'🌬️',title:'Physiological sigh.',body:'Double inhale through nose, long exhale through mouth. Fastest known way to reset your nervous system before a test.'},
+  {icon:'📈',title:'Harder questions = you\'re winning.',body:'Remember: harder questions on the CAT mean you\'re doing WELL. Don\'t panic — the algorithm is working in your favor.'},
+  {icon:'📝',title:'Brain dump before you go.',body:'Students who do a brain dump before tests score significantly higher (Lyle &amp; Crawford, 2011). Try it now.'},
+  {icon:'🏆',title:'You\'ve prepared. Trust it.',body:'Confidence builds momentum on adaptive tests. You know this material — let your preparation carry you.'}
+];
+
+function renderAnxietyBanner(){
+  if(sessionStorage.getItem('oar_anxiety_dismissed')==='1')return'';
+  const msg=ANXIETY_MESSAGES[Math.floor(Math.random()*ANXIETY_MESSAGES.length)];
+  return`
+  <div class="banner banner-anxiety" id="anxietyBanner">
+    <span class="banner-icon">${msg.icon}</span>
+    <div class="banner-text"><strong>${msg.title}</strong>${msg.body}</div>
+    <button class="banner-dismiss" onclick="dismissAnxiety()" title="Dismiss">&times;</button>
+  </div>`;
+}
+
+function dismissAnxiety(){
+  sessionStorage.setItem('oar_anxiety_dismissed','1');
+  const el=document.getElementById('anxietyBanner');
+  if(el){el.style.opacity='0';el.style.transition='opacity .2s';setTimeout(()=>el.remove(),200);}
+}
+
+// ============================================================
+// FEATURE 3: STUDY SESSION TIMER
+// ============================================================
+let sessionInterval=null;
+let sessionStartTime=null;
+let sessionRunning=false;
+
+function renderStudySession(){
+  return`
+  <div class="section fade-up fade-up-6">
+    <div class="section-title">Study Session</div>
+    <div class="card" id="studySessionCard">
+      <div id="sessionContent">
+        ${sessionRunning ? renderSessionActive() : renderSessionIdle()}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSessionIdle(){
+  return`<div class="session-display">
+    <div style="font-size:15px;font-weight:700;margin-bottom:6px">Track your study sessions</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:16px">Pomodoro-aware — get nudges at 25 min and 2 hours.</div>
+    <button class="btn btn-primary" onclick="startSession()">Start Session</button>
+  </div>`;
+}
+
+function renderSessionActive(){
+  const elapsed=sessionStartTime?Math.floor((Date.now()-sessionStartTime)/1000):0;
+  const m=String(Math.floor(elapsed/60)).padStart(2,'0');
+  const s=String(elapsed%60).padStart(2,'0');
+  let alertHtml='';
+  if(elapsed>=7200){
+    alertHtml=`<div class="session-alert session-alert-warn">You've been studying for 2+ hours. Research shows diminishing returns after this point. Consider a longer break or sleep (Walker, 2017).</div>`;
+  }else if(elapsed>=1500){
+    alertHtml=`<div class="session-alert session-alert-good">Great session! Consider taking a 5-minute break — the Pomodoro technique improves long-term retention.</div>`;
+  }
+  return`<div class="session-display">
+    <div class="session-clock" style="color:${elapsed>=7200?'var(--red)':elapsed>=1500?'var(--yellow)':'var(--accent)'}">${m}:${s}</div>
+    <div class="session-status">Session in progress</div>
+    ${alertHtml}
+    <button class="btn btn-secondary btn-sm" onclick="endSession()">End Session</button>
+  </div>`;
+}
+
+function updateSessionDisplay(){
+  const el=document.getElementById('sessionContent');
+  if(!el)return;
+  el.innerHTML=sessionRunning ? renderSessionActive() : renderSessionIdle();
+}
+
+function startSession(){
+  sessionStartTime=Date.now();
+  sessionRunning=true;
+  if(sessionInterval)clearInterval(sessionInterval);
+  sessionInterval=setInterval(updateSessionDisplay,1000);
+  updateSessionDisplay();
+}
+
+function endSession(){
+  if(!sessionRunning||!sessionStartTime)return;
+  const durationSeconds=Math.floor((Date.now()-sessionStartTime)/1000);
+  // Log to localStorage
+  const activity=getActivity();
+  const mins=Math.round(durationSeconds/60);
+  activity.unshift({type:'study_session',label:`Study session — ${mins} min`,duration:durationSeconds,timestamp:new Date().toISOString()});
+  localStorage.setItem('oar_activity',JSON.stringify(activity.slice(0,50)));
+  sessionRunning=false;
+  sessionStartTime=null;
+  if(sessionInterval){clearInterval(sessionInterval);sessionInterval=null;}
+  updateSessionDisplay();
+  // Re-render activity feed
+  const af=document.querySelector('.section:nth-last-child(3) .card');
+  if(af)render(); // simpler to re-render
+}
+
+// ============================================================
+// FEATURE 4: SLEEP REMINDER BANNER
+// ============================================================
+function renderSleepBanner(){
+  if(sessionStorage.getItem('oar_sleep_dismissed')==='1')return'';
+  const hour=new Date().getHours();
+  if(hour<22)return'';
+  return`
+  <div class="banner banner-sleep" id="sleepBanner">
+    <span class="banner-icon">🌙</span>
+    <div class="banner-text"><strong>It's past 10 PM.</strong>Research shows stopping studying 30+ minutes before sleep improves memory consolidation. A well-rested brain outperforms a sleep-deprived one by a significant margin (Walker, 2017). Consider wrapping up soon.</div>
+    <button class="banner-dismiss" onclick="dismissSleep()" title="Dismiss">&times;</button>
+  </div>`;
+}
+
+function dismissSleep(){
+  sessionStorage.setItem('oar_sleep_dismissed','1');
+  const el=document.getElementById('sleepBanner');
+  if(el){el.style.opacity='0';el.style.transition='opacity .2s';setTimeout(()=>el.remove(),200);}
 }
 
 // ============================================================
