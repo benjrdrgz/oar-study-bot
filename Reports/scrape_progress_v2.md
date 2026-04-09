@@ -169,3 +169,18 @@ All strategy pages scraped:
 ### Remaining Math: 15 lessons (Algebra 9 lessons + Geometry 6 lessons)
 
 ### INTEGRATION AGENT STATUS: Running in background — adding 40 new questions to practice.html
+
+## SESSION 4 UPDATE:
+### Math Lessons Scraped: 14/23
+9. ✅ Proportions and Ratios (direct/inverse proportionality, constant of proportionality, unit rates, work rates)
+10. ✅ Solving Equations Part 1 (like terms, combining, isolating variables, one-variable linear, identities, contradictions)
+11. ✅ Solving Equations Part 2 (roots, exponents, absolute values, extraneous solutions, two-variable)
+12. ✅ Systems of Equations (substitution, elimination, graphical methods, trace feature)
+13. ✅ Polynomials (monomials, add/sub/mult/div polynomials, FOIL, long division, factoring, special products: perfect squares, difference of squares, sum/difference of cubes)
+14. ✅ Quadratics (quadratic formula, factoring, completing the square, discriminant, using solutions to build equations)
+
+### Remaining Math: 9 lessons
+15. Rational/Irrational & Midpoint/Distance
+16. Inequalities
+17. Graphing Inequalities
+18-23. Geometry (Angles, Quadrilaterals, Triangles)
