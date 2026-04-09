@@ -105,3 +105,57 @@ All strategy pages scraped:
 
 ### TOTAL QUESTIONS IN MOMETRIX: ~428 (plus 3 pretests uncounted)
 ### ALL PRACTICE TESTS: COMPLETE ✅
+
+## LESSON SCRAPE PROGRESS:
+
+### Math Lessons (6/23 scraped):
+1. ✅ Number Basics (integer, prime, composite, rational, irrational, real, place value)
+2. ✅ Operations (add/sub/mult/div with signed numbers, word problem translation)
+3. ✅ Order of Operations & Properties (PEMDAS, commutative, associative, identity, inverse, distributive)
+4. ✅ Properties of Exponents & Factors/Multiples (exponent table, scientific notation, GCF, LCM)
+5. ✅ Fractions (proper/improper, mixed numbers, add/sub/mult/div fractions, comparing fractions, cross-multiplication)
+6. ✅ Decimals (place value, add/sub/mult/div decimals, converting to fractions)
+
+### Remaining Math Lessons (17 more):
+7. Percentages & Converting
+8. Cross Multiplication & Absolute Value
+9. Proportions and Ratios
+10. Solving Equations Part 1
+11. Solving Equations Part 2
+12. Systems of Equations
+13. Polynomials
+14. Quadratics
+15. Rational/Irrational & Midpoint/Distance
+16. Inequalities
+17. Graphing Inequalities
+18. Angles
+19. Quadrilaterals
+20-23. Triangles (multiple parts)
+
+### Mechanical Lessons (6/13 scraped — previously):
+✅ Momentum & Impulse, ✅ Kinematics, ✅ Gas Laws, ✅ Heat Transfer, ✅ Magnetism, ✅ Equilibrium & Friction
+
+### Remaining Mechanical (7 more):
+- Work/Energy/Power Parts 1-3
+- Laws of Motion
+- Work and Energy
+- Fluid Mechanics
+- Electricity Part 1
+
+### Reading Lessons (3/6 scraped — previously):
+✅ Common Text Organizations, ✅ Reading Informational Texts, ✅ Technical Language
+
+### Remaining Reading (3 more):
+- Main Ideas and Supporting Details
+- Author's Purpose
+- Making Inferences and Drawing Conclusions
+
+### Study Guide & Other (0/8 scraped):
+- Where and How to Study
+- Scheduling Study Time
+- Reading Methods
+- Taking Notes
+- Health
+- Exam Day
+- Math Anxiety
+- OAR Overview
