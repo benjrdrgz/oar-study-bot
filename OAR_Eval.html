@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAR Pre-Test Evaluation — Benjamin Rodriguez</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e17;--card:#131a2b;--card2:#1a2340;--accent:#00b4d8;--green:#06d6a0;--red:#ef476f;--yellow:#ffd166;--orange:#f77f00;--text:#e0e6f0;--text2:#8892a8;--border:#1e2d4a;--purple:#b388ff}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+.container{max-width:800px;margin:0 auto}
+h1{font-size:28px;text-align:center;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.subtitle{text-align:center;color:var(--text2);font-size:14px;margin-bottom:20px}
+button{cursor:pointer;border:none;font-family:inherit}
+
+/* Phase indicator */
+.phase-bar{display:flex;gap:4px;margin-bottom:24px}
+.phase-step{flex:1;height:6px;border-radius:3px;background:var(--card2)}
+.phase-step.active{background:var(--accent)}
+.phase-step.done{background:var(--green)}
+
+/* Intro card */
+.intro-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;margin-bottom:20px}
+.intro-card h2{font-size:22px;margin-bottom:12px}
+.intro-card p{color:var(--text2);font-size:15px;margin-bottom:16px;max-width:500px;margin-left:auto;margin-right:auto}
+.btn{padding:12px 28px;border-radius:10px;font-weight:700;font-size:16px;transition:all .15s}
+.btn-primary{background:var(--accent);color:#000}.btn-primary:hover{background:#33c9e8}
+.btn-yes{background:var(--green);color:#000;padding:14px 32px;font-size:18px;border-radius:10px;font-weight:800}
+.btn-no{background:var(--red);color:#fff;padding:14px 32px;font-size:18px;border-radius:10px;font-weight:800}
+.btn-yes:hover{background:#2ee8b5}
+.btn-no:hover{background:#f2607f}
+.btn-kinda{background:var(--yellow);color:#000;padding:14px 24px;font-size:16px;border-radius:10px;font-weight:700}
+.btn-kinda:hover{background:#ffe088}
+
+/* Assessment card */
+.assess-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px;transition:all .3s}
+.assess-section{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;padding:4px 12px;border-radius:20px;display:inline-block}
+.assess-section.math{background:rgba(0,180,216,.15);color:var(--accent)}
+.assess-section.mech{background:rgba(255,209,102,.15);color:var(--yellow)}
+.assess-section.read{background:rgba(6,214,160,.15);color:var(--green)}
+.assess-question{font-size:20px;font-weight:700;margin:12px 0 8px;line-height:1.4}
+.assess-formula{font-family:'Courier New',monospace;font-size:22px;font-weight:800;color:var(--yellow);background:var(--card2);border-radius:8px;padding:12px 16px;margin:12px 0;text-align:center}
+.assess-context{font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.6}
+.assess-buttons{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.assess-progress{text-align:center;color:var(--text2);font-size:13px;margin-bottom:8px}
+.assess-counter{font-size:28px;font-weight:800;color:var(--accent);text-align:center;margin-bottom:4px}
+
+/* Results */
+.results-header{text-align:center;margin-bottom:24px}
+.results-header h2{font-size:24px;margin-bottom:8px}
+.score-row{display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.score-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 24px;text-align:center;min-width:120px}
+.score-box .num{font-size:32px;font-weight:800}
+.score-box .label{font-size:12px;color:var(--text2);margin-top:2px}
+.score-box.good .num{color:var(--green)}
+.score-box.warn .num{color:var(--yellow)}
+.score-box.bad .num{color:var(--red)}
+
+/* Cram output */
+.cram-section{margin:24px 0}
+.cram-section h3{font-size:18px;font-weight:800;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.cram-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px}
+.cram-item.priority-high{border-left:4px solid var(--red)}
+.cram-item.priority-med{border-left:4px solid var(--yellow)}
+.cram-item h4{font-size:15px;font-weight:700;margin-bottom:6px}
+.cram-item .cram-formula{font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:var(--yellow);margin:8px 0}
+.cram-item .cram-note{font-size:13px;color:var(--text2);line-height:1.6}
+.cram-item .cram-note strong{color:var(--text)}
+.cram-item .cram-example{background:var(--card2);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:13px;border-left:3px solid var(--green);color:var(--green)}
+.cram-item .cram-trick{background:rgba(179,136,255,.08);border:1px solid rgba(179,136,255,.2);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:13px;color:var(--purple)}
+.cram-item img{max-width:100%;height:auto;border-radius:6px;margin:8px 0;background:#fff;padding:4px;max-height:180px;object-fit:contain}
+
+.scratch-dump{background:var(--card);border:2px dashed var(--yellow);border-radius:12px;padding:20px;margin:24px 0;font-family:'Courier New',monospace;font-size:15px;line-height:2;white-space:pre-wrap}
+.scratch-dump h3{font-family:'Segoe UI',sans-serif;color:var(--yellow);margin-bottom:10px;font-size:16px;text-transform:uppercase;letter-spacing:1px}
+
+.all-good{background:var(--card);border:2px solid var(--green);border-radius:16px;padding:32px;text-align:center;margin:24px 0}
+.all-good h3{color:var(--green);font-size:22px;margin-bottom:8px}
+.all-good p{color:var(--text2)}
+
+.restart-btn{display:block;margin:24px auto;padding:12px 32px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-weight:700;font-size:14px}
+.restart-btn:hover{border-color:var(--accent)}
+
+/* Animations */
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:slideIn .3s ease}
+
+/* Print friendly */
+@media print{
+  body{background:#fff;color:#000}
+  .assess-card,.intro-card,.phase-bar,.assess-buttons,.restart-btn{display:none}
+  .cram-item{border:1px solid #ccc;break-inside:avoid}
+  .cram-item .cram-formula{color:#000}
+  .scratch-dump{border:2px solid #000}
+}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================
+// OAR FORMULA & CONCEPT ASSESSMENT ENGINE
+// ============================================================
+
+const ITEMS = [
+  // === MATH: ARITHMETIC ===
+  {
+    id:'pemdas', section:'math', topic:'Arithmetic',
+    question:'Can you solve order of operations problems without a calculator?',
+    formula:'3 + 4 × 2 = ?  (NOT 14)',
+    context:'PEMDAS — Multiply/Divide before Add/Subtract',
+    cramFormula:'PEMDAS: P → E → M/D (L→R) → A/S (L→R)',
+    cramNote:'<strong>Trap:</strong> 3 + 4 × 2 = 11, NOT 14. Always multiply/divide first.',
+    cramExample:'8 + 3 × 4 - 2 = 8 + 12 - 2 = <strong>18</strong>',
+    cramTrick:'Think "Please Excuse My Dear Aunt Sally"'
+  },
+  {
+    id:'fractions', section:'math', topic:'Arithmetic',
+    question:'Can you add, multiply, and divide fractions quickly?',
+    formula:'a/b + c/d = (ad + bc) / bd',
+    context:'Adding: common denominator. Dividing: flip & multiply.',
+    cramFormula:'Add: (ad+bc)/bd  |  Mult: ac/bd  |  Div: flip & multiply',
+    cramNote:'<strong>Division trick:</strong> a/b ÷ c/d = a/b × d/c (flip the second fraction)',
+    cramExample:'3/4 + 2/3 = (9+8)/12 = <strong>17/12</strong>  |  5/8 ÷ 3/4 = 5/8 × 4/3 = <strong>5/6</strong>',
+    cramTrick:null
+  },
+  {
+    id:'percents', section:'math', topic:'Arithmetic',
+    question:'Can you calculate percent change quickly?',
+    formula:'% Change = (New - Old) / Old × 100',
+    context:'Also: "What is X% of Y?" = Y × (X/100)',
+    cramFormula:'% Change = (New - Old) / Old × 100',
+    cramNote:'Remember <strong>NOO</strong> — New minus Old, Over Old',
+    cramExample:'1200 → 1500: (300/1200) × 100 = <strong>25%</strong>',
+    cramTrick:'Markup then discount ≠ original! $50 +40% -25% = $52.50, NOT $50'
+  },
+  // === MATH: ALGEBRA ===
+  {
+    id:'exponents', section:'math', topic:'Algebra',
+    question:'Do you know the exponent rules cold?',
+    formula:'xᵃ · xᵇ = xᵃ⁺ᵇ  |  xᵃ / xᵇ = xᵃ⁻ᵇ  |  x⁰ = 1',
+    context:'Also: (xᵃ)ᵇ = xᵃᵇ  and  x⁻ⁿ = 1/xⁿ',
+    cramFormula:'xᵃ·xᵇ = xᵃ⁺ᵇ   xᵃ/xᵇ = xᵃ⁻ᵇ   (xᵃ)ᵇ = xᵃᵇ   x⁰=1   x⁻ⁿ=1/xⁿ',
+    cramNote:'When <strong>multiplying</strong> same base → ADD exponents. When <strong>dividing</strong> → SUBTRACT.',
+    cramExample:'x³ · x⁵ / x² = x⁸/x² = <strong>x⁶</strong>',
+    cramTrick:null
+  },
+  {
+    id:'quadratic', section:'math', topic:'Algebra',
+    question:'Can you use the quadratic formula?',
+    formula:'x = (-b ± √(b²-4ac)) / 2a',
+    context:'Try factoring FIRST — only use this when factoring fails.',
+    cramFormula:'x = (-b ± √(b² - 4ac)) / 2a',
+    cramNote:'Factor first: x² + 5x + 6 = (x+2)(x+3). Only use quadratic formula when factoring isn\'t obvious.',
+    cramExample:'2x² + 5x - 3 = 0 → x = (-5 ± √(25+24))/4 = (-5 ± 7)/4 → x = <strong>1/2 or -3</strong>',
+    cramTrick:null
+  },
+  {
+    id:'inequalities', section:'math', topic:'Algebra',
+    question:'Do you remember to flip the inequality sign?',
+    formula:'-2x > 6  →  x < -3  (FLIP!)',
+    context:'Flip the sign when multiplying or dividing by a NEGATIVE.',
+    cramFormula:'FLIP the inequality when × or ÷ by NEGATIVE',
+    cramNote:'This is a <strong>common trap</strong>. -2x > 6 → divide both sides by -2 → x < -3',
+    cramExample:'-3(2x - 4) > 18 → -6x + 12 > 18 → -6x > 6 → x <strong>< -1</strong>',
+    cramTrick:null
+  },
+  // === MATH: GEOMETRY ===
+  {
+    id:'pythag', section:'math', topic:'Geometry',
+    question:'Do you know the Pythagorean triples by heart?',
+    formula:'a² + b² = c²  |  Triples: 3-4-5, 5-12-13',
+    context:'Recognize multiples: 6-8-10, 9-12-15, 10-24-26',
+    cramFormula:'a² + b² = c²\nTriples: 3-4-5 (×2: 6-8-10)  |  5-12-13 (×2: 10-24-26)',
+    cramNote:'If you see any two of these numbers → you instantly know the third. <strong>No math needed.</strong>',
+    cramExample:'Legs 5 and 12 → hypotenuse = <strong>13</strong> (just recognize the triple)',
+    cramTrick:null
+  },
+  {
+    id:'special-tri', section:'math', topic:'Geometry',
+    question:'Do you know the 30-60-90 and 45-45-90 side ratios?',
+    formula:'45-45-90: x, x, x√2  |  30-60-90: x, x√3, 2x',
+    context:'30-60-90: short leg × 2 = hypotenuse.',
+    cramFormula:'45-45-90 → x : x : x√2\n30-60-90 → x : x√3 : 2x',
+    cramNote:'<strong>30-60-90 shortcut:</strong> short leg × 2 = hypotenuse. Short leg × √3 = long leg.',
+    cramExample:'30-60-90, short leg = 5 → hypotenuse = <strong>10</strong>, long leg = 5√3',
+    cramTrick:null,
+    img:'https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/sides-of-a-30-60-90-triangle1-1621159721.png'
+  },
+  {
+    id:'areas', section:'math', topic:'Geometry',
+    question:'Can you calculate area of circle, triangle, and trapezoid?',
+    formula:'Circle: πr²  |  Triangle: ½bh  |  Trapezoid: ½(b₁+b₂)h',
+    context:'Also: Rectangle = LW, Cylinder vol = πr²h',
+    cramFormula:'Circle: πr²   Triangle: ½bh   Trapezoid: ½(b₁+b₂)h\nCylinder: πr²h   Sphere: ⁴⁄₃πr³',
+    cramNote:'Circle area = <strong>π × radius²</strong>. Circumference = 2πr. Don\'t mix them up.',
+    cramExample:'Circle radius 6 → area = π(36) = <strong>36π</strong>  |  Trapezoid bases 8,12 height 5 → ½(20)(5) = <strong>50</strong>',
+    cramTrick:null,
+    img:'https://ecdn.teacherspayteachers.com/thumbitem/FREE-Geometry-Formulas-Triangle-Square-Rectangle-Circle-Surface-Area-Volume-5532783-1664981266/original-5532783-1.jpg'
+  },
+  {
+    id:'slope', section:'math', topic:'Geometry',
+    question:'Can you find slope, distance, and midpoint on a coordinate plane?',
+    formula:'Slope = (y₂-y₁)/(x₂-x₁)  |  y = mx + b',
+    context:'Distance = √[(x₂-x₁)² + (y₂-y₁)²], Midpoint = average of coordinates',
+    cramFormula:'Slope: (y₂-y₁)/(x₂-x₁)   Distance: √[(Δx)²+(Δy)²]   Midpoint: ((x₁+x₂)/2, (y₁+y₂)/2)',
+    cramNote:'Slope = <strong>rise over run</strong>. Slope-intercept form: y = mx + b (m=slope, b=y-intercept)',
+    cramExample:'Points (2,5) and (6,13) → slope = 8/4 = <strong>2</strong>  |  distance = √(16+64) = √80',
+    cramTrick:null
+  },
+  // === MATH: WORD PROBLEMS ===
+  {
+    id:'drt', section:'math', topic:'Word Problems',
+    question:'Can you set up Distance = Rate × Time problems?',
+    formula:'D = R × T',
+    context:'"Driving Really Tired" — D = R × T',
+    cramFormula:'D = R × T   (Distance = Rate × Time)',
+    cramNote:'Watch units! Convert minutes to hours. 3 hrs 30 min = <strong>3.5 hours</strong>.',
+    cramExample:'55 mph × 3.5 hrs = <strong>192.5 miles</strong>  |  Two trains opposite: add speeds, combined rate × time = distance',
+    cramTrick:'"Driving Really Tired" = D R T'
+  },
+  {
+    id:'workrate', section:'math', topic:'Word Problems',
+    question:'Can you solve combined work-rate problems?',
+    formula:'1/A + 1/B = 1/T',
+    context:'A and B are individual times. T is combined time.',
+    cramFormula:'1/A + 1/B = 1/T',
+    cramNote:'Worker A alone: A hours. Worker B alone: B hours. Together: find T. <strong>Each does their FRACTION per hour.</strong>',
+    cramExample:'A: 5 hrs, B: 3 hrs → 1/5 + 1/3 = 3/15 + 5/15 = 8/15 → T = <strong>15/8 = 1.875 hrs</strong>',
+    cramTrick:'Add the RATES (fractions), not the times!'
+  },
+  // === MECHANICAL: FORCES ===
+  {
+    id:'fma', section:'mech', topic:'Forces',
+    question:'Can you use F = ma to find force, mass, or acceleration?',
+    formula:'F = m × a',
+    context:'Force (Newtons) = Mass (kg) × Acceleration (m/s²)',
+    cramFormula:'F = ma   |   W = mg   (g = 9.8 m/s² or 32 ft/s²)',
+    cramNote:'Weight is just F=ma where a=gravity. <strong>Free fall:</strong> v = gt, d = ½gt²',
+    cramExample:'5 kg, 20 N force → a = 20/5 = <strong>4 m/s²</strong>  |  Drop for 3s → v = 10×3 = <strong>30 m/s</strong>',
+    cramTrick:null
+  },
+  {
+    id:'newton3', section:'mech', topic:'Forces',
+    question:'Do you understand why Newton\'s 3rd Law pairs DON\'T cancel?',
+    formula:'Action = Reaction (on DIFFERENT objects)',
+    context:'#1 trap: they act on DIFFERENT objects, so they don\'t cancel.',
+    cramFormula:'3rd Law: Equal & opposite forces on DIFFERENT objects',
+    cramNote:'Push wall with 15 N → wall pushes YOU with 15 N. They don\'t cancel because they act on <strong>different objects</strong>.',
+    cramExample:'You push wall with 15N. Wall pushes you back with <strong>15N</strong>. Different objects = no cancellation.',
+    cramTrick:'If they ask "why don\'t action-reaction cancel?" → DIFFERENT OBJECTS'
+  },
+  // === MECHANICAL: LEVERS ===
+  {
+    id:'levers', section:'mech', topic:'Levers',
+    question:'Can you identify all 3 lever classes and their examples?',
+    formula:'FLE: 1st=Fulcrum mid | 2nd=Load mid | 3rd=Effort mid',
+    context:'Seesaw (1st), Wheelbarrow (2nd), Fishing rod (3rd)',
+    cramFormula:'1st = Fulcrum middle (seesaw, scissors)\n2nd = Load middle (wheelbarrow, nutcracker)\n3rd = Effort middle (tweezers, fishing rod)',
+    cramNote:'Memory: <strong>FLE</strong> = what\'s in the Middle. <strong>F</strong>irst=<strong>F</strong>ulcrum, Second=<strong>L</strong>oad, Third=<strong>E</strong>ffort',
+    cramExample:'Wheelbarrow: wheel is fulcrum, dirt is load (middle), you lift handles = <strong>2nd class</strong>',
+    cramTrick:'FLE — First Letter = what\'s in the middle',
+    img:'https://o.quizlet.com/KCdFAjYUIg-cWdLC-5psIQ_b.png'
+  },
+  {
+    id:'lever-balance', section:'mech', topic:'Levers',
+    question:'Can you balance a lever using F₁D₁ = F₂D₂?',
+    formula:'F₁ × D₁ = F₂ × D₂',
+    context:'Force × distance from fulcrum must balance on both sides.',
+    cramFormula:'F₁ × D₁ = F₂ × D₂   |   MA = Effort arm / Load arm',
+    cramNote:'Just cross-multiply. If 40kg sits 3m away, a 60kg person balances at 40×3/60 = <strong>2m</strong>.',
+    cramExample:'Lift 300 lb, effort arm 6ft, load arm 2ft → effort = 300×2/6 = <strong>100 lbs</strong>',
+    cramTrick:null
+  },
+  // === MECHANICAL: GEARS ===
+  {
+    id:'gears-dir', section:'mech', topic:'Gears',
+    question:'Do you know gear direction rules (odd/even chain)?',
+    formula:'Adjacent = OPPOSITE  |  Odd chain = SAME  |  Even = OPPOSITE',
+    context:'Belt/chain connected = same direction (not meshed).',
+    cramFormula:'Adjacent meshed gears = OPPOSITE direction\nOdd # in chain → last = SAME as first\nEven # → last = OPPOSITE',
+    cramNote:'<strong>Odd = Original</strong> direction. Even = flipped. Belt/chain = same direction (unlike meshed).',
+    cramExample:'5 gears (odd): first CW → last <strong>CW</strong>  |  4 gears (even): first CW → last <strong>CCW</strong>',
+    cramTrick:'Count the gears. Odd = same. Even = opposite. Done.'
+  },
+  {
+    id:'gears-speed', section:'mech', topic:'Gears',
+    question:'Can you calculate gear speed with the teeth × RPM formula?',
+    formula:'T₁ × RPM₁ = T₂ × RPM₂',
+    context:'Smaller gear = spins faster. Like a bicycle.',
+    cramFormula:'T₁ × RPM₁ = T₂ × RPM₂   (Teeth × Speed is constant)',
+    cramNote:'<strong>Smaller gear = faster.</strong> Just cross-multiply to solve.',
+    cramExample:'Gear A: 20 teeth, 100 RPM → Gear B: 50 teeth → 20×100/50 = <strong>40 RPM</strong>',
+    cramTrick:null
+  },
+  // === MECHANICAL: PULLEYS ===
+  {
+    id:'pulleys', section:'mech', topic:'Pulleys',
+    question:'Do you know the MA for fixed, movable, and block & tackle pulleys?',
+    formula:'Fixed=MA 1 | Movable=MA 2 | Block&Tackle=count ropes',
+    context:'Count rope segments supporting the load = your MA.',
+    cramFormula:'Fixed pulley: MA = 1 (direction only)\nMovable pulley: MA = 2 (force = weight/2)\nBlock & tackle: MA = # of rope segments supporting load',
+    cramNote:'<strong>Fixed</strong> only changes direction. <strong>Movable</strong> halves the force. <strong>Block & tackle</strong> = count the ropes.',
+    cramExample:'4 rope segments, 200 lb load → force = 200/4 = <strong>50 lbs</strong>',
+    cramTrick:'Count ropes touching the movable block = your MA',
+    img:'https://images.wondershare.com/edraw/images2025/block-and-tackle/number-of-pulleys-mechanical-advantage.jpg'
+  },
+  // === MECHANICAL: ENERGY ===
+  {
+    id:'ke', section:'mech', topic:'Energy',
+    question:'Do you know that doubling speed QUADRUPLES kinetic energy?',
+    formula:'KE = ½mv²  →  2× speed = 4× energy',
+    context:'This is the #1 trick question on the exam.',
+    cramFormula:'KE = ½mv²\n2× speed = 4× KE  |  3× speed = 9× KE',
+    cramNote:'Velocity is <strong>SQUARED</strong>. This is why they ask it — most people forget the squared part.',
+    cramExample:'4 kg at 5 m/s → KE = ½(4)(25) = <strong>50 J</strong>. Double to 10 m/s → KE = ½(4)(100) = <strong>200 J</strong> (4× more!)',
+    cramTrick:null
+  },
+  {
+    id:'pe', section:'mech', topic:'Energy',
+    question:'Can you calculate potential energy (PE = mgh)?',
+    formula:'PE = mgh  |  Conservation: KE + PE = constant',
+    context:'Mass × Gravity × Height. Energy converts between KE and PE.',
+    cramFormula:'PE = mgh   |   Total energy: KE + PE = constant',
+    cramNote:'At top of hill: all PE. At bottom: all KE. <strong>Energy is never lost, just converted.</strong>',
+    cramExample:'10 kg lifted 5m (g=10) → PE = 10×10×5 = <strong>500 J</strong>',
+    cramTrick:null
+  },
+  {
+    id:'work-power', section:'mech', topic:'Energy',
+    question:'Do you know Work = Fd and Power = W/t?',
+    formula:'W = F × d   |   P = W / t',
+    context:'Work in Joules, Power in Watts. 1 HP ≈ 746 W.',
+    cramFormula:'Work = Force × Distance (Joules)\nPower = Work / Time (Watts)',
+    cramNote:'<strong>Inclined plane MA = Length / Height.</strong> Longer ramp = less force, more distance.',
+    cramExample:'600 J work in 30 sec → power = 600/30 = <strong>20 W</strong>',
+    cramTrick:'Golden rule: Force × Distance = CONSTANT. Less force = more distance. No free lunch.'
+  },
+  // === MECHANICAL: FLUIDS ===
+  {
+    id:'pressure', section:'mech', topic:'Fluids',
+    question:'Can you calculate pressure and use Pascal\'s Law?',
+    formula:'P = F/A  |  Pascal: F₁/A₁ = F₂/A₂',
+    context:'Hydraulics: small piston small force → big piston BIG force.',
+    cramFormula:'Pressure = Force / Area   (P = F/A)\nPascal\'s Law: F₁/A₁ = F₂/A₂',
+    cramNote:'<strong>Smaller area = MORE pressure</strong> (stiletto vs flat shoe). Hydraulic jacks multiply force using area ratio.',
+    cramExample:'40N on 5cm² piston → 25cm² piston: 40 × (25/5) = <strong>200N</strong>',
+    cramTrick:null,
+    img:'https://cdn1.byjus.com/wp-content/uploads/2020/01/Pascals-Law-1.png'
+  },
+  {
+    id:'bernoulli', section:'mech', topic:'Fluids',
+    question:'Do you know Bernoulli\'s principle and how airplane lift works?',
+    formula:'Faster fluid = LOWER pressure',
+    context:'Air faster over wing top → lower pressure → lift. Also: narrow pipe = faster flow (A₁v₁ = A₂v₂).',
+    cramFormula:'Bernoulli: Faster fluid = LOWER pressure\nContinuity: A₁v₁ = A₂v₂ (narrow pipe = faster)',
+    cramNote:'<strong>Airplane lift:</strong> curved top → air moves faster over top → lower pressure above → net upward force.',
+    cramExample:'Pipe narrows 10cm² to 5cm², initial 2 m/s → 10×2/5 = <strong>4 m/s</strong>',
+    cramTrick:null,
+    img:'https://pilotinstitute.com/wp-content/uploads/2025/03/image-42-1024x569.png'
+  },
+  // === MECHANICAL: ELECTRICITY ===
+  {
+    id:'ohms', section:'mech', topic:'Electricity',
+    question:'Can you use Ohm\'s Law (V = IR) in all 3 forms?',
+    formula:'V = IR  |  I = V/R  |  R = V/I',
+    context:'The VIR triangle: cover what you need, see what\'s left.',
+    cramFormula:'V = I × R   |   I = V / R   |   R = V / I\nPower: P = V × I = I²R = V²/R',
+    cramNote:'<strong>"Very Important Rule"</strong> — V on top, I × R on bottom. Cover what you need.',
+    cramExample:'12V battery, 4Ω → I = 12/4 = <strong>3A</strong>  |  120V, 2A → P = 240W',
+    cramTrick:'Draw the triangle: V on top, I and R on bottom. Cover what you solve for.',
+    img:'https://cdn1.byjus.com/wp-content/uploads/2021/04/Ohm%E2%80%99s-Law-and-Resistance-2.png'
+  },
+  {
+    id:'circuits', section:'mech', topic:'Electricity',
+    question:'Do you know the difference between series and parallel circuits?',
+    formula:'Series: R adds, same I  |  Parallel: 1/R adds, same V',
+    context:'Series = Christmas lights (one dies, all die). Parallel = house outlets.',
+    cramFormula:'SERIES: R_total = R₁+R₂+R₃ | Same current | One break = ALL dead\nPARALLEL: 1/R = 1/R₁+1/R₂+1/R₃ | Same voltage | One break = others fine',
+    cramNote:'<strong>S</strong>eries = <strong>S</strong>ame current, resistances <strong>S</strong>um. <strong>P</strong>arallel = same <strong>P</strong>ressure (voltage).',
+    cramExample:'Series 2+3+5Ω = <strong>10Ω</strong>  |  Two 10Ω parallel: <strong>5Ω</strong>  |  Series: one bulb dies = all out',
+    cramTrick:'S = Same current, Sum resistance. P = same Pressure (voltage).',
+    img:'https://thumbs.dreamstime.com/b/series-parallel-circuits-diagram-d-rendering-282759315.jpg'
+  },
+  // === READING ===
+  {
+    id:'read-rule', section:'read', topic:'Strategy',
+    question:'Do you know the #1 reading comp rule?',
+    formula:'If the passage didn\'t say it → WRONG answer',
+    context:'Even if you KNOW it\'s true. No outside knowledge.',
+    cramFormula:'ONLY answer from the passage text. NEVER use outside knowledge.',
+    cramNote:'This is the <strong>#1 mistake</strong> on the OAR. The answer must be stated or directly implied by the passage.',
+    cramExample:null,
+    cramTrick:'When stuck between 2 answers: pick the one MORE DIRECTLY supported by the text.'
+  },
+  {
+    id:'read-eliminate', section:'read', topic:'Strategy',
+    question:'Can you spot the 4 types of wrong answers?',
+    formula:'Too extreme | True but not stated | Opposite | Too narrow',
+    context:'Eliminate these and you\'ll find the right answer.',
+    cramFormula:'WRONG answers: ❌ Too extreme (always/never)\n❌ True but not in passage | ❌ Opposite of passage | ❌ Too narrow',
+    cramNote:'If an answer uses <strong>"always," "never," "all," "none"</strong> — it\'s probably wrong. Real answers are nuanced.',
+    cramExample:null,
+    cramTrick:'Author purpose clues: "should/must" = persuade. Stats without opinion = inform.'
+  }
+];
+
+// ============================================================
+// APP STATE
+// ============================================================
+let currentIndex = 0;
+let results = {}; // id -> 'yes' | 'kinda' | 'no'
+let phase = 'intro'; // intro | assess | results
+
+function render() {
+  const app = document.getElementById('app');
+  if (phase === 'intro') renderIntro(app);
+  else if (phase === 'assess') renderAssess(app);
+  else if (phase === 'results') renderResults(app);
+}
+
+function renderIntro(app) {
+  app.innerHTML = `
+    <h1>OAR PRE-TEST EVAL</h1>
+    <p class="subtitle">Know what you don't know — then drill ONLY that.</p>
+    <div class="intro-card">
+      <h2>How This Works</h2>
+      <p>I'll show you <strong>${ITEMS.length} formulas and concepts</strong> from the OAR. For each one, tell me:</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap">
+        <div style="background:rgba(6,214,160,.1);border:1px solid rgba(6,214,160,.3);border-radius:8px;padding:12px 20px;text-align:center">
+          <div style="font-size:24px;font-weight:800;color:var(--green)">YES</div>
+          <div style="font-size:12px;color:var(--text2)">I know this cold</div>
+        </div>
+        <div style="background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:8px;padding:12px 20px;text-align:center">
+          <div style="font-size:24px;font-weight:800;color:var(--yellow)">KINDA</div>
+          <div style="font-size:12px;color:var(--text2)">I've seen it but shaky</div>
+        </div>
+        <div style="background:rgba(239,71,111,.1);border:1px solid rgba(239,71,111,.3);border-radius:8px;padding:12px 20px;text-align:center">
+          <div style="font-size:24px;font-weight:800;color:var(--red)">NO</div>
+          <div style="font-size:12px;color:var(--text2)">Don't know / blank</div>
+        </div>
+      </div>
+      <p>Then I'll generate your <strong>personal cram sheet</strong> — only the stuff you need to memorize.</p>
+      <div style="margin-top:20px">
+        <button class="btn btn-primary" onclick="startAssess()">START EVALUATION →</button>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--text2)">Takes about 3-5 minutes. Be honest.</div>
+    </div>
+  `;
+}
+
+function startAssess() {
+  phase = 'assess';
+  currentIndex = 0;
+  results = {};
+  render();
+}
+
+function renderAssess(app) {
+  const item = ITEMS[currentIndex];
+  const total = ITEMS.length;
+  const sectionClass = item.section === 'math' ? 'math' : item.section === 'mech' ? 'mech' : 'read';
+  const sectionLabel = item.section === 'math' ? 'MATH' : item.section === 'mech' ? 'MECHANICAL' : 'READING';
+
+  // Phase bar
+  const phasePct = currentIndex / total;
+  let phaseHTML = '<div class="phase-bar">';
+  for (let i = 0; i < total; i++) {
+    const cls = i < currentIndex ? 'done' : i === currentIndex ? 'active' : '';
+    phaseHTML += `<div class="phase-step ${cls}"></div>`;
+  }
+  phaseHTML += '</div>';
+
+  app.innerHTML = `
+    ${phaseHTML}
+    <div class="assess-counter">${currentIndex + 1} / ${total}</div>
+    <div class="assess-progress">${sectionLabel} — ${item.topic}</div>
+    <div class="assess-card animate-in">
+      <span class="assess-section ${sectionClass}">${sectionLabel}: ${item.topic}</span>
+      <div class="assess-question">${item.question}</div>
+      <div class="assess-formula">${item.formula}</div>
+      <div class="assess-context">${item.context}</div>
+      <div class="assess-buttons">
+        <button class="btn-yes" onclick="answer('yes')">✅ YES</button>
+        <button class="btn-kinda" onclick="answer('kinda')">🟡 KINDA</button>
+        <button class="btn-no" onclick="answer('no')">❌ NO</button>
+      </div>
+    </div>
+  `;
+}
+
+function answer(val) {
+  results[ITEMS[currentIndex].id] = val;
+  currentIndex++;
+  if (currentIndex >= ITEMS.length) {
+    phase = 'results';
+  }
+  render();
+}
+
+function renderResults(app) {
+  const yesCount = Object.values(results).filter(v => v === 'yes').length;
+  const kindaCount = Object.values(results).filter(v => v === 'kinda').length;
+  const noCount = Object.values(results).filter(v => v === 'no').length;
+  const total = ITEMS.length;
+  const readiness = Math.round((yesCount + kindaCount * 0.4) / total * 100);
+
+  // Items to cram: all 'no' and 'kinda'
+  const cramItems = ITEMS.filter(item => results[item.id] === 'no' || results[item.id] === 'kinda');
+  const noItems = ITEMS.filter(item => results[item.id] === 'no');
+  const kindaItems = ITEMS.filter(item => results[item.id] === 'kinda');
+
+  let readinessColor = readiness >= 70 ? 'good' : readiness >= 45 ? 'warn' : 'bad';
+
+  let html = `
+    <h1>YOUR RESULTS</h1>
+    <p class="subtitle">Here's exactly what you need to focus on.</p>
+    <div class="score-row">
+      <div class="score-box ${readinessColor}">
+        <div class="num">${readiness}%</div>
+        <div class="label">Readiness Score</div>
+      </div>
+      <div class="score-box good">
+        <div class="num">${yesCount}</div>
+        <div class="label">Know It ✅</div>
+      </div>
+      <div class="score-box warn">
+        <div class="num">${kindaCount}</div>
+        <div class="label">Shaky 🟡</div>
+      </div>
+      <div class="score-box bad">
+        <div class="num">${noCount}</div>
+        <div class="label">Don't Know ❌</div>
+      </div>
+    </div>
+  `;
+
+  if (cramItems.length === 0) {
+    html += `
+      <div class="all-good">
+        <h3>🔥 You're Ready</h3>
+        <p>You said you know everything cold. Go crush this exam. Don't second-guess yourself.</p>
+      </div>
+    `;
+  } else {
+    // PRIORITY 1: Don't know at all
+    if (noItems.length > 0) {
+      html += `<div class="cram-section"><h3 style="color:var(--red)">🚨 MUST MEMORIZE (You Don't Know These)</h3>`;
+      html += noItems.map(item => renderCramItem(item, 'high')).join('');
+      html += `</div>`;
+    }
+
+    // PRIORITY 2: Kinda know
+    if (kindaItems.length > 0) {
+      html += `<div class="cram-section"><h3 style="color:var(--yellow)">⚠️ REVIEW THESE (You're Shaky)</h3>`;
+      html += kindaItems.map(item => renderCramItem(item, 'med')).join('');
+      html += `</div>`;
+    }
+
+    // PERSONALIZED SCRATCH PAPER DUMP
+    html += `<div class="scratch-dump"><h3>📝 YOUR PERSONALIZED SCRATCH PAPER DUMP</h3>`;
+    html += `Write this the SECOND you sit down:\n\n`;
+    cramItems.forEach(item => {
+      html += `<span style="color:var(--yellow)">${item.topic.toUpperCase()}:</span> ${item.cramFormula.split('\n')[0]}\n`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<button class="restart-btn" onclick="startAssess()">🔄 Retake Evaluation</button>`;
+  html += `<div style="text-align:center;padding:20px;color:var(--text2);font-size:13px">Go get that 50, Benjamin. 🎯</div>`;
+
+  app.innerHTML = html;
+}
+
+function renderCramItem(item, priority) {
+  const sectionClass = item.section === 'math' ? 'math' : item.section === 'mech' ? 'mech' : 'read';
+  const sectionLabel = item.section === 'math' ? 'MATH' : item.section === 'mech' ? 'MECHANICAL' : 'READING';
+
+  let imgHTML = item.img ? `<img src="${item.img}" alt="${item.topic} diagram">` : '';
+  let exampleHTML = item.cramExample ? `<div class="cram-example">${item.cramExample}</div>` : '';
+  let trickHTML = item.cramTrick ? `<div class="cram-trick">🧠 ${item.cramTrick}</div>` : '';
+
+  return `
+    <div class="cram-item priority-${priority}">
+      <span class="assess-section ${sectionClass}" style="font-size:11px">${sectionLabel}: ${item.topic}</span>
+      <h4>${item.question.replace('Can you ', '').replace('Do you ', '').replace('know ', '').replace('?','')}</h4>
+      <div class="cram-formula">${item.cramFormula.replace(/\n/g, '<br>')}</div>
+      ${imgHTML}
+      <div class="cram-note">${item.cramNote}</div>
+      ${exampleHTML}
+      ${trickHTML}
+    </div>
+  `;
+}
+
+// Boot
+render();
+</script>
+</body>
+</html>

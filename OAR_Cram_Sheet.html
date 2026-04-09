@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAR Cram Sheet — Benjamin Rodriguez</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e17;--card:#131a2b;--card2:#1a2340;--accent:#00b4d8;--green:#06d6a0;--red:#ef476f;--yellow:#ffd166;--orange:#f77f00;--text:#e0e6f0;--text2:#8892a8;--border:#1e2d4a;--purple:#b388ff}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:16px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:32px;text-align:center;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.subtitle{text-align:center;color:var(--text2);font-size:14px;margin-bottom:24px}
+.target{text-align:center;background:var(--card);border:2px solid var(--yellow);border-radius:12px;padding:16px;margin-bottom:24px;font-size:18px;font-weight:700;color:var(--yellow)}
+
+/* Section headers */
+.section-header{display:flex;align-items:center;gap:12px;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.section-header .icon{font-size:28px}
+.section-header h2{font-size:22px;font-weight:800}
+.section-header .tag{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.tag-math{background:rgba(0,180,216,.15);color:var(--accent)}
+.tag-mech{background:rgba(255,209,102,.15);color:var(--yellow)}
+.tag-read{background:rgba(6,214,160,.15);color:var(--green)}
+.tag-strat{background:rgba(239,71,111,.15);color:var(--red)}
+
+/* Formula cards */
+.formula-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.formula-grid{grid-template-columns:1fr}}
+.formula-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:transform .15s}
+.formula-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.formula-card.full{grid-column:1/-1}
+.formula-card h3{font-size:14px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.formula-card .formula{font-size:24px;font-weight:800;font-family:'Courier New',monospace;margin-bottom:8px;line-height:1.4}
+.formula .highlight-blue{color:var(--accent)}
+.formula .highlight-green{color:var(--green)}
+.formula .highlight-yellow{color:var(--yellow)}
+.formula .highlight-red{color:var(--red)}
+.formula .highlight-purple{color:var(--purple)}
+.formula .highlight-orange{color:var(--orange)}
+.formula-card .note{font-size:13px;color:var(--text2);line-height:1.5}
+.formula-card .note strong{color:var(--text)}
+.formula-card .example{background:var(--card2);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:13px;border-left:3px solid var(--green);color:var(--green)}
+
+/* Visual diagrams */
+.diagram{background:var(--card2);border-radius:12px;padding:20px;margin:12px 0;text-align:center;font-family:'Courier New',monospace}
+.diagram .big{font-size:28px;font-weight:800;line-height:1.8}
+.diagram .label{font-size:12px;color:var(--text2)}
+
+/* Triangle diagram */
+.triangle-box{display:inline-block;position:relative;width:160px;height:120px;margin:10px auto}
+.tri-top{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:28px;font-weight:800;color:var(--yellow)}
+.tri-left{position:absolute;bottom:0;left:10px;font-size:28px;font-weight:800;color:var(--accent)}
+.tri-right{position:absolute;bottom:0;right:10px;font-size:28px;font-weight:800;color:var(--green)}
+.tri-line{position:absolute;top:50px;left:20px;right:20px;height:2px;background:var(--text2)}
+.tri-div{position:absolute;top:55px;left:50%;transform:translateX(-50%);font-size:14px;color:var(--text2)}
+
+/* Lever diagrams */
+.lever-diagram{display:flex;align-items:flex-end;justify-content:center;gap:0;height:80px;margin:12px 0}
+.lever-bar{height:6px;background:var(--text2);border-radius:3px;position:relative;width:200px}
+.lever-fulcrum{width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:20px solid var(--yellow);position:relative}
+.lever-label{font-size:11px;font-weight:700;text-align:center;margin-top:4px}
+
+/* Gear diagram */
+.gear-row{display:flex;align-items:center;justify-content:center;gap:4px;margin:8px 0;font-size:20px}
+.gear{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:3px solid;font-size:13px;font-weight:800}
+.gear-cw{border-color:var(--accent);color:var(--accent)}
+.gear-ccw{border-color:var(--red);color:var(--red)}
+.gear-arrow{font-size:16px;color:var(--text2)}
+
+/* Pulley diagrams */
+.pulley-row{display:flex;justify-content:center;gap:32px;margin:12px 0}
+.pulley-item{text-align:center}
+.pulley-item .name{font-weight:700;font-size:14px;margin-bottom:4px}
+.pulley-item .ma{font-size:20px;font-weight:800;color:var(--green)}
+.pulley-item .desc{font-size:12px;color:var(--text2)}
+
+/* Circuit diagrams */
+.circuit-row{display:flex;justify-content:center;gap:24px;margin:12px 0}
+.circuit-box{background:var(--card2);border-radius:8px;padding:16px;text-align:center;flex:1;max-width:220px}
+.circuit-box h4{font-size:16px;font-weight:800;margin-bottom:8px}
+.circuit-box.series h4{color:var(--accent)}
+.circuit-box.parallel h4{color:var(--green)}
+.circuit-box .detail{font-size:13px;color:var(--text2);line-height:1.6}
+.circuit-box .formula-small{font-family:'Courier New',monospace;font-size:15px;font-weight:700;margin:6px 0;color:var(--yellow)}
+
+/* Tip boxes */
+.tip{background:rgba(239,71,111,.08);border:1px solid rgba(239,71,111,.3);border-radius:10px;padding:16px;margin:12px 0}
+.tip h4{color:var(--red);font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.tip p{font-size:14px;color:var(--text);line-height:1.6}
+.tip .big-rule{font-size:18px;font-weight:800;color:var(--red);margin:4px 0}
+
+/* Memory tricks */
+.memory{background:rgba(179,136,255,.08);border:1px solid rgba(179,136,255,.3);border-radius:10px;padding:16px;margin:12px 0}
+.memory h4{color:var(--purple);font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.memory p{font-size:14px}
+
+/* Scratch paper dump */
+.scratch{background:var(--card);border:2px dashed var(--yellow);border-radius:12px;padding:24px;margin:24px 0;font-family:'Courier New',monospace;font-size:15px;line-height:2;white-space:pre-wrap}
+.scratch h3{font-family:'Segoe UI',sans-serif;color:var(--yellow);margin-bottom:12px;font-size:16px;text-transform:uppercase;letter-spacing:1px}
+
+/* Triples table */
+.triples-table{width:100%;border-collapse:collapse;margin:12px 0}
+.triples-table th{background:var(--card2);padding:8px 12px;text-align:left;font-size:13px;color:var(--text2);border-bottom:2px solid var(--border)}
+.triples-table td{padding:8px 12px;border-bottom:1px solid var(--border);font-family:'Courier New',monospace;font-size:16px;font-weight:700}
+
+/* Common conversions */
+.conv-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
+@media(max-width:700px){.conv-grid{grid-template-columns:1fr 1fr}}
+.conv-item{background:var(--card2);border-radius:8px;padding:10px;text-align:center;font-family:'Courier New',monospace}
+.conv-item .frac{font-size:18px;font-weight:800;color:var(--accent)}
+.conv-item .dec{font-size:14px;color:var(--text2)}
+
+/* Nav */
+.nav{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:10;border-bottom:1px solid var(--border)}
+.nav a{padding:8px 16px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s}
+.nav .nav-math{background:rgba(0,180,216,.15);color:var(--accent)}
+.nav .nav-mech{background:rgba(255,209,102,.15);color:var(--yellow)}
+.nav .nav-read{background:rgba(6,214,160,.15);color:var(--green)}
+.nav .nav-strat{background:rgba(239,71,111,.15);color:var(--red)}
+.nav a:hover{transform:scale(1.05)}
+
+/* Lever visual */
+.lever-visual{display:flex;flex-direction:column;gap:16px;margin:12px 0}
+.lever-row{display:flex;align-items:center;gap:8px;background:var(--card2);border-radius:8px;padding:12px 16px}
+.lever-row .class-num{font-size:24px;font-weight:800;width:40px;text-align:center}
+.lever-row .class-1{color:var(--accent)}
+.lever-row .class-2{color:var(--green)}
+.lever-row .class-3{color:var(--yellow)}
+.lever-row .positions{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;flex:1;justify-content:center}
+.lever-row .pos-item{padding:6px 12px;border-radius:6px;font-size:13px}
+.lever-row .pos-f{background:rgba(239,71,111,.15);color:var(--red)}
+.lever-row .pos-l{background:rgba(255,209,102,.15);color:var(--yellow)}
+.lever-row .pos-e{background:rgba(6,214,160,.15);color:var(--green)}
+.lever-row .pos-mid{border:2px solid var(--accent);background:rgba(0,180,216,.1)}
+.lever-row .examples{font-size:12px;color:var(--text2);min-width:120px;text-align:right}
+
+/* Special triangles */
+.special-tri{display:flex;justify-content:center;gap:32px;margin:12px 0;flex-wrap:wrap}
+.tri-card{background:var(--card2);border-radius:12px;padding:20px;text-align:center;min-width:180px}
+.tri-card h4{margin-bottom:8px;font-size:14px}
+.tri-card .sides{font-size:20px;font-weight:800;font-family:'Courier New',monospace;color:var(--yellow);margin:8px 0}
+.tri-card .angles{font-size:14px;color:var(--text2)}
+
+/* Reference images */
+.ref-img-container{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin:12px 0;text-align:center}
+.ref-img-container img{max-width:100%;height:auto;border-radius:8px;margin:8px 0}
+.ref-img-container .img-caption{font-size:12px;color:var(--text2);margin-top:6px;font-style:italic}
+.ref-img-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media(max-width:700px){.ref-img-row{grid-template-columns:1fr}}
+.ref-img-row .ref-img-container{margin:0}
+.img-inline{max-width:100%;height:auto;border-radius:8px;margin:10px 0;border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>OAR CRAM SHEET</h1>
+<p class="subtitle">Benjamin Rodriguez — April 9, 2026</p>
+<div class="target">🎯 TARGET: SCORE 50 &nbsp;|&nbsp; ~80 questions &nbsp;|&nbsp; ~85 minutes &nbsp;|&nbsp; ADAPTIVE (CAT)</div>
+
+<nav class="nav">
+  <a href="#math" class="nav-math">📐 MATH</a>
+  <a href="#mech" class="nav-mech">⚙️ MECHANICAL</a>
+  <a href="#read" class="nav-read">📖 READING</a>
+  <a href="#strat" class="nav-strat">🧠 STRATEGY</a>
+  <a href="#dump" class="nav-strat">📝 SCRATCH DUMP</a>
+</nav>
+
+<!-- ============================================ -->
+<!-- MATH SECTION -->
+<!-- ============================================ -->
+<div id="math">
+<div class="section-header">
+  <span class="icon">📐</span>
+  <h2>MATH SKILLS</h2>
+  <span class="tag tag-math">30 Qs • 40 min • ~80 sec each</span>
+</div>
+
+<div class="formula-grid">
+
+  <div class="formula-card">
+    <h3>Order of Operations</h3>
+    <img class="img-inline" src="https://m.media-amazon.com/images/I/71+0jHSknGL.jpg" alt="PEMDAS Order of Operations" style="max-height:200px;object-fit:contain">
+    <div class="formula">
+      <span class="highlight-red">P</span><span class="highlight-orange">E</span><span class="highlight-yellow">M</span><span class="highlight-green">D</span><span class="highlight-blue">A</span><span class="highlight-purple">S</span>
+    </div>
+    <div class="note">
+      <strong>P</strong>arentheses → <strong>E</strong>xponents → <strong>M</strong>ult/<strong>D</strong>iv (L→R) → <strong>A</strong>dd/<strong>S</strong>ub (L→R)
+    </div>
+    <div class="example">3 + 4 × 2 = 3 + 8 = <strong>11</strong> (NOT 14)</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Fractions</h3>
+    <div class="formula" style="font-size:18px">
+      <span class="highlight-blue">Add:</span> a/b + c/d = <span class="highlight-green">(ad+bc)/bd</span><br>
+      <span class="highlight-blue">Mult:</span> a/b × c/d = <span class="highlight-green">ac/bd</span><br>
+      <span class="highlight-blue">Div:</span> a/b ÷ c/d = <span class="highlight-yellow">a/b × d/c</span>
+    </div>
+    <div class="note">Division = <strong>flip and multiply</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Percentages</h3>
+    <div class="formula" style="font-size:18px">
+      <span class="highlight-blue">% of:</span> 25% of 200 = 200 × <span class="highlight-green">0.25</span> = 50<br>
+      <span class="highlight-yellow">% Change:</span> (New - Old) / Old × 100
+    </div>
+    <div class="example">1200 → 1500 = (300/1200) × 100 = <strong>25%</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Exponent Rules</h3>
+    <div class="formula" style="font-size:18px">
+      x<sup>a</sup> · x<sup>b</sup> = <span class="highlight-green">x<sup>a+b</sup></span><br>
+      x<sup>a</sup> / x<sup>b</sup> = <span class="highlight-blue">x<sup>a-b</sup></span><br>
+      (x<sup>a</sup>)<sup>b</sup> = <span class="highlight-yellow">x<sup>ab</sup></span><br>
+      x<sup>0</sup> = <span class="highlight-red">1</span> &nbsp;&nbsp; x<sup>-n</sup> = <span class="highlight-red">1/x<sup>n</sup></span>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Distance / Rate / Time</h3>
+    <div class="formula">
+      <span class="highlight-blue">D</span> = <span class="highlight-green">R</span> × <span class="highlight-yellow">T</span>
+    </div>
+    <div class="memory" style="margin:0">
+      <h4>🧠 Memory: "Driving Really Tired"</h4>
+      <p>D = R × T</p>
+    </div>
+    <div class="example">55 mph × 3.5 hrs = <strong>192.5 miles</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Combined Work Rate</h3>
+    <div class="formula">
+      <span class="highlight-blue">1/A</span> + <span class="highlight-green">1/B</span> = <span class="highlight-yellow">1/T</span>
+    </div>
+    <div class="note">A & B = time each takes alone. T = time together.</div>
+    <div class="example">A: 5 hrs, B: 3 hrs → 1/5 + 1/3 = 8/15 → T = <strong>1.875 hrs</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Pythagorean Theorem</h3>
+    <div class="formula">
+      <span class="highlight-blue">a²</span> + <span class="highlight-green">b²</span> = <span class="highlight-red">c²</span>
+    </div>
+    <div class="note">(right triangles only — c is the hypotenuse)</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Pythagorean Triples (MEMORIZE)</h3>
+    <table class="triples-table">
+      <tr><th>Triple</th><th>×2</th><th>×3</th></tr>
+      <tr><td style="color:var(--accent)">3 - 4 - 5</td><td>6-8-10</td><td>9-12-15</td></tr>
+      <tr><td style="color:var(--green)">5 - 12 - 13</td><td>10-24-26</td><td>—</td></tr>
+      <tr><td style="color:var(--yellow)">8 - 15 - 17</td><td>—</td><td>—</td></tr>
+    </table>
+  </div>
+
+  <div class="formula-card">
+    <h3>Geometry — Areas</h3>
+    <img class="img-inline" src="https://ecdn.teacherspayteachers.com/thumbitem/FREE-Geometry-Formulas-Triangle-Square-Rectangle-Circle-Surface-Area-Volume-5532783-1664981266/original-5532783-1.jpg" alt="Geometry Formulas Cheat Sheet" style="max-height:220px;object-fit:contain;background:#fff;padding:4px;border-radius:8px">
+    <div class="formula" style="font-size:17px">
+      <span class="highlight-blue">Rectangle:</span> L × W<br>
+      <span class="highlight-green">Triangle:</span> ½ × b × h<br>
+      <span class="highlight-yellow">Circle:</span> π r²<br>
+      <span class="highlight-red">Trapezoid:</span> ½(b₁+b₂) × h
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Geometry — Circles & 3D</h3>
+    <div class="formula" style="font-size:17px">
+      <span class="highlight-blue">Circumference:</span> 2πr<br>
+      <span class="highlight-green">Cylinder Vol:</span> πr²h<br>
+      <span class="highlight-yellow">Sphere Vol:</span> ⁴⁄₃ πr³<br>
+      <span class="highlight-red">Cone Vol:</span> ⅓ πr²h
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Special Right Triangles</h3>
+    <div class="ref-img-row">
+      <div class="ref-img-container" style="margin:0;padding:10px;background:var(--card2)">
+        <img src="https://uploads-cdn.omnicalculator.com/images/special-triangle-45-45-90-a.png?width=425&enlarge=0&format=jpeg" alt="45-45-90 Triangle" style="max-height:160px;background:#fff;border-radius:6px;padding:4px">
+        <div class="img-caption">45-45-90: sides are x, x, x√2</div>
+      </div>
+      <div class="ref-img-container" style="margin:0;padding:10px;background:var(--card2)">
+        <img src="https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/sides-of-a-30-60-90-triangle1-1621159721.png" alt="30-60-90 Triangle" style="max-height:160px;background:#fff;border-radius:6px;padding:4px">
+        <div class="img-caption">30-60-90: sides are x, x√3, 2x</div>
+      </div>
+    </div>
+    <div class="special-tri">
+      <div class="tri-card">
+        <h4 style="color:var(--accent)">45-45-90</h4>
+        <div class="sides">x : x : x√2</div>
+        <div class="angles">Both legs equal</div>
+      </div>
+      <div class="tri-card">
+        <h4 style="color:var(--green)">30-60-90</h4>
+        <div class="sides">x : x√3 : 2x</div>
+        <div class="angles">Short leg → ×2 = hypotenuse</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Coordinate Geometry</h3>
+    <div class="formula" style="font-size:16px">
+      <span class="highlight-blue">Slope:</span> (y₂−y₁) / (x₂−x₁)<br>
+      <span class="highlight-green">Distance:</span> √[(x₂−x₁)² + (y₂−y₁)²]<br>
+      <span class="highlight-yellow">Midpoint:</span> ((x₁+x₂)/2, (y₁+y₂)/2)<br>
+      <span class="highlight-red">Slope-int:</span> y = mx + b
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Quadratic Formula</h3>
+    <div class="formula" style="font-size:20px">
+      x = <span class="highlight-yellow">(−b ± √(b²−4ac))</span> / <span class="highlight-blue">2a</span>
+    </div>
+    <div class="note">Try <strong>factoring first</strong> — it's faster. Only use this when factoring isn't obvious.</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Common Fraction ↔ Decimal</h3>
+    <div class="conv-grid">
+      <div class="conv-item"><div class="frac">1/8</div><div class="dec">= 0.125</div></div>
+      <div class="conv-item"><div class="frac">1/5</div><div class="dec">= 0.20</div></div>
+      <div class="conv-item"><div class="frac">1/4</div><div class="dec">= 0.25</div></div>
+      <div class="conv-item"><div class="frac">1/3</div><div class="dec">= 0.333</div></div>
+      <div class="conv-item"><div class="frac">3/8</div><div class="dec">= 0.375</div></div>
+      <div class="conv-item"><div class="frac">3/4</div><div class="dec">= 0.75</div></div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Algebra — Inequalities</h3>
+    <div class="formula" style="font-size:18px">
+      <span class="highlight-red">FLIP the sign</span> when ×/÷ by negative
+    </div>
+    <div class="example">−2x > 6 → x < −3 (sign FLIPS)</div>
+  </div>
+
+</div><!-- end formula-grid -->
+</div><!-- end math -->
+
+<!-- ============================================ -->
+<!-- MECHANICAL SECTION -->
+<!-- ============================================ -->
+<div id="mech">
+<div class="section-header">
+  <span class="icon">⚙️</span>
+  <h2>MECHANICAL COMPREHENSION</h2>
+  <span class="tag tag-mech">30 Qs • 15 min • 30 sec each ⚡</span>
+</div>
+
+<div class="tip">
+  <h4>⚡ Speed Warning</h4>
+  <p class="big-rule">30 SECONDS per question. Know it or guess and MOVE.</p>
+  <p>This section is mostly <strong>conceptual</strong>, not heavy math. Understand the concept = get the point.</p>
+</div>
+
+<!-- NEWTON'S LAWS -->
+<div class="ref-img-container">
+  <img src="https://i.pinimg.com/originals/35/47/54/354754f1993365c5b8d79df2f00f4de8.jpg" alt="Newton's Three Laws of Motion" style="max-height:400px">
+  <div class="img-caption">Newton's Three Laws of Motion — Visual Reference</div>
+</div>
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Newton's Three Laws</h3>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px;background:var(--card2);border-radius:8px;padding:14px;border-left:4px solid var(--accent)">
+        <div style="font-size:20px;font-weight:800;color:var(--accent);margin-bottom:4px">1st — INERTIA</div>
+        <div style="font-size:14px">Object at rest <strong>stays at rest</strong>. Object moving <strong>keeps moving</strong>. Unless a force acts on it.</div>
+      </div>
+      <div style="flex:1;min-width:200px;background:var(--card2);border-radius:8px;padding:14px;border-left:4px solid var(--green)">
+        <div style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:4px">2nd — F = ma</div>
+        <div style="font-size:14px"><strong>Force = Mass × Acceleration</strong><br>More mass = more force needed.</div>
+      </div>
+      <div style="flex:1;min-width:200px;background:var(--card2);border-radius:8px;padding:14px;border-left:4px solid var(--yellow)">
+        <div style="font-size:20px;font-weight:800;color:var(--yellow);margin-bottom:4px">3rd — ACTION/REACTION</div>
+        <div style="font-size:14px">Equal & opposite on <strong>DIFFERENT objects</strong>. They do NOT cancel.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Force Formula</h3>
+    <div class="formula">
+      <span class="highlight-blue">F</span> = <span class="highlight-green">m</span> × <span class="highlight-yellow">a</span>
+    </div>
+    <div class="note">Force (N) = Mass (kg) × Acceleration (m/s²)</div>
+    <div class="example">5 kg, 20 N force → a = 20/5 = <strong>4 m/s²</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Weight & Gravity</h3>
+    <div class="formula">
+      <span class="highlight-blue">W</span> = <span class="highlight-green">m</span> × <span class="highlight-yellow">g</span>
+    </div>
+    <div class="note">
+      g = <strong>9.8 m/s²</strong> (metric) or <strong>32 ft/s²</strong> (imperial)<br>
+      Free fall: v = gt &nbsp;|&nbsp; d = ½gt²
+    </div>
+  </div>
+</div>
+
+<!-- LEVERS -->
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Levers — The "FLE" System</h3>
+    <img class="img-inline" src="https://o.quizlet.com/KCdFAjYUIg-cWdLC-5psIQ_b.png" alt="Three Classes of Levers Diagram" style="max-height:280px;object-fit:contain;background:#fff;padding:8px;border-radius:8px">
+    <div class="formula" style="text-align:center;font-size:28px;margin:8px 0">
+      <span class="highlight-red">F</span><sub style="color:var(--text2);font-size:14px">ulcrum</sub> &nbsp;
+      <span class="highlight-yellow">L</span><sub style="color:var(--text2);font-size:14px">oad</sub> &nbsp;
+      <span class="highlight-green">E</span><sub style="color:var(--text2);font-size:14px">ffort</sub>
+    </div>
+    <div class="memory">
+      <h4>🧠 What's in the MIDDLE tells you the class</h4>
+      <p><strong>1st = F</strong>ulcrum in middle &nbsp;|&nbsp; <strong>2nd = L</strong>oad in middle &nbsp;|&nbsp; <strong>3rd = E</strong>ffort in middle</p>
+    </div>
+    <div class="lever-visual">
+      <div class="lever-row">
+        <div class="class-num class-1">1</div>
+        <div class="positions">
+          <span class="pos-item pos-e">EFFORT</span>
+          <span>—</span>
+          <span class="pos-item pos-f pos-mid">⚠️ FULCRUM</span>
+          <span>—</span>
+          <span class="pos-item pos-l">LOAD</span>
+        </div>
+        <div class="examples">Seesaw, Scissors</div>
+      </div>
+      <div class="lever-row">
+        <div class="class-num class-2">2</div>
+        <div class="positions">
+          <span class="pos-item pos-f">FULCRUM</span>
+          <span>—</span>
+          <span class="pos-item pos-l pos-mid">⚠️ LOAD</span>
+          <span>—</span>
+          <span class="pos-item pos-e">EFFORT</span>
+        </div>
+        <div class="examples">Wheelbarrow, Nutcracker</div>
+      </div>
+      <div class="lever-row">
+        <div class="class-num class-3">3</div>
+        <div class="positions">
+          <span class="pos-item pos-f">FULCRUM</span>
+          <span>—</span>
+          <span class="pos-item pos-e pos-mid">⚠️ EFFORT</span>
+          <span>—</span>
+          <span class="pos-item pos-l">LOAD</span>
+        </div>
+        <div class="examples">Tweezers, Fishing Rod</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Lever Balance Formula</h3>
+    <div class="formula">
+      <span class="highlight-blue">F₁</span> × <span class="highlight-blue">D₁</span> = <span class="highlight-green">F₂</span> × <span class="highlight-green">D₂</span>
+    </div>
+    <div class="note">Force × Distance from fulcrum must balance</div>
+    <div class="example">40kg × 3m = 60kg × ? → D₂ = <strong>2m</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Mechanical Advantage (Lever)</h3>
+    <div class="formula">
+      <span class="highlight-yellow">MA</span> = Effort Arm / Load Arm
+    </div>
+    <div class="example">Effort arm 8ft, Load arm 2ft → MA = <strong>4</strong></div>
+  </div>
+</div>
+
+<!-- GEARS -->
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Gears — Direction Rules</h3>
+    <img class="img-inline" src="https://mechanicsmap.psu.edu/websites/12_rigid_body_kinematics/12-3_belt_and_gear_driven_systems/images/geardiagram.png" alt="Gear Rotation Diagram" style="max-height:180px;object-fit:contain;background:#fff;padding:8px;border-radius:8px">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:12px 0">
+      <div style="text-align:center">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px">Adjacent = OPPOSITE</div>
+        <div class="gear-row">
+          <div class="gear gear-cw">CW ↻</div>
+          <div class="gear gear-ccw">CCW ↺</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px">3 Gears (ODD) = SAME</div>
+        <div class="gear-row">
+          <div class="gear gear-cw">CW ↻</div>
+          <div class="gear gear-ccw">↺</div>
+          <div class="gear gear-cw">CW ↻</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px">4 Gears (EVEN) = OPPOSITE</div>
+        <div class="gear-row">
+          <div class="gear gear-cw">CW ↻</div>
+          <div class="gear gear-ccw">↺</div>
+          <div class="gear gear-cw">↻</div>
+          <div class="gear gear-ccw">CCW ↺</div>
+        </div>
+      </div>
+    </div>
+    <div class="memory">
+      <h4>🧠 Odd = Original direction. Even = Flipped.</h4>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Gear Speed Formula</h3>
+    <div class="formula">
+      <span class="highlight-blue">T₁</span> × <span class="highlight-blue">RPM₁</span> = <span class="highlight-green">T₂</span> × <span class="highlight-green">RPM₂</span>
+    </div>
+    <div class="note"><strong>Smaller gear = spins FASTER</strong> (like a bike)</div>
+    <div class="example">20 teeth × 100 RPM = 50 teeth × ? → <strong>40 RPM</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Torque</h3>
+    <div class="formula">
+      <span class="highlight-yellow">τ</span> = <span class="highlight-blue">F</span> × <span class="highlight-green">d</span>
+    </div>
+    <div class="note">Torque = Force × Distance from pivot</div>
+    <div class="example">Need 30 N·m, wrench 0.5m → F = <strong>60 N</strong></div>
+  </div>
+</div>
+
+<!-- PULLEYS -->
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Pulleys — Mechanical Advantage</h3>
+    <img class="img-inline" src="https://images.wondershare.com/edraw/images2025/block-and-tackle/number-of-pulleys-mechanical-advantage.jpg" alt="Pulley Systems and Mechanical Advantage" style="max-height:240px;object-fit:contain;background:#fff;padding:8px;border-radius:8px">
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0">
+      <div style="background:var(--card2);border-radius:10px;padding:16px 24px;text-align:center;min-width:160px">
+        <div style="font-size:36px;margin-bottom:4px">🔵</div>
+        <div style="font-size:16px;font-weight:800;color:var(--accent)">FIXED</div>
+        <div style="font-size:28px;font-weight:800;color:var(--text);margin:4px 0">MA = 1</div>
+        <div style="font-size:12px;color:var(--text2)">Changes direction ONLY<br>Force = Weight</div>
+      </div>
+      <div style="background:var(--card2);border-radius:10px;padding:16px 24px;text-align:center;min-width:160px">
+        <div style="font-size:36px;margin-bottom:4px">🟢</div>
+        <div style="font-size:16px;font-weight:800;color:var(--green)">MOVABLE</div>
+        <div style="font-size:28px;font-weight:800;color:var(--text);margin:4px 0">MA = 2</div>
+        <div style="font-size:12px;color:var(--text2)">Force = Weight ÷ 2<br>Halves the effort</div>
+      </div>
+      <div style="background:var(--card2);border-radius:10px;padding:16px 24px;text-align:center;min-width:160px">
+        <div style="font-size:36px;margin-bottom:4px">🟡</div>
+        <div style="font-size:16px;font-weight:800;color:var(--yellow)">BLOCK & TACKLE</div>
+        <div style="font-size:28px;font-weight:800;color:var(--text);margin:4px 0">MA = # Ropes</div>
+        <div style="font-size:12px;color:var(--text2)">Count rope segments<br>supporting the load</div>
+      </div>
+    </div>
+    <div class="memory">
+      <h4>🧠 Count the ropes touching the movable block = your MA</h4>
+    </div>
+  </div>
+</div>
+
+<!-- ENERGY / WORK / POWER -->
+<div class="formula-grid">
+  <div class="formula-card">
+    <h3>Work</h3>
+    <div class="formula">
+      <span class="highlight-blue">W</span> = <span class="highlight-green">F</span> × <span class="highlight-yellow">d</span>
+    </div>
+    <div class="note">Work (Joules) = Force (N) × Distance (m)</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Power</h3>
+    <div class="formula">
+      <span class="highlight-blue">P</span> = <span class="highlight-green">W</span> / <span class="highlight-yellow">t</span>
+    </div>
+    <div class="note">Power (Watts) = Work / Time<br>1 horsepower ≈ 746 W</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Kinetic Energy</h3>
+    <div style="background:var(--card2);border-radius:8px;padding:12px;text-align:center;margin-bottom:8px">
+      <div style="font-size:40px">🏎️ → 🏎️🏎️</div>
+      <div style="font-size:13px;color:var(--yellow);font-weight:700">2× speed = 4× energy &nbsp;|&nbsp; 3× speed = 9× energy</div>
+    </div>
+    <div class="formula">
+      <span class="highlight-blue">KE</span> = ½ <span class="highlight-green">m</span><span class="highlight-red">v²</span>
+    </div>
+    <div class="tip" style="margin:8px 0;padding:10px">
+      <h4>🚨 #1 TRAP QUESTION</h4>
+      <p class="big-rule">Double speed = 4× energy (v is SQUARED)</p>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Potential Energy</h3>
+    <div class="formula">
+      <span class="highlight-blue">PE</span> = <span class="highlight-green">m</span><span class="highlight-yellow">g</span><span class="highlight-red">h</span>
+    </div>
+    <div class="note">Mass × Gravity × Height</div>
+    <div class="example">10kg × 10 × 5m = <strong>500 J</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Inclined Plane</h3>
+    <img class="img-inline" src="https://thumbs.dreamstime.com/b/simple-machines-vector-illustration-labeled-physics-basics-collection-set-pulley-lever-wedge-inclined-plane-screw-wheel-axle-177704470.jpg" alt="Simple Machines Diagram" style="max-height:180px;object-fit:contain;background:#fff;padding:4px;border-radius:6px">
+    <div class="formula">
+      <span class="highlight-yellow">MA</span> = Length / Height
+    </div>
+    <div class="note">Longer ramp = less force needed, more distance</div>
+    <div class="example">Ramp 10m long, 2m high → MA = <strong>5</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Golden Rule of Machines</h3>
+    <div class="formula" style="font-size:18px;color:var(--yellow)">
+      Force × Distance = CONSTANT
+    </div>
+    <div class="note">Less force = more distance. <strong>You ALWAYS pay.</strong> No free lunch.</div>
+  </div>
+</div>
+
+<!-- PRESSURE & FLUIDS -->
+<div class="formula-grid">
+  <div class="formula-card">
+    <h3>Pressure</h3>
+    <div class="formula">
+      <span class="highlight-blue">P</span> = <span class="highlight-green">F</span> / <span class="highlight-yellow">A</span>
+    </div>
+    <div class="note">Pressure = Force / Area<br><strong>Smaller area = MORE pressure</strong> (stiletto vs flat shoe)</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Pascal's Law (Hydraulics)</h3>
+    <img class="img-inline" src="https://cdn1.byjus.com/wp-content/uploads/2020/01/Pascals-Law-1.png" alt="Pascal's Law Hydraulic System" style="max-height:150px;object-fit:contain;background:#fff;padding:4px;border-radius:6px">
+    <div class="formula">
+      <span class="highlight-blue">F₁/A₁</span> = <span class="highlight-green">F₂/A₂</span>
+    </div>
+    <div class="note">Small piston + small force → Big piston + BIG force</div>
+    <div class="example">40N on 5cm² piston → 25cm² piston = <strong>200N</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Continuity (Flow)</h3>
+    <div class="formula">
+      <span class="highlight-blue">A₁v₁</span> = <span class="highlight-green">A₂v₂</span>
+    </div>
+    <div class="note"><strong>Narrow pipe = faster flow</strong></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Bernoulli's Principle</h3>
+    <img class="img-inline" src="https://pilotinstitute.com/wp-content/uploads/2025/03/image-42-1024x569.png" alt="Bernoulli's Principle - Airplane Lift" style="max-height:140px;object-fit:contain;background:#fff;padding:4px;border-radius:6px">
+    <div class="formula" style="font-size:18px">
+      Faster fluid = <span class="highlight-red">LOWER</span> pressure
+    </div>
+    <div class="note">Explains <strong>airplane lift</strong>: air faster over curved top → lower pressure above → net upward force</div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Buoyancy (Archimedes)</h3>
+    <div class="formula" style="font-size:16px">
+      Float if <span class="highlight-green">density < fluid</span>
+    </div>
+    <div class="note">Object 60% submerged → density = <strong>0.6</strong> × fluid density</div>
+  </div>
+</div>
+
+<!-- ELECTRICITY -->
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Ohm's Law — The VIR Triangle</h3>
+    <img class="img-inline" src="https://cdn1.byjus.com/wp-content/uploads/2021/04/Ohm%E2%80%99s-Law-and-Resistance-2.png" alt="Ohm's Law VIR Triangle" style="max-height:200px;object-fit:contain;background:#fff;padding:8px;border-radius:8px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;margin:12px 0">
+      <div class="diagram" style="width:180px;padding:16px">
+        <div style="font-size:14px;color:var(--text2);margin-bottom:4px">Cover what you need:</div>
+        <div style="position:relative;width:140px;height:100px;margin:0 auto">
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:36px;font-weight:800;color:var(--yellow)">V</div>
+          <div style="position:absolute;top:40px;left:10px;right:10px;height:2px;background:var(--text2)"></div>
+          <div style="position:absolute;bottom:5px;left:15px;font-size:36px;font-weight:800;color:var(--accent)">I</div>
+          <div style="position:absolute;bottom:15px;left:50%;transform:translateX(-50%);font-size:24px;color:var(--text2)">×</div>
+          <div style="position:absolute;bottom:5px;right:15px;font-size:36px;font-weight:800;color:var(--green)">R</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:20px;font-weight:800;font-family:monospace;line-height:2">
+          <span style="color:var(--yellow)">V</span> = <span style="color:var(--accent)">I</span> × <span style="color:var(--green)">R</span><br>
+          <span style="color:var(--accent)">I</span> = <span style="color:var(--yellow)">V</span> / <span style="color:var(--green)">R</span><br>
+          <span style="color:var(--green)">R</span> = <span style="color:var(--yellow)">V</span> / <span style="color:var(--accent)">I</span>
+        </div>
+      </div>
+    </div>
+    <div class="memory">
+      <h4>🧠 "Very Important Rule" — V on top, I × R on bottom</h4>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Electrical Power</h3>
+    <div class="formula">
+      <span class="highlight-blue">P</span> = <span class="highlight-yellow">V</span> × <span class="highlight-accent">I</span>
+    </div>
+    <div class="note">Also: P = I²R = V²/R</div>
+    <div class="example">120V × 2A = <strong>240 W</strong></div>
+  </div>
+</div>
+
+<div class="formula-grid">
+  <div class="formula-card full">
+    <h3>Series vs Parallel Circuits</h3>
+    <img class="img-inline" src="https://thumbs.dreamstime.com/b/series-parallel-circuits-diagram-d-rendering-282759315.jpg" alt="Series vs Parallel Circuits Diagram" style="max-height:240px;object-fit:contain;background:#fff;padding:8px;border-radius:8px">
+    <div class="circuit-row">
+      <div class="circuit-box series">
+        <h4>SERIES</h4>
+        <div style="font-size:24px;margin:4px 0">— R₁ — R₂ — R₃ —</div>
+        <div class="formula-small">R_total = R₁ + R₂ + R₃</div>
+        <div class="detail">
+          ✅ Current = <strong>SAME</strong> everywhere<br>
+          ⚡ Voltage = <strong>SPLITS</strong><br>
+          💀 One break = <strong>ALL die</strong><br>
+          <em style="color:var(--text2)">(Christmas lights)</em>
+        </div>
+      </div>
+      <div class="circuit-box parallel">
+        <h4>PARALLEL</h4>
+        <div style="font-size:18px;margin:4px 0">┬ R₁ ┬<br>├ R₂ ├<br>┴ R₃ ┴</div>
+        <div class="formula-small">1/R = 1/R₁ + 1/R₂ + 1/R₃</div>
+        <div class="detail">
+          ✅ Voltage = <strong>SAME</strong> everywhere<br>
+          ⚡ Current = <strong>SPLITS</strong><br>
+          ✅ One break = <strong>others fine</strong><br>
+          <em style="color:var(--text2)">(House outlets)</em>
+        </div>
+      </div>
+    </div>
+    <div class="memory">
+      <h4>🧠 S = Same current, Sum resistance &nbsp;|&nbsp; P = same Pressure (voltage), splits current</h4>
+    </div>
+  </div>
+</div>
+
+</div><!-- end mech -->
+
+<!-- ============================================ -->
+<!-- READING SECTION -->
+<!-- ============================================ -->
+<div id="read">
+<div class="section-header">
+  <span class="icon">📖</span>
+  <h2>READING COMPREHENSION</h2>
+  <span class="tag tag-read">20 Qs • 30 min • 90 sec each</span>
+</div>
+
+<div class="tip">
+  <h4>This is your EASIEST section — bank points here</h4>
+  <p>You don't need to study content. You need to follow <strong>one rule</strong> and use the <strong>elimination strategy</strong>.</p>
+</div>
+
+<div class="formula-grid">
+  <div class="formula-card full" style="border-color:var(--red);border-width:2px">
+    <h3 style="color:var(--red);font-size:18px">🚨 THE ONE RULE — MEMORIZE THIS</h3>
+    <div class="formula" style="font-size:22px;text-align:center;color:var(--red);line-height:1.8">
+      If the passage didn't say it,<br>the answer is <span style="font-size:30px">WRONG.</span>
+    </div>
+    <div class="note" style="text-align:center;font-size:15px;margin-top:8px">
+      Even if you <strong>know</strong> it's true. Even if it's obvious. If it's not <strong>in the text</strong> = wrong answer.
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Strategy</h3>
+    <div style="font-size:15px;line-height:2">
+      <div>1️⃣ Read <strong>first & last sentences</strong> for main idea</div>
+      <div>2️⃣ Skim body for structure</div>
+      <div>3️⃣ For detail Qs → find <strong>keywords</strong> in passage</div>
+      <div>4️⃣ Answer must be <strong>supported by text</strong></div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Wrong Answer Red Flags 🚩</h3>
+    <div style="font-size:15px;line-height:2">
+      <div>❌ <span style="color:var(--red)">Too extreme</span> — "always," "never," "all"</div>
+      <div>❌ <span style="color:var(--red)">True but not stated</span> — in the passage</div>
+      <div>❌ <span style="color:var(--red)">Opposite</span> — of what passage says</div>
+      <div>❌ <span style="color:var(--red)">Too narrow</span> — only covers one detail</div>
+    </div>
+  </div>
+
+  <div class="formula-card full">
+    <h3>Question Types & How to Attack</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--card2);border-radius:8px;padding:12px;border-left:3px solid var(--accent)">
+        <div style="font-weight:700;color:var(--accent);font-size:14px">Main Idea</div>
+        <div style="font-size:13px;color:var(--text2)">Read first/last sentences. Pick the answer that covers the WHOLE passage, not just one part.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:12px;border-left:3px solid var(--green)">
+        <div style="font-weight:700;color:var(--green);font-size:14px">Detail/Fact</div>
+        <div style="font-size:13px;color:var(--text2)">Use keywords from the question to LOCATE the sentence. Answer is usually a paraphrase of that sentence.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:12px;border-left:3px solid var(--yellow)">
+        <div style="font-weight:700;color:var(--yellow);font-size:14px">Inference</div>
+        <div style="font-size:13px;color:var(--text2)">Must be LOGICALLY supported by text. Not a wild guess — a small logical step from what's stated.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:12px;border-left:3px solid var(--purple)">
+        <div style="font-weight:700;color:var(--purple);font-size:14px">Vocab in Context</div>
+        <div style="font-size:13px;color:var(--text2)">Replace the word with each answer choice. Which one makes the sentence make sense?</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- end read -->
+
+<!-- ============================================ -->
+<!-- STRATEGY SECTION -->
+<!-- ============================================ -->
+<div id="strat">
+<div class="section-header">
+  <span class="icon">🧠</span>
+  <h2>TEST-DAY STRATEGY</h2>
+  <span class="tag tag-strat">CAT = Adaptive</span>
+</div>
+
+<div class="formula-grid">
+  <div class="formula-card full" style="border-color:var(--red);border-width:2px">
+    <h3 style="color:var(--red);font-size:16px">⚠️ THIS TEST IS ADAPTIVE (CAT)</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
+      <div style="background:var(--card2);border-radius:8px;padding:14px">
+        <div style="font-weight:800;color:var(--green);font-size:15px;margin-bottom:4px">✅ Correct → Harder Question</div>
+        <div style="font-size:13px;color:var(--text2)">This is GOOD. Harder Qs = higher score ceiling. Don't panic when questions get hard.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:14px">
+        <div style="font-weight:800;color:var(--red);font-size:15px;margin-bottom:4px">❌ Wrong → Easier Question</div>
+        <div style="font-size:13px;color:var(--text2)">Score ceiling drops. But not the end of the world — stay calm and answer the next one right.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:14px">
+        <div style="font-weight:800;color:var(--yellow);font-size:15px;margin-bottom:4px">⚡ Can't Skip or Go Back</div>
+        <div style="font-size:13px;color:var(--text2)">Each question depends on your last answer. Answer and move forward. No changing answers.</div>
+      </div>
+      <div style="background:var(--card2);border-radius:8px;padding:14px">
+        <div style="font-weight:800;color:var(--orange);font-size:15px;margin-bottom:4px">⏰ Running Out of Time = PENALTY</div>
+        <div style="font-size:13px;color:var(--text2)">Unanswered questions hurt your score. An educated guess is ALWAYS better than no answer.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-card full">
+    <h3>Time Rules Per Section</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="background:rgba(0,180,216,.08);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(0,180,216,.3)">
+        <div style="font-size:14px;color:var(--text2)">MATH</div>
+        <div style="font-size:32px;font-weight:800;color:var(--accent)">80s</div>
+        <div style="font-size:13px;color:var(--text2)">per question</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--accent);font-weight:700">2 min MAX then guess</div>
+      </div>
+      <div style="background:rgba(6,214,160,.08);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(6,214,160,.3)">
+        <div style="font-size:14px;color:var(--text2)">READING</div>
+        <div style="font-size:32px;font-weight:800;color:var(--green)">90s</div>
+        <div style="font-size:13px;color:var(--text2)">per question</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--green);font-weight:700">Steady pace, easy pts</div>
+      </div>
+      <div style="background:rgba(255,209,102,.08);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,209,102,.3)">
+        <div style="font-size:14px;color:var(--text2)">MECHANICAL</div>
+        <div style="font-size:32px;font-weight:800;color:var(--yellow)">30s</div>
+        <div style="font-size:13px;color:var(--text2)">per question</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--red);font-weight:700">Know it or MOVE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-card full">
+    <h3>First 5-7 Questions = CRITICAL</h3>
+    <div style="background:rgba(255,209,102,.1);border-radius:8px;padding:16px;text-align:center">
+      <div style="font-size:18px;font-weight:800;color:var(--yellow)">Take EXTRA time on the first 5-7 questions per section.</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:6px">Early correct answers push you to harder questions FASTER → higher score ceiling. These questions set the floor.</div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Guessing Rules</h3>
+    <div style="font-size:14px;line-height:2">
+      <div>✅ <strong>Educated guess</strong> = eliminate 1-2, pick best</div>
+      <div>❌ <strong>Wild guess</strong> = hurts score (pushes you to easy Qs)</div>
+      <div>❌❌ <strong>No answer</strong> = worst option (time penalty)</div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Test Day Checklist</h3>
+    <div style="font-size:14px;line-height:2">
+      <div>✅ Bring valid <strong>photo ID</strong></div>
+      <div>✅ Eat a <strong>real meal</strong> before</div>
+      <div>✅ <strong>Arrive early</strong></div>
+      <div>✅ Dump formulas on <strong>scratch paper</strong> immediately</div>
+      <div>⛔ No phone, calculator, smartwatch</div>
+      <div>⚠️ <strong>3 lifetime attempts</strong> — Navy uses MOST RECENT</div>
+    </div>
+  </div>
+</div>
+</div><!-- end strat -->
+
+<!-- ============================================ -->
+<!-- SCRATCH PAPER DUMP -->
+<!-- ============================================ -->
+<div id="dump">
+<div class="section-header">
+  <span class="icon">📝</span>
+  <h2>SCRATCH PAPER DUMP</h2>
+  <span class="tag tag-strat">Write this FIRST — before the test starts</span>
+</div>
+
+<div class="scratch">
+<h3>✍️ Dump This On Scratch Paper Immediately</h3>
+<span style="color:var(--accent)">MATH:</span>
+F = ma          W = Fd         P = F/A
+V = IR          P = VI         KE = ½mv²
+PE = mgh        D = RT         1/A + 1/B = 1/T
+a² + b² = c²   Triples: 3-4-5, 5-12-13
+
+<span style="color:var(--yellow)">MECHANICAL:</span>
+Lever: F₁D₁ = F₂D₂     MA = effort arm / load arm
+Gears: T₁×RPM₁ = T₂×RPM₂   (odd=same, even=opp)
+Pulley MA = # supporting ropes
+Hydraulics: F₁/A₁ = F₂/A₂
+Flow: A₁v₁ = A₂v₂      Bernoulli: fast = low P
+
+<span style="color:var(--green)">CIRCUITS:</span>
+Series: R adds, same I, one break = all dead
+Parallel: 1/R adds, same V, one break = others fine
+
+<span style="color:var(--red)">TRAPS:</span>
+Double speed = 4× KE (squared!)
+Flip inequality when ÷ by negative
+3rd law pairs act on DIFFERENT objects
+PEMDAS: 3+4×2 = 11 NOT 14
+</div>
+
+<div class="tip">
+  <h4>This is 100% legal</h4>
+  <p>They give you scratch paper. Everyone does a brain dump before starting. Memorize the block above and write it down the <strong>second</strong> you sit down, before the first question loads.</p>
+</div>
+
+</div>
+
+<div style="text-align:center;padding:40px 0;color:var(--text2);font-size:14px">
+  <div style="font-size:24px;margin-bottom:8px">🎯</div>
+  <strong>You got this, Benjamin. Go get that 50.</strong><br>
+  <span style="font-size:12px">— Benjamin Rodriguez</span>
+</div>
+
+</div><!-- end container -->
+</body>
+</html>
