@@ -156,12 +156,40 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 </style>
 </head>
 <body>
+<script>
+// OAR Pro Access Gate
+(function() {
+  // Check for purchase token from Stripe redirect
+  if (window.location.search.includes('purchased=true')) {
+    localStorage.setItem('oar_purchased', 'true');
+    // Clean the URL
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+
+  // If not purchased, show a gentle overlay
+  if (!localStorage.getItem('oar_purchased')) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var overlay = document.createElement('div');
+      overlay.id = 'access-gate';
+      overlay.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,17,32,.95);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px">' +
+        '<div style="background:#111827;border:1px solid #1E293B;border-radius:16px;padding:40px;max-width:480px;text-align:center">' +
+        '<div style="font-size:48px;margin-bottom:16px">⚓</div>' +
+        '<h2 style="color:#F9FAFB;font-size:24px;margin-bottom:12px;font-family:Inter,system-ui,sans-serif">OAR Pro — Premium Access</h2>' +
+        '<p style="color:#9CA3AF;font-size:15px;line-height:1.6;margin-bottom:24px;font-family:Inter,system-ui,sans-serif">Get instant access to 180+ practice questions, 21 lessons, formula reference, and science-backed study tools.</p>' +
+        '<a href="index.html" style="display:inline-block;background:#3B82F6;color:white;padding:14px 32px;border-radius:10px;font-weight:700;font-size:16px;text-decoration:none;font-family:Inter,system-ui,sans-serif;margin-bottom:12px">Get Access — $29</a>' +
+        '<br><a href="index.html" style="color:#6B7280;font-size:13px;text-decoration:none;font-family:Inter,system-ui,sans-serif">Learn more →</a>' +
+        '</div></div>';
+      document.body.appendChild(overlay);
+    });
+  }
+})();
+</script>
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
+    <a href="app.html" class="nav-logo">&#9875; OAR Pro</a>
     <div class="nav-links">
-      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="app.html" class="nav-link">Dashboard</a>
       <a href="study.html" class="nav-link">Study</a>
       <a href="practice.html" class="nav-link">Practice</a>
       <a href="formulas.html" class="nav-link active">Formulas</a>
