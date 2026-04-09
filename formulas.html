@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OAR Pro — Formula Reference</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}});</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -977,6 +979,333 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       </div>
     </div>
 
+    <!-- ==================== MECHANICAL: MOMENTUM & IMPULSE ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="momentum impulse collision elastic inelastic conservation">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#128165;</div>
+        <div class="section-title">Momentum &amp; Impulse</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="momentum mass velocity p mv">
+          <div class="formula-name">Momentum</div>
+          <div class="formula-expr">
+            <span class="var-a">p</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">v</span>
+          </div>
+          <div class="formula-desc">Momentum = mass &times; velocity. Units: kg&middot;m/s. A vector quantity (has direction).</div>
+          <div class="formula-desc" style="margin-top:4px">\( p = mv \)</div>
+          <div class="formula-example"><strong>Example:</strong> 2 kg at 5 m/s &rarr; p = 2 &times; 5 = <strong>10 kg&middot;m/s</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="impulse force time change momentum">
+          <div class="formula-name">Impulse</div>
+          <div class="formula-expr">
+            <span class="var-a">J</span> <span class="op">=</span> <span class="var-b">F</span><span class="var-c">&Delta;t</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">&Delta;v</span>
+          </div>
+          <div class="formula-desc">Impulse = force &times; time = change in momentum. Units: N&middot;s (same as kg&middot;m/s).</div>
+          <div class="formula-desc" style="margin-top:4px">\( J = F\Delta t = m\Delta v \)</div>
+          <div class="formula-example"><strong>Example:</strong> 20 N for 3 s &rarr; J = 20 &times; 3 = <strong>60 N&middot;s</strong></div>
+          <div class="memory-trick">Impulse is the PUSH over TIME &mdash; bigger force or longer time = more impulse.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="conservation momentum before after closed system">
+          <div class="formula-name">Conservation of Momentum</div>
+          <div class="formula-expr">
+            <span class="var-a">p<sub>before</sub></span> <span class="op">=</span> <span class="var-b">p<sub>after</sub></span>
+          </div>
+          <div class="formula-desc">In a closed system (no external forces), total momentum before = total momentum after.</div>
+          <div class="formula-desc" style="margin-top:4px">\( m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2' \)</div>
+          <div class="formula-example"><strong>Example:</strong> 3 kg at 4 m/s hits stationary 1 kg &rarr; 12 kg&middot;m/s total before = total after</div>
+        </div>
+
+        <div class="formula-card" data-keywords="elastic collision kinetic energy conserved">
+          <div class="formula-name">Elastic Collision</div>
+          <div class="formula-expr">
+            <span class="var-a">KE</span> <span class="op">+</span> <span class="var-b">p</span> &nbsp;both conserved
+          </div>
+          <div class="formula-desc">Both kinetic energy AND momentum are conserved. Objects bounce apart (e.g., billiard balls).</div>
+          <div class="formula-example"><strong>Key:</strong> KE before = KE after, AND p before = p after</div>
+        </div>
+
+        <div class="formula-card" data-keywords="inelastic collision stick together perfectly">
+          <div class="formula-name">Inelastic Collision</div>
+          <div class="formula-expr">
+            <span class="var-b">m&#8321;</span><span class="var-c">v&#8321;</span> <span class="op">=</span> (<span class="var-b">m&#8321;</span> <span class="op">+</span> <span class="var-b">m&#8322;</span>)<span class="var-c">v<sub>f</sub></span>
+          </div>
+          <div class="formula-desc">Only momentum is conserved. Objects stick together. KE is lost (converted to heat/deformation).</div>
+          <div class="formula-desc" style="margin-top:4px">\( m_1 v_1 = (m_1 + m_2) v_f \)</div>
+          <div class="formula-example"><strong>Example:</strong> 0.5 kg at 8 m/s sticks to 1.5 kg &rarr; v = 4/2 = <strong>2 m/s</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: KINEMATICS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="kinematics velocity acceleration displacement projectile circular motion suvat">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#127939;</div>
+        <div class="section-title">Kinematics</div>
+        <span class="section-count">8 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="displacement position change">
+          <div class="formula-name">Displacement</div>
+          <div class="formula-expr">
+            <span class="var-a">&Delta;x</span> <span class="op">=</span> <span class="var-b">x<sub>f</sub></span> <span class="op">-</span> <span class="var-c">x<sub>i</sub></span>
+          </div>
+          <div class="formula-desc">Displacement = final position &minus; initial position. A vector (has direction).</div>
+          <div class="formula-desc" style="margin-top:4px">\( \Delta x = x_f - x_i \)</div>
+          <div class="formula-example"><strong>Example:</strong> Start at 3 m, end at 11 m &rarr; &Delta;x = 11 &minus; 3 = <strong>8 m</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="average velocity speed displacement time">
+          <div class="formula-name">Average Velocity</div>
+          <div class="formula-expr">
+            <span class="var-a">v</span> <span class="op">=</span> <span class="var-b">&Delta;x</span> / <span class="var-c">&Delta;t</span>
+          </div>
+          <div class="formula-desc">Average velocity = displacement &divide; time. Units: m/s.</div>
+          <div class="formula-desc" style="margin-top:4px">\( v = \frac{\Delta x}{\Delta t} \)</div>
+          <div class="formula-example"><strong>Example:</strong> 100 m in 20 s &rarr; v = 100/20 = <strong>5 m/s</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="acceleration change velocity time">
+          <div class="formula-name">Acceleration</div>
+          <div class="formula-expr">
+            <span class="var-a">a</span> <span class="op">=</span> <span class="var-b">&Delta;v</span> / <span class="var-c">&Delta;t</span>
+          </div>
+          <div class="formula-desc">Acceleration = change in velocity &divide; time. Units: m/s&sup2;.</div>
+          <div class="formula-desc" style="margin-top:4px">\( a = \frac{\Delta v}{\Delta t} \)</div>
+          <div class="formula-example"><strong>Example:</strong> 0 to 20 m/s in 5 s &rarr; a = 20/5 = <strong>4 m/s&sup2;</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="final velocity initial acceleration time suvat">
+          <div class="formula-name">SUVAT: Final Velocity</div>
+          <div class="formula-expr">
+            <span class="var-a">v<sub>f</sub></span> <span class="op">=</span> <span class="var-b">v<sub>i</sub></span> <span class="op">+</span> <span class="var-c">a</span><span class="var-d">t</span>
+          </div>
+          <div class="formula-desc">Final velocity = initial velocity + (acceleration &times; time).</div>
+          <div class="formula-desc" style="margin-top:4px">\( v_f = v_i + at \)</div>
+          <div class="formula-example"><strong>Example:</strong> Start at rest, a = 4 m/s&sup2;, t = 5 s &rarr; v = 0 + 4&times;5 = <strong>20 m/s</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="displacement acceleration time distance suvat">
+          <div class="formula-name">SUVAT: Displacement</div>
+          <div class="formula-expr">
+            <span class="var-a">&Delta;x</span> <span class="op">=</span> <span class="var-b">v<sub>i</sub></span><span class="var-c">t</span> <span class="op">+</span> &frac12;<span class="var-d">a</span><span class="var-c">t</span>&sup2;
+          </div>
+          <div class="formula-desc">Displacement with constant acceleration. Use when you don't know final velocity.</div>
+          <div class="formula-desc" style="margin-top:4px">\( \Delta x = v_i t + \tfrac{1}{2}at^2 \)</div>
+          <div class="formula-example"><strong>Example:</strong> From rest, a = 2 m/s&sup2;, t = 10 s &rarr; d = 0 + &frac12;(2)(100) = <strong>100 m</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="velocity squared displacement acceleration suvat no time">
+          <div class="formula-name">SUVAT: Velocity-Displacement</div>
+          <div class="formula-expr">
+            <span class="var-a">v<sub>f</sub></span>&sup2; <span class="op">=</span> <span class="var-b">v<sub>i</sub></span>&sup2; <span class="op">+</span> 2<span class="var-c">a</span><span class="var-d">&Delta;x</span>
+          </div>
+          <div class="formula-desc">Use when time is NOT given. Relates velocity, acceleration, and displacement.</div>
+          <div class="formula-desc" style="margin-top:4px">\( v_f^2 = v_i^2 + 2a\Delta x \)</div>
+          <div class="formula-example"><strong>Example:</strong> 20 m/s brakes over 50 m &rarr; 0 = 400 + 100a &rarr; a = <strong>-4 m/s&sup2;</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="projectile angle horizontal vertical component">
+          <div class="formula-name">Projectile Components</div>
+          <div class="formula-expr">
+            <span class="var-b">v<sub>0x</sub></span> <span class="op">=</span> v&#8320;cos&theta; &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-c">v<sub>0y</sub></span> <span class="op">=</span> v&#8320;sin&theta;
+          </div>
+          <div class="formula-desc">Break initial velocity into horizontal and vertical components for projectile problems.</div>
+          <div class="formula-desc" style="margin-top:4px">\( v_{0x} = v_0 \cos\theta \quad|\quad v_{0y} = v_0 \sin\theta \)</div>
+          <div class="formula-example"><strong>Example:</strong> 50 m/s at 30&deg; &rarr; v<sub>0x</sub> = 50 cos30&deg; = 43.3, v<sub>0y</sub> = 50 sin30&deg; = 25</div>
+        </div>
+
+        <div class="formula-card" data-keywords="centripetal acceleration circular motion radius">
+          <div class="formula-name">Centripetal Acceleration</div>
+          <div class="formula-expr">
+            <span class="var-a">a<sub>c</sub></span> <span class="op">=</span> <span class="var-b">v</span>&sup2; / <span class="var-c">r</span>
+          </div>
+          <div class="formula-desc">Centripetal acceleration points toward the center. Faster speed or smaller radius = more acceleration.</div>
+          <div class="formula-desc" style="margin-top:4px">\( a_c = \frac{v^2}{r} \)</div>
+          <div class="formula-example"><strong>Example:</strong> v = 10 m/s, r = 5 m &rarr; a<sub>c</sub> = 100/5 = <strong>20 m/s&sup2;</strong></div>
+          <div class="memory-trick">SUVAT equations &mdash; know any 3 variables, find the other 2. No time? Use v&sup2; = v&sub;i&sup2; + 2a&Delta;x.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: GAS LAWS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="gas law ideal boyle charles pressure volume temperature moles">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--red-bg);color:var(--red)">&#9729;</div>
+        <div class="section-title">Gas Laws</div>
+        <span class="section-count">4 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="ideal gas law pv nrt">
+          <div class="formula-name">Ideal Gas Law</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span><span class="var-b">V</span> <span class="op">=</span> <span class="var-c">n</span><span class="var-d">R</span><span class="var-a">T</span>
+          </div>
+          <div class="formula-desc">P = pressure, V = volume, n = moles, R = gas constant (8.314 J/mol&middot;K), T = temperature (Kelvin).</div>
+          <div class="formula-desc" style="margin-top:4px">\( PV = nRT \)</div>
+          <div class="formula-example"><strong>Key:</strong> Temperature must be in Kelvin (K = &deg;C + 273).</div>
+        </div>
+
+        <div class="formula-card" data-keywords="boyle law pressure volume inverse constant temperature">
+          <div class="formula-name">Boyle's Law (Constant T)</div>
+          <div class="formula-expr">
+            <span class="var-a">P&#8321;</span><span class="var-b">V&#8321;</span> <span class="op">=</span> <span class="var-a">P&#8322;</span><span class="var-b">V&#8322;</span>
+          </div>
+          <div class="formula-desc">At constant temperature, pressure and volume are inversely related. Squeeze &rarr; smaller volume, higher pressure.</div>
+          <div class="formula-desc" style="margin-top:4px">\( P_1 V_1 = P_2 V_2 \)</div>
+          <div class="formula-example"><strong>Example:</strong> 5 L at 1 atm &rarr; 2 atm &rarr; V = 5&times;1/2 = <strong>2.5 L</strong></div>
+          <div class="memory-trick">Boyle = Boys squeeze Balloons &mdash; more pressure = less volume.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="charles law volume temperature direct constant pressure">
+          <div class="formula-name">Charles's Law (Constant P)</div>
+          <div class="formula-expr">
+            <span class="var-b">V&#8321;</span>/<span class="var-a">T&#8321;</span> <span class="op">=</span> <span class="var-b">V&#8322;</span>/<span class="var-a">T&#8322;</span>
+          </div>
+          <div class="formula-desc">At constant pressure, volume and temperature are directly related. Heat it &rarr; it expands.</div>
+          <div class="formula-desc" style="margin-top:4px">\( \frac{V_1}{T_1} = \frac{V_2}{T_2} \)</div>
+          <div class="formula-example"><strong>Example:</strong> 6 L at 300 K &rarr; 600 K &rarr; V = 6&times;600/300 = <strong>12 L</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="combined gas law pressure volume temperature">
+          <div class="formula-name">Combined Gas Law</div>
+          <div class="formula-expr">
+            <span class="var-a">P&#8321;</span><span class="var-b">V&#8321;</span>/<span class="var-c">T&#8321;</span> <span class="op">=</span> <span class="var-a">P&#8322;</span><span class="var-b">V&#8322;</span>/<span class="var-c">T&#8322;</span>
+          </div>
+          <div class="formula-desc">Use when both pressure AND temperature change. Combines Boyle's and Charles's Laws.</div>
+          <div class="formula-desc" style="margin-top:4px">\( \frac{P_1 V_1}{T_1} = \frac{P_2 V_2}{T_2} \)</div>
+          <div class="formula-example"><strong>Key:</strong> If T is constant &rarr; Boyle's. If P is constant &rarr; Charles's.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: HEAT TRANSFER ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="heat transfer conduction convection radiation thermal energy phase">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--yellow-bg);color:var(--yellow)">&#128293;</div>
+        <div class="section-title">Heat Transfer</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="conduction contact solid metal thermal conductivity">
+          <div class="formula-name">Conduction</div>
+          <div class="formula-expr">
+            <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">k</span><span class="var-c">A</span>(<span class="var-d">&Delta;T</span>/<span class="var-a">&Delta;x</span>)
+          </div>
+          <div class="formula-desc">Heat through direct contact. k = thermal conductivity, A = area, &Delta;T = temp difference, &Delta;x = thickness.</div>
+          <div class="formula-desc" style="margin-top:4px">\( q = kA\frac{\Delta T}{\Delta x} \)</div>
+          <div class="formula-example"><strong>Example:</strong> Metal spoon in hot soup &mdash; heat conducts through the solid from hot to cold end.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="convection fluid air water current flow rising">
+          <div class="formula-name">Convection</div>
+          <div class="formula-expr">
+            <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">h</span><span class="var-c">A</span><span class="var-d">&Delta;T</span>
+          </div>
+          <div class="formula-desc">Heat through fluid movement (liquid or gas). h = heat transfer coefficient. Warm fluid rises, cool sinks.</div>
+          <div class="formula-desc" style="margin-top:4px">\( q = hA\Delta T \)</div>
+          <div class="formula-example"><strong>Example:</strong> Warm air rising from a heater, boiling water &mdash; fluid carries heat via circulation.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="radiation electromagnetic wave vacuum stefan boltzmann">
+          <div class="formula-name">Radiation</div>
+          <div class="formula-expr">
+            <span class="var-a">q</span> <span class="op">=</span> <span class="var-b">e</span><span class="var-c">&sigma;</span><span class="var-d">A</span><span class="var-a">T</span>&#8308;
+          </div>
+          <div class="formula-desc">Heat via electromagnetic waves. No medium needed &mdash; works through vacuum (how the Sun heats Earth).</div>
+          <div class="formula-desc" style="margin-top:4px">\( q = e\sigma A T^4 \)</div>
+          <div class="formula-example"><strong>Example:</strong> Feeling warmth from a campfire without touching it &mdash; that's radiant heat.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="three types comparison contact currents rays ccr">
+          <div class="formula-name">Three Types Summary</div>
+          <div class="formula-expr">
+            <span class="var-b">Conduction</span> &nbsp;|&nbsp; <span class="var-c">Convection</span> &nbsp;|&nbsp; <span class="var-d">Radiation</span>
+          </div>
+          <div class="formula-desc">Contact (solids) | Currents (fluids) | Rays (electromagnetic, no medium). All move heat from hot to cold.</div>
+          <div class="formula-example"><strong>OAR Tip:</strong> Conduction = spoon, Convection = boiling water, Radiation = campfire warmth at distance.</div>
+          <div class="memory-trick">"CCR" &mdash; Contact, Currents, Rays. Three types, easy to remember.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="phase diagram triple point solid liquid gas equilibrium">
+          <div class="formula-name">Phase Diagram / Triple Point</div>
+          <div class="formula-expr">
+            <span class="var-a">Solid</span> + <span class="var-b">Liquid</span> + <span class="var-c">Gas</span> coexist
+          </div>
+          <div class="formula-desc">The triple point is the unique temperature &amp; pressure where all three phases exist together in equilibrium.</div>
+          <div class="formula-example"><strong>Key:</strong> Water's triple point: 0.01&deg;C at 611.73 Pa &mdash; ice, water, and steam coexist.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: MAGNETISM ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="magnetism magnet ferromagnetic transformer capacitor diode motor generator electromagnetic">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">&#129522;</div>
+        <div class="section-title">Magnetism</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="magnetic poles attract repel north south">
+          <div class="formula-name">Magnetic Poles</div>
+          <div class="formula-expr">
+            <span class="var-b">Like</span> <span class="op">&rarr;</span> Repel &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-c">Opposite</span> <span class="op">&rarr;</span> Attract
+          </div>
+          <div class="formula-desc">N-N or S-S repel. N-S attract. Same rule as electric charges &mdash; like repels, opposite attracts.</div>
+          <div class="formula-example"><strong>OAR Tip:</strong> If two magnets push apart, they're showing the same pole.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="ferromagnetic iron cobalt nickel strong magnetize">
+          <div class="formula-name">Ferromagnetic Materials</div>
+          <div class="formula-expr">
+            <span class="var-b">Iron</span> &nbsp;|&nbsp; <span class="var-c">Cobalt</span> &nbsp;|&nbsp; <span class="var-d">Nickel</span>
+          </div>
+          <div class="formula-desc">Only these three elements are naturally ferromagnetic &mdash; they can be permanently magnetized and strongly attracted to magnets.</div>
+          <div class="formula-example"><strong>Key:</strong> Copper, aluminum, gold, silver are NOT magnetic.</div>
+          <div class="memory-trick">"ICN" &mdash; Iron, Cobalt, Nickel. The magnetic trio.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="electromagnet current coil wire iron core solenoid">
+          <div class="formula-name">Electromagnets</div>
+          <div class="formula-expr">
+            Current + Coil + Iron Core <span class="op">=</span> Electromagnet
+          </div>
+          <div class="formula-desc">Electricity flowing through a coil creates a magnetic field. Adding an iron core strengthens it dramatically.</div>
+          <div class="formula-example"><strong>Key:</strong> Electromagnets can be turned on/off &mdash; permanent magnets cannot.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="transformer voltage turns ratio step up step down">
+          <div class="formula-name">Transformer Equation</div>
+          <div class="formula-expr">
+            <span class="var-a">V&#8321;</span>/<span class="var-b">V&#8322;</span> <span class="op">=</span> <span class="var-c">N&#8321;</span>/<span class="var-d">N&#8322;</span>
+          </div>
+          <div class="formula-desc">Voltage ratio equals turns ratio. More turns on secondary = step-up (higher voltage). Fewer = step-down.</div>
+          <div class="formula-desc" style="margin-top:4px">\( \frac{V_1}{V_2} = \frac{N_1}{N_2} \)</div>
+          <div class="formula-example"><strong>Example:</strong> 120V input, 100 turns primary, 500 turns secondary &rarr; V&#8322; = 120 &times; 500/100 = <strong>600V</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="motor generator diode capacitance electrical mechanical conversion">
+          <div class="formula-name">Motors, Generators &amp; Diodes</div>
+          <div class="formula-expr">
+            Motor: <span class="var-b">Electrical</span> <span class="op">&rarr;</span> <span class="var-c">Mechanical</span> &nbsp;|&nbsp;
+            Generator: <span class="var-c">Mechanical</span> <span class="op">&rarr;</span> <span class="var-b">Electrical</span>
+          </div>
+          <div class="formula-desc">Motors convert electricity to motion. Generators do the reverse. Diodes allow current in one direction only. Capacitance: C = Q/V.</div>
+          <div class="formula-desc" style="margin-top:4px">\( C = \frac{Q}{V} \) &nbsp;(Capacitance in Farads)</div>
+          <div class="formula-example"><strong>OAR Tip:</strong> Motor = electricity powers movement. Generator = movement creates electricity.</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== CONVERSIONS ==================== -->
     <div class="formula-section" data-category="math" data-keywords="conversion fraction decimal pi square root constant">
       <div class="section-header" onclick="toggleSection(this)">
@@ -1090,6 +1419,46 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       Parallel: 1/R=1/R1+1/R2<br>
       Series: same I, one break=dead<br>
       Parallel: same V, independent</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Momentum</h4>
+      <p>p=mv | J=F&Delta;t=m&Delta;v<br>
+      p<sub>before</sub>=p<sub>after</sub><br>
+      Elastic: KE+p conserved<br>
+      Inelastic: only p conserved<br>
+      m1v1=(m1+m2)vf (stick together)</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Kinematics</h4>
+      <p>v=&Delta;x/&Delta;t | a=&Delta;v/&Delta;t<br>
+      vf=vi+at | &Delta;x=vit+&frac12;at&sup2;<br>
+      vf&sup2;=vi&sup2;+2a&Delta;x<br>
+      ac=v&sup2;/r (centripetal)<br>
+      Projectile: v0x=v0cos&theta;, v0y=v0sin&theta;</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Gas Laws</h4>
+      <p>PV=nRT (ideal)<br>
+      P1V1=P2V2 (Boyle, const T)<br>
+      V1/T1=V2/T2 (Charles, const P)<br>
+      P1V1/T1=P2V2/T2 (combined)<br>
+      T must be in Kelvin</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Heat Transfer</h4>
+      <p>Conduction: q=kA(&Delta;T/&Delta;x)<br>
+      Convection: q=hA&Delta;T<br>
+      Radiation: q=e&sigma;AT&sup4;<br>
+      CCR: Contact, Currents, Rays<br>
+      Triple point: 3 phases coexist</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Magnetism</h4>
+      <p>Like poles repel, opposite attract<br>
+      Ferromagnetic: Fe, Co, Ni<br>
+      Transformer: V1/V2=N1/N2<br>
+      Motor: elec&rarr;mech<br>
+      Generator: mech&rarr;elec | C=Q/V</p>
     </div>
     <div class="quick-ref-card">
       <h4>Constants</h4>

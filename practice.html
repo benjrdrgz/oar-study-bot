@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Practice — OAR Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}});</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -325,7 +327,39 @@ const questions = [
   {id:"MC28",section:"Mechanical",topic:"Electricity",q:"Two 10Ω resistors in parallel. Total resistance?",passage:null,options:["5Ω","20Ω","10Ω","0.2Ω"],correct:0,explanation:"Parallel: 1/R = 1/10 + 1/10 = 2/10. R = 10/2 = 5Ω. Shortcut: equal resistors in parallel = R/n."},
   {id:"MC29",section:"Mechanical",topic:"Electricity",q:"In a series circuit, one bulb burns out. What happens?",passage:null,options:["All bulbs go out","Other bulbs get brighter","Nothing changes","Only adjacent bulbs go out"],correct:0,explanation:"Series circuit: one path for current. If one element breaks, the circuit is open and all go out."},
   {id:"MC30",section:"Mechanical",topic:"Electricity",q:"A device uses 120V and draws 2A. What is its power?",passage:null,options:["240W","60W","122W","0.017W"],correct:0,explanation:"P = V × I = 120 × 2 = 240W."},
-  {id:"MC33",section:"Mechanical",topic:"Electricity",q:"According to Bernoulli's principle, when air speeds up, what happens to pressure?",passage:null,options:["Pressure decreases","Pressure increases","Pressure stays the same","Pressure doubles"],correct:0,explanation:"Bernoulli's principle: faster fluid = lower pressure. This is how airplane wings generate lift."}
+  {id:"MC33",section:"Mechanical",topic:"Electricity",q:"According to Bernoulli's principle, when air speeds up, what happens to pressure?",passage:null,options:["Pressure decreases","Pressure increases","Pressure stays the same","Pressure doubles"],correct:0,explanation:"Bernoulli's principle: faster fluid = lower pressure. This is how airplane wings generate lift."},
+
+  // MECHANICAL - MOMENTUM & IMPULSE
+  {id:"MC35",section:"Mechanical",topic:"Momentum & Impulse",q:"A 5-kg object moves at 10 m/s. What is its momentum?",passage:null,options:["50 kg·m/s","15 kg·m/s","2 kg·m/s","500 kg·m/s"],correct:0,explanation:"p = mv = 5 × 10 = 50 kg·m/s."},
+  {id:"MC36",section:"Mechanical",topic:"Momentum & Impulse",q:"A force of 20 N acts on an object for 3 seconds. What impulse does it receive?",passage:null,options:["60 N·s","23 N·s","6.67 N·s","17 N·s"],correct:0,explanation:"Impulse J = FΔt = 20 × 3 = 60 N·s."},
+  {id:"MC37",section:"Mechanical",topic:"Momentum & Impulse",q:"A 0.5-kg ball moving at 8 m/s collides with a stationary 1.5-kg block and they stick together. What is the final velocity?",passage:null,options:["2 m/s","4 m/s","8 m/s","1 m/s"],correct:0,explanation:"Conservation of momentum: m₁v₁ = (m₁+m₂)v_f → 0.5×8 = 2×v → v = 2 m/s."},
+  {id:"MC38",section:"Mechanical",topic:"Momentum & Impulse",q:"In a perfectly elastic collision, which quantities are conserved?",passage:null,options:["Both momentum and kinetic energy","Only momentum","Only kinetic energy","Neither"],correct:0,explanation:"Elastic collisions conserve BOTH momentum and kinetic energy. Inelastic collisions only conserve momentum."},
+  {id:"MC39",section:"Mechanical",topic:"Momentum & Impulse",q:"A 2-kg cart moving at 6 m/s collides with a 4-kg cart at rest. They stick together. What is the final velocity?",passage:null,options:["2 m/s","3 m/s","6 m/s","4 m/s"],correct:0,explanation:"m₁v₁ = (m₁+m₂)v_f → 2×6 = 6×v → v = 12/6 = 2 m/s."},
+
+  // MECHANICAL - KINEMATICS
+  {id:"MC40",section:"Mechanical",topic:"Kinematics",q:"An object starts from rest and accelerates at 4 m/s² for 5 seconds. What is its final velocity?",passage:null,options:["20 m/s","9 m/s","1.25 m/s","100 m/s"],correct:0,explanation:"v = v₀ + at = 0 + 4×5 = 20 m/s."},
+  {id:"MC41",section:"Mechanical",topic:"Kinematics",q:"A ball is thrown upward at 30 m/s (g = 10 m/s²). How long until it stops rising?",passage:null,options:["3 seconds","30 seconds","0.33 seconds","6 seconds"],correct:0,explanation:"At the top, v = 0. t = v₀/g = 30/10 = 3 seconds."},
+  {id:"MC42",section:"Mechanical",topic:"Kinematics",q:"An object starts from rest and accelerates at 2 m/s² for 10 seconds. How far does it travel?",passage:null,options:["100 m","20 m","200 m","50 m"],correct:0,explanation:"d = ½at² = ½ × 2 × 10² = ½ × 2 × 100 = 100 m."},
+  {id:"MC43",section:"Mechanical",topic:"Kinematics",q:"A car traveling at 20 m/s brakes to a stop over 50 m. What is the acceleration?",passage:null,options:["-4 m/s²","-2 m/s²","4 m/s²","-8 m/s²"],correct:0,explanation:"v² = v₀² + 2ad → 0 = 400 + 2a(50) → a = -400/100 = -4 m/s²."},
+  {id:"MC44",section:"Mechanical",topic:"Kinematics",q:"In uniform circular motion, the centripetal acceleration is directed:",passage:null,options:["Toward the center of the circle","Away from the center","Tangent to the circle","In the direction of motion"],correct:0,explanation:"Centripetal means 'center-seeking.' The acceleration always points toward the center of the circular path."},
+
+  // MECHANICAL - GAS LAWS
+  {id:"MC45",section:"Mechanical",topic:"Gas Laws",q:"A gas occupies 4 L at 2 atm. If pressure increases to 8 atm at constant temperature, what is the new volume?",passage:null,options:["1 L","2 L","16 L","32 L"],correct:0,explanation:"Boyle's Law: P₁V₁ = P₂V₂ → 2×4 = 8×V → V = 8/8 = 1 L."},
+  {id:"MC46",section:"Mechanical",topic:"Gas Laws",q:"A gas at 300 K has a volume of 6 L. If heated to 600 K at constant pressure, what is the new volume?",passage:null,options:["12 L","3 L","6 L","1200 L"],correct:0,explanation:"Charles's Law: V₁/T₁ = V₂/T₂ → 6/300 = V/600 → V = 12 L."},
+  {id:"MC47",section:"Mechanical",topic:"Gas Laws",q:"What does the ideal gas law state?",passage:null,options:["PV = nRT","P = nRT/V²","PV² = nRT","P/V = nRT"],correct:0,explanation:"The ideal gas law is PV = nRT, where P = pressure, V = volume, n = moles, R = gas constant, T = temperature."},
+  {id:"MC48",section:"Mechanical",topic:"Gas Laws",q:"According to Boyle's Law, pressure and volume are:",passage:null,options:["Inversely related at constant temperature","Directly related at constant temperature","Unrelated","Inversely related at constant pressure"],correct:0,explanation:"Boyle's Law: P₁V₁ = P₂V₂. As pressure increases, volume decreases (inverse relationship) at constant temperature."},
+
+  // MECHANICAL - HEAT TRANSFER
+  {id:"MC49",section:"Mechanical",topic:"Heat Transfer",q:"Which type of heat transfer requires no medium (can travel through a vacuum)?",passage:null,options:["Radiation","Conduction","Convection","All require a medium"],correct:0,explanation:"Radiation transfers energy via electromagnetic waves and does not need a medium — it can travel through the vacuum of space."},
+  {id:"MC50",section:"Mechanical",topic:"Heat Transfer",q:"A metal spoon in hot soup gets hot at the handle. This is an example of:",passage:null,options:["Conduction","Convection","Radiation","Evaporation"],correct:0,explanation:"Conduction: heat transfer through direct contact between molecules. The heat travels through the solid spoon."},
+  {id:"MC51",section:"Mechanical",topic:"Heat Transfer",q:"Warm air rising from a heater is an example of:",passage:null,options:["Convection","Conduction","Radiation","Insulation"],correct:0,explanation:"Convection: heat transfer through fluid (liquid or gas) movement. Warm air rises, cool air sinks, creating a current."},
+  {id:"MC52",section:"Mechanical",topic:"Heat Transfer",q:"At what point on a phase diagram do solid, liquid, and gas coexist in equilibrium?",passage:null,options:["Triple point","Boiling point","Critical point","Freezing point"],correct:0,explanation:"The triple point is the unique temperature and pressure where all three phases of a substance coexist in equilibrium."},
+
+  // MECHANICAL - MAGNETISM
+  {id:"MC53",section:"Mechanical",topic:"Magnetism",q:"What happens when two north poles of magnets are brought together?",passage:null,options:["They repel","They attract","Nothing happens","They demagnetize"],correct:0,explanation:"Like poles (N-N or S-S) repel each other. Opposite poles (N-S) attract."},
+  {id:"MC54",section:"Mechanical",topic:"Magnetism",q:"Which of the following materials are ferromagnetic?",passage:null,options:["Iron, cobalt, and nickel","Copper, silver, and gold","Aluminum, zinc, and tin","Wood, plastic, and glass"],correct:0,explanation:"Iron, cobalt, and nickel are the three naturally ferromagnetic elements — they can be strongly magnetized."},
+  {id:"MC55",section:"Mechanical",topic:"Magnetism",q:"What is the primary function of a transformer?",passage:null,options:["To increase or decrease voltage","To store electrical energy","To convert AC to DC","To measure current"],correct:0,explanation:"Transformers change voltage levels using electromagnetic induction. Step-up increases voltage; step-down decreases it. V₁/V₂ = N₁/N₂."},
+  {id:"MC56",section:"Mechanical",topic:"Magnetism",q:"A diode allows current to flow in:",passage:null,options:["One direction only","Both directions equally","Neither direction","Only when heated"],correct:0,explanation:"A diode is a one-way valve for current. It allows flow in the forward direction and blocks it in reverse."}
 ];
 
 // ==================== STATE ====================

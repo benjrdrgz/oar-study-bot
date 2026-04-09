@@ -103,6 +103,8 @@ a{color:inherit;text-decoration:none}
   .lesson-content h1{font-size:22px}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}});</script>
 </head>
 <body>
 
@@ -1042,6 +1044,359 @@ const lessons = [
         <strong>Parallel:</strong> Multiple paths. R decreases. Voltage same everywhere. One fails, rest work.
       </div>
     `
+  },
+  {
+    id: 13, section: "MECHANICAL COMPREHENSION", title: "Momentum & Impulse",
+    desc: "Linear momentum, impulse-momentum theorem, conservation of momentum, elastic and inelastic collisions",
+    tags: ["Momentum","Impulse","Collisions","Conservation"],
+    content: `
+      <h1>Momentum &amp; Impulse</h1>
+      <p class="lesson-subtitle">Understand how objects transfer motion during collisions and why momentum is always conserved in closed systems.</p>
+
+      <h2>Linear Momentum</h2>
+      <p>Momentum is mass in motion. It is a <strong>vector quantity</strong> &mdash; it has both magnitude and direction.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Formula</div>
+        \\(p = mv\\)<br>
+        <strong>p</strong> = momentum (kg&middot;m/s) &nbsp;|&nbsp; <strong>m</strong> = mass (kg) &nbsp;|&nbsp; <strong>v</strong> = velocity (m/s)
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Insight</div>
+        A slow, heavy truck can have the same momentum as a fast, light car. Momentum depends on <strong>both</strong> mass and velocity.
+      </div>
+
+      <h2>Impulse</h2>
+      <p>Impulse is the change in momentum caused by a force acting over time.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Impulse-Momentum Theorem</div>
+        \\[F\\Delta t = m\\Delta v\\]
+        Force &times; time = change in momentum. Units: Newton-seconds (N&middot;s)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A 2-kg block starts at rest. An 8N force is applied for 5 seconds.<br>
+        Impulse = \\(F \\times \\Delta t = 8 \\times 5 =\\) <strong>40 N&middot;s</strong><br>
+        \\(\\Delta v = \\frac{F \\Delta t}{m} = \\frac{40}{2} =\\) <strong>20 m/s</strong>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Why Airbags Work</div>
+        Airbags increase the <strong>time</strong> of impact, which <strong>reduces the force</strong> for the same change in momentum. Same impulse, less damage.
+      </div>
+
+      <h2>Conservation of Momentum</h2>
+      <p>In a <strong>closed system</strong> (no external forces), total momentum before a collision equals total momentum after.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Conservation Law</div>
+        \\[p_{\\text{initial}} = p_{\\text{final}}\\]
+        \\[m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'\\]
+      </div>
+
+      <h2>Types of Collisions</h2>
+      <p><strong>Elastic Collisions:</strong> Both kinetic energy AND momentum are conserved. Objects bounce off each other (e.g., billiard balls).</p>
+      <p><strong>Inelastic Collisions:</strong> Only momentum is conserved. Objects may deform or stick together. In a <strong>perfectly inelastic</strong> collision, the objects combine into one mass.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Perfectly Inelastic Collision</div>
+        A 0.01-kg bullet traveling at 400 m/s embeds in a 10-kg block at rest.<br>
+        \\(m_1 v_1 + m_2 v_2 = (m_1 + m_2) v_f\\)<br>
+        \\(0.01 \\times 400 + 10 \\times 0 = (0.01 + 10) \\times v_f\\)<br>
+        \\(4 = 10.01 \\times v_f\\)<br>
+        \\(v_f \\approx\\) <strong>0.4 m/s</strong>
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Common Trap</div>
+        Don't confuse elastic and inelastic. On the OAR, if objects <strong>stick together</strong>, it's perfectly inelastic. If they <strong>bounce</strong>, check whether KE is conserved to determine if it's elastic.
+      </div>
+    `
+  },
+  {
+    id: 14, section: "MECHANICAL COMPREHENSION", title: "Kinematics — Displacement, Velocity & Acceleration",
+    desc: "Kinematic equations, projectile motion, uniform circular motion",
+    tags: ["Kinematics","Velocity","Acceleration","Projectile","Circular Motion"],
+    content: `
+      <h1>Kinematics &mdash; Displacement, Velocity &amp; Acceleration</h1>
+      <p class="lesson-subtitle">Describe how objects move through space and time using the core kinematic equations.</p>
+
+      <h2>Displacement, Velocity &amp; Acceleration</h2>
+      <p><strong>Displacement</strong> (\\(\\Delta x\\)) is the change in position &mdash; a vector quantity (direction matters).</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Definitions</div>
+        \\(\\Delta x = x_f - x_i\\) &nbsp;(displacement)<br>
+        \\(v_{\\text{avg}} = \\frac{\\Delta x}{\\Delta t}\\) &nbsp;(average velocity, m/s)<br>
+        \\(a = \\frac{\\Delta v}{\\Delta t}\\) &nbsp;(acceleration, m/s&sup2;)
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Distance vs. Displacement</div>
+        Distance is total path traveled (always positive). Displacement is straight-line change in position (can be negative). A round trip has large distance but <strong>zero</strong> displacement.
+      </div>
+
+      <h2>Kinematic Equations (Constant Acceleration)</h2>
+      <p>These four equations solve every constant-acceleration problem. Pick the one that matches your knowns and unknowns.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">The Big Four</div>
+        \\[x_f = x_i + v_i t + \\tfrac{1}{2}at^2\\]
+        \\[v_f = v_i + at\\]
+        \\[v_f^2 = v_i^2 + 2a\\Delta x\\]
+        \\[\\Delta x = \\frac{(v_f + v_i)}{2} \\cdot t\\]
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A car starts from rest and accelerates at 3 m/s&sup2; for 8 seconds. How far does it travel?<br>
+        \\(x = 0 + 0 + \\tfrac{1}{2}(3)(8^2) = \\tfrac{1}{2}(3)(64) =\\) <strong>96 m</strong>
+      </div>
+
+      <h2>Projectile Motion</h2>
+      <p>A projectile has <strong>two independent motions</strong>: constant velocity horizontally and constant acceleration (gravity) vertically.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Projectile Components</div>
+        Horizontal: \\(v_{0x} = v_0 \\cos\\theta\\) &nbsp;(constant, no acceleration)<br>
+        Vertical: \\(v_{0y} = v_0 \\sin\\theta\\) &nbsp;(accelerated by \\(g = 9.8\\) m/s&sup2; downward)
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Key Point</div>
+        At the <strong>peak</strong> of a projectile's arc, the vertical velocity is <strong>zero</strong> but horizontal velocity is <strong>unchanged</strong>. The object is NOT stationary at the top.
+      </div>
+
+      <h2>Uniform Circular Motion</h2>
+      <p>An object moving in a circle at constant speed is still <strong>accelerating</strong> because its direction is constantly changing.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Centripetal Acceleration</div>
+        \\[a_c = \\frac{v^2}{r}\\]
+        The acceleration always points <strong>toward the center</strong> of the circle.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A car rounds a curve of radius 50m at 20 m/s.<br>
+        \\(a_c = \\frac{20^2}{50} = \\frac{400}{50} =\\) <strong>8 m/s&sup2;</strong> toward the center
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">OAR Tip</div>
+        Centripetal force is not a new force &mdash; it is the <strong>net inward force</strong> (friction, tension, gravity, etc.) that keeps an object in a circular path.
+      </div>
+    `
+  },
+  {
+    id: 15, section: "MECHANICAL COMPREHENSION", title: "Gas Laws",
+    desc: "Ideal gas law, Boyle's law, Charles's law, combined gas law, Avogadro's law",
+    tags: ["Gas Laws","Ideal Gas","Boyle","Charles","PV=nRT"],
+    content: `
+      <h1>Gas Laws</h1>
+      <p class="lesson-subtitle">Understand how pressure, volume, and temperature relate in gases &mdash; from tire pressure on a hot day to scuba diving physics.</p>
+
+      <h2>The Ideal Gas Law</h2>
+      <p>The master equation that connects all gas properties:</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Ideal Gas Law</div>
+        \\[PV = nRT\\]
+        <strong>P</strong> = pressure &nbsp;|&nbsp; <strong>V</strong> = volume &nbsp;|&nbsp; <strong>n</strong> = number of moles &nbsp;|&nbsp; <strong>R</strong> = gas constant &nbsp;|&nbsp; <strong>T</strong> = temperature (Kelvin)
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Temperature Must Be Kelvin</div>
+        Always convert to Kelvin before using any gas law. \\(K = °C + 273\\). If a problem gives Celsius, convert first!
+      </div>
+
+      <h2>Boyle's Law (Constant Temperature)</h2>
+      <p>When temperature stays the same, pressure and volume are <strong>inversely</strong> related.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Boyle's Law</div>
+        \\[P_1 V_1 = P_2 V_2\\]
+        Pressure goes up &rarr; volume goes down (and vice versa)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A gas occupies 5.0L at 1.0 atm. What volume at 2.0 atm?<br>
+        \\(1.0 \\times 5.0 = 2.0 \\times V_2\\)<br>
+        \\(V_2 = \\frac{5.0}{2.0} =\\) <strong>2.5L</strong><br>
+        Doubled pressure = half the volume.
+      </div>
+
+      <h2>Charles's Law (Constant Pressure)</h2>
+      <p>When pressure stays the same, volume and temperature are <strong>directly</strong> related.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Charles's Law</div>
+        \\[\\frac{V_1}{T_1} = \\frac{V_2}{T_2}\\]
+        Temperature goes up &rarr; volume goes up
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A gas occupies 10.0L at 200K. What volume at 300K?<br>
+        \\(\\frac{10.0}{200} = \\frac{V_2}{300}\\)<br>
+        \\(V_2 = \\frac{10.0 \\times 300}{200} =\\) <strong>15.0L</strong>
+      </div>
+
+      <h2>Combined Gas Law</h2>
+      <p>When both temperature and pressure change, use the combined law:</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Combined Gas Law</div>
+        \\[\\frac{P_1 V_1}{T_1} = \\frac{P_2 V_2}{T_2}\\]
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">How to Remember</div>
+        Boyle's and Charles's laws are just special cases of the combined gas law. Hold T constant &rarr; Boyle's. Hold P constant &rarr; Charles's.
+      </div>
+
+      <h2>Avogadro's Law</h2>
+      <p>At constant temperature and pressure, volume is directly proportional to the number of moles of gas.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Avogadro's Law</div>
+        \\[\\frac{V}{n} = \\text{constant}\\]
+        More gas molecules &rarr; more volume (at same T and P)
+      </div>
+    `
+  },
+  {
+    id: 16, section: "MECHANICAL COMPREHENSION", title: "Heat Transfer",
+    desc: "Conduction, convection, radiation, states of matter, phase changes, phase diagrams",
+    tags: ["Heat Transfer","Conduction","Convection","Radiation","Phase Changes"],
+    content: `
+      <h1>Heat Transfer</h1>
+      <p class="lesson-subtitle">How thermal energy moves between objects and how matter changes state &mdash; essential for understanding engines, cooling, and weather.</p>
+
+      <h2>Three Modes of Heat Transfer</h2>
+      <p>Heat always flows from <strong>hot to cold</strong>. There are exactly three ways this happens:</p>
+
+      <h3>Conduction (Direct Contact)</h3>
+      <p>Heat transfers through a material by molecular collisions. No bulk movement of matter.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Fourier's Law of Conduction</div>
+        \\[q = kA\\frac{\\Delta T}{\\Delta x}\\]
+        <strong>q</strong> = heat flow rate &nbsp;|&nbsp; <strong>k</strong> = thermal conductivity &nbsp;|&nbsp; <strong>A</strong> = cross-sectional area &nbsp;|&nbsp; \\(\\Delta T / \\Delta x\\) = temperature gradient
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Good vs. Poor Conductors</div>
+        <strong>Metals</strong> (copper, aluminum, iron) are excellent conductors. <strong>Wood, rubber, air</strong> are poor conductors (insulators). That's why pot handles are wooden.
+      </div>
+
+      <h3>Convection (Fluid Movement)</h3>
+      <p>Heat transfers through the <strong>bulk movement of fluid</strong> (liquid or gas). Hot fluid rises, cool fluid sinks.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Convection Equation</div>
+        \\[q = hA\\Delta T\\]
+        <strong>h</strong> = convection coefficient &nbsp;|&nbsp; <strong>Free convection</strong> = natural (hot air rising) &nbsp;|&nbsp; <strong>Forced convection</strong> = fan or pump
+      </div>
+
+      <h3>Radiation (Electromagnetic Waves)</h3>
+      <p>Heat transfers through electromagnetic waves. <strong>No medium needed</strong> &mdash; this is how the sun heats the Earth across the vacuum of space.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Stefan-Boltzmann Law</div>
+        \\[q = e\\sigma A T^4\\]
+        <strong>e</strong> = emissivity (0 to 1) &nbsp;|&nbsp; \\(\\sigma\\) = Stefan-Boltzmann constant<br>
+        Dark surfaces have <strong>high emissivity</strong> (absorb and emit more radiation). Shiny surfaces reflect radiation.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Identifying the Mode</div>
+        &bull; Touching a hot stove &rarr; <strong>Conduction</strong><br>
+        &bull; Warm air rising from a heater &rarr; <strong>Convection</strong><br>
+        &bull; Feeling warmth from a campfire across the room &rarr; <strong>Radiation</strong>
+      </div>
+
+      <h2>States of Matter &amp; Phase Changes</h2>
+      <p>Matter exists in four states, each with different properties:</p>
+      <ul>
+        <li><strong>Solid</strong> &mdash; fixed shape and fixed volume</li>
+        <li><strong>Liquid</strong> &mdash; no fixed shape, fixed volume</li>
+        <li><strong>Gas</strong> &mdash; no fixed shape, no fixed volume</li>
+        <li><strong>Plasma</strong> &mdash; ionized gas (stars, lightning)</li>
+      </ul>
+      <div class="callout callout-formula">
+        <div class="callout-title">Phase Change Names</div>
+        Solid &rarr; Liquid = <strong>Melting</strong> &nbsp;|&nbsp; Liquid &rarr; Solid = <strong>Freezing</strong><br>
+        Liquid &rarr; Gas = <strong>Vaporization</strong> &nbsp;|&nbsp; Gas &rarr; Liquid = <strong>Condensation</strong><br>
+        Solid &rarr; Gas = <strong>Sublimation</strong> &nbsp;|&nbsp; Gas &rarr; Solid = <strong>Deposition</strong>
+      </div>
+
+      <h2>Phase Diagrams</h2>
+      <p>A phase diagram plots <strong>pressure vs. temperature</strong> to show which state matter is in at each combination.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Feature: Triple Point</div>
+        The <strong>triple point</strong> is where all three phases (solid, liquid, gas) coexist simultaneously. Every pure substance has exactly one triple point.
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">OAR Trap</div>
+        During a phase change, <strong>temperature stays constant</strong> even though heat is being added. The energy goes into breaking molecular bonds, not raising temperature. This is called <strong>latent heat</strong>.
+      </div>
+    `
+  },
+  {
+    id: 17, section: "MECHANICAL COMPREHENSION", title: "Magnetism & Advanced Electrical Components",
+    desc: "Magnets, magnetic fields, electromagnets, capacitors, transformers, motors, generators, diodes",
+    tags: ["Magnetism","Electromagnets","Capacitors","Transformers","Motors"],
+    content: `
+      <h1>Magnetism &amp; Advanced Electrical Components</h1>
+      <p class="lesson-subtitle">From permanent magnets to electromagnets, capacitors, and transformers &mdash; the components that power modern technology.</p>
+
+      <h2>Magnets &amp; Magnetic Fields</h2>
+      <p>Every magnet has a <strong>north pole</strong> and a <strong>south pole</strong>. Like poles repel; opposite poles attract.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Magnetic Field Rules</div>
+        &bull; Magnetic field lines run from <strong>north to south</strong> outside the magnet<br>
+        &bull; Moving electric charges (current) produce magnetic fields<br>
+        &bull; <strong>Unpaired electrons</strong> in atoms create magnetic materials
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Three Types of Magnetic Materials</div>
+        <strong>Ferromagnetic</strong> (strongly attracted): iron, cobalt, nickel &mdash; can become permanent magnets<br>
+        <strong>Paramagnetic</strong> (weakly attracted): aluminum, platinum &mdash; only magnetic in external field<br>
+        <strong>Diamagnetic</strong> (not attracted, slightly repelled): copper, gold, water &mdash; no magnetic field
+      </div>
+
+      <h2>Electromagnets</h2>
+      <p>An electromagnet is created by running <strong>current through a coiled wire</strong> (solenoid), often wrapped around an <strong>iron core</strong> to amplify the field.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Electromagnet Properties</div>
+        &bull; <strong>No current = no magnetism</strong> (can be switched on/off)<br>
+        &bull; More coils = stronger field<br>
+        &bull; More current = stronger field<br>
+        &bull; Iron core = much stronger field
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example Applications</div>
+        &bull; <strong>Doorbells</strong> &mdash; electromagnet pulls a striker to ring the bell<br>
+        &bull; <strong>Junkyard cranes</strong> &mdash; powerful electromagnets pick up and drop scrap metal<br>
+        &bull; <strong>MRI machines</strong> &mdash; superconducting electromagnets create imaging fields
+      </div>
+
+      <h2>Capacitors</h2>
+      <p>Capacitors store energy in an <strong>electric field</strong> between two conductive plates separated by an insulator (dielectric).</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Capacitor Formulas</div>
+        Capacitance: \\(C = \\frac{Q}{V}\\) &nbsp;(units: Farads, F)<br>
+        Energy stored: \\(E = \\frac{1}{2}CV^2\\)<br>
+        <strong>C</strong> = capacitance &nbsp;|&nbsp; <strong>Q</strong> = charge &nbsp;|&nbsp; <strong>V</strong> = voltage
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Key Difference</div>
+        <strong>Batteries</strong> store energy chemically and release it slowly. <strong>Capacitors</strong> store energy in electric fields and can release it almost instantly (camera flash, defibrillators).
+      </div>
+
+      <h2>Transformers</h2>
+      <p>Transformers change voltage levels using electromagnetic induction. They only work with <strong>AC (alternating current)</strong>.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Transformer Types</div>
+        <strong>Step-up transformer:</strong> increases voltage (more turns on secondary coil)<br>
+        <strong>Step-down transformer:</strong> decreases voltage (fewer turns on secondary coil)<br><br>
+        \\(\\frac{V_1}{V_2} = \\frac{N_1}{N_2}\\) &nbsp;(voltage ratio = turns ratio)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A transformer has 100 primary turns and 500 secondary turns. Input: 120V.<br>
+        \\(\\frac{120}{V_2} = \\frac{100}{500}\\)<br>
+        \\(V_2 = \\frac{120 \\times 500}{100} =\\) <strong>600V</strong> (step-up)
+      </div>
+
+      <h2>Motors, Generators &amp; Diodes</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Energy Conversion Devices</div>
+        <strong>Motor:</strong> Electrical energy &rarr; Mechanical energy (motion). Uses current in a magnetic field to spin a shaft.<br>
+        <strong>Generator:</strong> Mechanical energy &rarr; Electrical energy. Spinning a coil in a magnetic field induces current (opposite of a motor).<br>
+        <strong>Diode:</strong> Allows current to flow in <strong>one direction only</strong> (electrical "valve"). LED is a common type that also emits light.
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">OAR Memory Trick</div>
+        <strong>Motors</strong> = electricity makes things <strong>M</strong>ove.<br>
+        <strong>Generators</strong> = movement <strong>G</strong>enerates electricity.<br>
+        They are essentially the same device running in reverse.
+      </div>
+    `
   }
 ];
 
@@ -1112,6 +1467,11 @@ function openLesson(lesson) {
     </div>
   `;
   viewer.scrollTop = 0;
+
+  // Re-render MathJax if available
+  if (typeof MathJax !== 'undefined' && MathJax.Hub) {
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, viewer]);
+  }
 
   // Close mobile sidebar
   document.querySelector('.sidebar').classList.remove('open');

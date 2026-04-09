@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "oar-dashboard",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8091", "-d", "/Users/breakbread/Documents/Claude/Projects/OAR Study Bot"],
+      "port": 8091
+    }
+  ]
+}
