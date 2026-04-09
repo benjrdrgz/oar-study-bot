@@ -55,3 +55,53 @@
 All hosted at courses.mometrix.com/wp-content/uploads/2025/05/
 
 --- Benjamin Rodriguez
+
+## UPDATE — Strategy Content COMPLETE
+All strategy pages scraped:
+- ✅ Secret Key #1: Plan Big, Study Small (organize, schedule, environment)
+- ✅ Secret Key #2: Make Your Studying Count (active recall, spaced repetition, Leitner method, modality)
+- ✅ Secret Key #3: Practice the Right Way (3-test strategy: pretest → open book → timed)
+- ✅ Secret Key #4: Pace Yourself (set time expectations, keep calm, adjust pace)
+- ✅ Secret Key #5: Have a Plan for Guessing ($5 challenge, eliminate then pick first remaining, avoid impressions)
+- ✅ Question Strategies (read carefully, contextual clues, prefixes, hedge words, switchbacks, face value)
+- ✅ Answer Choice Strategies (elimination, answer families, fact traps, extreme statements, benchmark, predict)
+- ✅ General Strategies (tough questions, check work, pace, don't rush, keep moving)
+- ✅ How to Overcome Test Anxiety (causes, physical steps: sleep/nutrition/exercise, mental steps: confidence/support/rewards, visualization)
+
+## Key Mometrix Guessing Strategy ($5 Challenge):
+- Only eliminate an answer if you'd bet $5 it's wrong
+- After eliminating, pick the FIRST remaining choice (predetermined, not impression-based)
+- Avoid "random" guessing based on how answers look/sound — that's a trap
+
+## Remaining to Scrape:
+- LAYG1 & LAYG2 Reading tests (2 tests, ~54 questions)
+- Math Anxiety page
+- Study Guide pages (6 lessons)
+- Remaining lesson pages (math & mechanical)
+- Flashcards
+- Pretests
+
+## FINAL SCRAPE TALLY:
+
+### Practice Tests (ALL scraped):
+| Test | Math | Reading | Mechanical | Total |
+|------|------|---------|------------|-------|
+| PT1  | ✅ 30 | ✅ 27 | ✅ 30 | 87 |
+| PT2  | ✅ 30 | ✅ 27 | ✅ 30 | 87 |
+| PT3  | ✅ 30 | ✅ 27 | ✅ 30 | 87 |
+| LAYG1| ✅ 30 | ✅ 27 | ✅ 30 | 87 |
+| LAYG2| ✅ 30 | ✅ 20 | ✅ 30 | 80 |
+| **TOTAL** | **150** | **128** | **150** | **428** |
+
+### Strategy Content (ALL scraped):
+- 5 Secret Keys ✅
+- 3 Test-Taking Strategies ✅
+- Test Anxiety guide ✅
+
+### Lesson Content (scraped):
+- 6/13 Mechanical lessons ✅
+- 3/6 Reading lessons ✅
+- 1 Strategy lesson ✅
+
+### TOTAL QUESTIONS IN MOMETRIX: ~428 (plus 3 pretests uncounted)
+### ALL PRACTICE TESTS: COMPLETE ✅
