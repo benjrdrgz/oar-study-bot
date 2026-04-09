@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAR Pro — Formula Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0B1120;--surface:#111827;--surface-2:#1F2937;--surface-3:#374151;
+  --border:#1E293B;--border-hover:#334155;
+  --accent:#3B82F6;--accent-hover:#2563EB;--accent-glow:rgba(59,130,246,.15);
+  --green:#10B981;--green-bg:rgba(16,185,129,.1);
+  --red:#EF4444;--red-bg:rgba(239,68,68,.1);
+  --yellow:#F59E0B;--yellow-bg:rgba(245,158,11,.1);
+  --purple:#8B5CF6;
+  --text:#F9FAFB;--text-2:#9CA3AF;--text-3:#6B7280;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-top:72px;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(11,17,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.5px}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:8px 14px;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--surface-2)}
+.nav-link.active{color:var(--accent);background:var(--accent-glow)}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.page-header{padding:32px 0 24px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.page-title{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.page-subtitle{color:var(--text-2);font-size:15px}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:28px}
+.search-box{flex:1;min-width:220px;position:relative}
+.search-box input{width:100%;padding:10px 14px 10px 40px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+.search-box input:focus{border-color:var(--accent)}
+.search-box input::placeholder{color:var(--text-3)}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3)}
+.filter-tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px}
+.filter-tab{padding:7px 16px;border-radius:8px;border:none;background:none;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.filter-tab:hover{color:var(--text)}
+.filter-tab.active{background:var(--accent);color:#fff}
+.btn-print{padding:9px 18px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn-print:hover{border-color:var(--accent);color:var(--accent)}
+
+/* SECTIONS */
+.formula-section{margin-bottom:24px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);transition:border-color .2s}
+.formula-section:hover{border-color:var(--border-hover)}
+.section-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .15s}
+.section-header:hover{background:var(--surface-2)}
+.section-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.section-title{font-size:16px;font-weight:700;flex:1}
+.section-count{font-size:12px;color:var(--text-3);background:var(--surface-2);padding:3px 10px;border-radius:20px;font-weight:600}
+.section-chevron{color:var(--text-3);transition:transform .2s;font-size:14px}
+.formula-section.open .section-chevron{transform:rotate(180deg)}
+.section-body{display:none;padding:0 20px 20px}
+.formula-section.open .section-body{display:block}
+
+/* FORMULA CARDS */
+.formula-group-title{font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.formula-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+.formula-card:hover{border-color:var(--border-hover)}
+.formula-card:last-child{margin-bottom:0}
+.formula-name{font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.formula-expr{font-family:'SF Mono','Fira Code',monospace;font-size:18px;font-weight:600;padding:12px 16px;background:var(--surface-2);border-radius:8px;margin-bottom:10px;line-height:1.5;overflow-x:auto}
+.formula-expr .var-a{color:var(--accent)}
+.formula-expr .var-b{color:var(--green)}
+.formula-expr .var-c{color:var(--yellow)}
+.formula-expr .var-d{color:var(--purple)}
+.formula-expr .op{color:var(--text-3)}
+.formula-desc{font-size:13px;color:var(--text-2);margin-bottom:8px}
+.formula-example{font-size:13px;color:var(--text-2);padding:8px 12px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--accent)}
+.formula-example strong{color:var(--text)}
+.memory-trick{font-size:13px;padding:8px 12px;background:var(--yellow-bg);border-radius:6px;border-left:3px solid var(--yellow);color:var(--yellow);margin-top:8px}
+.memory-trick::before{content:'💡 ';font-size:12px}
+
+/* DIAGRAMS */
+.diagram-container{margin:12px 0;padding:16px;background:var(--surface-2);border-radius:10px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:24px}
+.diagram-label{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:8px}
+
+/* CONVERSIONS MINI */
+.conversions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.conv-item{padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-family:monospace;font-size:13px;text-align:center}
+.conv-item .frac{color:var(--accent)}
+.conv-item .dec{color:var(--green)}
+
+/* QUICK REFERENCE */
+.quick-ref{display:none;column-count:2;column-gap:20px;padding:20px 0}
+.quick-ref.visible{display:block}
+.quick-ref-card{break-inside:avoid;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:12px}
+.quick-ref-card h4{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.quick-ref-card p{font-family:monospace;font-size:12px;color:var(--text-2);line-height:1.8}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:60px 20px;color:var(--text-3)}
+.no-results .icon{font-size:48px;margin-bottom:12px}
+.no-results p{font-size:15px}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.formula-section{animation:fadeIn .3s ease}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#000;padding-top:0}
+  .nav,.toolbar,.section-chevron,.btn-print,.no-results{display:none!important}
+  .formula-section,.formula-card{border-color:#ddd;break-inside:avoid;page-break-inside:avoid}
+  .formula-section{margin-bottom:8px}
+  .section-body{display:block!important;padding:8px 12px 12px}
+  .section-header{padding:8px 12px}
+  .formula-expr{background:#f5f5f5;font-size:14px;padding:6px 10px}
+  .formula-card{padding:8px;margin-bottom:4px}
+  .page-header{padding:12px 0;margin-bottom:12px}
+  .page-title{font-size:22px}
+  .memory-trick{background:#fff8e1;border-left-color:#f59e0b}
+  .formula-example{background:#f5f5f5}
+  .diagram-container{background:#f5f5f5}
+  svg text{fill:#000!important}
+  svg line,svg rect,svg circle,svg path{stroke:#333!important}
+  .container{max-width:100%;padding:0 12px}
+  .section-icon{display:none}
+}
+
+@media(max-width:768px){
+  .toolbar{flex-direction:column}
+  .search-box{min-width:100%}
+  .filter-tabs{width:100%;justify-content:center}
+  .quick-ref{column-count:1}
+  .formula-expr{font-size:15px}
+  .nav-links{gap:2px}
+  .nav-link{padding:6px 10px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="study.html" class="nav-link">Study</a>
+      <a href="practice.html" class="nav-link">Practice</a>
+      <a href="formulas.html" class="nav-link active">Formulas</a>
+      <a href="strategies.html" class="nav-link">Strategies</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Formula Reference</h1>
+    <p class="page-subtitle">Every formula you need for the OAR, organized and searchable. Print it, study it, own it.</p>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search formulas... (e.g. lever, ohm, quadratic)">
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="math">Math</button>
+      <button class="filter-tab" data-filter="mechanical">Mechanical</button>
+      <button class="filter-tab" data-filter="quick">Quick Ref</button>
+    </div>
+    <button class="btn-print" onclick="window.print()">
+      <span style="margin-right:4px">&#128424;</span> Print Sheet
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="formulaContent">
+
+    <!-- ==================== MATH: ARITHMETIC ==================== -->
+    <div class="formula-section open" data-category="math" data-keywords="arithmetic pemdas fraction percent cross multiply">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#9998;</div>
+        <div class="section-title">Arithmetic</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="pemdas order operations">
+          <div class="formula-name">PEMDAS (Order of Operations)</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span>arentheses <span class="op">&rarr;</span>
+            <span class="var-b">E</span>xponents <span class="op">&rarr;</span>
+            <span class="var-c">M</span>ult/<span class="var-c">D</span>iv <span class="op">(L&rarr;R)</span> <span class="op">&rarr;</span>
+            <span class="var-d">A</span>dd/<span class="var-d">S</span>ub <span class="op">(L&rarr;R)</span>
+          </div>
+          <div class="formula-desc">Multiplication and division are equal priority (left to right), same for addition and subtraction.</div>
+          <div class="formula-example"><strong>Example:</strong> 8 + 2 &times; 5 = 8 + 10 = <strong>18</strong> (NOT 50)</div>
+          <div class="memory-trick">Please Excuse My Dear Aunt Sally</div>
+        </div>
+
+        <div class="formula-card" data-keywords="fraction add subtract multiply divide">
+          <div class="formula-name">Fraction Operations</div>
+          <div class="formula-expr">
+            Add: <span class="var-a">(ad + bc)</span> / <span class="var-b">bd</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            Mult: <span class="var-a">ac</span> / <span class="var-b">bd</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            Div: flip &amp; multiply
+          </div>
+          <div class="formula-desc">To add fractions, cross multiply and add. To divide, flip the second fraction and multiply.</div>
+          <div class="formula-example"><strong>Example:</strong> 1/3 + 1/4 = (4+3)/12 = <strong>7/12</strong></div>
+          <div class="memory-trick">KCF for division: Keep, Change, Flip</div>
+        </div>
+
+        <div class="formula-card" data-keywords="percent percentage">
+          <div class="formula-name">Percent</div>
+          <div class="formula-expr">
+            <span class="var-a">Percent</span> <span class="op">=</span> (<span class="var-b">Part</span> / <span class="var-c">Whole</span>) <span class="op">&times;</span> 100
+          </div>
+          <div class="formula-desc">Find what percentage a part is of the whole.</div>
+          <div class="formula-example"><strong>Example:</strong> 15 out of 60 = (15/60) &times; 100 = <strong>25%</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="percent change increase decrease">
+          <div class="formula-name">Percent Change</div>
+          <div class="formula-expr">
+            <span class="var-a">% Change</span> <span class="op">=</span> (<span class="var-b">New</span> <span class="op">&minus;</span> <span class="var-c">Old</span>) / <span class="var-c">Old</span> <span class="op">&times;</span> 100
+          </div>
+          <div class="formula-desc">Always divide by the ORIGINAL value. Positive = increase, negative = decrease.</div>
+          <div class="formula-example"><strong>Example:</strong> Price goes from $80 to $100: (100-80)/80 &times; 100 = <strong>25% increase</strong></div>
+          <div class="memory-trick">New minus Old, over Old. Always Old on the bottom.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="cross multiply proportion ratio">
+          <div class="formula-name">Cross Multiplication</div>
+          <div class="formula-expr">
+            <span class="var-a">a</span>/<span class="var-b">b</span> <span class="op">=</span> <span class="var-c">c</span>/<span class="var-d">d</span> &nbsp;&nbsp;<span class="op">&rarr;</span>&nbsp;&nbsp; <span class="var-a">a</span><span class="var-d">d</span> <span class="op">=</span> <span class="var-b">b</span><span class="var-c">c</span>
+          </div>
+          <div class="formula-desc">Set up proportions and cross multiply to solve for unknowns.</div>
+          <div class="formula-example"><strong>Example:</strong> 3/x = 9/12 &rarr; 36 = 9x &rarr; x = <strong>4</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MATH: ALGEBRA ==================== -->
+    <div class="formula-section" data-category="math" data-keywords="algebra exponent quadratic inequality">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#120536;</div>
+        <div class="section-title">Algebra</div>
+        <span class="section-count">3 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="exponent power rules">
+          <div class="formula-name">Exponent Rules</div>
+          <div class="formula-expr">
+            <span class="var-a">x<sup>a</sup></span>&middot;<span class="var-a">x<sup>b</sup></span> = <span class="var-a">x<sup>a+b</sup></span> &nbsp;|&nbsp;
+            <span class="var-a">x<sup>a</sup></span>/<span class="var-a">x<sup>b</sup></span> = <span class="var-a">x<sup>a&minus;b</sup></span> &nbsp;|&nbsp;
+            (<span class="var-a">x<sup>a</sup></span>)<sup><span class="var-b">b</span></sup> = <span class="var-a">x<sup>ab</sup></span><br>
+            <span class="var-a">x<sup>0</sup></span> = <span class="var-b">1</span> &nbsp;|&nbsp;
+            <span class="var-a">x<sup>&minus;n</sup></span> = <span class="var-b">1</span>/<span class="var-a">x<sup>n</sup></span>
+          </div>
+          <div class="formula-desc">Multiply bases = add exponents. Divide bases = subtract exponents. Power of a power = multiply exponents.</div>
+          <div class="formula-example"><strong>Example:</strong> 2<sup>3</sup> &times; 2<sup>4</sup> = 2<sup>7</sup> = <strong>128</strong></div>
+          <div class="memory-trick">Same base? Add when multiplying, subtract when dividing.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="quadratic formula equation">
+          <div class="formula-name">Quadratic Formula</div>
+          <div class="formula-expr">
+            <span class="var-a">x</span> <span class="op">=</span> (<span class="op">&minus;</span><span class="var-b">b</span> <span class="op">&plusmn;</span> &radic;(<span class="var-b">b</span>&sup2; <span class="op">&minus;</span> 4<span class="var-a">a</span><span class="var-c">c</span>)) / 2<span class="var-a">a</span>
+          </div>
+          <div class="formula-desc">Solves ax&sup2; + bx + c = 0. The discriminant (b&sup2; &minus; 4ac) tells you: positive = 2 solutions, zero = 1, negative = none.</div>
+          <div class="formula-example"><strong>Example:</strong> x&sup2; &minus; 5x + 6 = 0 &rarr; x = (5 &plusmn; &radic;(25&minus;24))/2 = (5&plusmn;1)/2 &rarr; x = <strong>3 or 2</strong></div>
+          <div class="memory-trick">Negative boy couldn't decide (plus or minus) to go to the radical party. The boy was too square, he missed out on four awesome chicks. The party was over at 2am.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="inequality flip sign negative">
+          <div class="formula-name">Inequalities</div>
+          <div class="formula-expr">
+            When you <span class="var-c">multiply</span> or <span class="var-c">divide</span> by a <span class="var-c">negative</span> &rarr; <span class="var-a">FLIP</span> the sign
+          </div>
+          <div class="formula-desc">The direction of the inequality reverses when multiplying or dividing both sides by a negative number.</div>
+          <div class="formula-example"><strong>Example:</strong> &minus;2x &gt; 6 &rarr; x &lt; &minus;3 (sign flipped!)</div>
+          <div class="memory-trick">Negative flip! If you multiply/divide by negative, the sign does a backflip.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MATH: GEOMETRY ==================== -->
+    <div class="formula-section" data-category="math" data-keywords="geometry triangle circle area volume slope distance pythagorean">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--yellow-bg);color:var(--yellow)">&#9651;</div>
+        <div class="section-title">Geometry</div>
+        <span class="section-count">6 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="pythagorean theorem triangle hypotenuse triples">
+          <div class="formula-name">Pythagorean Theorem</div>
+          <div class="formula-expr">
+            <span class="var-a">a</span>&sup2; <span class="op">+</span> <span class="var-b">b</span>&sup2; <span class="op">=</span> <span class="var-c">c</span>&sup2;
+          </div>
+          <div class="formula-desc">For right triangles only. c is always the hypotenuse (longest side, opposite the right angle).</div>
+          <div class="formula-example"><strong>Common triples:</strong> 3-4-5, 5-12-13, 8-15-17 and their multiples (6-8-10, 10-24-26)</div>
+          <div class="memory-trick">Memorize 3-4-5 and 5-12-13 — they show up constantly on the OAR.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="special triangle 45 30 60 90">
+          <div class="formula-name">Special Right Triangles</div>
+          <div class="formula-expr">
+            <span class="var-a">45-45-90</span>: x, x, x&radic;2 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            <span class="var-b">30-60-90</span>: x, x&radic;3, 2x
+          </div>
+          <div class="formula-desc">45-45-90: two equal legs, hypotenuse = leg &times; &radic;2. 30-60-90: short leg, long leg = short &times; &radic;3, hypotenuse = 2 &times; short.</div>
+          <div class="formula-example"><strong>Example:</strong> 30-60-90 with short leg 5: sides are 5, 5&radic;3, <strong>10</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="area rectangle triangle circle trapezoid">
+          <div class="formula-name">Area Formulas</div>
+          <div class="formula-expr">
+            Rectangle: <span class="var-a">L</span>&times;<span class="var-b">W</span> &nbsp;|&nbsp;
+            Triangle: <span class="op">&frac12;</span><span class="var-a">b</span><span class="var-b">h</span> &nbsp;|&nbsp;
+            Circle: <span class="var-c">&pi;r</span>&sup2; &nbsp;|&nbsp;
+            Trapezoid: <span class="op">&frac12;</span>(<span class="var-a">b&#8321;</span>+<span class="var-b">b&#8322;</span>)<span class="var-c">h</span>
+          </div>
+          <div class="formula-desc">Remember: area is always in square units. Circle uses radius, not diameter.</div>
+          <div class="formula-example"><strong>Example:</strong> Circle with r=5: A = &pi;(25) &asymp; <strong>78.54</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="volume cylinder sphere cone">
+          <div class="formula-name">Volume Formulas</div>
+          <div class="formula-expr">
+            Cylinder: <span class="var-a">&pi;r&sup2;h</span> &nbsp;|&nbsp;
+            Sphere: <span class="var-b">&#8532;&pi;r&sup3;</span> &nbsp;|&nbsp;
+            Cone: <span class="var-c">&#8531;&pi;r&sup2;h</span>
+          </div>
+          <div class="formula-desc">Cone = 1/3 of cylinder. Sphere = 4/3 &pi;r cubed.</div>
+          <div class="formula-example"><strong>Example:</strong> Cylinder r=3, h=10: V = &pi;(9)(10) = <strong>90&pi; &asymp; 282.7</strong></div>
+          <div class="memory-trick">A cone is 1/3 of a cylinder — literally chop a cylinder into 3 cones.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="circumference perimeter circle">
+          <div class="formula-name">Circumference</div>
+          <div class="formula-expr">
+            <span class="var-a">C</span> <span class="op">=</span> 2<span class="var-b">&pi;r</span> <span class="op">=</span> <span class="var-b">&pi;d</span>
+          </div>
+          <div class="formula-desc">Circumference is the perimeter of a circle. Diameter = 2 &times; radius.</div>
+          <div class="formula-example"><strong>Example:</strong> r = 7: C = 2&pi;(7) = 14&pi; &asymp; <strong>43.98</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="slope distance midpoint line equation">
+          <div class="formula-name">Coordinate Geometry</div>
+          <div class="formula-expr">
+            Slope: <span class="var-a">(y&#8322;&minus;y&#8321;)</span>/<span class="var-b">(x&#8322;&minus;x&#8321;)</span> &nbsp;|&nbsp;
+            Distance: <span class="var-c">&radic;(&Delta;x&sup2;+&Delta;y&sup2;)</span> &nbsp;|&nbsp;
+            <span class="var-d">y = mx + b</span>
+          </div>
+          <div class="formula-desc">Slope = rise over run. Distance formula is just Pythagorean theorem on a coordinate plane.</div>
+          <div class="formula-example"><strong>Example:</strong> Points (1,2) and (4,6): slope = (6&minus;2)/(4&minus;1) = <strong>4/3</strong></div>
+          <div class="memory-trick">Rise over run: how much you go UP divided by how much you go RIGHT.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MATH: WORD PROBLEMS ==================== -->
+    <div class="formula-section" data-category="math" data-keywords="word problem distance rate time work interest probability average">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">&#128218;</div>
+        <div class="section-title">Word Problems</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="distance rate time speed drt">
+          <div class="formula-name">Distance = Rate &times; Time</div>
+          <div class="formula-expr">
+            <span class="var-a">D</span> <span class="op">=</span> <span class="var-b">R</span> <span class="op">&times;</span> <span class="var-c">T</span>
+          </div>
+          <div class="formula-desc">Also: R = D/T and T = D/R. Watch units: if rate is mph, time must be in hours!</div>
+          <div class="formula-example"><strong>Example:</strong> 60 mph for 2.5 hours = <strong>150 miles</strong></div>
+          <div class="memory-trick">D-R-T triangle: cover what you need, the rest is the formula (just like VIR).</div>
+        </div>
+
+        <div class="formula-card" data-keywords="work rate combined time">
+          <div class="formula-name">Combined Work Rate</div>
+          <div class="formula-expr">
+            <span class="var-a">1/A</span> <span class="op">+</span> <span class="var-b">1/B</span> <span class="op">=</span> <span class="var-c">1/T</span>
+          </div>
+          <div class="formula-desc">A and B are individual completion times. T is time working together. Add the rates, not the times!</div>
+          <div class="formula-example"><strong>Example:</strong> Worker A: 6 hrs, Worker B: 3 hrs &rarr; 1/6 + 1/3 = 1/2 &rarr; Together = <strong>2 hours</strong></div>
+          <div class="memory-trick">Add RATES (1/time), never add times directly.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="interest simple principal rate">
+          <div class="formula-name">Simple Interest</div>
+          <div class="formula-expr">
+            <span class="var-a">I</span> <span class="op">=</span> <span class="var-b">P</span> <span class="op">&times;</span> <span class="var-c">r</span> <span class="op">&times;</span> <span class="var-d">t</span>
+          </div>
+          <div class="formula-desc">P = principal (initial amount), r = rate (as decimal), t = time (usually years).</div>
+          <div class="formula-example"><strong>Example:</strong> $1000 at 5% for 3 years: I = 1000 &times; 0.05 &times; 3 = <strong>$150</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="probability chance favorable outcomes">
+          <div class="formula-name">Probability</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">favorable outcomes</span> / <span class="var-c">total outcomes</span>
+          </div>
+          <div class="formula-desc">Always between 0 and 1 (or 0% to 100%). P(not A) = 1 &minus; P(A).</div>
+          <div class="formula-example"><strong>Example:</strong> Drawing a heart from a deck: 13/52 = <strong>1/4 = 25%</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="average mean sum count">
+          <div class="formula-name">Average (Mean)</div>
+          <div class="formula-expr">
+            <span class="var-a">Average</span> <span class="op">=</span> <span class="var-b">Sum of all values</span> / <span class="var-c">Number of values</span>
+          </div>
+          <div class="formula-desc">Can rearrange: Sum = Average &times; Count. Useful for "what score do I need" problems.</div>
+          <div class="formula-example"><strong>Example:</strong> Scores: 85, 90, 92, 88 &rarr; Average = 355/4 = <strong>88.75</strong></div>
+          <div class="memory-trick">To find a missing value: Total needed = target avg &times; count, then subtract known values.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: FORCES ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="force newton weight gravity free fall acceleration">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--red-bg);color:var(--red)">&#9881;</div>
+        <div class="section-title">Forces &amp; Motion</div>
+        <span class="section-count">3 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="newton second law force mass acceleration">
+          <div class="formula-name">Newton's 2nd Law</div>
+          <div class="formula-expr">
+            <span class="var-a">F</span> <span class="op">=</span> <span class="var-b">m</span> <span class="op">&times;</span> <span class="var-c">a</span>
+          </div>
+          <div class="formula-desc">Force (Newtons) = mass (kg) &times; acceleration (m/s&sup2;). More mass or more acceleration = more force.</div>
+          <div class="formula-example"><strong>Example:</strong> 10 kg object, a = 3 m/s&sup2;: F = <strong>30 N</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="weight gravity mass">
+          <div class="formula-name">Weight</div>
+          <div class="formula-expr">
+            <span class="var-a">W</span> <span class="op">=</span> <span class="var-b">m</span> <span class="op">&times;</span> <span class="var-c">g</span> &nbsp;&nbsp;<span class="op">(g = 9.8 m/s&sup2;)</span>
+          </div>
+          <div class="formula-desc">Weight is a force. Mass stays the same everywhere; weight changes with gravity.</div>
+          <div class="formula-example"><strong>Example:</strong> 70 kg person: W = 70 &times; 9.8 = <strong>686 N</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="free fall velocity distance gravity">
+          <div class="formula-name">Free Fall</div>
+          <div class="formula-expr">
+            <span class="var-a">v</span> <span class="op">=</span> <span class="var-b">g</span><span class="var-c">t</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-a">d</span> <span class="op">=</span> &frac12;<span class="var-b">g</span><span class="var-c">t</span>&sup2;
+          </div>
+          <div class="formula-desc">Objects in free fall accelerate at g = 9.8 m/s&sup2; (no air resistance). Velocity and distance increase with time.</div>
+          <div class="formula-example"><strong>Example:</strong> After 3 seconds: v = 9.8(3) = 29.4 m/s, d = &frac12;(9.8)(9) = <strong>44.1 m</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: LEVERS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="lever fulcrum effort load torque mechanical advantage">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#9878;</div>
+        <div class="section-title">Levers &amp; Torque</div>
+        <span class="section-count">4 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="lever balance moment arm">
+          <div class="formula-name">Lever Principle</div>
+          <div class="formula-expr">
+            <span class="var-a">F&#8321;</span> <span class="op">&times;</span> <span class="var-b">D&#8321;</span> <span class="op">=</span> <span class="var-c">F&#8322;</span> <span class="op">&times;</span> <span class="var-d">D&#8322;</span>
+          </div>
+          <div class="formula-desc">Force times distance on one side equals force times distance on the other. This is how seesaws work.</div>
+          <div class="formula-example"><strong>Example:</strong> 50 lb at 4 ft = ? at 2 ft &rarr; 200 = 2x &rarr; x = <strong>100 lb</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="mechanical advantage effort load arm">
+          <div class="formula-name">Mechanical Advantage (Lever)</div>
+          <div class="formula-expr">
+            <span class="var-a">MA</span> <span class="op">=</span> <span class="var-b">Effort Arm</span> / <span class="var-c">Load Arm</span>
+          </div>
+          <div class="formula-desc">MA &gt; 1 means you use less force. Longer effort arm = more advantage.</div>
+          <div class="formula-example"><strong>Example:</strong> Effort arm 8 ft, load arm 2 ft: MA = <strong>4</strong> (you lift 4x the weight)</div>
+        </div>
+
+        <div class="formula-card" data-keywords="lever class first second third fulcrum load effort FLE">
+          <div class="formula-name">Lever Classes</div>
+          <div class="formula-expr">
+            <span class="var-a">1st</span>: Fulcrum in middle &nbsp;|&nbsp;
+            <span class="var-b">2nd</span>: Load in middle &nbsp;|&nbsp;
+            <span class="var-c">3rd</span>: Effort in middle
+          </div>
+          <div class="formula-desc">1st class (seesaw): F-L-E or E-L-F. 2nd class (wheelbarrow): F-L-E. 3rd class (fishing rod): L-E-F.</div>
+
+          <!-- LEVER CLASSES DIAGRAM -->
+          <div class="diagram-container">
+            <div style="text-align:center">
+              <div class="diagram-label">1st Class (Seesaw)</div>
+              <svg width="220" height="70" viewBox="0 0 220 70">
+                <line x1="20" y1="35" x2="200" y2="35" stroke="var(--text-2)" stroke-width="3" stroke-linecap="round"/>
+                <polygon points="110,35 100,60 120,60" fill="var(--accent)" opacity="0.8"/>
+                <text x="110" y="68" fill="var(--accent)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">F</text>
+                <circle cx="30" cy="28" r="10" fill="var(--red)" opacity="0.3" stroke="var(--red)" stroke-width="1.5"/>
+                <text x="30" y="15" fill="var(--red)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">E</text>
+                <circle cx="190" cy="28" r="10" fill="var(--green)" opacity="0.3" stroke="var(--green)" stroke-width="1.5"/>
+                <text x="190" y="15" fill="var(--green)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">L</text>
+              </svg>
+            </div>
+            <div style="text-align:center">
+              <div class="diagram-label">2nd Class (Wheelbarrow)</div>
+              <svg width="220" height="70" viewBox="0 0 220 70">
+                <line x1="20" y1="35" x2="200" y2="35" stroke="var(--text-2)" stroke-width="3" stroke-linecap="round"/>
+                <polygon points="20,35 10,60 30,60" fill="var(--accent)" opacity="0.8"/>
+                <text x="20" y="68" fill="var(--accent)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">F</text>
+                <circle cx="110" cy="28" r="10" fill="var(--green)" opacity="0.3" stroke="var(--green)" stroke-width="1.5"/>
+                <text x="110" y="15" fill="var(--green)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">L</text>
+                <circle cx="190" cy="28" r="10" fill="var(--red)" opacity="0.3" stroke="var(--red)" stroke-width="1.5"/>
+                <text x="190" y="15" fill="var(--red)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">E</text>
+              </svg>
+            </div>
+            <div style="text-align:center">
+              <div class="diagram-label">3rd Class (Fishing Rod)</div>
+              <svg width="220" height="70" viewBox="0 0 220 70">
+                <line x1="20" y1="35" x2="200" y2="35" stroke="var(--text-2)" stroke-width="3" stroke-linecap="round"/>
+                <polygon points="20,35 10,60 30,60" fill="var(--accent)" opacity="0.8"/>
+                <text x="20" y="68" fill="var(--accent)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">F</text>
+                <circle cx="110" cy="28" r="10" fill="var(--red)" opacity="0.3" stroke="var(--red)" stroke-width="1.5"/>
+                <text x="110" y="15" fill="var(--red)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">E</text>
+                <circle cx="190" cy="28" r="10" fill="var(--green)" opacity="0.3" stroke="var(--green)" stroke-width="1.5"/>
+                <text x="190" y="15" fill="var(--green)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">L</text>
+              </svg>
+            </div>
+          </div>
+          <div class="memory-trick">FLE = 1-2-3. 1st: Fulcrum middle. 2nd: Load middle. 3rd: Effort middle.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="torque force distance rotation">
+          <div class="formula-name">Torque</div>
+          <div class="formula-expr">
+            <span class="var-a">&tau;</span> <span class="op">=</span> <span class="var-b">F</span> <span class="op">&times;</span> <span class="var-c">d</span>
+          </div>
+          <div class="formula-desc">Torque is rotational force. d is the perpendicular distance from the pivot to the force line. Units: N&middot;m.</div>
+          <div class="formula-example"><strong>Example:</strong> 20 N force at 0.5 m from pivot: &tau; = <strong>10 N&middot;m</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: GEARS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="gear teeth rpm direction rotation speed">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#9881;</div>
+        <div class="section-title">Gears</div>
+        <span class="section-count">4 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="gear ratio teeth rpm speed">
+          <div class="formula-name">Gear Ratio</div>
+          <div class="formula-expr">
+            <span class="var-a">T&#8321;</span> <span class="op">&times;</span> <span class="var-b">RPM&#8321;</span> <span class="op">=</span> <span class="var-c">T&#8322;</span> <span class="op">&times;</span> <span class="var-d">RPM&#8322;</span>
+          </div>
+          <div class="formula-desc">Teeth &times; RPM is constant across meshed gears. More teeth = slower speed.</div>
+          <div class="formula-example"><strong>Example:</strong> Gear A: 20 teeth at 100 RPM, Gear B: 40 teeth &rarr; RPM = 2000/40 = <strong>50 RPM</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="gear direction adjacent opposite clockwise counterclockwise">
+          <div class="formula-name">Gear Direction Rules</div>
+          <div class="formula-expr">
+            Adjacent gears <span class="op">=</span> <span class="var-a">opposite direction</span><br>
+            Odd # in chain <span class="op">=</span> <span class="var-b">same direction</span> &nbsp;|&nbsp;
+            Even # <span class="op">=</span> <span class="var-c">opposite</span>
+          </div>
+          <div class="formula-desc">Two meshed gears always spin opposite. Count gears from driver: odd count = same, even = opposite.</div>
+
+          <!-- GEAR DIRECTION DIAGRAM -->
+          <div class="diagram-container" style="flex-direction:column">
+            <div style="display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center">
+              <div style="text-align:center">
+                <div class="diagram-label">2 Gears (Opposite)</div>
+                <svg width="140" height="80" viewBox="0 0 140 80">
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                  <circle cx="100" cy="40" r="22" fill="none" stroke="var(--green)" stroke-width="2"/>
+                  <path d="M28 20 Q40 30 28 50" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowBlue)"/>
+                  <path d="M112 55 Q100 45 112 25" fill="none" stroke="var(--green)" stroke-width="2" marker-end="url(#arrowGreen)"/>
+                  <text x="40" y="43" fill="var(--accent)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">CW</text>
+                  <text x="100" y="43" fill="var(--green)" font-size="10" text-anchor="middle" font-weight="700" font-family="Inter">CCW</text>
+                  <defs>
+                    <marker id="arrowBlue" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--accent)"/></marker>
+                    <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--green)"/></marker>
+                  </defs>
+                </svg>
+              </div>
+              <div style="text-align:center">
+                <div class="diagram-label">3 Gears (Same as 1st)</div>
+                <svg width="200" height="80" viewBox="0 0 200 80">
+                  <circle cx="35" cy="40" r="24" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                  <circle cx="100" cy="40" r="24" fill="none" stroke="var(--red)" stroke-width="2"/>
+                  <circle cx="165" cy="40" r="24" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                  <text x="35" y="43" fill="var(--accent)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">CW</text>
+                  <text x="100" y="43" fill="var(--red)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">CCW</text>
+                  <text x="165" y="43" fill="var(--accent)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">CW</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="memory-trick">Just alternate! CW, CCW, CW, CCW... Odd gear in chain = same as first gear.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="gear speed size smaller faster bigger slower">
+          <div class="formula-name">Gear Speed Rule</div>
+          <div class="formula-expr">
+            <span class="var-a">Smaller gear</span> <span class="op">=</span> <span class="var-b">faster</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-c">Larger gear</span> <span class="op">=</span> <span class="var-d">slower</span>
+          </div>
+          <div class="formula-desc">Fewer teeth = fewer contact points per revolution = spins faster. A small gear driving a large gear slows things down (but increases torque).</div>
+          <div class="formula-example"><strong>Example:</strong> A 10-tooth gear drives a 30-tooth gear. The large gear spins at <strong>1/3 the speed</strong>.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="gear idler no effect direction only">
+          <div class="formula-name">Idler Gear</div>
+          <div class="formula-expr">
+            Idler gear changes <span class="var-a">direction</span> but <span class="var-c">NOT</span> speed ratio
+          </div>
+          <div class="formula-desc">A gear inserted between driver and driven only reverses direction. The speed ratio depends only on first and last gear.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: PULLEYS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="pulley fixed movable block tackle rope mechanical advantage">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--yellow-bg);color:var(--yellow)">&#128712;</div>
+        <div class="section-title">Pulleys</div>
+        <span class="section-count">4 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="fixed pulley direction change">
+          <div class="formula-name">Fixed Pulley</div>
+          <div class="formula-expr">
+            MA <span class="op">=</span> <span class="var-a">1</span> &nbsp;&nbsp;<span class="op">(direction change only)</span>
+          </div>
+          <div class="formula-desc">A fixed pulley doesn't reduce force needed. It just lets you pull down instead of up.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="movable pulley advantage force">
+          <div class="formula-name">Movable Pulley</div>
+          <div class="formula-expr">
+            MA <span class="op">=</span> <span class="var-b">2</span>
+          </div>
+          <div class="formula-desc">A movable pulley cuts the force needed in half, but you pull twice the distance.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="block tackle combined pulley system ropes">
+          <div class="formula-name">Block &amp; Tackle</div>
+          <div class="formula-expr">
+            MA <span class="op">=</span> <span class="var-c"># of supporting ropes</span>
+          </div>
+          <div class="formula-desc">Count the number of rope segments supporting the load (not the pull rope). That's your MA.</div>
+          <div class="formula-example"><strong>Example:</strong> 4 ropes supporting 200 lb load: Force needed = 200/4 = <strong>50 lb</strong></div>
+
+          <!-- PULLEY DIAGRAM -->
+          <div class="diagram-container" style="flex-direction:column">
+            <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center">
+              <div style="text-align:center">
+                <div class="diagram-label">Fixed (MA=1)</div>
+                <svg width="100" height="110" viewBox="0 0 100 110">
+                  <line x1="50" y1="0" x2="50" y2="20" stroke="var(--text-3)" stroke-width="2"/>
+                  <circle cx="50" cy="28" r="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                  <line x1="40" y1="28" x2="40" y2="85" stroke="var(--text-2)" stroke-width="1.5"/>
+                  <line x1="60" y1="28" x2="60" y2="60" stroke="var(--text-2)" stroke-width="1.5"/>
+                  <rect x="30" y="85" width="20" height="20" rx="3" fill="var(--surface-3)" stroke="var(--text-3)" stroke-width="1"/>
+                  <text x="40" y="99" fill="var(--text)" font-size="8" text-anchor="middle" font-family="Inter">W</text>
+                  <path d="M60,60 L65,55 M60,60 L65,65" stroke="var(--red)" stroke-width="1.5"/>
+                  <text x="75" y="63" fill="var(--red)" font-size="9" font-family="Inter">Pull</text>
+                </svg>
+              </div>
+              <div style="text-align:center">
+                <div class="diagram-label">Movable (MA=2)</div>
+                <svg width="100" height="110" viewBox="0 0 100 110">
+                  <line x1="30" y1="0" x2="30" y2="85" stroke="var(--text-2)" stroke-width="1.5"/>
+                  <circle cx="50" cy="60" r="10" fill="none" stroke="var(--green)" stroke-width="2"/>
+                  <line x1="60" y1="60" x2="60" y2="0" stroke="var(--text-2)" stroke-width="1.5"/>
+                  <rect x="38" y="75" width="24" height="20" rx="3" fill="var(--surface-3)" stroke="var(--text-3)" stroke-width="1"/>
+                  <text x="50" y="89" fill="var(--text)" font-size="8" text-anchor="middle" font-family="Inter">W</text>
+                  <text x="15" y="50" fill="var(--text-3)" font-size="8" text-anchor="middle" font-family="Inter">1</text>
+                  <text x="75" y="50" fill="var(--text-3)" font-size="8" text-anchor="middle" font-family="Inter">2</text>
+                </svg>
+              </div>
+              <div style="text-align:center">
+                <div class="diagram-label">Combined (MA=4)</div>
+                <svg width="120" height="110" viewBox="0 0 120 110">
+                  <line x1="40" y1="0" x2="40" y2="15" stroke="var(--text-3)" stroke-width="2"/>
+                  <line x1="80" y1="0" x2="80" y2="15" stroke="var(--text-3)" stroke-width="2"/>
+                  <circle cx="40" cy="23" r="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                  <circle cx="80" cy="23" r="8" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+                  <circle cx="40" cy="60" r="8" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+                  <circle cx="80" cy="60" r="8" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+                  <rect x="30" y="75" width="60" height="20" rx="3" fill="var(--surface-3)" stroke="var(--text-3)" stroke-width="1"/>
+                  <text x="60" y="89" fill="var(--text)" font-size="8" text-anchor="middle" font-family="Inter">W</text>
+                  <text x="20" y="45" fill="var(--text-3)" font-size="7" font-family="Inter">1</text>
+                  <text x="55" y="45" fill="var(--text-3)" font-size="7" font-family="Inter">2</text>
+                  <text x="65" y="45" fill="var(--text-3)" font-size="7" font-family="Inter">3</text>
+                  <text x="95" y="45" fill="var(--text-3)" font-size="7" font-family="Inter">4</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="formula-card" data-keywords="pulley force weight mechanical advantage">
+          <div class="formula-name">Pulley Force Formula</div>
+          <div class="formula-expr">
+            <span class="var-a">Force</span> <span class="op">=</span> <span class="var-b">Weight</span> / <span class="var-c">MA</span>
+          </div>
+          <div class="formula-desc">Trade-off: less force = more rope to pull. You never get something for nothing (conservation of energy).</div>
+          <div class="formula-example"><strong>Example:</strong> 300 lb load, MA=3: Pull force = <strong>100 lb</strong> (but pull 3x the distance)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: ENERGY ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="energy work kinetic potential power inclined plane conservation">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">&#9889;</div>
+        <div class="section-title">Energy &amp; Work</div>
+        <span class="section-count">6 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="work force distance joules">
+          <div class="formula-name">Work</div>
+          <div class="formula-expr">
+            <span class="var-a">W</span> <span class="op">=</span> <span class="var-b">F</span> <span class="op">&times;</span> <span class="var-c">d</span>
+          </div>
+          <div class="formula-desc">Work (Joules) = Force (N) &times; distance (m) in the direction of the force. No movement = no work!</div>
+          <div class="formula-example"><strong>Example:</strong> Push 50 N for 3 m: W = <strong>150 J</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="kinetic energy velocity speed motion">
+          <div class="formula-name">Kinetic Energy</div>
+          <div class="formula-expr">
+            <span class="var-a">KE</span> <span class="op">=</span> &frac12;<span class="var-b">m</span><span class="var-c">v</span>&sup2;
+          </div>
+          <div class="formula-desc">Energy of motion. Velocity is SQUARED, so double the speed = 4x the energy. This is a common trap!</div>
+          <div class="formula-example"><strong>Example:</strong> 2 kg at 3 m/s: KE = &frac12;(2)(9) = <strong>9 J</strong></div>
+          <div class="memory-trick">v is SQUARED! If speed doubles, KE quadruples. This is the #1 KE trap on the OAR.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="potential energy height gravity position">
+          <div class="formula-name">Potential Energy</div>
+          <div class="formula-expr">
+            <span class="var-a">PE</span> <span class="op">=</span> <span class="var-b">m</span><span class="var-c">g</span><span class="var-d">h</span>
+          </div>
+          <div class="formula-desc">Energy stored by position. Higher up = more PE. At ground level, PE = 0 (if ground is reference).</div>
+          <div class="formula-example"><strong>Example:</strong> 5 kg at 10 m: PE = 5 &times; 9.8 &times; 10 = <strong>490 J</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="power work time watts rate">
+          <div class="formula-name">Power</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">W</span> / <span class="var-c">t</span> &nbsp;&nbsp;<span class="op">(Watts)</span>
+          </div>
+          <div class="formula-desc">Power is how FAST you do work. Same work in less time = more power.</div>
+          <div class="formula-example"><strong>Example:</strong> 500 J in 10 seconds: P = <strong>50 W</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="inclined plane ramp height length mechanical advantage">
+          <div class="formula-name">Inclined Plane</div>
+          <div class="formula-expr">
+            <span class="var-a">MA</span> <span class="op">=</span> <span class="var-b">Length</span> / <span class="var-c">Height</span>
+          </div>
+          <div class="formula-desc">A ramp trades distance for force. Longer ramp = less force needed to reach the same height.</div>
+          <div class="formula-example"><strong>Example:</strong> Ramp 12 ft long, 3 ft high: MA = <strong>4</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="conservation energy total constant">
+          <div class="formula-name">Conservation of Energy</div>
+          <div class="formula-expr">
+            <span class="var-a">KE</span> <span class="op">+</span> <span class="var-b">PE</span> <span class="op">=</span> <span class="var-c">constant</span>
+          </div>
+          <div class="formula-desc">Total mechanical energy stays the same (ignoring friction). As PE decreases, KE increases and vice versa.</div>
+          <div class="formula-example"><strong>Example:</strong> Ball at top: all PE. At bottom: all KE. Halfway: half and half.</div>
+          <div class="memory-trick">Roller coaster: highest point = max PE, lowest point = max KE. Total never changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: FLUIDS ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="fluid pressure pascal bernoulli buoyancy continuity hydraulic">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#128167;</div>
+        <div class="section-title">Fluids &amp; Pressure</div>
+        <span class="section-count">5 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="pressure force area psi pascal">
+          <div class="formula-name">Pressure</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">F</span> / <span class="var-c">A</span>
+          </div>
+          <div class="formula-desc">Pressure = Force per unit Area. Same force on smaller area = higher pressure (think stiletto vs sneaker).</div>
+          <div class="formula-example"><strong>Example:</strong> 100 N on 0.5 m&sup2;: P = <strong>200 Pa</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="pascal law hydraulic piston cylinder">
+          <div class="formula-name">Pascal's Law</div>
+          <div class="formula-expr">
+            <span class="var-a">F&#8321;</span>/<span class="var-b">A&#8321;</span> <span class="op">=</span> <span class="var-c">F&#8322;</span>/<span class="var-d">A&#8322;</span>
+          </div>
+          <div class="formula-desc">Pressure is transmitted equally. Small piston pushes small force, big piston pushes big force. This is how hydraulics work.</div>
+          <div class="formula-example"><strong>Example:</strong> Small piston: 10 N on 2 cm&sup2;. Large piston: 20 cm&sup2; &rarr; F = <strong>100 N</strong></div>
+          <div class="memory-trick">Hydraulic brakes, car jacks — same principle. Small effort, big result.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="continuity flow area velocity pipe">
+          <div class="formula-name">Continuity Equation</div>
+          <div class="formula-expr">
+            <span class="var-a">A&#8321;</span><span class="var-b">v&#8321;</span> <span class="op">=</span> <span class="var-c">A&#8322;</span><span class="var-d">v&#8322;</span>
+          </div>
+          <div class="formula-desc">Flow rate is constant. Smaller pipe = faster flow. Thumb over a garden hose = faster water.</div>
+          <div class="formula-example"><strong>Example:</strong> Pipe narrows from 4 cm&sup2; to 1 cm&sup2;: velocity increases <strong>4x</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="bernoulli fast fluid low pressure airplane wing lift">
+          <div class="formula-name">Bernoulli's Principle</div>
+          <div class="formula-expr">
+            Faster fluid <span class="op">=</span> <span class="var-a">Lower pressure</span>
+          </div>
+          <div class="formula-desc">As fluid speed increases, pressure decreases. This explains airplane lift, curveballs, and atomizers.</div>
+          <div class="memory-trick">Airplane wings: air moves FASTER over top = LOWER pressure = lift!</div>
+        </div>
+
+        <div class="formula-card" data-keywords="buoyancy float sink density archimedes">
+          <div class="formula-name">Buoyancy</div>
+          <div class="formula-expr">
+            Float if <span class="var-a">object density</span> <span class="op">&lt;</span> <span class="var-b">fluid density</span>
+          </div>
+          <div class="formula-desc">An object floats if it's less dense than the fluid. Ice floats on water. Steel sinks. Ships float because of hull shape (average density &lt; water).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MECHANICAL: ELECTRICITY ==================== -->
+    <div class="formula-section" data-category="mechanical" data-keywords="electricity ohm voltage current resistance power circuit series parallel">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--yellow-bg);color:var(--yellow)">&#9889;</div>
+        <div class="section-title">Electricity</div>
+        <span class="section-count">4 formulas</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="formula-card" data-keywords="ohm law voltage current resistance vir">
+          <div class="formula-name">Ohm's Law</div>
+          <div class="formula-expr">
+            <span class="var-a">V</span> <span class="op">=</span> <span class="var-b">I</span> <span class="op">&times;</span> <span class="var-c">R</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-b">I</span> <span class="op">=</span> <span class="var-a">V</span>/<span class="var-c">R</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+            <span class="var-c">R</span> <span class="op">=</span> <span class="var-a">V</span>/<span class="var-b">I</span>
+          </div>
+          <div class="formula-desc">V = Voltage (Volts), I = Current (Amps), R = Resistance (Ohms). Cover the variable you want.</div>
+
+          <!-- VIR TRIANGLE DIAGRAM -->
+          <div class="diagram-container">
+            <div style="text-align:center">
+              <div class="diagram-label">VIR Triangle — Cover what you need</div>
+              <svg width="200" height="130" viewBox="0 0 200 130">
+                <polygon points="100,10 30,110 170,110" fill="none" stroke="var(--text-3)" stroke-width="2"/>
+                <line x1="100" y1="60" x2="30" y2="110" stroke="var(--text-3)" stroke-width="1" stroke-dasharray="4"/>
+                <line x1="100" y1="60" x2="170" y2="110" stroke="var(--text-3)" stroke-width="1" stroke-dasharray="4"/>
+                <text x="100" y="45" fill="var(--accent)" font-size="22" text-anchor="middle" font-weight="800" font-family="Inter">V</text>
+                <text x="62" y="100" fill="var(--green)" font-size="22" text-anchor="middle" font-weight="800" font-family="Inter">I</text>
+                <text x="100" y="100" fill="var(--text-3)" font-size="16" text-anchor="middle" font-weight="700" font-family="Inter">&times;</text>
+                <text x="138" y="100" fill="var(--yellow)" font-size="22" text-anchor="middle" font-weight="800" font-family="Inter">R</text>
+              </svg>
+            </div>
+          </div>
+          <div class="formula-example"><strong>Example:</strong> V = 12V, R = 4&Omega;: I = 12/4 = <strong>3 Amps</strong></div>
+          <div class="memory-trick">VIR triangle: V on top, I &times; R on bottom. Cover what you need, the rest is the formula.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="power watts electrical voltage current resistance">
+          <div class="formula-name">Electrical Power</div>
+          <div class="formula-expr">
+            <span class="var-a">P</span> <span class="op">=</span> <span class="var-b">V</span><span class="var-c">I</span> <span class="op">=</span> <span class="var-c">I</span>&sup2;<span class="var-d">R</span> <span class="op">=</span> <span class="var-b">V</span>&sup2;/<span class="var-d">R</span>
+          </div>
+          <div class="formula-desc">Power in Watts. Three forms — use whichever matches the variables you have.</div>
+          <div class="formula-example"><strong>Example:</strong> 120V, 2A: P = 120 &times; 2 = <strong>240 W</strong></div>
+        </div>
+
+        <div class="formula-card" data-keywords="series circuit resistance current voltage break">
+          <div class="formula-name">Series Circuits</div>
+          <div class="formula-expr">
+            <span class="var-a">R<sub>total</sub></span> <span class="op">=</span> <span class="var-b">R&#8321;</span> <span class="op">+</span> <span class="var-c">R&#8322;</span> <span class="op">+</span> <span class="var-d">R&#8323;</span>
+          </div>
+          <div class="formula-desc">Same current everywhere. Voltage divides across components. One break = entire circuit dies (Christmas lights).</div>
+
+          <!-- SERIES CIRCUIT DIAGRAM -->
+          <div class="diagram-container">
+            <div style="text-align:center">
+              <div class="diagram-label">Series Circuit</div>
+              <svg width="280" height="100" viewBox="0 0 280 100">
+                <!-- Battery -->
+                <line x1="20" y1="30" x2="20" y2="70" stroke="var(--accent)" stroke-width="3"/>
+                <line x1="10" y1="40" x2="10" y2="60" stroke="var(--accent)" stroke-width="1.5"/>
+                <text x="5" y="25" fill="var(--accent)" font-size="10" text-anchor="middle" font-family="Inter">+</text>
+                <!-- Top wire -->
+                <line x1="20" y1="30" x2="260" y2="30" stroke="var(--text-2)" stroke-width="1.5"/>
+                <!-- Bottom wire -->
+                <line x1="10" y1="70" x2="260" y2="70" stroke="var(--text-2)" stroke-width="1.5"/>
+                <!-- Right wire -->
+                <line x1="260" y1="30" x2="260" y2="70" stroke="var(--text-2)" stroke-width="1.5"/>
+                <!-- Resistors on top wire -->
+                <rect x="60" y="22" width="40" height="16" rx="3" fill="var(--surface-3)" stroke="var(--yellow)" stroke-width="1.5"/>
+                <text x="80" y="34" fill="var(--yellow)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R1</text>
+                <rect x="120" y="22" width="40" height="16" rx="3" fill="var(--surface-3)" stroke="var(--yellow)" stroke-width="1.5"/>
+                <text x="140" y="34" fill="var(--yellow)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R2</text>
+                <rect x="180" y="22" width="40" height="16" rx="3" fill="var(--surface-3)" stroke="var(--yellow)" stroke-width="1.5"/>
+                <text x="200" y="34" fill="var(--yellow)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R3</text>
+                <!-- Current arrow -->
+                <text x="140" y="88" fill="var(--green)" font-size="9" text-anchor="middle" font-family="Inter">Same current (I) everywhere &rarr;</text>
+              </svg>
+            </div>
+          </div>
+          <div class="memory-trick">Series = Single path. One break kills everything. R adds up.</div>
+        </div>
+
+        <div class="formula-card" data-keywords="parallel circuit resistance voltage independent branch">
+          <div class="formula-name">Parallel Circuits</div>
+          <div class="formula-expr">
+            <span class="var-a">1/R</span> <span class="op">=</span> <span class="var-b">1/R&#8321;</span> <span class="op">+</span> <span class="var-c">1/R&#8322;</span>
+          </div>
+          <div class="formula-desc">Same voltage across each branch. Current divides. Each branch is independent — one break doesn't kill others.</div>
+
+          <!-- PARALLEL CIRCUIT DIAGRAM -->
+          <div class="diagram-container">
+            <div style="text-align:center">
+              <div class="diagram-label">Parallel Circuit</div>
+              <svg width="240" height="120" viewBox="0 0 240 120">
+                <!-- Battery -->
+                <line x1="20" y1="20" x2="20" y2="100" stroke="var(--accent)" stroke-width="2"/>
+                <line x1="10" y1="30" x2="10" y2="50" stroke="var(--accent)" stroke-width="1.5"/>
+                <!-- Wires -->
+                <line x1="20" y1="20" x2="60" y2="20" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="60" y1="20" x2="60" y2="100" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="180" y1="20" x2="180" y2="100" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="180" y1="100" x2="10" y2="100" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="180" y1="20" x2="220" y2="20" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="220" y1="20" x2="220" y2="100" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="220" y1="100" x2="180" y2="100" stroke="var(--text-2)" stroke-width="1.5"/>
+                <!-- Branch lines -->
+                <line x1="60" y1="35" x2="80" y2="35" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="160" y1="35" x2="180" y2="35" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="60" y1="60" x2="80" y2="60" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="160" y1="60" x2="180" y2="60" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="60" y1="85" x2="80" y2="85" stroke="var(--text-2)" stroke-width="1.5"/>
+                <line x1="160" y1="85" x2="180" y2="85" stroke="var(--text-2)" stroke-width="1.5"/>
+                <!-- Resistors -->
+                <rect x="80" y="27" width="80" height="16" rx="3" fill="var(--surface-3)" stroke="var(--yellow)" stroke-width="1.5"/>
+                <text x="120" y="39" fill="var(--yellow)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R1</text>
+                <rect x="80" y="52" width="80" height="16" rx="3" fill="var(--surface-3)" stroke="var(--green)" stroke-width="1.5"/>
+                <text x="120" y="64" fill="var(--green)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R2</text>
+                <rect x="80" y="77" width="80" height="16" rx="3" fill="var(--surface-3)" stroke="var(--purple)" stroke-width="1.5"/>
+                <text x="120" y="89" fill="var(--purple)" font-size="9" text-anchor="middle" font-weight="700" font-family="Inter">R3</text>
+              </svg>
+            </div>
+          </div>
+          <div class="formula-example"><strong>Example:</strong> R1=6&Omega;, R2=3&Omega;: 1/R = 1/6 + 1/3 = 3/6 &rarr; R = <strong>2&Omega;</strong></div>
+          <div class="memory-trick">Parallel = multiple Paths. Each branch independent. Total R is LESS than smallest individual R.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== CONVERSIONS ==================== -->
+    <div class="formula-section" data-category="math" data-keywords="conversion fraction decimal pi square root constant">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#128290;</div>
+        <div class="section-title">Common Conversions &amp; Constants</div>
+        <span class="section-count">Reference</span>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="conversions-grid">
+          <div class="conv-item"><span class="frac">1/8</span> = <span class="dec">0.125</span></div>
+          <div class="conv-item"><span class="frac">1/5</span> = <span class="dec">0.20</span></div>
+          <div class="conv-item"><span class="frac">1/4</span> = <span class="dec">0.25</span></div>
+          <div class="conv-item"><span class="frac">1/3</span> = <span class="dec">0.333</span></div>
+          <div class="conv-item"><span class="frac">3/8</span> = <span class="dec">0.375</span></div>
+          <div class="conv-item"><span class="frac">2/5</span> = <span class="dec">0.40</span></div>
+          <div class="conv-item"><span class="frac">1/2</span> = <span class="dec">0.50</span></div>
+          <div class="conv-item"><span class="frac">3/5</span> = <span class="dec">0.60</span></div>
+          <div class="conv-item"><span class="frac">2/3</span> = <span class="dec">0.667</span></div>
+          <div class="conv-item"><span class="frac">3/4</span> = <span class="dec">0.75</span></div>
+          <div class="conv-item"><span class="frac">7/8</span> = <span class="dec">0.875</span></div>
+          <div class="conv-item"><span class="frac">&pi;</span> &asymp; <span class="dec">3.14159</span></div>
+          <div class="conv-item"><span class="frac">&radic;2</span> &asymp; <span class="dec">1.414</span></div>
+          <div class="conv-item"><span class="frac">&radic;3</span> &asymp; <span class="dec">1.732</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end formulaContent -->
+
+  <!-- QUICK REFERENCE -->
+  <div class="quick-ref" id="quickRef">
+    <div class="quick-ref-card">
+      <h4>Arithmetic</h4>
+      <p>PEMDAS: P &rarr; E &rarr; M/D &rarr; A/S<br>
+      Frac Add: (ad+bc)/bd<br>
+      Frac Mult: ac/bd<br>
+      Frac Div: flip &amp; multiply<br>
+      % = Part/Whole &times; 100<br>
+      % Change = (New-Old)/Old &times; 100<br>
+      Cross mult: a/b=c/d &rarr; ad=bc</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Algebra</h4>
+      <p>x^a &middot; x^b = x^(a+b)<br>
+      x^a / x^b = x^(a-b)<br>
+      (x^a)^b = x^(ab)<br>
+      x^0 = 1, x^(-n) = 1/x^n<br>
+      Quad: (-b&plusmn;&radic;(b&sup2;-4ac))/2a<br>
+      Ineq: flip when &times;/&divide; neg</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Geometry</h4>
+      <p>a&sup2;+b&sup2;=c&sup2; | 3-4-5, 5-12-13<br>
+      45-45-90: x, x, x&radic;2<br>
+      30-60-90: x, x&radic;3, 2x<br>
+      Rect: LW | Tri: &frac12;bh | Circ: &pi;r&sup2;<br>
+      Cyl: &pi;r&sup2;h | Sph: 4/3&pi;r&sup3;<br>
+      C=2&pi;r | Slope=(y2-y1)/(x2-x1)<br>
+      Dist=&radic;(&Delta;x&sup2;+&Delta;y&sup2;) | y=mx+b</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Word Problems</h4>
+      <p>D=RT | 1/A+1/B=1/T<br>
+      I=Prt | P=fav/total<br>
+      Avg=Sum/Count</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Forces</h4>
+      <p>F=ma | W=mg (g=9.8)<br>
+      v=gt | d=&frac12;gt&sup2;<br>
+      &tau;=Fd</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Levers</h4>
+      <p>F1D1=F2D2 | MA=Effort/Load arm<br>
+      1st: F middle (seesaw)<br>
+      2nd: L middle (wheelbarrow)<br>
+      3rd: E middle (fishing rod)</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Gears</h4>
+      <p>T1&times;RPM1=T2&times;RPM2<br>
+      Adjacent = opposite dir<br>
+      Odd chain = same, Even = opp<br>
+      Smaller gear = faster</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Pulleys</h4>
+      <p>Fixed MA=1 | Movable MA=2<br>
+      Block&amp;tackle: MA=# ropes<br>
+      Force=Weight/MA</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Energy</h4>
+      <p>W=Fd | KE=&frac12;mv&sup2; | PE=mgh<br>
+      P=W/t | Incline MA=L/H<br>
+      KE+PE=constant</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Fluids</h4>
+      <p>P=F/A | F1/A1=F2/A2<br>
+      A1v1=A2v2<br>
+      Fast flow=low pressure<br>
+      Float: &rho;obj &lt; &rho;fluid</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Electricity</h4>
+      <p>V=IR | P=VI=I&sup2;R=V&sup2;/R<br>
+      Series: Rt=R1+R2+R3<br>
+      Parallel: 1/R=1/R1+1/R2<br>
+      Series: same I, one break=dead<br>
+      Parallel: same V, independent</p>
+    </div>
+    <div class="quick-ref-card">
+      <h4>Constants</h4>
+      <p>&pi;&asymp;3.14159 | &radic;2&asymp;1.414 | &radic;3&asymp;1.732<br>
+      1/4=0.25 | 1/3=0.333 | 1/5=0.20<br>
+      3/8=0.375 | 3/4=0.75 | g=9.8m/s&sup2;</p>
+    </div>
+  </div>
+
+  <!-- NO RESULTS -->
+  <div class="no-results" id="noResults" style="display:none">
+    <div class="icon">&#128269;</div>
+    <p>No formulas match your search. Try a different keyword.</p>
+  </div>
+
+  <footer style="text-align:center;padding:40px 0;color:var(--text-3);font-size:13px;border-top:1px solid var(--border);margin-top:48px">
+    <div style="font-weight:700;color:var(--text-2);margin-bottom:4px">OAR Pro v2.0</div>
+    <div>Built by Benjamin Rodriguez</div>
+  </footer>
+</div>
+
+<script>
+// Toggle sections
+function toggleSection(header) {
+  header.closest('.formula-section').classList.toggle('open');
+}
+
+// Filter tabs
+const filterTabs = document.querySelectorAll('.filter-tab');
+const formulaContent = document.getElementById('formulaContent');
+const quickRef = document.getElementById('quickRef');
+const noResults = document.getElementById('noResults');
+
+filterTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    filterTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+
+    if (filter === 'quick') {
+      formulaContent.style.display = 'none';
+      quickRef.classList.add('visible');
+      noResults.style.display = 'none';
+    } else {
+      formulaContent.style.display = 'block';
+      quickRef.classList.remove('visible');
+      const sections = formulaContent.querySelectorAll('.formula-section');
+      sections.forEach(s => {
+        if (filter === 'all' || s.dataset.category === filter) {
+          s.style.display = '';
+        } else {
+          s.style.display = 'none';
+        }
+      });
+    }
+  });
+});
+
+// Search
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase().trim();
+  quickRef.classList.remove('visible');
+  formulaContent.style.display = 'block';
+  filterTabs.forEach(t => t.classList.remove('active'));
+  filterTabs[0].classList.add('active');
+
+  if (!query) {
+    formulaContent.querySelectorAll('.formula-section').forEach(s => s.style.display = '');
+    formulaContent.querySelectorAll('.formula-card').forEach(c => c.style.display = '');
+    noResults.style.display = 'none';
+    return;
+  }
+
+  let anyVisible = false;
+  formulaContent.querySelectorAll('.formula-section').forEach(section => {
+    const sectionKeywords = section.dataset.keywords || '';
+    const sectionTitle = section.querySelector('.section-title').textContent.toLowerCase();
+    let sectionHasMatch = false;
+
+    section.querySelectorAll('.formula-card').forEach(card => {
+      const cardKeywords = card.dataset.keywords || '';
+      const cardName = card.querySelector('.formula-name').textContent.toLowerCase();
+      const cardText = card.textContent.toLowerCase();
+      const match = cardKeywords.includes(query) || cardName.includes(query) || cardText.includes(query);
+      card.style.display = match ? '' : 'none';
+      if (match) sectionHasMatch = true;
+    });
+
+    if (sectionHasMatch || sectionKeywords.includes(query) || sectionTitle.includes(query)) {
+      section.style.display = '';
+      if (sectionHasMatch) section.classList.add('open');
+      anyVisible = true;
+    } else {
+      section.style.display = 'none';
+    }
+  });
+
+  noResults.style.display = anyVisible ? 'none' : '';
+});
+</script>
+</body>
+</html>

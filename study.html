@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study — OAR Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0B1120;--surface:#111827;--surface-2:#1F2937;--surface-3:#374151;
+  --border:#1E293B;--border-hover:#334155;
+  --accent:#3B82F6;--accent-hover:#2563EB;--accent-glow:rgba(59,130,246,.15);
+  --green:#10B981;--green-bg:rgba(16,185,129,.1);
+  --red:#EF4444;--red-bg:rgba(239,68,68,.1);
+  --yellow:#F59E0B;--yellow-bg:rgba(245,158,11,.1);
+  --purple:#8B5CF6;
+  --text:#F9FAFB;--text-2:#9CA3AF;--text-3:#6B7280;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-top:72px}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(11,17,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.5px}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:8px 14px;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--surface-2)}
+.nav-link.active{color:var(--accent);background:var(--accent-glow)}
+
+/* Layout */
+.study-layout{display:flex;max-width:1200px;margin:0 auto;padding:0 20px;gap:24px;min-height:calc(100vh - 72px)}
+.sidebar{width:320px;flex-shrink:0;padding:24px 0;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:4px}
+.content-viewer{flex:1;padding:24px 0;min-width:0}
+
+/* Sidebar */
+.section-header{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);padding:16px 0 8px;margin-top:8px}
+.section-header:first-child{margin-top:0;padding-top:0}
+.lesson-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.lesson-card:hover{border-color:var(--border-hover);transform:translateX(4px)}
+.lesson-card.active{border-color:var(--accent);background:var(--accent-glow)}
+.lesson-card.completed .lesson-status{background:var(--green-bg);color:var(--green)}
+.lesson-card.in-progress .lesson-status{background:var(--yellow-bg);color:var(--yellow)}
+.lesson-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.lesson-desc{font-size:12px;color:var(--text-3);margin-bottom:8px;line-height:1.4}
+.lesson-meta{display:flex;align-items:center;justify-content:space-between}
+.lesson-tags{display:flex;gap:4px;flex-wrap:wrap}
+.lesson-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--surface-2);color:var(--text-3);font-weight:500}
+.lesson-status{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;background:var(--surface-2);color:var(--text-3);white-space:nowrap}
+
+/* Content Viewer */
+.viewer-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;text-align:center}
+.viewer-empty-icon{font-size:48px;margin-bottom:16px;opacity:.5}
+.viewer-empty h2{font-size:20px;font-weight:600;margin-bottom:8px;color:var(--text-2)}
+.viewer-empty p{font-size:14px;color:var(--text-3)}
+
+.lesson-content{max-width:720px}
+.lesson-content h1{font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.lesson-content .lesson-subtitle{font-size:15px;color:var(--text-2);margin-bottom:32px}
+.lesson-content h2{font-size:20px;font-weight:700;margin:32px 0 12px;color:var(--text);letter-spacing:-.3px}
+.lesson-content h3{font-size:16px;font-weight:600;margin:24px 0 8px;color:var(--text)}
+.lesson-content p{font-size:15px;line-height:1.7;color:var(--text-2);margin-bottom:16px}
+.lesson-content ul,.lesson-content ol{margin:0 0 16px 20px;color:var(--text-2);font-size:15px;line-height:1.7}
+.lesson-content li{margin-bottom:6px}
+.lesson-content strong{color:var(--text);font-weight:600}
+.lesson-content code{background:var(--surface-2);padding:2px 6px;border-radius:4px;font-family:'SF Mono','Fira Code',monospace;font-size:13px;color:var(--accent)}
+
+/* Callout Boxes */
+.callout{border-radius:12px;padding:16px 20px;margin:16px 0;font-size:14px;line-height:1.6}
+.callout-title{font-weight:700;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+.callout-formula{background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.callout-formula .callout-title{color:var(--purple)}
+.callout-formula code{background:var(--surface-3);color:var(--purple)}
+.callout-tip{background:var(--accent-glow);border-left:3px solid var(--accent)}
+.callout-tip .callout-title{color:var(--accent)}
+.callout-example{background:var(--green-bg);border-left:3px solid var(--green)}
+.callout-example .callout-title{color:var(--green)}
+.callout-warning{background:var(--red-bg);border-left:3px solid var(--red)}
+.callout-warning .callout-title{color:var(--red)}
+
+.formula-block{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:12px 0;font-family:'SF Mono','Fira Code',monospace;font-size:14px;color:var(--purple);text-align:center;letter-spacing:.5px}
+
+/* Buttons */
+.lesson-actions{display:flex;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+.btn{padding:12px 24px;border-radius:10px;font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary.completed{background:var(--green);cursor:default}
+.btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--border-hover);background:var(--surface-3)}
+
+/* Mobile */
+.mobile-toggle{display:none;position:fixed;bottom:20px;left:20px;z-index:101;background:var(--accent);color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.4)}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-340px;top:56px;width:320px;height:calc(100vh - 56px);background:var(--bg);z-index:99;padding:16px;transition:left .3s;border-right:1px solid var(--border)}
+  .sidebar.open{left:0}
+  .study-layout{padding:0 16px}
+  .mobile-toggle{display:flex;align-items:center;justify-content:center}
+  .lesson-content h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="study.html" class="nav-link active">Study</a>
+      <a href="practice.html" class="nav-link">Practice</a>
+      <a href="formulas.html" class="nav-link">Formulas</a>
+      <a href="strategies.html" class="nav-link">Strategies</a>
+    </div>
+  </div>
+</nav>
+
+<button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+
+<div class="study-layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content-viewer" id="viewer">
+    <div class="viewer-empty">
+      <div class="viewer-empty-icon">&#128218;</div>
+      <h2>Select a Lesson</h2>
+      <p>Choose a topic from the sidebar to begin studying.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const lessons = [
+  {
+    id: 1, section: "MATH SKILLS", title: "Arithmetic Fundamentals",
+    desc: "PEMDAS, fractions, decimals, percentages, and ratios",
+    tags: ["PEMDAS","Fractions","Percentages"],
+    content: `
+      <h1>Arithmetic Fundamentals</h1>
+      <p class="lesson-subtitle">Master the building blocks of OAR math: order of operations, fractions, decimals, percentages, and ratios.</p>
+
+      <h2>Order of Operations (PEMDAS)</h2>
+      <p>Every math question on the OAR follows <strong>PEMDAS</strong> strictly. Violate it and you will get the wrong answer every single time.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">The Rule</div>
+        <strong>P</strong>arentheses &rarr; <strong>E</strong>xponents &rarr; <strong>M</strong>ultiplication/<strong>D</strong>ivision (left to right) &rarr; <strong>A</strong>ddition/<strong>S</strong>ubtraction (left to right)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>8 + 3 &times; 4 - 2</code><br>
+        Step 1: Multiplication first &rarr; 3 &times; 4 = 12<br>
+        Step 2: Left to right &rarr; 8 + 12 - 2 = <strong>18</strong>
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Common Trap</div>
+        Students often add 8 + 3 first to get 11, then multiply. <strong>Always</strong> do multiplication and division before addition and subtraction.
+      </div>
+
+      <h2>Fractions</h2>
+      <p>Fractions appear constantly on the OAR. You need to add, subtract, multiply, and divide them quickly and accurately.</p>
+
+      <h3>Adding &amp; Subtracting Fractions</h3>
+      <p>You must find a <strong>common denominator</strong>. The universal formula:</p>
+      <div class="formula-block">a/b + c/d = (ad + bc) / bd</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>3/4 + 2/3</code><br>
+        = (3&times;3 + 4&times;2) / (4&times;3)<br>
+        = (9 + 8) / 12 = <strong>17/12</strong>
+      </div>
+
+      <h3>Multiplying Fractions</h3>
+      <p>Straight across &mdash; no common denominator needed.</p>
+      <div class="formula-block">a/b &times; c/d = ac / bd</div>
+
+      <h3>Dividing Fractions</h3>
+      <p><strong>Flip</strong> the second fraction (take its reciprocal) and <strong>multiply</strong>.</p>
+      <div class="formula-block">a/b &div; c/d = a/b &times; d/c = ad / bc</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>5/8 &div; 3/4</code> = 5/8 &times; 4/3 = 20/24 = <strong>5/6</strong>
+      </div>
+
+      <h2>Decimals</h2>
+      <p>Know the key fraction-to-decimal conversions cold:</p>
+      <ul>
+        <li><strong>1/2</strong> = 0.5</li>
+        <li><strong>1/3</strong> = 0.333...</li>
+        <li><strong>1/4</strong> = 0.25</li>
+        <li><strong>1/5</strong> = 0.2</li>
+        <li><strong>1/8</strong> = 0.125</li>
+        <li><strong>3/4</strong> = 0.75</li>
+        <li><strong>2/3</strong> = 0.667</li>
+      </ul>
+
+      <h2>Percentages</h2>
+      <p>Percentage questions are almost guaranteed. The key formula:</p>
+      <div class="formula-block">% Change = (New - Old) / Old &times; 100</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A value goes from 1200 to 1500. Percent increase:<br>
+        = (1500 - 1200) / 1200 &times; 100 = 300/1200 &times; 100 = <strong>25%</strong>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Pro Tip</div>
+        To find X% of a number: move the decimal two places left, then multiply.<br>
+        15% of 240 = 0.15 &times; 240 = <strong>36</strong>
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Markup Then Discount Trap</div>
+        A $50 item marked up 40% then discounted 25%:<br>
+        Step 1: $50 &times; 1.40 = $70<br>
+        Step 2: $70 &times; 0.75 = <strong>$52.50</strong><br>
+        It is NOT the same as a 15% net increase! Percentages on different bases don't cancel cleanly.
+      </div>
+
+      <h2>Ratios</h2>
+      <p>Ratios compare quantities. Use <strong>cross-multiplication</strong> to solve ratio problems.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Boys to girls ratio is 3:5. Total students = 40. How many boys?<br>
+        Total parts = 3 + 5 = 8<br>
+        Boys = (3/8) &times; 40 = <strong>15</strong>
+      </div>
+    `
+  },
+  {
+    id: 2, section: "MATH SKILLS", title: "Algebra",
+    desc: "Linear equations, systems, exponents, quadratics, and inequalities",
+    tags: ["Equations","Exponents","Quadratics"],
+    content: `
+      <h1>Algebra</h1>
+      <p class="lesson-subtitle">Solve equations, manipulate exponents, work with systems, and tackle quadratics confidently.</p>
+
+      <h2>Linear Equations</h2>
+      <p>Isolate the variable by performing the same operation on both sides.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>3x - 7 = 14</code><br>
+        3x = 21<br>
+        x = <strong>7</strong>
+      </div>
+
+      <h2>Systems of Equations</h2>
+      <p>Two methods: <strong>substitution</strong> and <strong>elimination</strong>. Use whichever is faster for the given problem.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example (Elimination)</div>
+        <code>2x + y = 7</code><br>
+        <code>x - y = 2</code><br>
+        Add both equations: 3x = 9 &rarr; x = 3<br>
+        Plug back: 3 - y = 2 &rarr; y = <strong>1</strong><br>
+        Solution: <strong>x = 3, y = 1</strong>
+      </div>
+
+      <h2>Exponent Rules</h2>
+      <p>Memorize these &mdash; they appear in nearly every test.</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Core Rules</div>
+        <code>x^a &middot; x^b = x^(a+b)</code><br>
+        <code>x^a / x^b = x^(a-b)</code><br>
+        <code>(x^a)^b = x^(ab)</code><br>
+        <code>x^0 = 1</code> (any non-zero base)<br>
+        <code>x^(-n) = 1/x^n</code>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>x&sup3; &middot; x&sup5; / x&sup2;</code> = x^(3+5-2) = <strong>x&sup6;</strong>
+      </div>
+
+      <h2>Factoring</h2>
+      <p>Look for two numbers that multiply to <code>c</code> and add to <code>b</code> in <code>x&sup2; + bx + c</code>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>x&sup2; - 5x + 6</code><br>
+        Numbers that multiply to 6 and add to -5: <strong>-2 and -3</strong><br>
+        = <strong>(x - 2)(x - 3)</strong>
+      </div>
+
+      <h2>Quadratic Formula</h2>
+      <p>When factoring isn't obvious, use the quadratic formula.</p>
+      <div class="formula-block">x = (-b &plusmn; &radic;(b&sup2; - 4ac)) / 2a</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>2x&sup2; + 5x - 3 = 0</code> &rarr; a=2, b=5, c=-3<br>
+        Discriminant: 25 - 4(2)(-3) = 25 + 24 = 49<br>
+        x = (-5 &plusmn; 7) / 4<br>
+        x = 2/4 = <strong>1/2</strong> or x = -12/4 = <strong>-3</strong>
+      </div>
+
+      <h2>Inequalities</h2>
+      <div class="callout callout-warning">
+        <div class="callout-title">Critical Rule</div>
+        When you multiply or divide both sides by a <strong>negative number</strong>, you must <strong>FLIP the inequality sign</strong>.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>-3(2x - 4) > 18</code><br>
+        -6x + 12 > 18<br>
+        -6x > 6<br>
+        x < -1 (flipped because we divided by -6)
+      </div>
+
+      <h2>Absolute Value</h2>
+      <p><code>|x - a| = b</code> splits into two equations: <code>x - a = b</code> and <code>x - a = -b</code>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>|x - 4| = 7</code><br>
+        x - 4 = 7 &rarr; x = <strong>11</strong><br>
+        x - 4 = -7 &rarr; x = <strong>-3</strong>
+      </div>
+
+      <h2>Function Evaluation</h2>
+      <p>Replace the variable with the given value and compute.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>f(x) = 2x&sup2; - 3x + 1</code>, find f(3)<br>
+        = 2(9) - 3(3) + 1 = 18 - 9 + 1 = <strong>10</strong>
+      </div>
+
+      <h2>Logarithms &amp; Exponential Equations</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Key Relationship</div>
+        <code>log_b(x) = y</code> means <code>b^y = x</code>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        <code>log&sub2;(x) = 5</code> &rarr; 2&sup5; = x &rarr; x = <strong>32</strong><br><br>
+        <code>2^(x+1) = 16</code> &rarr; 2^(x+1) = 2&sup4; &rarr; x+1 = 4 &rarr; x = <strong>3</strong>
+      </div>
+    `
+  },
+  {
+    id: 3, section: "MATH SKILLS", title: "Geometry",
+    desc: "Angles, Pythagorean theorem, special triangles, circles, areas, volumes, coordinate geometry",
+    tags: ["Triangles","Circles","Coordinate"],
+    content: `
+      <h1>Geometry</h1>
+      <p class="lesson-subtitle">Angles, triangles, circles, areas, volumes, and coordinate geometry &mdash; all the spatial reasoning the OAR demands.</p>
+
+      <h2>Angles</h2>
+      <ul>
+        <li><strong>Complementary</strong> angles sum to <strong>90&deg;</strong></li>
+        <li><strong>Supplementary</strong> angles sum to <strong>180&deg;</strong></li>
+        <li>All angles in a <strong>triangle</strong> sum to <strong>180&deg;</strong></li>
+      </ul>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Triangle with angles 45&deg; and 70&deg;. Third angle:<br>
+        180 - 45 - 70 = <strong>65&deg;</strong><br><br>
+        An angle is 35&deg;. Its supplement: 180 - 35 = <strong>145&deg;</strong>
+      </div>
+
+      <h2>Pythagorean Theorem</h2>
+      <div class="formula-block">a&sup2; + b&sup2; = c&sup2;</div>
+      <p>Where <code>c</code> is always the <strong>hypotenuse</strong> (longest side, opposite the right angle).</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Memorize These Triples</div>
+        <strong>3-4-5</strong> (and multiples: 6-8-10, 9-12-15)<br>
+        <strong>5-12-13</strong><br>
+        <strong>8-15-17</strong><br>
+        Recognizing these saves massive calculation time.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Legs = 5 and 12. Hypotenuse:<br>
+        5&sup2; + 12&sup2; = 25 + 144 = 169<br>
+        &radic;169 = <strong>13</strong>
+      </div>
+
+      <h2>Special Right Triangles</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">45-45-90 Triangle</div>
+        Sides: <code>x, x, x&radic;2</code><br>
+        Both legs are equal. Hypotenuse = leg &times; &radic;2
+      </div>
+      <div class="callout callout-formula">
+        <div class="callout-title">30-60-90 Triangle</div>
+        Sides: <code>x, x&radic;3, 2x</code><br>
+        Short leg (opposite 30&deg;) = x<br>
+        Long leg (opposite 60&deg;) = x&radic;3<br>
+        Hypotenuse (opposite 90&deg;) = 2x
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        30-60-90 triangle, short leg = 5.<br>
+        Hypotenuse = 2 &times; 5 = <strong>10</strong>
+      </div>
+
+      <h2>Circles</h2>
+      <div class="formula-block">Circumference = 2&pi;r &nbsp;&nbsp;|&nbsp;&nbsp; Area = &pi;r&sup2;</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Circle with radius 6:<br>
+        Area = &pi;(6)&sup2; = <strong>36&pi;</strong><br><br>
+        Arc length for a 60&deg; sector, r = 12:<br>
+        Arc = (60/360) &times; 2&pi;(12) = (1/6)(24&pi;) = <strong>4&pi;</strong>
+      </div>
+
+      <h2>Area Formulas</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Key Formulas</div>
+        Rectangle: <code>A = L &times; W</code><br>
+        Triangle: <code>A = &frac12; &times; b &times; h</code><br>
+        Trapezoid: <code>A = &frac12;(b&sub1; + b&sub2;) &times; h</code>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Trapezoid with bases 8 and 12, height 5:<br>
+        A = &frac12;(8 + 12) &times; 5 = &frac12;(20)(5) = <strong>50</strong>
+      </div>
+
+      <h2>Volume Formulas</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Key Formulas</div>
+        Cylinder: <code>V = &pi;r&sup2;h</code><br>
+        Sphere: <code>V = (4/3)&pi;r&sup3;</code><br>
+        Cone: <code>V = (1/3)&pi;r&sup2;h</code>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Cylinder: r = 3, h = 10<br>
+        V = &pi;(3)&sup2;(10) = &pi;(9)(10) = <strong>90&pi;</strong>
+      </div>
+
+      <h2>Coordinate Geometry</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Key Formulas</div>
+        Slope: <code>m = (y&sub2; - y&sub1;) / (x&sub2; - x&sub1;)</code><br>
+        Distance: <code>d = &radic;((x&sub2;-x&sub1;)&sup2; + (y&sub2;-y&sub1;)&sup2;)</code><br>
+        Midpoint: <code>((x&sub1;+x&sub2;)/2, (y&sub1;+y&sub2;)/2)</code><br>
+        Slope-intercept: <code>y = mx + b</code>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Points (2,5) and (6,13):<br>
+        Slope = (13-5)/(6-2) = 8/4 = <strong>2</strong><br><br>
+        Points (1,3) and (4,7):<br>
+        Distance = &radic;((4-1)&sup2; + (7-3)&sup2;) = &radic;(9+16) = &radic;25 = <strong>5</strong>
+      </div>
+    `
+  },
+  {
+    id: 4, section: "MATH SKILLS", title: "Word Problems",
+    desc: "Distance-rate-time, work rate, mixtures, probability, averages, and interest",
+    tags: ["D=RT","Work Rate","Probability"],
+    content: `
+      <h1>Word Problems</h1>
+      <p class="lesson-subtitle">Translate real-world scenarios into equations. This is where the OAR math section separates strong scorers from the rest.</p>
+
+      <h2>Distance = Rate &times; Time</h2>
+      <div class="formula-block">D = R &times; T</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A car drives 55 mph for 3.5 hours. Distance:<br>
+        D = 55 &times; 3.5 = <strong>192.5 miles</strong>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Opposite Directions</div>
+        Two trains leave from points 490 miles apart, heading toward each other at 60 mph and 80 mph. When do they meet?<br>
+        Combined rate = 60 + 80 = 140 mph<br>
+        T = 490 / 140 = <strong>3.5 hours</strong>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Wind Speed</div>
+        A plane flies 600 miles with a tailwind in 2 hours, and returns against the wind in 3 hours.<br>
+        With wind: 600/2 = 300 mph = p + w<br>
+        Against wind: 600/3 = 200 mph = p - w<br>
+        Add: 2p = 500, p = 250. Wind speed: w = 300 - 250 = <strong>50 mph</strong>
+      </div>
+
+      <h2>Work Rate Problems</h2>
+      <div class="formula-block">1/A + 1/B = 1/T</div>
+      <p>Where A and B are hours each person takes alone, and T is time working together.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Worker A finishes in 5 hours, Worker B in 3 hours. Together:<br>
+        1/5 + 1/3 = 3/15 + 5/15 = 8/15<br>
+        T = 15/8 = <strong>1.875 hours</strong> (1 hr 52.5 min)
+      </div>
+
+      <h2>Mixture Problems</h2>
+      <p>Use the equation: <strong>amount of substance before = amount of substance after</strong>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        10L of 20% salt solution. Add water to make 8% solution. How much total?<br>
+        Salt stays constant: 10 &times; 0.20 = 2L of salt<br>
+        2 = 0.08 &times; Total &rarr; Total = 2/0.08 = 25L<br>
+        Water to add: 25 - 10 = <strong>15L</strong>
+      </div>
+
+      <h2>Probability</h2>
+      <div class="formula-block">P(event) = favorable outcomes / total outcomes</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        4 red, 3 blue, 5 green marbles. P(blue):<br>
+        = 3 / (4+3+5) = 3/12 = <strong>1/4</strong>
+      </div>
+
+      <h2>Averages</h2>
+      <div class="formula-block">Average = Sum / Count</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Scores: 78, 85, 92, 88. Need average of 86 after 5 tests. What 5th score?<br>
+        Target sum = 86 &times; 5 = 430<br>
+        Current sum = 78 + 85 + 92 + 88 = 343<br>
+        5th score = 430 - 343 = <strong>87</strong>
+      </div>
+
+      <h2>Similar Triangles (Shadow Problems)</h2>
+      <p>When two triangles are similar, their sides are proportional.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A 6ft man casts a 4ft shadow. A flagpole casts a 20ft shadow. Flagpole height:<br>
+        6/4 = h/20 &rarr; h = 6 &times; 20/4 = <strong>30 ft</strong>
+      </div>
+
+      <h2>Simple Interest</h2>
+      <div class="formula-block">I = P &times; r &times; t &nbsp;&nbsp;|&nbsp;&nbsp; Total = P + I</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        $5,000 at 6% for 3 years:<br>
+        I = 5000 &times; 0.06 &times; 3 = $900<br>
+        Total = 5000 + 900 = <strong>$5,900</strong>
+      </div>
+
+      <h2>Reverse Percentage (Original Price)</h2>
+      <div class="callout callout-tip">
+        <div class="callout-title">Pro Tip</div>
+        If the <em>discounted</em> price is given, divide by (1 - discount rate) to find the original.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Shirt costs $45 after 25% off. Original price:<br>
+        $45 = Original &times; 0.75<br>
+        Original = 45 / 0.75 = <strong>$60</strong>
+      </div>
+    `
+  },
+  {
+    id: 5, section: "READING COMPREHENSION", title: "Main Idea & Purpose",
+    desc: "Identifying topic, main idea, theme, and author's purpose",
+    tags: ["Main Idea","Purpose","Strategy"],
+    content: `
+      <h1>Main Idea &amp; Purpose</h1>
+      <p class="lesson-subtitle">The reading section tests whether you can quickly extract what a passage is really saying and why the author wrote it.</p>
+
+      <h2>Topic vs. Main Idea vs. Theme</h2>
+      <ul>
+        <li><strong>Topic</strong>: What the passage is about in 1-3 words (e.g., "coral reef decline")</li>
+        <li><strong>Main Idea</strong>: The author's primary point about the topic (a full sentence)</li>
+        <li><strong>Theme</strong>: The underlying message or lesson (usually for literary passages)</li>
+      </ul>
+      <div class="callout callout-tip">
+        <div class="callout-title">Strategy</div>
+        Read the <strong>first and last sentence</strong> of each paragraph carefully. The main idea is almost always stated or strongly implied there.
+      </div>
+
+      <h2>Author's Purpose</h2>
+      <p>Every passage exists to do one of three things:</p>
+      <ol>
+        <li><strong>Inform</strong> &mdash; presents facts, data, explanations objectively</li>
+        <li><strong>Persuade</strong> &mdash; argues a position, urges action</li>
+        <li><strong>Entertain</strong> &mdash; uses narrative, humor, vivid description</li>
+      </ol>
+      <div class="callout callout-formula">
+        <div class="callout-title">Clue Words</div>
+        <strong>Persuade:</strong> "should," "must," "it is essential," "clearly"<br>
+        <strong>Inform:</strong> statistics, dates, neutral language, technical terms<br>
+        <strong>Entertain:</strong> dialogue, imagery, anecdotes
+      </div>
+
+      <h2>Reading Strategy for OAR Passages</h2>
+      <ol>
+        <li><strong>Skim first</strong> (30 seconds) &mdash; read first/last sentences of each paragraph</li>
+        <li><strong>Read the question</strong> &mdash; know what you're looking for</li>
+        <li><strong>Re-read targeted sections</strong> &mdash; don't re-read the whole passage</li>
+        <li><strong>Eliminate wrong answers</strong> &mdash; often easier than picking the right one</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">Common Trap</div>
+        Answer choices that are <strong>true but too narrow</strong> are wrong. The main idea must cover the <em>whole</em> passage, not just one paragraph.
+      </div>
+
+      <h2>Practice Recognizing Purpose</h2>
+      <div class="callout callout-example">
+        <div class="callout-title">Example Passage Snippet</div>
+        "Sleep deprivation among shift workers has reached alarming levels, with studies showing that 17 hours without sleep produces impairment equivalent to a blood alcohol concentration of 0.05%..."<br><br>
+        <strong>Purpose:</strong> Inform (with a concerned tone, but primarily presenting data).<br>
+        <strong>Tone:</strong> Concerned and somewhat critical.
+      </div>
+    `
+  },
+  {
+    id: 6, section: "READING COMPREHENSION", title: "Inference & Detail",
+    desc: "Drawing conclusions, finding details, vocabulary in context, elimination strategy",
+    tags: ["Inference","Detail","Vocab"],
+    content: `
+      <h1>Inference &amp; Detail</h1>
+      <p class="lesson-subtitle">Answer questions about what the passage states explicitly and what it implies &mdash; but never go beyond the text.</p>
+
+      <h2>Detail Questions</h2>
+      <p>These ask "According to the passage..." or "The author states that..." The answer is <strong>directly in the text</strong>.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Keyword Scanning</div>
+        Find a unique word from the question, scan the passage for that word, read the surrounding sentence(s). The answer is right there.
+      </div>
+
+      <h2>Inference Questions</h2>
+      <p>These ask "It can be inferred..." or "The passage suggests..." The answer is <strong>strongly implied</strong> but not explicitly stated.</p>
+      <div class="callout callout-warning">
+        <div class="callout-title">Critical Rule</div>
+        <strong>NEVER</strong> use outside knowledge. Every correct inference must be supported by evidence <em>in the passage</em>. If you have to make a logical leap beyond the text, the answer is wrong.
+      </div>
+
+      <h2>Vocabulary in Context</h2>
+      <p>Don't use the word's most common meaning. Use the meaning that fits <strong>this specific sentence</strong>.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Strategy</div>
+        Replace the word with each answer choice. Read the sentence with the replacement. The one that maintains the original meaning is correct.
+      </div>
+
+      <h2>Elimination Strategy</h2>
+      <p>On the OAR, wrong answers fall into predictable categories. Learn to spot them instantly:</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Four Types of Wrong Answers</div>
+        <strong>1. Too Extreme</strong> &mdash; uses words like "always," "never," "all," "none" when the passage is more nuanced<br>
+        <strong>2. True But Not Stated</strong> &mdash; correct in the real world but not supported by this passage<br>
+        <strong>3. Opposite</strong> &mdash; contradicts what the passage says (these trap speed readers)<br>
+        <strong>4. Too Narrow</strong> &mdash; covers only one detail when the question asks for the main point
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example Application</div>
+        A passage discusses both benefits and challenges of electric vehicles. Question: What is the author's position?<br><br>
+        (A) EVs are the only solution to climate change &larr; <strong>Too extreme</strong><br>
+        (B) Battery technology is improving rapidly &larr; <strong>Too narrow</strong><br>
+        (C) The environmental benefit is real but more nuanced than commonly believed &larr; <strong>Correct</strong><br>
+        (D) Gasoline cars are better than EVs &larr; <strong>Opposite</strong>
+      </div>
+
+      <h2>Reading Speed Tips</h2>
+      <ul>
+        <li>Don't sub-vocalize (say words in your head)</li>
+        <li>Read in <strong>chunks</strong> of 3-4 words, not word by word</li>
+        <li>Skip filler words &mdash; focus on nouns, verbs, and adjectives</li>
+        <li>Don't re-read unless you truly lost the thread</li>
+        <li>You have roughly <strong>1.5 minutes per question</strong> including reading time</li>
+      </ul>
+    `
+  },
+  {
+    id: 7, section: "MECHANICAL COMPREHENSION", title: "Forces & Newton's Laws",
+    desc: "Three laws of motion, weight, friction, free fall",
+    tags: ["F=ma","Friction","Free Fall"],
+    content: `
+      <h1>Forces &amp; Newton's Laws</h1>
+      <p class="lesson-subtitle">The foundation of mechanical comprehension. Understand force, mass, and acceleration &mdash; and you unlock half the section.</p>
+
+      <h2>Newton's First Law (Inertia)</h2>
+      <p>An object at rest stays at rest, and an object in motion stays in motion at constant velocity, <strong>unless acted upon by a net external force</strong>.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Insight</div>
+        If an object moves at <strong>constant velocity</strong>, the net force on it is <strong>zero</strong>. Forces are balanced.
+      </div>
+
+      <h2>Newton's Second Law</h2>
+      <div class="formula-block">F = m &times; a</div>
+      <p>Force equals mass times acceleration. This is the most-used formula in mechanical comprehension.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A 5 kg object has a 20N force applied. Acceleration:<br>
+        a = F/m = 20/5 = <strong>4 m/s&sup2;</strong>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        1000 kg car accelerates from 0 to 20 m/s in 10 seconds.<br>
+        a = (20-0)/10 = 2 m/s&sup2;<br>
+        F = 1000 &times; 2 = <strong>2000 N</strong>
+      </div>
+
+      <h2>Newton's Third Law</h2>
+      <p>For every action, there is an <strong>equal and opposite reaction</strong> on a <strong>different object</strong>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        You push a wall with 15N. The wall pushes back on your hand with <strong>15N</strong> in the opposite direction.
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Common Trap</div>
+        The action-reaction pair acts on <strong>different objects</strong>. They don't cancel out because they're not on the same object.
+      </div>
+
+      <h2>Weight</h2>
+      <div class="formula-block">W = m &times; g &nbsp;&nbsp;(g = 9.8 m/s&sup2; or 10 m/s&sup2; on OAR)</div>
+      <p>Weight is the force of gravity on an object. Mass is constant everywhere; weight changes with gravity.</p>
+
+      <h2>Friction</h2>
+      <div class="formula-block">F_friction = &mu; &times; N</div>
+      <p>Where &mu; is the coefficient of friction and N is the normal force (usually equal to weight on a flat surface).</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Fact</div>
+        <strong>Static friction > Kinetic friction.</strong> It takes more force to START an object moving than to KEEP it moving.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Net Force</div>
+        50N push to the right, 20N friction to the left:<br>
+        Net force = 50 - 20 = <strong>30N to the right</strong>
+      </div>
+
+      <h2>Free Fall</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Key Formulas</div>
+        <code>v = g &times; t</code> (velocity after falling for time t)<br>
+        <code>d = &frac12; &times; g &times; t&sup2;</code> (distance fallen)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A 2 kg object dropped for 3 seconds (g = 10 m/s&sup2;):<br>
+        v = 10 &times; 3 = <strong>30 m/s</strong>
+      </div>
+    `
+  },
+  {
+    id: 8, section: "MECHANICAL COMPREHENSION", title: "Levers & Torque",
+    desc: "Three classes of levers, the lever formula, mechanical advantage, torque",
+    tags: ["Levers","Torque","MA"],
+    content: `
+      <h1>Levers &amp; Torque</h1>
+      <p class="lesson-subtitle">Levers are the most tested simple machine on the OAR. Learn the three classes, the balance formula, and torque.</p>
+
+      <h2>The FLE System</h2>
+      <p>Remember lever classes by what's in the <strong>middle</strong>:</p>
+      <div class="callout callout-formula">
+        <div class="callout-title">Three Classes</div>
+        <strong>1st Class</strong> &mdash; <strong>F</strong>ulcrum in the middle (seesaw, scissors)<br>
+        <strong>2nd Class</strong> &mdash; <strong>L</strong>oad in the middle (wheelbarrow, nutcracker)<br>
+        <strong>3rd Class</strong> &mdash; <strong>E</strong>ffort in the middle (tweezers, fishing rod)
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Memory Trick</div>
+        <strong>F-L-E</strong> = 1-2-3. Fulcrum, Load, Effort &mdash; whichever is in the middle tells you the class.
+      </div>
+
+      <h2>Lever Formula</h2>
+      <div class="formula-block">F&sub1; &times; D&sub1; = F&sub2; &times; D&sub2;</div>
+      <p>Force times distance on one side must equal force times distance on the other for balance.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        40 kg sits 3m from the fulcrum. Where does 60 kg sit to balance?<br>
+        40 &times; 3 = 60 &times; D &rarr; D = 120/60 = <strong>2m</strong>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Effort arm = 6ft, load arm = 2ft. How much force to lift 300 lbs?<br>
+        F &times; 6 = 300 &times; 2 &rarr; F = 600/6 = <strong>100 lbs</strong>
+      </div>
+
+      <h2>Mechanical Advantage</h2>
+      <div class="formula-block">MA = Effort Arm / Load Arm</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Effort arm = 8ft, load arm = 2ft:<br>
+        MA = 8/2 = <strong>4</strong><br>
+        This means you apply 1/4 the force to lift the load.
+      </div>
+
+      <h2>Torque</h2>
+      <div class="formula-block">Torque = Force &times; Distance (from pivot)</div>
+      <p>Torque is the rotational equivalent of force. Measured in Newton-meters (N&middot;m).</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Need 30 N&middot;m of torque. Wrench is 0.5m long. Force needed:<br>
+        30 = F &times; 0.5 &rarr; F = <strong>60N</strong>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Pro Tip</div>
+        Longer wrench = less force needed. That's why mechanics use breaker bars for stubborn bolts.
+      </div>
+    `
+  },
+  {
+    id: 9, section: "MECHANICAL COMPREHENSION", title: "Gears & Pulleys",
+    desc: "Gear direction, gear ratios, pulley systems, mechanical advantage",
+    tags: ["Gears","Pulleys","Ratios"],
+    content: `
+      <h1>Gears &amp; Pulleys</h1>
+      <p class="lesson-subtitle">Gears and pulleys show up on nearly every OAR. Master the direction rules and ratio calculations.</p>
+
+      <h2>Gear Direction Rules</h2>
+      <ul>
+        <li><strong>Adjacent gears</strong> always turn in <strong>opposite</strong> directions</li>
+        <li>In a chain of gears: <strong>odd number</strong> of gears = first and last turn the <strong>same</strong> direction</li>
+        <li><strong>Even number</strong> = first and last turn <strong>opposite</strong> directions</li>
+      </ul>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Gear A turns clockwise. Adjacent Gear B turns: <strong>counterclockwise</strong><br><br>
+        5 gears in a chain, first turns CW. Last gear turns: <strong>CW</strong> (5 is odd = same direction)
+      </div>
+
+      <h2>Gear Ratio Formula</h2>
+      <div class="formula-block">T&sub1; &times; RPM&sub1; = T&sub2; &times; RPM&sub2;</div>
+      <p>Where T = number of teeth, RPM = rotations per minute.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Insight</div>
+        <strong>Smaller gear = faster rotation.</strong> The gear with fewer teeth spins faster.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Gear A: 20 teeth at 100 RPM. Gear B: 50 teeth. B's speed:<br>
+        20 &times; 100 = 50 &times; RPM &rarr; RPM = 2000/50 = <strong>40 RPM</strong>
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example: Gear Train</div>
+        A(10t) &rarr; B(30t) &rarr; C(15t). A spins at 300 RPM. C's speed:<br>
+        A&rarr;B: 10 &times; 300 = 30 &times; RPM_B &rarr; RPM_B = 100<br>
+        B&rarr;C: 30 &times; 100 = 15 &times; RPM_C &rarr; RPM_C = <strong>200 RPM</strong>
+      </div>
+
+      <h2>Pulley Systems</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Types of Pulleys</div>
+        <strong>Fixed pulley:</strong> MA = 1 (changes direction only, no force reduction)<br>
+        <strong>Movable pulley:</strong> MA = 2 (halves the required force)<br>
+        <strong>Block &amp; tackle:</strong> MA = number of rope segments supporting the load
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Fixed pulley, 100 lb load: Force needed = <strong>100 lbs</strong> (MA=1)<br><br>
+        4 ropes supporting a 200 lb load: Force = 200/4 = <strong>50 lbs</strong>
+      </div>
+
+      <h2>The Golden Rule of Simple Machines</h2>
+      <div class="callout callout-warning">
+        <div class="callout-title">Never Forget</div>
+        <strong>Force &times; Distance = Constant.</strong> You can reduce force, but you'll always increase the distance you must pull/push. You never get something for nothing.
+      </div>
+    `
+  },
+  {
+    id: 10, section: "MECHANICAL COMPREHENSION", title: "Energy, Work & Power",
+    desc: "Work, kinetic energy, potential energy, conservation, power, inclined planes",
+    tags: ["Energy","Work","Power"],
+    content: `
+      <h1>Energy, Work &amp; Power</h1>
+      <p class="lesson-subtitle">Understand the relationships between work, energy, and power. These concepts connect everything in mechanics.</p>
+
+      <h2>Work</h2>
+      <div class="formula-block">W = F &times; d</div>
+      <p>Work equals force applied in the direction of motion times distance. Measured in <strong>Joules (J)</strong>.</p>
+      <div class="callout callout-warning">
+        <div class="callout-title">Key Point</div>
+        If the force is <strong>perpendicular</strong> to the motion (like carrying a box horizontally &mdash; gravity pulls down), the work done by that force is <strong>zero</strong>.
+      </div>
+
+      <h2>Kinetic Energy</h2>
+      <div class="formula-block">KE = &frac12; &times; m &times; v&sup2;</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        4 kg object at 5 m/s:<br>
+        KE = &frac12; &times; 4 &times; 25 = <strong>50 J</strong>
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">Most Tested Concept</div>
+        <strong>Double the speed = 4&times; the kinetic energy!</strong><br>
+        Because velocity is <em>squared</em>, doubling speed quadruples KE. This is why high-speed crashes are so devastating.
+      </div>
+
+      <h2>Potential Energy</h2>
+      <div class="formula-block">PE = m &times; g &times; h</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        10 kg lifted 5m (g = 10 m/s&sup2;):<br>
+        PE = 10 &times; 10 &times; 5 = <strong>500 J</strong>
+      </div>
+
+      <h2>Conservation of Energy</h2>
+      <div class="formula-block">KE + PE = constant (no friction)</div>
+      <p>Energy transforms between kinetic and potential but is never created or destroyed.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        2 kg object dropped from 20m (g = 10). Speed at bottom:<br>
+        PE at top = KE at bottom<br>
+        mgh = &frac12;mv&sup2;<br>
+        2(10)(20) = &frac12;(2)v&sup2;<br>
+        400 = v&sup2; &rarr; v = <strong>20 m/s</strong>
+      </div>
+
+      <h2>Power</h2>
+      <div class="formula-block">P = W / t</div>
+      <p>Power is the <strong>rate</strong> of doing work. Measured in <strong>Watts</strong> (1 W = 1 J/s).</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        600 J of work done in 30 seconds:<br>
+        P = 600/30 = <strong>20 W</strong>
+      </div>
+
+      <h2>Inclined Plane</h2>
+      <div class="formula-block">MA = Length / Height</div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Ramp is 10m long and 2m high:<br>
+        MA = 10/2 = <strong>5</strong><br>
+        You use 1/5 the force but travel 5&times; the distance.
+      </div>
+    `
+  },
+  {
+    id: 11, section: "MECHANICAL COMPREHENSION", title: "Fluids & Pressure",
+    desc: "Pressure, Pascal's law, buoyancy, continuity, Bernoulli's principle",
+    tags: ["Pressure","Hydraulics","Bernoulli"],
+    content: `
+      <h1>Fluids &amp; Pressure</h1>
+      <p class="lesson-subtitle">Hydraulics, buoyancy, and fluid flow &mdash; the concepts that explain everything from submarines to airplane lift.</p>
+
+      <h2>Pressure</h2>
+      <div class="formula-block">P = F / A</div>
+      <p>Pressure is force distributed over an area. Measured in <strong>Pascals (Pa)</strong> or N/m&sup2;.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        200N over 4 m&sup2;:<br>
+        P = 200/4 = <strong>50 Pa</strong>
+      </div>
+
+      <h2>Pascal's Law (Hydraulics)</h2>
+      <div class="formula-block">F&sub1; / A&sub1; = F&sub2; / A&sub2;</div>
+      <p>Pressure is transmitted equally through an enclosed fluid. This is how hydraulic systems multiply force.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Small piston: 5 cm&sup2;, 40N. Large piston: 25 cm&sup2;. Force output:<br>
+        40/5 = F/25 &rarr; F = 8 &times; 25 = <strong>200N</strong>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Insight</div>
+        Bigger area = bigger force output. But the small piston must travel a longer distance (golden rule of machines).
+      </div>
+
+      <h2>Buoyancy</h2>
+      <p>An object floats if its <strong>average density is less than the fluid's density</strong>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        A block is 60% submerged in water. Its density relative to water:<br>
+        Density ratio = fraction submerged = <strong>0.6</strong><br>
+        (Density = 0.6 &times; density of water)
+      </div>
+
+      <h2>Continuity Equation</h2>
+      <div class="formula-block">A&sub1; &times; v&sub1; = A&sub2; &times; v&sub2;</div>
+      <p>For incompressible fluids, the product of cross-sectional area and velocity is constant.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">Key Rule</div>
+        <strong>Narrower pipe = faster flow.</strong> Think of putting your thumb over a garden hose.
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Pipe area goes from 10 cm&sup2; to 5 cm&sup2;. Initial velocity: 2 m/s.<br>
+        10 &times; 2 = 5 &times; v &rarr; v = <strong>4 m/s</strong>
+      </div>
+
+      <h2>Bernoulli's Principle</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">The Rule</div>
+        <strong>Faster fluid = lower pressure.</strong><br>
+        This is how airplane wings generate lift: air moves faster over the curved top, creating lower pressure above the wing.
+      </div>
+      <div class="callout callout-warning">
+        <div class="callout-title">OAR Favorite</div>
+        Bernoulli questions are very common. If air speeds up, pressure <strong>decreases</strong>. Always.
+      </div>
+    `
+  },
+  {
+    id: 12, section: "MECHANICAL COMPREHENSION", title: "Electricity Basics",
+    desc: "Ohm's law, series and parallel circuits, power",
+    tags: ["Ohm's Law","Series","Parallel"],
+    content: `
+      <h1>Electricity Basics</h1>
+      <p class="lesson-subtitle">Ohm's law, circuit types, and electrical power. The OAR tests fundamental circuit analysis.</p>
+
+      <h2>Ohm's Law</h2>
+      <div class="formula-block">V = I &times; R</div>
+      <p><strong>V</strong> = Voltage (Volts), <strong>I</strong> = Current (Amps), <strong>R</strong> = Resistance (Ohms)</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">VIR Triangle</div>
+        Cover what you want to find:<br>
+        Cover V &rarr; V = IR<br>
+        Cover I &rarr; I = V/R<br>
+        Cover R &rarr; R = V/I
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        12V battery, 4&Omega; resistor:<br>
+        I = V/R = 12/4 = <strong>3A</strong>
+      </div>
+
+      <h2>Series Circuits</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Series Rules</div>
+        <strong>Resistance adds:</strong> R_total = R&sub1; + R&sub2; + R&sub3;<br>
+        <strong>Current is the same</strong> through all components<br>
+        <strong>One break = all die</strong> (like old Christmas lights)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Resistors of 2&Omega;, 3&Omega;, 5&Omega; in series:<br>
+        R_total = 2 + 3 + 5 = <strong>10&Omega;</strong>
+      </div>
+
+      <h2>Parallel Circuits</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Parallel Rules</div>
+        <strong>Reciprocals add:</strong> 1/R_total = 1/R&sub1; + 1/R&sub2;<br>
+        <strong>Voltage is the same</strong> across all branches<br>
+        <strong>One break = others still work</strong> (like modern house wiring)
+      </div>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        Two 10&Omega; resistors in parallel:<br>
+        1/R = 1/10 + 1/10 = 2/10<br>
+        R = 10/2 = <strong>5&Omega;</strong>
+      </div>
+      <div class="callout callout-tip">
+        <div class="callout-title">Shortcut for Two Equal Resistors</div>
+        Two equal resistors in parallel: R_total = R / 2. Three equal: R_total = R / 3. And so on.
+      </div>
+
+      <h2>Electrical Power</h2>
+      <div class="formula-block">P = V &times; I</div>
+      <p>Power is measured in <strong>Watts (W)</strong>.</p>
+      <div class="callout callout-example">
+        <div class="callout-title">Example</div>
+        120V, 2A device:<br>
+        P = 120 &times; 2 = <strong>240 W</strong>
+      </div>
+
+      <h2>Series vs Parallel: Quick Reference</h2>
+      <div class="callout callout-formula">
+        <div class="callout-title">Comparison</div>
+        <strong>Series:</strong> One path for current. R adds up. Current same everywhere. One fails, all fail.<br>
+        <strong>Parallel:</strong> Multiple paths. R decreases. Voltage same everywhere. One fails, rest work.
+      </div>
+    `
+  }
+];
+
+// Build sidebar
+const sidebar = document.getElementById('sidebar');
+let currentSection = '';
+lessons.forEach(lesson => {
+  if (lesson.section !== currentSection) {
+    currentSection = lesson.section;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.textContent = currentSection;
+    sidebar.appendChild(header);
+  }
+  const progress = getProgress(lesson.id);
+  const card = document.createElement('div');
+  card.className = 'lesson-card' + (progress === 'completed' ? ' completed' : progress === 'in-progress' ? ' in-progress' : '');
+  card.id = 'card-' + lesson.id;
+  card.innerHTML = `
+    <div class="lesson-title">${lesson.title}</div>
+    <div class="lesson-desc">${lesson.desc}</div>
+    <div class="lesson-meta">
+      <div class="lesson-tags">${lesson.tags.map(t => '<span class="lesson-tag">' + t + '</span>').join('')}</div>
+      <span class="lesson-status">${progress === 'completed' ? 'Completed' : progress === 'in-progress' ? 'In Progress' : 'Not Started'}</span>
+    </div>
+  `;
+  card.onclick = () => openLesson(lesson);
+  sidebar.appendChild(card);
+});
+
+function getProgress(id) {
+  const data = JSON.parse(localStorage.getItem('oar_study_progress') || '{}');
+  return data[id] || 'not-started';
+}
+
+function setProgress(id, status) {
+  const data = JSON.parse(localStorage.getItem('oar_study_progress') || '{}');
+  data[id] = status;
+  localStorage.setItem('oar_study_progress', JSON.stringify(data));
+}
+
+function openLesson(lesson) {
+  // Mark in-progress if not completed
+  if (getProgress(lesson.id) === 'not-started') {
+    setProgress(lesson.id, 'in-progress');
+  }
+
+  // Update active card
+  document.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('card-' + lesson.id).classList.add('active');
+  if (getProgress(lesson.id) === 'in-progress') {
+    document.getElementById('card-' + lesson.id).classList.add('in-progress');
+    document.getElementById('card-' + lesson.id).querySelector('.lesson-status').textContent = 'In Progress';
+  }
+
+  // Render content
+  const viewer = document.getElementById('viewer');
+  const isCompleted = getProgress(lesson.id) === 'completed';
+  viewer.innerHTML = `
+    <div class="lesson-content">
+      ${lesson.content}
+      <div class="lesson-actions">
+        <button class="btn btn-primary${isCompleted ? ' completed' : ''}" id="completeBtn" onclick="markComplete(${lesson.id})">
+          ${isCompleted ? '&#10003; Completed' : 'Mark as Complete'}
+        </button>
+        <a href="practice.html?topic=${encodeURIComponent(lesson.section)}" class="btn btn-secondary">Practice This Topic &rarr;</a>
+      </div>
+    </div>
+  `;
+  viewer.scrollTop = 0;
+
+  // Close mobile sidebar
+  document.querySelector('.sidebar').classList.remove('open');
+}
+
+function markComplete(id) {
+  setProgress(id, 'completed');
+  const card = document.getElementById('card-' + id);
+  card.classList.remove('in-progress');
+  card.classList.add('completed');
+  card.querySelector('.lesson-status').textContent = 'Completed';
+  const btn = document.getElementById('completeBtn');
+  btn.innerHTML = '&#10003; Completed';
+  btn.classList.add('completed');
+}
+
+// Auto-open first lesson or from URL param
+const urlParams = new URLSearchParams(window.location.search);
+const lessonParam = urlParams.get('lesson');
+if (lessonParam) {
+  const target = lessons.find(l => l.id === parseInt(lessonParam));
+  if (target) openLesson(target);
+} else {
+  openLesson(lessons[0]);
+}
+</script>
+</body>
+</html>

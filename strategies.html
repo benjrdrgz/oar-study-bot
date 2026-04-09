@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAR Pro — Test-Taking Strategies</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0B1120;--surface:#111827;--surface-2:#1F2937;--surface-3:#374151;
+  --border:#1E293B;--border-hover:#334155;
+  --accent:#3B82F6;--accent-hover:#2563EB;--accent-glow:rgba(59,130,246,.15);
+  --green:#10B981;--green-bg:rgba(16,185,129,.1);
+  --red:#EF4444;--red-bg:rgba(239,68,68,.1);
+  --yellow:#F59E0B;--yellow-bg:rgba(245,158,11,.1);
+  --purple:#8B5CF6;
+  --text:#F9FAFB;--text-2:#9CA3AF;--text-3:#6B7280;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-top:72px;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(11,17,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.5px}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:8px 14px;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--surface-2)}
+.nav-link.active{color:var(--accent);background:var(--accent-glow)}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.page-header{padding:32px 0 24px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.page-title{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.page-subtitle{color:var(--text-2);font-size:15px}
+
+/* TABLE OF CONTENTS */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:32px}
+.toc-title{font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px}
+.toc-link{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:13px;font-weight:500;transition:all .15s}
+.toc-link:hover{color:var(--text);background:var(--surface-2)}
+.toc-num{width:22px;height:22px;border-radius:6px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0}
+
+/* STRATEGY SECTIONS */
+.strategy-section{margin-bottom:24px}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.section-card:hover{border-color:var(--border-hover)}
+.section-header{display:flex;align-items:center;gap:12px;padding:18px 22px;cursor:pointer;user-select:none;transition:background .15s}
+.section-header:hover{background:var(--surface-2)}
+.section-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.section-title-group{flex:1}
+.section-title{font-size:17px;font-weight:700}
+.section-subtitle{font-size:13px;color:var(--text-3);margin-top:2px}
+.section-chevron{color:var(--text-3);transition:transform .2s;font-size:14px}
+.section-card.open .section-chevron{transform:rotate(180deg)}
+.section-body{display:none;padding:0 22px 22px}
+.section-card.open .section-body{display:block}
+
+/* CONTENT ELEMENTS */
+h3{font-size:16px;font-weight:700;margin:20px 0 10px;color:var(--text);display:flex;align-items:center;gap:8px}
+h3 .badge{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:600}
+p{color:var(--text-2);font-size:14px;margin-bottom:10px}
+ul,ol{color:var(--text-2);font-size:14px;margin:0 0 14px;padding-left:20px}
+li{margin-bottom:6px}
+li strong{color:var(--text)}
+
+/* CALLOUT BOXES */
+.callout{padding:14px 16px;border-radius:10px;margin:14px 0;font-size:13px;line-height:1.6}
+.callout-critical{background:var(--red-bg);border-left:3px solid var(--red);color:var(--red)}
+.callout-tip{background:var(--green-bg);border-left:3px solid var(--green);color:var(--green)}
+.callout-warning{background:var(--yellow-bg);border-left:3px solid var(--yellow);color:var(--yellow)}
+.callout-info{background:var(--accent-glow);border-left:3px solid var(--accent);color:var(--accent)}
+.callout-title{font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+
+/* DATA TABLE */
+.data-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.data-table th{text-align:left;padding:10px 14px;background:var(--surface-2);color:var(--text);font-weight:600;border-bottom:1px solid var(--border)}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table .highlight{color:var(--accent);font-weight:600}
+
+/* PRIORITY STACK */
+.priority-stack{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.priority-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:10px;border:1px solid var(--border)}
+.priority-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+.priority-content{flex:1}
+.priority-label{font-size:14px;font-weight:700}
+.priority-desc{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* CHECKLIST */
+.checklist{list-style:none;padding:0;margin:14px 0}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;margin-bottom:4px;font-size:14px;color:var(--text-2);cursor:pointer;transition:background .15s;user-select:none}
+.checklist li:hover{background:var(--surface-2)}
+.checklist li .check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border-hover);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:12px;color:transparent}
+.checklist li.checked .check{background:var(--green);border-color:var(--green);color:#fff}
+.checklist li.checked{color:var(--text-3);text-decoration:line-through}
+
+/* MISTAKES LIST */
+.mistakes-list{counter-reset:mistake;list-style:none;padding:0;margin:14px 0}
+.mistakes-list li{counter-increment:mistake;display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:14px;color:var(--text-2)}
+.mistakes-list li::before{content:counter(mistake);min-width:28px;height:28px;border-radius:8px;background:var(--red-bg);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+
+/* TIMER VISUAL */
+.timer-bars{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.timer-bar{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.timer-label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;font-weight:600}
+.timer-label span:first-child{color:var(--text)}
+.timer-label span:last-child{color:var(--text-3)}
+.timer-track{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;position:relative}
+.timer-fill{height:100%;border-radius:4px;transition:width .3s}
+.timer-markers{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--text-3)}
+
+/* CAT DIAGRAM */
+.cat-diagram{margin:14px 0;padding:20px;background:var(--bg);border:1px solid var(--border);border-radius:10px}
+
+/* SCRATCH PAPER BUILDER */
+.scratch-builder{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;margin:14px 0}
+.scratch-builder h4{font-size:14px;font-weight:700;margin-bottom:12px}
+.scratch-categories{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.scratch-cat-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.scratch-cat-btn:hover{border-color:var(--accent);color:var(--accent)}
+.scratch-cat-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.scratch-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-bottom:14px}
+.scratch-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:12px;color:var(--text-2);cursor:pointer;transition:background .15s;user-select:none}
+.scratch-item:hover{background:var(--surface-2)}
+.scratch-item .sbox{width:16px;height:16px;border-radius:4px;border:2px solid var(--border-hover);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .15s;color:transparent}
+.scratch-item.selected .sbox{background:var(--accent);border-color:var(--accent);color:#fff}
+.scratch-output{background:var(--surface-2);border-radius:8px;padding:14px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--text-2);line-height:1.8;min-height:60px;white-space:pre-wrap}
+.scratch-output-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.scratch-output-label span{font-size:12px;font-weight:600;color:var(--text-3)}
+.btn-copy{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--text-3);font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-copy:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ANIMATION */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.strategy-section{animation:fadeIn .3s ease}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#000;padding-top:0}
+  .nav,.toc,.section-chevron{display:none!important}
+  .section-card{border-color:#ddd;break-inside:avoid}
+  .section-body{display:block!important}
+  .section-header{padding:10px 14px}
+  .callout{border-color:#999}
+  .callout-critical{background:#fff0f0;color:#c00}
+  .callout-tip{background:#f0fff0;color:#060}
+  .callout-warning{background:#fffbe6;color:#960}
+  .callout-info{background:#f0f4ff;color:#006}
+  .data-table th{background:#eee}
+  .container{max-width:100%;padding:0 12px}
+  .section-icon{display:none}
+}
+
+@media(max-width:768px){
+  .toc-grid{grid-template-columns:1fr}
+  .nav-links{gap:2px}
+  .nav-link{padding:6px 10px;font-size:13px}
+  .priority-stack{gap:6px}
+  .scratch-items{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="study.html" class="nav-link">Study</a>
+      <a href="practice.html" class="nav-link">Practice</a>
+      <a href="formulas.html" class="nav-link">Formulas</a>
+      <a href="strategies.html" class="nav-link active">Strategies</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Test-Taking Strategies</h1>
+    <p class="page-subtitle">Your complete playbook for maximizing your OAR score. Read this before test day.</p>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">Jump to Section</div>
+    <div class="toc-grid">
+      <a href="#overview" class="toc-link"><span class="toc-num">1</span>OAR Test Overview</a>
+      <a href="#adaptive" class="toc-link"><span class="toc-num">2</span>How Adaptive Testing Works</a>
+      <a href="#section-strategy" class="toc-link"><span class="toc-num">3</span>Section-by-Section Strategy</a>
+      <a href="#optimization" class="toc-link"><span class="toc-num">4</span>Score Optimization</a>
+      <a href="#time" class="toc-link"><span class="toc-num">5</span>Time Management</a>
+      <a href="#mistakes" class="toc-link"><span class="toc-num">6</span>Common Mistakes</a>
+      <a href="#testday" class="toc-link"><span class="toc-num">7</span>Test Day Checklist</a>
+      <a href="#mental" class="toc-link"><span class="toc-num">8</span>Mental Game</a>
+      <a href="#scratch" class="toc-link"><span class="toc-num">9</span>Scratch Paper Strategy</a>
+    </div>
+  </div>
+
+  <!-- ===================== 1. OAR TEST OVERVIEW ===================== -->
+  <div class="strategy-section" id="overview">
+    <div class="section-card open">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#128203;</div>
+        <div class="section-title-group">
+          <div class="section-title">1. OAR Test Overview</div>
+          <div class="section-subtitle">Know what you're walking into</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <p>The <strong>Officer Aptitude Rating (OAR)</strong> is the first 3 sections of the ASTB-E (Aviation Standard Test Battery). It measures your potential as a Navy/Marine Corps officer candidate.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Key Facts</div>
+          <strong>Format:</strong> Computer Adaptive Test (CAT)<br>
+          <strong>Score range:</strong> 20&ndash;80 (average 40&ndash;60)<br>
+          <strong>Attempts:</strong> 3 lifetime (Navy uses your MOST RECENT score)<br>
+          <strong>No calculator allowed.</strong> You get scratch paper and a pencil.
+        </div>
+
+        <h3>Program Minimum Scores</h3>
+        <table class="data-table">
+          <tr><th>Program</th><th>Minimum OAR</th></tr>
+          <tr><td>SWO / Supply</td><td class="highlight">42</td></tr>
+          <tr><td>Intel</td><td class="highlight">50</td></tr>
+          <tr><td>Competitive (any designator)</td><td class="highlight">55+</td></tr>
+        </table>
+
+        <h3>Test Breakdown</h3>
+        <table class="data-table">
+          <tr><th>Section</th><th>Questions</th><th>Time</th><th>Per Question</th></tr>
+          <tr><td><strong>Math Skills</strong></td><td>~30</td><td>40 min</td><td class="highlight">~80 sec</td></tr>
+          <tr><td><strong>Reading Comprehension</strong></td><td>~20</td><td>30 min</td><td class="highlight">~90 sec</td></tr>
+          <tr><td><strong>Mechanical Comprehension</strong></td><td>~30</td><td>15 min</td><td class="highlight">~30 sec</td></tr>
+        </table>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">Important</div>
+          The Navy uses your <strong>most recent score</strong>, not your best. Do NOT retake unless you are confident you'll improve. Study more first.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 2. ADAPTIVE TESTING ===================== -->
+  <div class="strategy-section" id="adaptive">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--red-bg);color:var(--red)">&#128200;</div>
+        <div class="section-title-group">
+          <div class="section-title">2. How Adaptive Testing Works</div>
+          <div class="section-subtitle">This is the single most important thing to understand</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="callout callout-critical">
+          <div class="callout-title">CRITICAL — Read This Carefully</div>
+          The OAR is a Computer Adaptive Test. The test adjusts difficulty based on your answers. Understanding this changes everything about your strategy.
+        </div>
+
+        <h3>How CAT Works</h3>
+        <ul>
+          <li><strong>Correct answer</strong> &rarr; next question is <strong>harder</strong> &rarr; your score ceiling goes <strong>UP</strong></li>
+          <li><strong>Wrong answer</strong> &rarr; next question is <strong>easier</strong> &rarr; your score ceiling goes <strong>DOWN</strong></li>
+          <li>You <strong>cannot skip</strong> or go back to previous questions</li>
+          <li>Running out of time counts as <strong>wrong answers</strong> &mdash; this is a huge penalty</li>
+          <li>The <strong>first 5&ndash;7 questions</strong> are critical &mdash; they set your difficulty floor</li>
+        </ul>
+
+        <!-- CAT DIAGRAM -->
+        <div class="cat-diagram">
+          <div style="text-align:center;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px">How CAT Scoring Works</div>
+          <svg width="100%" viewBox="0 0 600 200" style="max-width:600px;margin:0 auto;display:block">
+            <!-- Grid lines -->
+            <line x1="60" y1="30" x2="60" y2="170" stroke="var(--border)" stroke-width="1"/>
+            <line x1="60" y1="170" x2="560" y2="170" stroke="var(--border)" stroke-width="1"/>
+            <line x1="60" y1="100" x2="560" y2="100" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="60" x2="560" y2="60" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="140" x2="560" y2="140" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+
+            <!-- Axis labels -->
+            <text x="30" y="35" fill="var(--text-3)" font-size="10" text-anchor="middle" font-family="Inter">Hard</text>
+            <text x="30" y="105" fill="var(--text-3)" font-size="10" text-anchor="middle" font-family="Inter">Med</text>
+            <text x="30" y="175" fill="var(--text-3)" font-size="10" text-anchor="middle" font-family="Inter">Easy</text>
+            <text x="310" y="195" fill="var(--text-3)" font-size="10" text-anchor="middle" font-family="Inter">Question Number &rarr;</text>
+
+            <!-- High scorer path (green) -->
+            <polyline points="80,100 130,80 180,60 230,50 280,40 330,45 380,38 430,42 480,36 530,34" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="80" cy="100" r="4" fill="var(--green)"/>
+            <circle cx="130" cy="80" r="4" fill="var(--green)"/>
+            <circle cx="180" cy="60" r="4" fill="var(--green)"/>
+            <circle cx="230" cy="50" r="4" fill="var(--green)"/>
+            <circle cx="280" cy="40" r="4" fill="var(--green)"/>
+            <circle cx="330" cy="45" r="3" fill="var(--green)"/>
+            <circle cx="380" cy="38" r="3" fill="var(--green)"/>
+            <circle cx="430" cy="42" r="3" fill="var(--green)"/>
+            <circle cx="480" cy="36" r="3" fill="var(--green)"/>
+            <circle cx="530" cy="34" r="3" fill="var(--green)"/>
+            <text x="545" y="32" fill="var(--green)" font-size="10" font-weight="700" font-family="Inter">70+</text>
+
+            <!-- Average scorer path (yellow) -->
+            <polyline points="80,100 130,85 180,105 230,90 280,110 330,95 380,105 430,100 480,95 530,98" fill="none" stroke="var(--yellow)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="530" cy="98" r="3" fill="var(--yellow)"/>
+            <text x="545" y="96" fill="var(--yellow)" font-size="10" font-weight="700" font-family="Inter">50</text>
+
+            <!-- Low scorer path (red) -->
+            <polyline points="80,100 130,120 180,140 230,150 280,155 330,152 380,158 430,155 480,160 530,162" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="530" cy="162" r="3" fill="var(--red)"/>
+            <text x="545" y="160" fill="var(--red)" font-size="10" font-weight="700" font-family="Inter">30</text>
+
+            <!-- Legend -->
+            <rect x="180" y="5" width="8" height="8" rx="2" fill="var(--green)"/>
+            <text x="192" y="13" fill="var(--green)" font-size="9" font-family="Inter">Mostly correct</text>
+            <rect x="290" y="5" width="8" height="8" rx="2" fill="var(--yellow)"/>
+            <text x="302" y="13" fill="var(--yellow)" font-size="9" font-family="Inter">Mixed results</text>
+            <rect x="390" y="5" width="8" height="8" rx="2" fill="var(--red)"/>
+            <text x="402" y="13" fill="var(--red)" font-size="9" font-family="Inter">Mostly wrong</text>
+          </svg>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">Key Insight</div>
+          When questions get harder, that means <strong>you're doing well</strong>. Don't panic. Getting a hard question wrong still scores higher than getting an easy question right.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 3. SECTION STRATEGY ===================== -->
+  <div class="strategy-section" id="section-strategy">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#127919;</div>
+        <div class="section-title-group">
+          <div class="section-title">3. Section-by-Section Strategy</div>
+          <div class="section-subtitle">Specific tactics for each part of the OAR</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <!-- MATH -->
+        <h3><span class="badge" style="background:var(--accent-glow);color:var(--accent)">MATH</span> Math Skills Strategy</h3>
+        <ul>
+          <li><strong>Take extra time on the first 5 questions.</strong> These set your difficulty floor in CAT. Getting them right is crucial.</li>
+          <li><strong>2-minute max per question.</strong> If you're stuck after 2 minutes, make your best educated guess and move on.</li>
+          <li><strong>Estimate before calculating.</strong> Often you can eliminate 2&ndash;3 answers just by ballparking.</li>
+          <li><strong>Check your units.</strong> Minutes vs hours, feet vs inches. Unit mismatches are the most common careless error.</li>
+          <li><strong>No calculator.</strong> Practice mental math daily. Know your times tables and common fractions cold.</li>
+        </ul>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">Common Math Traps</div>
+          &bull; PEMDAS violations (mult/div before add/sub!)<br>
+          &bull; Markup then discount &ne; original price (30% markup then 30% off &ne; original)<br>
+          &bull; Forgetting to flip the inequality sign when multiplying/dividing by a negative<br>
+          &bull; Mixing up radius and diameter in circle problems
+        </div>
+
+        <!-- READING -->
+        <h3 style="margin-top:28px"><span class="badge" style="background:var(--green-bg);color:var(--green)">READING</span> Reading Comprehension Strategy</h3>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">The Golden Rule</div>
+          If the passage didn't explicitly say it &rarr; it's <strong>WRONG</strong>. Even if it's true in real life. The only correct answer is what the passage states or directly implies.
+        </div>
+
+        <ul>
+          <li><strong>This is the easiest section &mdash; bank your points here.</strong> Most people score highest on RC.</li>
+          <li><strong>Read the first and last sentences</strong> of each paragraph for the main idea. Skim the middle for details.</li>
+          <li><strong>Use keywords from the question</strong> to locate the relevant part of the passage. Don't re-read the whole thing.</li>
+          <li><strong>Steady pace:</strong> ~90 seconds per question. Don't rush, don't linger.</li>
+        </ul>
+
+        <h3>Elimination Strategy</h3>
+        <ul>
+          <li><strong>Too extreme</strong> &mdash; words like "always," "never," "all," "none" are usually wrong</li>
+          <li><strong>True but not stated</strong> &mdash; might be factually true but not in the passage = wrong</li>
+          <li><strong>Opposite</strong> &mdash; says the reverse of what the passage says</li>
+          <li><strong>Too narrow</strong> &mdash; focuses on one detail when the question asks about the main idea</li>
+        </ul>
+
+        <p><strong>Author's purpose clues:</strong> "should" / "must" = persuade. Statistics / data = inform. Story / anecdote = entertain or illustrate.</p>
+
+        <!-- MECHANICAL -->
+        <h3 style="margin-top:28px"><span class="badge" style="background:var(--red-bg);color:var(--red)">MECHANICAL</span> Mechanical Comprehension Strategy</h3>
+
+        <div class="callout callout-critical">
+          <div class="callout-title">30 Seconds Per Question</div>
+          This is the fastest-paced section. You either know it or you don't. Spend 30 seconds max, then make your best guess and move on. <strong>Never</strong> let time run out.
+        </div>
+
+        <ul>
+          <li><strong>Mostly conceptual, not heavy math.</strong> You rarely need to crunch numbers &mdash; just understand the concept.</li>
+          <li><strong>Focus your study on:</strong> levers, gears, pulleys, Ohm's law, and pressure. These make up the bulk of questions.</li>
+          <li><strong>Draw quick diagrams</strong> on your scratch paper for gear direction and lever problems.</li>
+        </ul>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">Common Mechanical Traps</div>
+          &bull; Newton's 3rd law pairs act on <strong>different</strong> objects<br>
+          &bull; Kinetic energy: velocity is <strong>squared</strong> (double speed = 4x energy)<br>
+          &bull; Gear direction alternates (adjacent = opposite)<br>
+          &bull; Series circuits: one break kills everything. Parallel: branches are independent.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 4. SCORE OPTIMIZATION ===================== -->
+  <div class="strategy-section" id="optimization">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--yellow-bg);color:var(--yellow)">&#128640;</div>
+        <div class="section-title-group">
+          <div class="section-title">4. Score Optimization</div>
+          <div class="section-subtitle">Where to focus for maximum point gain</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <h3>Priority Stack</h3>
+        <p>Not all sections are created equal. Here's where to focus your study time for maximum ROI:</p>
+
+        <div class="priority-stack">
+          <div class="priority-item" style="border-color:var(--green)">
+            <div class="priority-num" style="background:var(--green-bg);color:var(--green)">1</div>
+            <div class="priority-content">
+              <div class="priority-label" style="color:var(--green)">Reading Comprehension</div>
+              <div class="priority-desc">Easiest section. Bank your points here. Most people can ace this with the right technique.</div>
+            </div>
+          </div>
+          <div class="priority-item" style="border-color:var(--accent)">
+            <div class="priority-num" style="background:var(--accent-glow);color:var(--accent)">2</div>
+            <div class="priority-content">
+              <div class="priority-label" style="color:var(--accent)">Math Skills</div>
+              <div class="priority-desc">Biggest swing potential. A few days of focused formula review can move your score 5&ndash;10 points.</div>
+            </div>
+          </div>
+          <div class="priority-item" style="border-color:var(--yellow)">
+            <div class="priority-num" style="background:var(--yellow-bg);color:var(--yellow)">3</div>
+            <div class="priority-content">
+              <div class="priority-label" style="color:var(--yellow)">Mechanical Comprehension</div>
+              <div class="priority-desc">Hardest to improve, but quick study of key concepts helps the most. Don't ignore it.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">CAT Scoring Insight</div>
+          In adaptive testing, <strong>accuracy on harder questions matters MORE than raw count</strong>. Getting 20 questions right at a hard difficulty level scores higher than getting 25 right at an easy level.
+        </div>
+
+        <h3>Guessing Strategy</h3>
+        <ul>
+          <li><strong>Educated guess</strong> (eliminate 1&ndash;2 answers) &gt; <strong>wild guess</strong> &gt; <strong>no answer</strong></li>
+          <li>Never leave a question blank. Unanswered = wrong, and in CAT, running out of time is penalized heavily.</li>
+          <li>If you can eliminate even one answer choice, your odds jump from 25% to 33%.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 5. TIME MANAGEMENT ===================== -->
+  <div class="strategy-section" id="time">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">&#9201;</div>
+        <div class="section-title-group">
+          <div class="section-title">5. Time Management</div>
+          <div class="section-subtitle">Pace yourself to maximize every minute</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <h3>Section Timer Guide</h3>
+        <div class="timer-bars">
+          <div class="timer-bar">
+            <div class="timer-label">
+              <span>Math Skills (40 min, ~30 questions)</span>
+              <span>~80 sec/question</span>
+            </div>
+            <div class="timer-track">
+              <div class="timer-fill" style="width:100%;background:linear-gradient(90deg,var(--green) 0%,var(--green) 12%,var(--accent) 12%,var(--accent) 75%,var(--yellow) 75%,var(--yellow) 90%,var(--red) 90%)"></div>
+            </div>
+            <div class="timer-markers">
+              <span>Start (slow)</span>
+              <span>Q5 &mdash; speed up</span>
+              <span>Q20 &mdash; check pace</span>
+              <span>Q25 &mdash; finish strong</span>
+            </div>
+          </div>
+          <div class="timer-bar">
+            <div class="timer-label">
+              <span>Reading (30 min, ~20 questions)</span>
+              <span>~90 sec/question</span>
+            </div>
+            <div class="timer-track">
+              <div class="timer-fill" style="width:100%;background:linear-gradient(90deg,var(--green) 0%,var(--green) 25%,var(--accent) 25%,var(--accent) 75%,var(--yellow) 75%)"></div>
+            </div>
+            <div class="timer-markers">
+              <span>Steady pace</span>
+              <span>Q10 &mdash; halfway check</span>
+              <span>Q15 &mdash; stay steady</span>
+            </div>
+          </div>
+          <div class="timer-bar">
+            <div class="timer-label">
+              <span>Mechanical (15 min, ~30 questions)</span>
+              <span>~30 sec/question</span>
+            </div>
+            <div class="timer-track">
+              <div class="timer-fill" style="width:100%;background:linear-gradient(90deg,var(--red) 0%,var(--red) 100%)"></div>
+            </div>
+            <div class="timer-markers">
+              <span>FAST from the start</span>
+              <span>Know it or guess</span>
+              <span>Never stall</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>When to Guess vs When to Grind</h3>
+        <ul>
+          <li><strong>Math:</strong> If you don't see the path within 30 seconds, try plugging in answer choices. If still stuck at 2 min, guess.</li>
+          <li><strong>Reading:</strong> If the answer isn't obvious after one re-read of the relevant paragraph, eliminate and guess.</li>
+          <li><strong>Mechanical:</strong> 30 seconds. Period. If you don't recognize the concept, pick the most reasonable answer and move.</li>
+        </ul>
+
+        <div class="callout callout-critical">
+          <div class="callout-title">Never Leave Questions Unanswered</div>
+          In CAT, unanswered questions at the end are scored as <strong>wrong at an easy difficulty</strong>. This tanks your score far more than a wrong guess on a hard question. Finish every section even if you have to rapid-guess the last few.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 6. COMMON MISTAKES ===================== -->
+  <div class="strategy-section" id="mistakes">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--red-bg);color:var(--red)">&#9888;</div>
+        <div class="section-title-group">
+          <div class="section-title">6. Common Mistakes That Cost Points</div>
+          <div class="section-subtitle">Avoid these and you're already ahead of most test-takers</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <ol class="mistakes-list">
+          <li><strong>Running out of time on Mechanical.</strong> 15 minutes for 30 questions is brutal. You must move fast. Practice speed.</li>
+          <li><strong>Spending too long on hard math questions.</strong> The 2-minute rule exists for a reason. One hard question isn't worth missing 3 easy ones at the end.</li>
+          <li><strong>Not reading RC questions carefully.</strong> Read what they're ASKING. "Main idea" vs "detail" vs "inference" require different approaches.</li>
+          <li><strong>Using outside knowledge on RC.</strong> The answer must come from the passage. Your real-world knowledge is irrelevant here.</li>
+          <li><strong>Mixing up gear/pulley direction rules.</strong> Adjacent gears go opposite. Odd chain = same direction as first gear. Practice until it's automatic.</li>
+          <li><strong>Forgetting there's no calculator.</strong> If you haven't practiced mental math, you'll waste time on simple arithmetic under pressure.</li>
+          <li><strong>Panicking when questions get harder.</strong> Harder questions = you're doing WELL. This is exactly what you want in CAT. Stay calm.</li>
+          <li><strong>Not using scratch paper.</strong> Drawing diagrams, writing out equations, organizing your work &mdash; scratch paper is your biggest advantage.</li>
+          <li><strong>Retaking without more study.</strong> Your most recent score counts. Don't retake hoping for luck. Study more, then retake with confidence.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 7. TEST DAY CHECKLIST ===================== -->
+  <div class="strategy-section" id="testday">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--green-bg);color:var(--green)">&#9989;</div>
+        <div class="section-title-group">
+          <div class="section-title">7. Test Day Checklist</div>
+          <div class="section-subtitle">Everything you need to know before you walk in</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <h3>Bring</h3>
+        <ul class="checklist" id="checklistBring">
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Valid photo ID (driver's license or military ID)</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Test confirmation / appointment info</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Know the testing center location and parking</li>
+        </ul>
+
+        <h3>Leave Behind</h3>
+        <ul class="checklist" id="checklistLeave">
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Phone (off and in car/locker)</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Smartwatch / fitness tracker</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Calculator (not allowed)</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Notes / study materials</li>
+        </ul>
+
+        <h3>They Provide</h3>
+        <ul>
+          <li>Scratch paper and pencil</li>
+          <li>Computer terminal</li>
+          <li>Noise-canceling headphones (some locations)</li>
+        </ul>
+
+        <h3>The Night Before &amp; Morning Of</h3>
+        <ul class="checklist" id="checklistPrep">
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Get a full night's sleep (7&ndash;8 hours minimum)</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Eat a real meal before the test (protein + carbs, not just coffee)</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Arrive 15&ndash;30 minutes early</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Use the restroom before checking in</li>
+          <li onclick="toggleCheck(this)"><span class="check">&#10003;</span>Do a quick mental warm-up (a few practice problems in your head)</li>
+        </ul>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">First Thing After Sitting Down</div>
+          Before answering the first question, <strong>dump your formulas onto scratch paper</strong>. Write down every formula you've memorized while it's fresh. This is your cheat sheet for the test.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 8. MENTAL GAME ===================== -->
+  <div class="strategy-section" id="mental">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">&#129504;</div>
+        <div class="section-title-group">
+          <div class="section-title">8. Mental Game</div>
+          <div class="section-subtitle">Your mindset is worth 5&ndash;10 points</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <div class="callout callout-info">
+          <div class="callout-title">The #1 Mindset Shift</div>
+          <strong>Harder questions = you're doing well.</strong> In CAT, difficulty going up means the computer thinks you're smart. Embrace it. A wrong answer on a hard question barely hurts you. A wrong answer on an easy question kills your score.
+        </div>
+
+        <h3>During the Test</h3>
+        <ul>
+          <li><strong>Stay calm, breathe between sections.</strong> Take 3 deep breaths before starting each new section. Reset your mental state.</li>
+          <li><strong>Don't dwell on questions you got wrong.</strong> You can't go back. The moment you submit, it's gone. Focus forward.</li>
+          <li><strong>Confidence builds momentum in CAT.</strong> When you feel good, you think more clearly, you answer correctly, questions get harder (good!), and your score climbs. It's a positive spiral.</li>
+          <li><strong>If you feel yourself spiraling,</strong> pause for 5 seconds. Close your eyes. Take one deep breath. Then read the next question fresh.</li>
+        </ul>
+
+        <h3>Visualization Technique</h3>
+        <p>The night before and morning of the test, spend 2 minutes visualizing:</p>
+        <ol>
+          <li>You walk into the testing center calm and prepared</li>
+          <li>You sit down, dump your formulas, and feel confident</li>
+          <li>You work through each section at a steady pace</li>
+          <li>When questions get hard, you smile &mdash; you know that means you're scoring high</li>
+          <li>You finish the test, check your score, and see the number you wanted</li>
+        </ol>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">This Actually Works</div>
+          Sports psychologists use visualization with elite athletes. Studies show mental rehearsal activates the same neural pathways as physical practice. 2 minutes of visualization costs you nothing and can lower your test anxiety significantly.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 9. SCRATCH PAPER STRATEGY ===================== -->
+  <div class="strategy-section" id="scratch">
+    <div class="section-card">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:var(--accent-glow);color:var(--accent)">&#128221;</div>
+        <div class="section-title-group">
+          <div class="section-title">9. Scratch Paper Strategy</div>
+          <div class="section-subtitle">Your scratch paper is your biggest weapon</div>
+        </div>
+        <span class="section-chevron">&#9660;</span>
+      </div>
+      <div class="section-body">
+        <h3>Formula Dump Protocol</h3>
+        <ul>
+          <li><strong>Write formulas IMMEDIATELY</strong> before the first question. Don't wait.</li>
+          <li><strong>Organize by section:</strong> one area for math formulas, one for mechanical concepts.</li>
+          <li><strong>Write neatly but fast.</strong> You need to be able to read it under pressure.</li>
+          <li><strong>Label variables</strong> in word problems. D = ?, R = ?, T = ?</li>
+          <li><strong>Draw diagrams</strong> for mechanical questions. Levers, gears, pulleys &mdash; always draw first.</li>
+        </ul>
+
+        <h3>Build Your Scratch Paper</h3>
+        <p>Check the formulas you want to include in your formula dump. Practice writing these from memory until you can do it in under 3 minutes.</p>
+
+        <div class="scratch-builder">
+          <h4>Select formulas for your dump sheet</h4>
+          <div class="scratch-categories">
+            <button class="scratch-cat-btn active" onclick="filterScratch('all',this)">All</button>
+            <button class="scratch-cat-btn" onclick="filterScratch('math',this)">Math</button>
+            <button class="scratch-cat-btn" onclick="filterScratch('mech',this)">Mechanical</button>
+          </div>
+          <div class="scratch-items" id="scratchItems">
+            <!-- Math formulas -->
+            <div class="scratch-item" data-cat="math" data-formula="a²+b²=c² | 3-4-5, 5-12-13" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Pythagorean Theorem</div>
+            <div class="scratch-item" data-cat="math" data-formula="45-45-90: x,x,x√2 | 30-60-90: x,x√3,2x" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Special Triangles</div>
+            <div class="scratch-item" data-cat="math" data-formula="x=(-b±√(b²-4ac))/2a" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Quadratic Formula</div>
+            <div class="scratch-item" data-cat="math" data-formula="A: Rect=LW, Tri=½bh, Circ=πr²" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Area Formulas</div>
+            <div class="scratch-item" data-cat="math" data-formula="V: Cyl=πr²h, Sph=4/3πr³, Cone=1/3πr²h" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Volume Formulas</div>
+            <div class="scratch-item" data-cat="math" data-formula="D=RT | 1/A+1/B=1/T | I=Prt" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Word Problem Formulas</div>
+            <div class="scratch-item" data-cat="math" data-formula="Slope=(y2-y1)/(x2-x1) | y=mx+b" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Slope & Line</div>
+            <div class="scratch-item" data-cat="math" data-formula="% Change=(New-Old)/Old×100" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Percent Change</div>
+            <div class="scratch-item" data-cat="math" data-formula="x^a·x^b=x^(a+b) | x^a/x^b=x^(a-b)" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Exponent Rules</div>
+            <div class="scratch-item" data-cat="math" data-formula="π≈3.14 | √2≈1.414 | √3≈1.732" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Constants</div>
+
+            <!-- Mechanical formulas -->
+            <div class="scratch-item" data-cat="mech" data-formula="F=ma | W=mg (g=9.8)" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Force & Weight</div>
+            <div class="scratch-item" data-cat="mech" data-formula="F1D1=F2D2 | 1st:F mid, 2nd:L mid, 3rd:E mid" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Levers</div>
+            <div class="scratch-item" data-cat="mech" data-formula="T1×RPM1=T2×RPM2 | Adj=opp dir" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Gears</div>
+            <div class="scratch-item" data-cat="mech" data-formula="Fixed MA=1 | Movable MA=2 | MA=# ropes" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Pulleys</div>
+            <div class="scratch-item" data-cat="mech" data-formula="V=IR | P=VI | Series:Rt=R1+R2 | Par:1/R=1/R1+1/R2" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Ohm's Law & Circuits</div>
+            <div class="scratch-item" data-cat="mech" data-formula="W=Fd | KE=½mv² | PE=mgh | KE+PE=const" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Energy & Work</div>
+            <div class="scratch-item" data-cat="mech" data-formula="P=F/A | F1/A1=F2/A2 | A1v1=A2v2" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Fluids & Pressure</div>
+            <div class="scratch-item" data-cat="mech" data-formula="τ=Fd | Incline MA=L/H" onclick="toggleScratch(this)"><span class="sbox">&#10003;</span>Torque & Incline</div>
+          </div>
+
+          <div class="scratch-output-label">
+            <span>Your Formula Dump Sheet</span>
+            <button class="btn-copy" onclick="copyDump()">Copy to Clipboard</button>
+          </div>
+          <div class="scratch-output" id="scratchOutput">Select formulas above to build your scratch paper dump sheet.
+
+Practice writing this from memory until you can do it in under 3 minutes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align:center;padding:40px 0;color:var(--text-3);font-size:13px;border-top:1px solid var(--border);margin-top:48px">
+    <div style="font-weight:700;color:var(--text-2);margin-bottom:4px">OAR Pro v2.0</div>
+    <div>Built by Benjamin Rodriguez</div>
+  </footer>
+</div>
+
+<script>
+// Toggle sections
+function toggleSection(header) {
+  header.closest('.section-card').classList.toggle('open');
+}
+
+// Checklist toggle
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+}
+
+// Scratch paper builder
+function toggleScratch(el) {
+  el.classList.toggle('selected');
+  updateDump();
+}
+
+function filterScratch(cat, btn) {
+  document.querySelectorAll('.scratch-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.scratch-item').forEach(item => {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+function updateDump() {
+  const selected = document.querySelectorAll('.scratch-item.selected');
+  const output = document.getElementById('scratchOutput');
+  if (selected.length === 0) {
+    output.textContent = 'Select formulas above to build your scratch paper dump sheet.\n\nPractice writing this from memory until you can do it in under 3 minutes.';
+    return;
+  }
+
+  let mathFormulas = [];
+  let mechFormulas = [];
+
+  selected.forEach(el => {
+    if (el.dataset.cat === 'math') {
+      mathFormulas.push(el.dataset.formula);
+    } else {
+      mechFormulas.push(el.dataset.formula);
+    }
+  });
+
+  let text = '=== FORMULA DUMP SHEET ===\n\n';
+  if (mathFormulas.length > 0) {
+    text += '--- MATH ---\n';
+    mathFormulas.forEach(f => text += f + '\n');
+    text += '\n';
+  }
+  if (mechFormulas.length > 0) {
+    text += '--- MECHANICAL ---\n';
+    mechFormulas.forEach(f => text += f + '\n');
+  }
+  text += '\n(' + selected.length + ' formulas selected — aim for under 3 min to write)';
+
+  output.textContent = text;
+}
+
+function copyDump() {
+  const text = document.getElementById('scratchOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+  });
+}
+
+// Smooth scroll for TOC links
+document.querySelectorAll('.toc-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      const card = target.querySelector('.section-card');
+      if (card && !card.classList.contains('open')) {
+        card.classList.add('open');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

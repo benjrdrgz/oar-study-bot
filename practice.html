@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice — OAR Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0B1120;--surface:#111827;--surface-2:#1F2937;--surface-3:#374151;
+  --border:#1E293B;--border-hover:#334155;
+  --accent:#3B82F6;--accent-hover:#2563EB;--accent-glow:rgba(59,130,246,.15);
+  --green:#10B981;--green-bg:rgba(16,185,129,.1);
+  --red:#EF4444;--red-bg:rgba(239,68,68,.1);
+  --yellow:#F59E0B;--yellow-bg:rgba(245,158,11,.1);
+  --purple:#8B5CF6;
+  --text:#F9FAFB;--text-2:#9CA3AF;--text-3:#6B7280;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-top:72px}
+a{color:inherit;text-decoration:none}
+
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(11,17,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.5px}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:8px 14px;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;transition:all .15s}
+.nav-link:hover{color:var(--text);background:var(--surface-2)}
+.nav-link.active{color:var(--accent);background:var(--accent-glow)}
+
+.container{max-width:800px;margin:0 auto;padding:0 20px}
+
+/* Mode Selector */
+.mode-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px}
+.mode-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;text-align:center;transition:all .2s}
+.mode-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.mode-card.active{border-color:var(--accent);background:var(--accent-glow)}
+.mode-icon{font-size:24px;margin-bottom:8px}
+.mode-name{font-size:13px;font-weight:600}
+.mode-desc{font-size:11px;color:var(--text-3);margin-top:4px}
+
+/* Topic Filter */
+.topic-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.topic-btn{padding:6px 14px;border-radius:20px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.topic-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.topic-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Quiz Header */
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.quiz-progress{flex:1;margin-right:20px}
+.quiz-progress-bar{height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.quiz-progress-text{font-size:12px;color:var(--text-3);margin-top:4px}
+.quiz-timer{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;min-width:80px;text-align:center}
+.quiz-timer.warning{color:var(--red);border-color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* Question Card */
+.question-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:24px}
+.question-number{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.question-passage{font-size:14px;line-height:1.7;color:var(--text-2);padding:16px 20px;background:var(--surface-2);border-radius:10px;margin-bottom:20px;border-left:3px solid var(--accent)}
+.question-text{font-size:18px;font-weight:600;line-height:1.5;margin-bottom:24px}
+
+/* Answer Options */
+.answers{display:flex;flex-direction:column;gap:10px}
+.answer-option{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--surface-2);border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .15s;font-size:15px}
+.answer-option:hover{border-color:var(--border-hover);background:var(--surface-3)}
+.answer-option.selected{border-color:var(--accent);background:var(--accent-glow)}
+.answer-option.correct{border-color:var(--green);background:var(--green-bg)}
+.answer-option.wrong{border-color:var(--red);background:var(--red-bg)}
+.answer-option.show-correct{border-color:var(--green);background:var(--green-bg)}
+.answer-letter{width:32px;height:32px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;transition:all .15s}
+.answer-option.selected .answer-letter{background:var(--accent);color:#fff}
+.answer-option.correct .answer-letter{background:var(--green);color:#fff}
+.answer-option.wrong .answer-letter{background:var(--red);color:#fff}
+.answer-option.show-correct .answer-letter{background:var(--green);color:#fff}
+.answer-text{flex:1}
+
+/* Result icons */
+.result-icon{font-size:18px;flex-shrink:0}
+
+/* Explanation */
+.explanation{margin-top:20px;padding:16px 20px;border-radius:12px;background:var(--accent-glow);border-left:3px solid var(--accent);font-size:14px;line-height:1.6;display:none}
+.explanation.visible{display:block}
+.explanation strong{color:var(--text)}
+
+/* Action Buttons */
+.quiz-actions{display:flex;gap:12px;margin-top:20px}
+.btn{padding:12px 24px;border-radius:10px;font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--border-hover)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* Results Screen */
+.results-screen{text-align:center;padding:40px 0}
+.results-score{font-size:72px;font-weight:800;margin:20px 0 8px;letter-spacing:-2px}
+.results-score.great{color:var(--green)}
+.results-score.ok{color:var(--yellow)}
+.results-score.low{color:var(--red)}
+.results-subtitle{font-size:16px;color:var(--text-2);margin-bottom:32px}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;text-align:left}
+.results-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.results-stat-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.results-stat-value{font-size:20px;font-weight:700}
+.results-breakdown{text-align:left;margin-bottom:32px}
+.results-breakdown h3{font-size:14px;font-weight:600;margin-bottom:12px}
+.breakdown-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.breakdown-label{flex:1;font-size:14px}
+.breakdown-bar{width:120px;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.breakdown-fill{height:100%;border-radius:3px}
+.breakdown-pct{font-size:14px;font-weight:600;width:40px;text-align:right}
+.results-actions{display:flex;gap:12px;justify-content:center}
+
+/* Start Screen */
+.start-screen{text-align:center;padding:60px 0}
+.start-screen h1{font-size:28px;font-weight:800;margin-bottom:8px}
+.start-screen p{color:var(--text-2);margin-bottom:32px}
+
+/* Confetti */
+.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;overflow:hidden}
+.confetti{position:absolute;width:10px;height:10px;border-radius:2px;animation:confetti-fall 3s linear forwards}
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+@media(max-width:768px){
+  .mode-selector{grid-template-columns:repeat(2,1fr)}
+  .results-grid{grid-template-columns:1fr}
+  .question-text{font-size:16px}
+  .quiz-timer{font-size:16px;padding:6px 12px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9875; OAR Pro</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Dashboard</a>
+      <a href="study.html" class="nav-link">Study</a>
+      <a href="practice.html" class="nav-link active">Practice</a>
+      <a href="formulas.html" class="nav-link">Formulas</a>
+      <a href="strategies.html" class="nav-link">Strategies</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="app"></div>
+
+<script>
+// ==================== QUESTION BANK ====================
+const questions = [
+  // MATH - ARITHMETIC
+  {id:"M1",section:"Math",topic:"Arithmetic",q:"What is 8 + 3 x 4 - 2?",passage:null,options:["18","22","42","16"],correct:0,explanation:"PEMDAS: Multiplication first. 3 x 4 = 12. Then left to right: 8 + 12 - 2 = 18."},
+  {id:"M2",section:"Math",topic:"Arithmetic",q:"What is 3/4 + 2/3?",passage:null,options:["17/12","5/7","5/12","1 5/12"],correct:0,explanation:"Common denominator: (3x3 + 4x2) / (4x3) = (9+8)/12 = 17/12."},
+  {id:"M3",section:"Math",topic:"Arithmetic",q:"A $50 item is marked up 40%, then discounted 25%. What is the final price?",passage:null,options:["$52.50","$57.50","$50.00","$47.50"],correct:0,explanation:"$50 x 1.40 = $70, then $70 x 0.75 = $52.50. Percentages on different bases don't cancel."},
+  {id:"M4",section:"Math",topic:"Arithmetic",q:"What is 5/8 ÷ 3/4?",passage:null,options:["5/6","15/32","20/24","3/10"],correct:0,explanation:"Flip and multiply: 5/8 x 4/3 = 20/24 = 5/6."},
+  {id:"M5",section:"Math",topic:"Arithmetic",q:"A value increases from 1200 to 1500. What is the percent increase?",passage:null,options:["25%","20%","30%","15%"],correct:0,explanation:"% change = (1500-1200)/1200 x 100 = 300/1200 x 100 = 25%."},
+  {id:"M6",section:"Math",topic:"Arithmetic",q:"The ratio of boys to girls is 3:5. If there are 40 students total, how many boys?",passage:null,options:["15","24","18","12"],correct:0,explanation:"Total parts = 3+5 = 8. Boys = (3/8) x 40 = 15."},
+  {id:"M7",section:"Math",topic:"Arithmetic",q:"What is 15% of 240?",passage:null,options:["36","32","38","42"],correct:0,explanation:"0.15 x 240 = 36."},
+  {id:"M8",section:"Math",topic:"Arithmetic",q:"What is (2/3)² × (9/4)?",passage:null,options:["1","2/3","3/4","4/9"],correct:0,explanation:"(2/3)² = 4/9. Then 4/9 x 9/4 = 36/36 = 1."},
+  {id:"M36",section:"Math",topic:"Arithmetic",q:"What is 0.125 expressed as a fraction?",passage:null,options:["1/8","1/6","1/4","1/5"],correct:0,explanation:"0.125 = 125/1000 = 1/8."},
+
+  // MATH - ALGEBRA
+  {id:"M9",section:"Math",topic:"Algebra",q:"Solve: 3x - 7 = 14",passage:null,options:["x = 7","x = 3","x = 21","x = -7"],correct:0,explanation:"3x = 21, so x = 7."},
+  {id:"M10",section:"Math",topic:"Algebra",q:"Solve the system: 2x + y = 7 and x - y = 2",passage:null,options:["x=3, y=1","x=2, y=3","x=4, y=-1","x=1, y=5"],correct:0,explanation:"Add equations: 3x = 9, x = 3. Then 3 - y = 2, y = 1."},
+  {id:"M11",section:"Math",topic:"Algebra",q:"Simplify: x³ · x⁵ / x²",passage:null,options:["x⁶","x⁸","x¹⁰","x⁴"],correct:0,explanation:"Add exponents for multiplication (3+5=8), subtract for division (8-2=6): x⁶."},
+  {id:"M12",section:"Math",topic:"Algebra",q:"Factor: x² - 5x + 6",passage:null,options:["(x-2)(x-3)","(x+2)(x+3)","(x-1)(x-6)","(x+1)(x-6)"],correct:0,explanation:"Find two numbers that multiply to 6 and add to -5: -2 and -3. So (x-2)(x-3)."},
+  {id:"M13",section:"Math",topic:"Algebra",q:"Solve: 2x² + 5x - 3 = 0",passage:null,options:["x = 1/2 or x = -3","x = 3 or x = -1/2","x = 1 or x = -3/2","x = 2 or x = -3"],correct:0,explanation:"Using quadratic formula: x = (-5 ± √49)/4 = (-5±7)/4. x = 2/4 = 1/2 or x = -12/4 = -3."},
+  {id:"M14",section:"Math",topic:"Algebra",q:"Solve: |x - 4| = 7",passage:null,options:["x = 11 or x = -3","x = 11 only","x = 3 or x = -11","x = 7 or x = -7"],correct:0,explanation:"x - 4 = 7 gives x = 11. x - 4 = -7 gives x = -3."},
+  {id:"M15",section:"Math",topic:"Algebra",q:"If f(x) = 2x² - 3x + 1, what is f(3)?",passage:null,options:["10","16","4","22"],correct:0,explanation:"f(3) = 2(9) - 3(3) + 1 = 18 - 9 + 1 = 10."},
+  {id:"M16",section:"Math",topic:"Algebra",q:"Solve: -3(2x - 4) > 18",passage:null,options:["x < -1","x > -1","x < 1","x > 1"],correct:0,explanation:"-6x + 12 > 18 → -6x > 6 → x < -1 (flip sign when dividing by negative)."},
+  {id:"M33",section:"Math",topic:"Algebra",q:"Solve: log₂(x) = 5",passage:null,options:["x = 32","x = 25","x = 10","x = 64"],correct:0,explanation:"log₂(x) = 5 means 2⁵ = x = 32."},
+  {id:"M37",section:"Math",topic:"Algebra",q:"Solve: 2^(x+1) = 16",passage:null,options:["x = 3","x = 4","x = 7","x = 8"],correct:0,explanation:"16 = 2⁴, so 2^(x+1) = 2⁴ → x+1 = 4 → x = 3."},
+
+  // MATH - GEOMETRY
+  {id:"M17",section:"Math",topic:"Geometry",q:"A triangle has angles of 45° and 70°. What is the third angle?",passage:null,options:["65°","75°","55°","85°"],correct:0,explanation:"180 - 45 - 70 = 65°."},
+  {id:"M18",section:"Math",topic:"Geometry",q:"A right triangle has legs of 5 and 12. What is the hypotenuse?",passage:null,options:["13","15","17","14"],correct:0,explanation:"5² + 12² = 25 + 144 = 169. √169 = 13."},
+  {id:"M19",section:"Math",topic:"Geometry",q:"What is the area of a circle with radius 6?",passage:null,options:["36π","12π","6π","72π"],correct:0,explanation:"A = πr² = π(6)² = 36π."},
+  {id:"M20",section:"Math",topic:"Geometry",q:"What is the distance between (1,3) and (4,7)?",passage:null,options:["5","7","√34","6"],correct:0,explanation:"d = √((4-1)² + (7-3)²) = √(9+16) = √25 = 5."},
+  {id:"M21",section:"Math",topic:"Geometry",q:"A cylinder has radius 3 and height 10. What is its volume?",passage:null,options:["90π","30π","60π","120π"],correct:0,explanation:"V = πr²h = π(9)(10) = 90π."},
+  {id:"M22",section:"Math",topic:"Geometry",q:"An angle measures 35°. What is its supplement?",passage:null,options:["145°","55°","125°","155°"],correct:0,explanation:"Supplementary angles sum to 180°. 180 - 35 = 145°."},
+  {id:"M23",section:"Math",topic:"Geometry",q:"In a 30-60-90 triangle, the short leg is 5. What is the hypotenuse?",passage:null,options:["10","5√3","5√2","15"],correct:0,explanation:"In a 30-60-90, hypotenuse = 2 × short leg = 2 × 5 = 10."},
+  {id:"M24",section:"Math",topic:"Geometry",q:"What is the slope of the line through (2,5) and (6,13)?",passage:null,options:["2","4","1/2","8"],correct:0,explanation:"Slope = (13-5)/(6-2) = 8/4 = 2."},
+  {id:"M34",section:"Math",topic:"Geometry",q:"A sector has a central angle of 60° and radius 12. What is its arc length?",passage:null,options:["4π","12π","2π","6π"],correct:0,explanation:"Arc length = (60/360) × 2π(12) = (1/6)(24π) = 4π."},
+  {id:"M38",section:"Math",topic:"Geometry",q:"A trapezoid has bases 8 and 12 with height 5. What is its area?",passage:null,options:["50","40","60","100"],correct:0,explanation:"A = ½(b₁ + b₂)h = ½(8+12)(5) = ½(20)(5) = 50."},
+
+  // MATH - WORD PROBLEMS
+  {id:"M25",section:"Math",topic:"Word Problems",q:"A car travels at 55 mph for 3.5 hours. How far does it go?",passage:null,options:["192.5 miles","190 miles","195 miles","185 miles"],correct:0,explanation:"D = R × T = 55 × 3.5 = 192.5 miles."},
+  {id:"M26",section:"Math",topic:"Word Problems",q:"Worker A finishes a job in 5 hours. Worker B finishes in 3 hours. How long working together?",passage:null,options:["1.875 hours","2 hours","4 hours","2.5 hours"],correct:0,explanation:"1/5 + 1/3 = 8/15 jobs per hour. Time = 15/8 = 1.875 hours."},
+  {id:"M27",section:"Math",topic:"Word Problems",q:"10L of 20% salt solution. How many liters of water to add for 8%?",passage:null,options:["15L","10L","12L","20L"],correct:0,explanation:"Salt = 2L constant. 2 = 0.08 × Total → Total = 25L. Water to add: 25 - 10 = 15L."},
+  {id:"M28",section:"Math",topic:"Word Problems",q:"4 red, 3 blue, 5 green marbles. Probability of drawing blue?",passage:null,options:["1/4","3/8","1/3","3/5"],correct:0,explanation:"P = 3/(4+3+5) = 3/12 = 1/4."},
+  {id:"M29",section:"Math",topic:"Word Problems",q:"Test scores: 78, 85, 92, 88. What 5th score gives an 86 average?",passage:null,options:["87","86","90","85"],correct:0,explanation:"Need sum = 86 × 5 = 430. Current = 343. Fifth score = 430 - 343 = 87."},
+  {id:"M30",section:"Math",topic:"Word Problems",q:"Two trains 490 miles apart head toward each other at 60 and 80 mph. When do they meet?",passage:null,options:["3.5 hours","4 hours","3 hours","5 hours"],correct:0,explanation:"Combined rate = 140 mph. Time = 490/140 = 3.5 hours."},
+  {id:"M31",section:"Math",topic:"Word Problems",q:"A 6ft man casts a 4ft shadow. A flagpole casts a 20ft shadow. How tall is the flagpole?",passage:null,options:["30 ft","24 ft","20 ft","15 ft"],correct:0,explanation:"Similar triangles: 6/4 = h/20 → h = 120/4 = 30 ft."},
+  {id:"M32",section:"Math",topic:"Word Problems",q:"$5,000 at 6% simple interest for 3 years. Total amount?",passage:null,options:["$5,900","$5,600","$5,300","$6,000"],correct:0,explanation:"I = 5000 × 0.06 × 3 = $900. Total = $5,900."},
+  {id:"M35",section:"Math",topic:"Word Problems",q:"A plane flies 600 miles with a tailwind in 2 hours, returns in 3 hours. Wind speed?",passage:null,options:["50 mph","75 mph","100 mph","25 mph"],correct:0,explanation:"With wind: 300 = p+w. Against: 200 = p-w. Add: 2p=500, p=250. w=50 mph."},
+  {id:"M39",section:"Math",topic:"Word Problems",q:"A shirt costs $45 after a 25% discount. What was the original price?",passage:null,options:["$60","$56.25","$67.50","$54"],correct:0,explanation:"$45 = Original × 0.75. Original = 45/0.75 = $60."},
+
+  // READING
+  {id:"R1",section:"Reading",topic:"Main Idea",q:"What is the main idea of this passage?",
+    passage:"The Great Barrier Reef, the world's largest coral reef system stretching over 2,300 kilometers along Australia's northeast coast, is experiencing unprecedented decline. Rising ocean temperatures have triggered mass bleaching events in 2016, 2017, 2020, and 2022, with satellite data showing that over 90% of reefs surveyed exhibited some degree of bleaching during the most severe episodes. While conservation efforts including marine protected areas and water quality improvement programs have been implemented, scientists warn that without significant reductions in global carbon emissions, the reef's recovery capacity may be permanently compromised.",
+    options:[
+      "The Great Barrier Reef is declining due to environmental factors despite conservation efforts",
+      "Conservation efforts have saved the Great Barrier Reef",
+      "Global carbon emissions are the only threat to coral reefs",
+      "Bleaching events only affect a small portion of the reef"
+    ],correct:0,explanation:"The passage covers the reef's decline from bleaching, conservation efforts, and the ongoing threat. The main idea encompasses all of this — decline despite efforts."},
+  {id:"R2",section:"Reading",topic:"Inference",q:"Based on the passage, what can be inferred about the reef's future if ocean temperatures continue to rise?",
+    passage:"The Great Barrier Reef, the world's largest coral reef system stretching over 2,300 kilometers along Australia's northeast coast, is experiencing unprecedented decline. Rising ocean temperatures have triggered mass bleaching events in 2016, 2017, 2020, and 2022, with satellite data showing that over 90% of reefs surveyed exhibited some degree of bleaching during the most severe episodes. While conservation efforts including marine protected areas and water quality improvement programs have been implemented, scientists warn that without significant reductions in global carbon emissions, the reef's recovery capacity may be permanently compromised.",
+    options:[
+      "The decline will likely worsen and recovery may become impossible",
+      "The reef will adapt and thrive in warmer waters",
+      "Conservation efforts will fully counteract temperature increases",
+      "Bleaching events will decrease over time"
+    ],correct:0,explanation:"The passage states that without emission reductions, recovery may be 'permanently compromised,' strongly implying worsening decline with rising temps."},
+  {id:"R3",section:"Reading",topic:"Main Idea",q:"What is the author's primary purpose in this passage?",
+    passage:"Recent archaeological discoveries in Southeast Asia have fundamentally challenged long-held assumptions about human migration patterns in the region. Excavations at the Tam Pa Ling cave in Laos have yielded human fossils dating back approximately 86,000 years, significantly older than previous estimates suggested for human presence in mainland Southeast Asia. These findings, combined with stone tool assemblages discovered in the Philippines dating to at least 709,000 years ago — attributed to earlier hominin species — indicate that the region served as a critical corridor for multiple waves of human and pre-human migration.",
+    options:[
+      "To present new evidence that challenges existing migration theories",
+      "To prove that humans originated in Southeast Asia",
+      "To describe archaeological techniques used in cave excavations",
+      "To compare migration patterns across different continents"
+    ],correct:0,explanation:"The passage presents new archaeological findings that 'fundamentally challenged long-held assumptions' about migration. Purpose: inform about evidence challenging old theories."},
+  {id:"R4",section:"Reading",topic:"Inference",q:"What can be inferred about the 'single wave' migration theory?",
+    passage:"Recent archaeological discoveries in Southeast Asia have fundamentally challenged long-held assumptions about human migration patterns in the region. Excavations at the Tam Pa Ling cave in Laos have yielded human fossils dating back approximately 86,000 years, significantly older than previous estimates suggested for human presence in mainland Southeast Asia. These findings, combined with stone tool assemblages discovered in the Philippines dating to at least 709,000 years ago — attributed to earlier hominin species — indicate that the region served as a critical corridor for multiple waves of human and pre-human migration.",
+    options:[
+      "It was based on the best available evidence at the time but is now outdated",
+      "It was always considered incorrect by most scientists",
+      "It has been definitively disproven beyond any doubt",
+      "It was developed without any supporting evidence"
+    ],correct:0,explanation:"The passage says discoveries 'challenged long-held assumptions,' implying previous theories were the accepted consensus based on available evidence, now updated with new findings."},
+  {id:"R5",section:"Reading",topic:"Main Idea",q:"What is the tone of this passage?",
+    passage:"The epidemic of sleep deprivation among shift workers has reached levels that demand immediate institutional attention. Research from the National Sleep Foundation reveals that workers who have been awake for 17 consecutive hours exhibit cognitive impairment equivalent to a blood alcohol concentration of 0.05%, while 24 hours without sleep produces impairment matching the legal intoxication threshold of 0.10%. Despite these alarming findings, many industries continue to schedule 12-hour rotating shifts with minimal recovery periods, effectively placing impaired workers in positions where they operate heavy machinery or make critical safety decisions.",
+    options:[
+      "Concerned and somewhat critical",
+      "Neutral and objective",
+      "Angry and accusatory",
+      "Optimistic and encouraging"
+    ],correct:0,explanation:"Words like 'epidemic,' 'demand immediate attention,' and 'alarming findings' show concern. Criticizing industries for scheduling practices adds a critical element."},
+  {id:"R6",section:"Reading",topic:"Inference",q:"What conclusion does the passage most strongly support?",
+    passage:"The epidemic of sleep deprivation among shift workers has reached levels that demand immediate institutional attention. Research from the National Sleep Foundation reveals that workers who have been awake for 17 consecutive hours exhibit cognitive impairment equivalent to a blood alcohol concentration of 0.05%, while 24 hours without sleep produces impairment matching the legal intoxication threshold of 0.10%. Despite these alarming findings, many industries continue to schedule 12-hour rotating shifts with minimal recovery periods, effectively placing impaired workers in positions where they operate heavy machinery or make critical safety decisions.",
+    options:[
+      "Working 17+ hours straight poses safety risks comparable to impaired driving",
+      "All shift work should be immediately banned",
+      "Sleep deprivation only affects physical, not cognitive, performance",
+      "The National Sleep Foundation opposes all night shift work"
+    ],correct:0,explanation:"The passage explicitly compares 17+ hours awake to 0.05% BAC impairment, directly supporting that extended wakefulness creates driving-like safety risks."},
+  {id:"R7",section:"Reading",topic:"Main Idea",q:"Which title best fits this passage?",
+    passage:"Microplastics — fragments smaller than five millimeters — have been detected in virtually every environment on Earth, from the deepest ocean trenches to the summit of Mount Everest. A 2023 study published in Environmental Science & Technology estimated that the average person ingests approximately 5 grams of microplastic per week, roughly the weight of a credit card. While researchers have confirmed that these particles accumulate in human lung tissue, blood, and even placental matter, the long-term health implications remain subjects of intense scientific investigation and debate.",
+    options:[
+      "Global Spread and Potential Dangers of Microplastics",
+      "How to Avoid Microplastics in Your Diet",
+      "Microplastics: A Solved Environmental Problem",
+      "The Chemistry of Plastic Degradation"
+    ],correct:0,explanation:"The passage covers both the global spread (everywhere from oceans to Everest) and potential dangers (accumulation in tissue, uncertain health effects)."},
+  {id:"R8",section:"Reading",topic:"Inference",q:"What is the primary implication of the passage about Yellowstone wolves?",
+    passage:"When gray wolves were reintroduced to Yellowstone National Park in 1995 after a 70-year absence, the ecological consequences extended far beyond simple predator-prey dynamics. The wolves' presence altered elk grazing patterns, allowing overgrazed riparian vegetation to recover along stream banks. This regrowth stabilized riverbanks, reduced erosion, and even changed the physical course of rivers. Meanwhile, carcasses left by wolf kills provided food for scavengers including bears, eagles, and beetles, creating nutrient redistribution networks that enriched soil composition across the ecosystem.",
+    options:[
+      "Ecological impacts of predators extend far beyond their direct prey relationships",
+      "Wolves are the most important species in any ecosystem",
+      "Elk populations should be eliminated to protect vegetation",
+      "River courses change naturally without animal influence"
+    ],correct:0,explanation:"The passage demonstrates cascading effects: wolves → elk behavior → vegetation → rivers → scavengers → soil. The impact extends far beyond just eating elk."},
+  {id:"R9",section:"Reading",topic:"Main Idea",q:"What is the author's position on electric vehicles?",
+    passage:"Proponents of electric vehicles frequently cite their zero tailpipe emissions as evidence of environmental superiority over internal combustion engines. However, a comprehensive lifecycle analysis reveals a more complex picture. The manufacturing of EV batteries requires mining lithium, cobalt, and nickel — processes with significant environmental footprints. Furthermore, the carbon intensity of charging an EV depends entirely on the regional power grid; in areas dominated by coal-fired electricity, the per-mile carbon footprint of an EV can approach that of an efficient gasoline vehicle. That said, in regions with substantial renewable energy infrastructure, EVs demonstrate a clear and significant advantage in total lifecycle emissions.",
+    options:[
+      "The environmental benefit is real but more nuanced than commonly believed",
+      "EVs are worse for the environment than gasoline cars",
+      "EVs should not be manufactured until mining is cleaner",
+      "There is no difference between EVs and gasoline vehicles"
+    ],correct:0,explanation:"The passage acknowledges both complications (mining, grid dependence) and genuine advantages (renewable regions), taking a nuanced 'it depends' position."},
+  {id:"R10",section:"Reading",topic:"Inference",q:"According to the passage, where do EVs have the greatest advantage?",
+    passage:"Proponents of electric vehicles frequently cite their zero tailpipe emissions as evidence of environmental superiority over internal combustion engines. However, a comprehensive lifecycle analysis reveals a more complex picture. The manufacturing of EV batteries requires mining lithium, cobalt, and nickel — processes with significant environmental footprints. Furthermore, the carbon intensity of charging an EV depends entirely on the regional power grid; in areas dominated by coal-fired electricity, the per-mile carbon footprint of an EV can approach that of an efficient gasoline vehicle. That said, in regions with substantial renewable energy infrastructure, EVs demonstrate a clear and significant advantage in total lifecycle emissions.",
+    options:[
+      "Regions with renewable energy infrastructure",
+      "Areas with coal-fired power plants",
+      "Countries with the most lithium mines",
+      "Urban areas with high traffic density"
+    ],correct:0,explanation:"The passage explicitly states EVs show 'clear and significant advantage' in 'regions with substantial renewable energy infrastructure.'"},
+
+  // MECHANICAL - FORCES
+  {id:"MC1",section:"Mechanical",topic:"Forces",q:"A 5 kg object has a net force of 20N applied. What is its acceleration?",passage:null,options:["4 m/s²","100 m/s²","15 m/s²","25 m/s²"],correct:0,explanation:"F = ma → a = F/m = 20/5 = 4 m/s²."},
+  {id:"MC2",section:"Mechanical",topic:"Forces",q:"An object moves at constant velocity. What is the net force acting on it?",passage:null,options:["Zero","Equal to its weight","Depends on speed","Cannot be determined"],correct:0,explanation:"Newton's 1st Law: constant velocity means balanced forces, so net force = 0."},
+  {id:"MC3",section:"Mechanical",topic:"Forces",q:"A 2 kg object is dropped. What is its velocity after 3 seconds? (g = 10 m/s²)",passage:null,options:["30 m/s","60 m/s","20 m/s","6 m/s"],correct:0,explanation:"v = gt = 10 × 3 = 30 m/s."},
+  {id:"MC4",section:"Mechanical",topic:"Forces",q:"A 50N force pushes right, 20N friction pushes left. Net force?",passage:null,options:["30N right","70N right","30N left","20N right"],correct:0,explanation:"Net = 50 - 20 = 30N in the direction of the larger force (right)."},
+  {id:"MC5",section:"Mechanical",topic:"Forces",q:"You push a wall with 15N. How much force does the wall exert on you?",passage:null,options:["15N","0N","30N","7.5N"],correct:0,explanation:"Newton's 3rd Law: the wall pushes back with equal force (15N) in the opposite direction."},
+  {id:"MC32",section:"Mechanical",topic:"Forces",q:"A 1000 kg car accelerates from 0 to 20 m/s in 10 seconds. What force is required?",passage:null,options:["2000N","200N","20000N","10000N"],correct:0,explanation:"a = 20/10 = 2 m/s². F = ma = 1000 × 2 = 2000N."},
+  // Note: MC32 used for forces, MC33 used in electricity (Bernoulli)
+
+  // MECHANICAL - LEVERS
+  {id:"MC6",section:"Mechanical",topic:"Levers",q:"A 40 kg weight sits 3m from the fulcrum. Where must a 60 kg weight sit to balance?",passage:null,options:["2m","3m","4m","1.5m"],correct:0,explanation:"F₁D₁ = F₂D₂ → 40 × 3 = 60 × D → D = 120/60 = 2m."},
+  {id:"MC7",section:"Mechanical",topic:"Levers",q:"What class of lever is a wheelbarrow?",passage:null,options:["2nd class","1st class","3rd class","Not a lever"],correct:0,explanation:"Wheelbarrow: load in the middle (between fulcrum at wheel and effort at handles) = 2nd class."},
+  {id:"MC8",section:"Mechanical",topic:"Levers",q:"A lever has an effort arm of 8 ft and load arm of 2 ft. What is the mechanical advantage?",passage:null,options:["4","6","2","10"],correct:0,explanation:"MA = effort arm / load arm = 8/2 = 4."},
+  {id:"MC9",section:"Mechanical",topic:"Levers",q:"What class of lever are tweezers?",passage:null,options:["3rd class","1st class","2nd class","Not a lever"],correct:0,explanation:"Tweezers: effort (your fingers) in the middle = 3rd class. FLE: 1st=Fulcrum, 2nd=Load, 3rd=Effort."},
+  {id:"MC10",section:"Mechanical",topic:"Levers",q:"You need 30 N·m of torque. Your wrench is 0.5m long. How much force?",passage:null,options:["60N","15N","30N","150N"],correct:0,explanation:"Torque = F × d → 30 = F × 0.5 → F = 60N."},
+  {id:"MC34",section:"Mechanical",topic:"Levers",q:"How much force to lift 300 lbs with a lever? Effort arm = 6ft, load arm = 2ft.",passage:null,options:["100 lbs","150 lbs","50 lbs","200 lbs"],correct:0,explanation:"F × 6 = 300 × 2 → F = 600/6 = 100 lbs."},
+
+  // MECHANICAL - GEARS & PULLEYS
+  {id:"MC11",section:"Mechanical",topic:"Gears & Pulleys",q:"Gear A turns clockwise. Adjacent Gear B turns which direction?",passage:null,options:["Counterclockwise","Clockwise","Same as A","Doesn't move"],correct:0,explanation:"Adjacent (meshing) gears always turn in opposite directions."},
+  {id:"MC12",section:"Mechanical",topic:"Gears & Pulleys",q:"Gear A has 20 teeth at 100 RPM. Gear B has 50 teeth. What is B's speed?",passage:null,options:["40 RPM","250 RPM","100 RPM","25 RPM"],correct:0,explanation:"T₁ × RPM₁ = T₂ × RPM₂ → 20 × 100 = 50 × RPM → RPM = 40."},
+  {id:"MC13",section:"Mechanical",topic:"Gears & Pulleys",q:"5 gears in a chain. First gear turns CW. Which way does the last gear turn?",passage:null,options:["Clockwise","Counterclockwise","Alternates","Doesn't turn"],correct:0,explanation:"Odd number of gears: first and last turn the same direction. 5 is odd → CW."},
+  {id:"MC14",section:"Mechanical",topic:"Gears & Pulleys",q:"A fixed pulley lifts a 100 lb load. What force is needed?",passage:null,options:["100 lbs","50 lbs","200 lbs","25 lbs"],correct:0,explanation:"Fixed pulley has MA = 1. It changes direction of force but not the amount. Still 100 lbs."},
+  {id:"MC15",section:"Mechanical",topic:"Gears & Pulleys",q:"A block and tackle has 4 ropes supporting a 200 lb load. Force needed?",passage:null,options:["50 lbs","100 lbs","200 lbs","25 lbs"],correct:0,explanation:"MA = number of supporting ropes = 4. Force = 200/4 = 50 lbs."},
+  {id:"MC16",section:"Mechanical",topic:"Gears & Pulleys",q:"Gear train: A(10t) → B(30t) → C(15t). A at 300 RPM. What is C's speed?",passage:null,options:["200 RPM","100 RPM","150 RPM","600 RPM"],correct:0,explanation:"A→B: 10×300 = 30×RPM_B → RPM_B = 100. B→C: 30×100 = 15×RPM_C → RPM_C = 200 RPM."},
+
+  // MECHANICAL - ENERGY
+  {id:"MC17",section:"Mechanical",topic:"Energy",q:"A 4 kg object moves at 5 m/s. What is its kinetic energy?",passage:null,options:["50 J","100 J","20 J","10 J"],correct:0,explanation:"KE = ½mv² = ½(4)(25) = 50 J."},
+  {id:"MC18",section:"Mechanical",topic:"Energy",q:"If you double an object's speed, what happens to its kinetic energy?",passage:null,options:["Quadruples","Doubles","Triples","Stays the same"],correct:0,explanation:"KE = ½mv². Speed is squared, so doubling speed → 2² = 4× the KE."},
+  {id:"MC19",section:"Mechanical",topic:"Energy",q:"A 10 kg mass is lifted 5m. What is its potential energy? (g = 10)",passage:null,options:["500 J","50 J","100 J","250 J"],correct:0,explanation:"PE = mgh = 10 × 10 × 5 = 500 J."},
+  {id:"MC20",section:"Mechanical",topic:"Energy",q:"A ramp is 10m long and 2m high. What is its mechanical advantage?",passage:null,options:["5","2","10","0.2"],correct:0,explanation:"MA of inclined plane = length/height = 10/2 = 5."},
+  {id:"MC21",section:"Mechanical",topic:"Energy",q:"600 J of work done in 30 seconds. What is the power?",passage:null,options:["20 W","200 W","18000 W","0.05 W"],correct:0,explanation:"P = W/t = 600/30 = 20 W."},
+  {id:"MC31",section:"Mechanical",topic:"Energy",q:"A 2 kg object falls from 20m. What is its speed at the bottom? (g = 10)",passage:null,options:["20 m/s","40 m/s","10 m/s","200 m/s"],correct:0,explanation:"PE = KE → mgh = ½mv² → v² = 2gh = 2(10)(20) = 400 → v = 20 m/s."},
+
+  // MECHANICAL - FLUIDS
+  {id:"MC22",section:"Mechanical",topic:"Fluids",q:"200N force over 4 m² area. What is the pressure?",passage:null,options:["50 Pa","800 Pa","196 Pa","4 Pa"],correct:0,explanation:"P = F/A = 200/4 = 50 Pa."},
+  {id:"MC23",section:"Mechanical",topic:"Fluids",q:"Hydraulic system: small piston 5 cm², large piston 25 cm². 40N applied. Output force?",passage:null,options:["200N","8N","1000N","40N"],correct:0,explanation:"Pascal's law: F₁/A₁ = F₂/A₂ → 40/5 = F/25 → F = 200N."},
+  {id:"MC24",section:"Mechanical",topic:"Fluids",q:"A block is 60% submerged in water. What is its density relative to water?",passage:null,options:["0.6","0.4","1.6","1.0"],correct:0,explanation:"Density ratio equals fraction submerged. 60% submerged → density = 0.6 × water density."},
+  {id:"MC25",section:"Mechanical",topic:"Fluids",q:"A pipe narrows from 10 cm² to 5 cm². Water enters at 2 m/s. Exit velocity?",passage:null,options:["4 m/s","1 m/s","2 m/s","10 m/s"],correct:0,explanation:"Continuity: A₁v₁ = A₂v₂ → 10 × 2 = 5 × v → v = 4 m/s."},
+
+  // MECHANICAL - ELECTRICITY
+  {id:"MC26",section:"Mechanical",topic:"Electricity",q:"A 12V battery powers a 4Ω resistor. What is the current?",passage:null,options:["3A","48A","0.33A","8A"],correct:0,explanation:"Ohm's law: I = V/R = 12/4 = 3A."},
+  {id:"MC27",section:"Mechanical",topic:"Electricity",q:"Three resistors (2Ω, 3Ω, 5Ω) in series. Total resistance?",passage:null,options:["10Ω","0.97Ω","30Ω","3.33Ω"],correct:0,explanation:"Series: R_total = R₁ + R₂ + R₃ = 2 + 3 + 5 = 10Ω."},
+  {id:"MC28",section:"Mechanical",topic:"Electricity",q:"Two 10Ω resistors in parallel. Total resistance?",passage:null,options:["5Ω","20Ω","10Ω","0.2Ω"],correct:0,explanation:"Parallel: 1/R = 1/10 + 1/10 = 2/10. R = 10/2 = 5Ω. Shortcut: equal resistors in parallel = R/n."},
+  {id:"MC29",section:"Mechanical",topic:"Electricity",q:"In a series circuit, one bulb burns out. What happens?",passage:null,options:["All bulbs go out","Other bulbs get brighter","Nothing changes","Only adjacent bulbs go out"],correct:0,explanation:"Series circuit: one path for current. If one element breaks, the circuit is open and all go out."},
+  {id:"MC30",section:"Mechanical",topic:"Electricity",q:"A device uses 120V and draws 2A. What is its power?",passage:null,options:["240W","60W","122W","0.017W"],correct:0,explanation:"P = V × I = 120 × 2 = 240W."},
+  {id:"MC33",section:"Mechanical",topic:"Electricity",q:"According to Bernoulli's principle, when air speeds up, what happens to pressure?",passage:null,options:["Pressure decreases","Pressure increases","Pressure stays the same","Pressure doubles"],correct:0,explanation:"Bernoulli's principle: faster fluid = lower pressure. This is how airplane wings generate lift."}
+];
+
+// ==================== STATE ====================
+let state = {
+  screen: 'menu',   // menu, config, quiz, results
+  mode: 'quick',     // quick, topic, full, missed
+  section: 'All',
+  currentQ: 0,
+  questions: [],
+  answers: [],       // {qId, selected, correct, time}
+  startTime: 0,
+  questionStartTime: 0,
+  timerInterval: null,
+  timeLimit: 0,      // seconds, 0 = untimed
+  timeRemaining: 0
+};
+
+function loadProgress() {
+  return JSON.parse(localStorage.getItem('oar_progress') || '{"answers":[]}');
+}
+function saveProgress(answer) {
+  const data = loadProgress();
+  // Remove previous answer for same question if exists
+  data.answers = data.answers.filter(a => a.qId !== answer.qId);
+  data.answers.push(answer);
+  localStorage.setItem('oar_progress', JSON.stringify(data));
+}
+
+// ==================== RENDER ====================
+const app = document.getElementById('app');
+
+function render() {
+  if (state.screen === 'menu') renderMenu();
+  else if (state.screen === 'config') renderConfig();
+  else if (state.screen === 'quiz') renderQuiz();
+  else if (state.screen === 'results') renderResults();
+}
+
+function renderMenu() {
+  const missed = loadProgress().answers.filter(a => !a.correct).length;
+  app.innerHTML = `
+    <div style="padding:32px 0">
+      <h1 style="font-size:28px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px">Practice</h1>
+      <p style="color:var(--text-2);margin-bottom:32px">Choose a practice mode to sharpen your OAR skills.</p>
+
+      <div class="mode-selector">
+        <div class="mode-card${state.mode==='quick'?' active':''}" onclick="selectMode('quick')">
+          <div class="mode-icon">&#9889;</div>
+          <div class="mode-name">Quick Drill</div>
+          <div class="mode-desc">5 questions, 2 min</div>
+        </div>
+        <div class="mode-card${state.mode==='topic'?' active':''}" onclick="selectMode('topic')">
+          <div class="mode-icon">&#127919;</div>
+          <div class="mode-name">Topic Practice</div>
+          <div class="mode-desc">Filter by subject</div>
+        </div>
+        <div class="mode-card${state.mode==='full'?' active':''}" onclick="selectMode('full')">
+          <div class="mode-icon">&#128640;</div>
+          <div class="mode-name">Full Test</div>
+          <div class="mode-desc">30 questions, timed</div>
+        </div>
+        <div class="mode-card${state.mode==='missed'?' active':''}" onclick="selectMode('missed')">
+          <div class="mode-icon">&#128260;</div>
+          <div class="mode-name">Missed Questions</div>
+          <div class="mode-desc">${missed} to review</div>
+        </div>
+      </div>
+
+      ${state.mode === 'topic' ? renderTopicFilter() : ''}
+
+      <div style="text-align:center;margin-top:24px">
+        <button class="btn btn-primary" style="padding:14px 48px;font-size:16px" onclick="startQuiz()">
+          ${state.mode === 'full' ? 'Begin Full Test' : state.mode === 'missed' ? 'Review Missed' : 'Start Practice'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderTopicFilter() {
+  const sections = ['All','Math','Reading','Mechanical'];
+  return `
+    <div class="topic-filter">
+      ${sections.map(s => `<button class="topic-btn${state.section===s?' active':''}" onclick="selectSection('${s}')">${s}</button>`).join('')}
+    </div>
+  `;
+}
+
+function selectMode(m) { state.mode = m; render(); }
+function selectSection(s) { state.section = s; render(); }
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  let pool = [];
+  if (state.mode === 'quick') {
+    pool = shuffle(questions).slice(0, 5);
+    state.timeLimit = 120;
+  } else if (state.mode === 'topic') {
+    pool = state.section === 'All' ? shuffle(questions) : shuffle(questions.filter(q => q.section === state.section));
+    if (pool.length === 0) { alert('No questions for this section.'); return; }
+    state.timeLimit = 0;
+  } else if (state.mode === 'full') {
+    // Pick 10 math, 10 reading, 10 mechanical for balanced 30
+    const math = shuffle(questions.filter(q => q.section === 'Math')).slice(0,10);
+    const read = shuffle(questions.filter(q => q.section === 'Reading')).slice(0,10);
+    const mech = shuffle(questions.filter(q => q.section === 'Mechanical')).slice(0,10);
+    pool = [...math, ...read, ...mech];
+    state.timeLimit = 85 * 60; // 85 min total
+  } else if (state.mode === 'missed') {
+    const missed = loadProgress().answers.filter(a => !a.correct).map(a => a.qId);
+    pool = shuffle(questions.filter(q => missed.includes(q.id)));
+    if (pool.length === 0) { alert('No missed questions to review! Great job!'); return; }
+    state.timeLimit = 0;
+  }
+
+  state.questions = pool;
+  state.answers = [];
+  state.currentQ = 0;
+  state.startTime = Date.now();
+  state.questionStartTime = Date.now();
+  state.timeRemaining = state.timeLimit;
+  state.screen = 'quiz';
+
+  if (state.timeLimit > 0) {
+    state.timerInterval = setInterval(() => {
+      state.timeRemaining = Math.max(0, state.timeLimit - Math.floor((Date.now() - state.startTime) / 1000));
+      updateTimer();
+      if (state.timeRemaining <= 0) {
+        clearInterval(state.timerInterval);
+        finishQuiz();
+      }
+    }, 1000);
+  }
+
+  render();
+}
+
+function updateTimer() {
+  const el = document.getElementById('timer');
+  if (!el) return;
+  const m = Math.floor(state.timeRemaining / 60);
+  const s = state.timeRemaining % 60;
+  el.textContent = m + ':' + String(s).padStart(2, '0');
+  if (state.timeRemaining <= 30) el.classList.add('warning');
+  else el.classList.remove('warning');
+}
+
+function renderQuiz() {
+  const q = state.questions[state.currentQ];
+  const answered = state.answers.find(a => a.qId === q.id);
+  const letters = ['A','B','C','D'];
+  const pct = ((state.currentQ + (answered ? 1 : 0)) / state.questions.length * 100).toFixed(0);
+
+  app.innerHTML = `
+    <div style="padding:24px 0">
+      <div class="quiz-header">
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+          <div class="quiz-progress-text">Question ${state.currentQ + 1} of ${state.questions.length}</div>
+        </div>
+        ${state.timeLimit > 0 ? `<div class="quiz-timer" id="timer"></div>` : ''}
+      </div>
+
+      <div class="question-card">
+        <div class="question-number">${q.section} &mdash; ${q.topic}</div>
+        ${q.passage ? `<div class="question-passage">${q.passage}</div>` : ''}
+        <div class="question-text">${q.q}</div>
+
+        <div class="answers">
+          ${q.options.map((opt, i) => {
+            let cls = 'answer-option';
+            let icon = '';
+            if (answered) {
+              if (i === q.correct) { cls += ' correct show-correct'; icon = '<span class="result-icon">&#10003;</span>'; }
+              else if (i === answered.selected && !answered.correct) { cls += ' wrong'; icon = '<span class="result-icon">&#10007;</span>'; }
+            } else if (state._selected === i) {
+              cls += ' selected';
+            }
+            return `<div class="${cls}" onclick="selectAnswer(${i})" data-idx="${i}">
+              <span class="answer-letter">${letters[i]}</span>
+              <span class="answer-text">${opt}</span>
+              ${icon}
+            </div>`;
+          }).join('')}
+        </div>
+
+        <div class="explanation${answered ? ' visible' : ''}" id="explanation">
+          <strong>Explanation:</strong> ${q.explanation}
+        </div>
+
+        <div class="quiz-actions">
+          ${!answered && state._selected !== undefined ?
+            `<button class="btn btn-primary" onclick="confirmAnswer()">Confirm Answer</button>` :
+            answered ?
+              (state.currentQ < state.questions.length - 1 ?
+                `<button class="btn btn-primary" onclick="nextQuestion()">Next Question &rarr;</button>` :
+                `<button class="btn btn-primary" onclick="finishQuiz()">See Results</button>`) :
+              `<button class="btn btn-primary" disabled>Select an answer</button>`
+          }
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (state.timeLimit > 0) updateTimer();
+}
+
+state._selected = undefined;
+
+function selectAnswer(idx) {
+  const q = state.questions[state.currentQ];
+  const answered = state.answers.find(a => a.qId === q.id);
+  if (answered) return;
+  state._selected = idx;
+  render();
+}
+
+function confirmAnswer() {
+  const q = state.questions[state.currentQ];
+  const timeSpent = Math.floor((Date.now() - state.questionStartTime) / 1000);
+  const isCorrect = state._selected === q.correct;
+
+  const answer = {
+    qId: q.id,
+    section: q.section,
+    topic: q.topic,
+    selected: state._selected,
+    correct: isCorrect,
+    time: timeSpent,
+    timestamp: Date.now()
+  };
+
+  state.answers.push(answer);
+  saveProgress(answer);
+  state._selected = undefined;
+  render();
+}
+
+function nextQuestion() {
+  state.currentQ++;
+  state.questionStartTime = Date.now();
+  state._selected = undefined;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function finishQuiz() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.screen = 'results';
+  render();
+}
+
+function renderResults() {
+  const total = state.questions.length;
+  const correctCount = state.answers.filter(a => a.correct).length;
+  const pct = Math.round((correctCount / total) * 100);
+  const totalTime = Math.floor((Date.now() - state.startTime) / 1000);
+  const avgTime = Math.round(state.answers.reduce((s, a) => s + a.time, 0) / state.answers.length);
+
+  // Section breakdown
+  const sections = {};
+  state.answers.forEach(a => {
+    if (!sections[a.section]) sections[a.section] = { correct: 0, total: 0 };
+    sections[a.section].total++;
+    if (a.correct) sections[a.section].correct++;
+  });
+
+  const scoreClass = pct >= 80 ? 'great' : pct >= 60 ? 'ok' : 'low';
+
+  app.innerHTML = `
+    <div class="results-screen">
+      <h2 style="font-size:16px;color:var(--text-2);font-weight:500">Practice Complete</h2>
+      <div class="results-score ${scoreClass}">${pct}%</div>
+      <div class="results-subtitle">${correctCount} of ${total} correct</div>
+
+      <div class="results-grid">
+        <div class="results-stat">
+          <div class="results-stat-label">Total Time</div>
+          <div class="results-stat-value">${Math.floor(totalTime/60)}m ${totalTime%60}s</div>
+        </div>
+        <div class="results-stat">
+          <div class="results-stat-label">Avg per Question</div>
+          <div class="results-stat-value">${avgTime}s</div>
+        </div>
+        <div class="results-stat">
+          <div class="results-stat-label">Accuracy</div>
+          <div class="results-stat-value">${pct}%</div>
+        </div>
+      </div>
+
+      <div class="results-breakdown">
+        <h3>Breakdown by Section</h3>
+        ${Object.entries(sections).map(([name, data]) => {
+          const secPct = Math.round((data.correct / data.total) * 100);
+          const color = secPct >= 80 ? 'var(--green)' : secPct >= 60 ? 'var(--yellow)' : 'var(--red)';
+          return `<div class="breakdown-row">
+            <span class="breakdown-label">${name} (${data.correct}/${data.total})</span>
+            <div class="breakdown-bar"><div class="breakdown-fill" style="width:${secPct}%;background:${color}"></div></div>
+            <span class="breakdown-pct" style="color:${color}">${secPct}%</span>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-primary" onclick="goToMenu()">Practice Again</button>
+        ${state.answers.some(a => !a.correct) ? `<button class="btn btn-secondary" onclick="reviewMissed()">Review Missed</button>` : ''}
+        <a href="study.html" class="btn btn-secondary">Back to Study</a>
+      </div>
+    </div>
+  `;
+
+  if (pct >= 80) launchConfetti();
+}
+
+function goToMenu() {
+  state.screen = 'menu';
+  state.mode = 'quick';
+  state._selected = undefined;
+  render();
+}
+
+function reviewMissed() {
+  state.mode = 'missed';
+  startQuiz();
+}
+
+// ==================== KEYBOARD SHORTCUTS ====================
+document.addEventListener('keydown', e => {
+  if (state.screen !== 'quiz') return;
+  const q = state.questions[state.currentQ];
+  const answered = state.answers.find(a => a.qId === q.id);
+
+  const keyMap = {'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+  const idx = keyMap[e.key.toLowerCase()];
+
+  if (idx !== undefined && !answered) {
+    selectAnswer(idx);
+  } else if (e.key === 'Enter') {
+    if (!answered && state._selected !== undefined) confirmAnswer();
+    else if (answered && state.currentQ < state.questions.length - 1) nextQuestion();
+    else if (answered) finishQuiz();
+  }
+});
+
+// ==================== CONFETTI ====================
+function launchConfetti() {
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  document.body.appendChild(container);
+  const colors = ['#3B82F6','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899'];
+  for (let i = 0; i < 80; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = Math.random() * 2 + 's';
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    c.style.width = (6 + Math.random() * 8) + 'px';
+    c.style.height = (6 + Math.random() * 8) + 'px';
+    container.appendChild(c);
+  }
+  setTimeout(() => container.remove(), 5000);
+}
+
+// ==================== INIT ====================
+// Check URL params for topic filter
+const urlParams = new URLSearchParams(window.location.search);
+const topicParam = urlParams.get('topic');
+if (topicParam) {
+  state.mode = 'topic';
+  if (topicParam.includes('MATH')) state.section = 'Math';
+  else if (topicParam.includes('READING')) state.section = 'Reading';
+  else if (topicParam.includes('MECHANICAL')) state.section = 'Mechanical';
+}
+
+render();
+</script>
+</body>
+</html>
