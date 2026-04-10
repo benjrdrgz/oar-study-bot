@@ -16,7 +16,25 @@ function navigate(path) {
 
 async function handleRoute() {
   const hash = window.location.hash || '#/';
-  const path = hash.replace('#', '');
+  const fullPath = hash.replace('#', '');
+
+  // Strip query string before route matching, parse query params separately
+  const qIdx = fullPath.indexOf('?');
+  const path = qIdx !== -1 ? fullPath.slice(0, qIdx) : fullPath;
+  const queryString = qIdx !== -1 ? fullPath.slice(qIdx + 1) : '';
+  const queryParams = {};
+  if (queryString) {
+    queryString.split('&').forEach(pair => {
+      const eqIdx = pair.indexOf('=');
+      if (eqIdx !== -1) {
+        const k = decodeURIComponent(pair.slice(0, eqIdx));
+        const v = decodeURIComponent(pair.slice(eqIdx + 1));
+        if (k) queryParams[k] = v;
+      } else if (pair) {
+        queryParams[decodeURIComponent(pair)] = '';
+      }
+    });
+  }
 
   // Parse route and params
   let matchedRoute = null;
@@ -127,7 +145,7 @@ async function handleRoute() {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    await matchedRoute(params);
+    await matchedRoute({ ...params, ...queryParams });
     app.style.opacity = '1';
 
     // Update nav active state
