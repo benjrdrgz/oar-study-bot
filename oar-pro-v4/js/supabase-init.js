@@ -1,6 +1,6 @@
 // OAR Pro v4 — Supabase Client Initialization
 const SUPABASE_URL = 'https://ugblwepfptumffzcljot.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_I-dHtXacbDMPq226UeHnwA_wJcYdKOa';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnYmx3ZXBmcHR1bWZmemNsam90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODk1MTYsImV4cCI6MjA5MTM2NTUxNn0.RopXMlYK5a2zMQQ3slEPrKlBhIeRWfoeLY3y8OOOF38';
 
 // Initialize Supabase client (loaded from CDN in index.html)
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
