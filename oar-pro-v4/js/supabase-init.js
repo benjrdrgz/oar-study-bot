@@ -65,6 +65,11 @@ if (typeof supabase !== 'undefined' && supabase && supabase.auth) {
     } else if (event === 'SIGNED_OUT') {
       console.log('[OAR] User signed out');
       window.location.hash = '#/';
+    } else if (event === 'PASSWORD_RECOVERY') {
+      // User landed via the password-reset email link.
+      // Supabase has already exchanged the token — navigate to the update form.
+      console.log('[OAR] Password recovery — routing to update-password');
+      window.location.hash = '#/update-password';
     }
   });
 }

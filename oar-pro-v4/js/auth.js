@@ -25,14 +25,28 @@ async function renderNav() {
           <a href="#/login" class="nav-link">Log In</a>
           <button class="btn btn-primary btn-sm" onclick="handleCheckoutClick(this)">Get Access</button>
         </div>
+        <!-- Mobile: show Log In + Get Access in hamburger menu -->
+        <button class="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu" style="display:none" id="publicHamburger">&#9776;</button>
       </div>
     `;
+    // Show hamburger at mobile widths
+    const ham = document.getElementById('publicHamburger');
+    if (ham) {
+      const mq = window.matchMedia('(max-width: 768px)');
+      const toggle = (e) => { ham.style.display = e.matches ? 'block' : 'none'; };
+      toggle(mq); mq.addEventListener('change', toggle);
+    }
     // Hide sidebar and go full width
     document.getElementById('sidebar').style.display = 'none';
     document.getElementById('app').classList.add('full-width');
     document.getElementById('mobileToggle').style.display = 'none';
     const mnm = document.getElementById('mobileNavMenu');
-    if (mnm) mnm.innerHTML = '';
+    if (mnm) {
+      mnm.innerHTML = `
+        <a href="#/login">🔑 Log In</a>
+        <a href="#" onclick="handleCheckoutClick(this);return false;" style="color:var(--accent)">🚀 Get Access — $97</a>
+      `;
+    }
   } else {
     // Authenticated nav
     const initials = escHtml((profile?.display_name || profile?.email || '?').substring(0, 2).toUpperCase());
@@ -178,7 +192,10 @@ function renderLoginView() {
           <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com">
         </div>
         <div class="form-group">
-          <label class="form-label">Password</label>
+          <label class="form-label" style="display:flex;justify-content:space-between;align-items:center">
+            Password
+            <a href="#/forgot-password" style="font-size:12px;font-weight:400;color:var(--text-3)">Forgot password?</a>
+          </label>
           <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
         </div>
         <button class="btn btn-primary btn-block btn-lg" onclick="handleLogin()">Sign In</button>
@@ -296,9 +313,133 @@ async function handleMagicLink() {
   }
 }
 
+// ============================================================
+// FORGOT PASSWORD — sends Supabase reset email
+// ============================================================
+function renderForgotPasswordView() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div style="max-width:400px;margin:60px auto;text-align:center">
+      <h1 style="font-size:28px;margin-bottom:8px">Reset Password</h1>
+      <p class="text-muted mb-8">Enter your email and we'll send you a reset link</p>
+
+      <div id="fpMsg" style="display:none" class="callout callout-warning mb-4"></div>
+
+      <div class="card" style="text-align:left">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="fpEmail" placeholder="you@example.com">
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" onclick="handleForgotPassword()">Send Reset Link</button>
+      </div>
+
+      <p class="text-muted mt-4" style="font-size:13px">
+        Remember it? <a href="#/login">Back to sign in</a>
+      </p>
+    </div>
+  `;
+}
+
+async function handleForgotPassword() {
+  const email = document.getElementById('fpEmail').value.trim();
+  const msg   = document.getElementById('fpMsg');
+
+  if (!email) {
+    msg.style.display = 'block';
+    msg.textContent   = 'Enter your email address';
+    return;
+  }
+
+  const btn = document.querySelector('[onclick="handleForgotPassword()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    // redirectTo must be on the allow-list in Supabase Auth → URL Configuration
+    const redirectTo = window.location.origin + window.location.pathname + '#/update-password';
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) throw error;
+
+    msg.style.display  = 'block';
+    msg.style.borderColor = 'var(--green)';
+    msg.style.background  = 'var(--green-bg, rgba(16,185,129,.08))';
+    msg.style.color       = 'var(--green)';
+    msg.textContent = '✓ Reset link sent — check your email (including spam folder)';
+    if (btn) btn.style.display = 'none';
+  } catch (err) {
+    msg.style.display = 'block';
+    msg.textContent   = err.message || 'Failed to send reset email';
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Reset Link'; }
+  }
+}
+
+// ============================================================
+// UPDATE PASSWORD — user lands here after clicking email link
+// Supabase fires PASSWORD_RECOVERY in onAuthStateChange,
+// which navigates to #/update-password (see supabase-init.js)
+// ============================================================
+function renderUpdatePasswordView() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div style="max-width:400px;margin:60px auto;text-align:center">
+      <h1 style="font-size:28px;margin-bottom:8px">Set New Password</h1>
+      <p class="text-muted mb-8">Choose a strong password for your account</p>
+
+      <div id="upMsg" style="display:none" class="callout callout-warning mb-4"></div>
+
+      <div class="card" style="text-align:left">
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-input" id="upPassword" placeholder="Min 8 characters">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-input" id="upConfirm" placeholder="Repeat password">
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" onclick="handleUpdatePassword()">Update Password</button>
+      </div>
+    </div>
+  `;
+}
+
+async function handleUpdatePassword() {
+  const pw      = document.getElementById('upPassword').value;
+  const confirm = document.getElementById('upConfirm').value;
+  const msg     = document.getElementById('upMsg');
+
+  if (pw.length < 8) {
+    msg.style.display = 'block'; msg.textContent = 'Password must be at least 8 characters'; return;
+  }
+  if (pw !== confirm) {
+    msg.style.display = 'block'; msg.textContent = 'Passwords do not match'; return;
+  }
+
+  const btn = document.querySelector('[onclick="handleUpdatePassword()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Updating…'; }
+
+  try {
+    const { error } = await supabase.auth.updateUser({ password: pw });
+    if (error) throw error;
+
+    msg.style.display     = 'block';
+    msg.style.borderColor = 'var(--green)';
+    msg.style.background  = 'var(--green-bg, rgba(16,185,129,.08))';
+    msg.style.color       = 'var(--green)';
+    msg.textContent = '✓ Password updated — redirecting…';
+    if (btn) btn.style.display = 'none';
+
+    setTimeout(() => navigate('#/dashboard'), 1500);
+  } catch (err) {
+    msg.style.display = 'block';
+    msg.textContent   = err.message || 'Failed to update password';
+    if (btn) { btn.disabled = false; btn.textContent = 'Update Password'; }
+  }
+}
+
 // Register auth routes
 route('/login', () => { renderLoginView(); });
 route('/signup', () => { renderSignupView(); });
+route('/forgot-password', () => { renderForgotPasswordView(); });
+route('/update-password', () => { renderUpdatePasswordView(); });
 
 // Payment success route — shown after Stripe checkout
 route('/payment-success', async () => {
