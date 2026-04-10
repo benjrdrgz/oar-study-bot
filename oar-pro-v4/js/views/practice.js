@@ -391,7 +391,7 @@ function renderQuestion() {
 
       <!-- Question text -->
       <div style="font-size:17px;line-height:1.7;margin-bottom:24px;font-weight:500" id="questionText">
-        ${q.question_html || q.question_text || ''}
+        ${q.question_html || (typeof mathifyText === 'function' ? mathifyText(q.question_text) : q.question_text) || ''}
       </div>
 
       <!-- Answer options -->
@@ -435,7 +435,7 @@ function renderAnswerOptions(q) {
          onclick="selectAnswer('${opt.key}')">
       <div style="display:flex;align-items:flex-start;gap:12px">
         <span style="width:28px;height:28px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;color:var(--text-2)">${idx + 1}</span>
-        <span style="flex:1;line-height:1.6">${opt.text || ''}</span>
+        <span style="flex:1;line-height:1.6">${typeof mathifyText === 'function' ? mathifyText(opt.text || '') : (opt.text || '')}</span>
       </div>
     </div>
   `).join('');
@@ -488,7 +488,7 @@ function selectAnswer(key) {
     explDiv.innerHTML = `
       <div class="callout ${isCorrect ? 'callout-example' : 'callout-warning'}">
         <div class="callout-title">${isCorrect ? 'Correct!' : 'Incorrect'}</div>
-        ${q.explanation ? `<p>${q.explanation}</p>` : `<p>The correct answer is ${correct}.</p>`}
+        ${q.explanation ? `<p>${typeof mathifyText === 'function' ? mathifyText(q.explanation) : q.explanation}</p>` : `<p>The correct answer is ${correct}.</p>`}
       </div>
     `;
     triggerMathJax();
@@ -620,10 +620,10 @@ async function endQuiz() {
           <div id="missedQuestions" style="display:none">
             ${missed.map((q, i) => `
               <div style="padding:12px 0;${i > 0 ? 'border-top:1px solid var(--border)' : ''}">
-                <div style="font-size:14px;font-weight:600;margin-bottom:6px">Q${i + 1}: ${q.question_text || ''}</div>
-                <div style="font-size:13px;color:var(--red);margin-bottom:4px">Your answer: ${quizState.answers[q.id]?.selected || '?'} — ${(q.options || [])[['A','B','C','D'].indexOf(quizState.answers[q.id]?.selected)] || ''}</div>
-                <div style="font-size:13px;color:var(--green);margin-bottom:4px">Correct: ${['A','B','C','D'][q.correct_index] || '?'} — ${(q.options || [])[q.correct_index] || ''}</div>
-                ${q.explanation ? `<div style="font-size:13px;color:var(--text-3)">${q.explanation}</div>` : ''}
+                <div style="font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.6">Q${i + 1}: ${typeof mathifyText === 'function' ? mathifyText(q.question_text || '') : (q.question_text || '')}</div>
+                <div style="font-size:13px;color:var(--red);margin-bottom:4px">Your answer: ${quizState.answers[q.id]?.selected || '?'} — ${typeof mathifyText === 'function' ? mathifyText((q.options || [])[['A','B','C','D'].indexOf(quizState.answers[q.id]?.selected)] || '') : ((q.options || [])[['A','B','C','D'].indexOf(quizState.answers[q.id]?.selected)] || '')}</div>
+                <div style="font-size:13px;color:var(--green);margin-bottom:4px">Correct: ${['A','B','C','D'][q.correct_index] || '?'} — ${typeof mathifyText === 'function' ? mathifyText((q.options || [])[q.correct_index] || '') : ((q.options || [])[q.correct_index] || '')}</div>
+                ${q.explanation ? `<div style="font-size:13px;color:var(--text-3);line-height:1.7;margin-top:6px">${typeof mathifyText === 'function' ? mathifyText(q.explanation) : q.explanation}</div>` : ''}
               </div>
             `).join('')}
           </div>

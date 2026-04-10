@@ -336,6 +336,36 @@ async function handleMarkComplete(lessonId) {
 // ==========================================
 // MATHJAX HELPER
 // ==========================================
+/**
+ * mathifyText — converts plain-text math notation to MathJax-renderable LaTeX.
+ * Global: called from practice.js, study.js, anywhere plain-text math appears.
+ * Conservative: only converts unambiguous patterns. Skips if already has delimiters.
+ *
+ * Handles:
+ *   x²  x³  n⁶        → \(x^{2}\)  \(x^{3}\)  \(n^{6}\)   (Unicode superscripts)
+ *   √49  √(2x+6)       → \(\sqrt{49}\)  \(\sqrt{2x+6}\)     (square root)
+ */
+function mathifyText(text) {
+  if (!text || typeof text !== 'string') return text || '';
+  // Skip if text already has LaTeX delimiters — don't double-process
+  if (text.includes('\\(') || text.includes('\\[')) return text;
+
+  const supMap = {'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'};
+  let t = text;
+
+  // 1. Unicode superscript digits: x² → \(x^{2}\), 6⁶ → \(6^{6}\)
+  t = t.replace(/([a-zA-Z\d])(⁰|¹|²|³|⁴|⁵|⁶|⁷|⁸|⁹)/g,
+    (_, base, sup) => `\\(${base}^{${supMap[sup]}}\\)`);
+
+  // 2. √(expr) → \(\sqrt{expr}\)  [grouped form first]
+  t = t.replace(/√\(([^)]+)\)/g, (_, inner) => `\\(\\sqrt{${inner}}\\)`);
+
+  // 3. √N (bare integer or decimal) → \(\sqrt{N}\)
+  t = t.replace(/√(\d+(?:\.\d+)?)/g, (_, n) => `\\(\\sqrt{${n}}\\)`);
+
+  return t;
+}
+
 function triggerMathJax() {
   if (typeof MathJax === 'undefined') return;
 
