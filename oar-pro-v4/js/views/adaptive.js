@@ -136,17 +136,29 @@ async function beginAdaptiveTest() {
   catState.phase = 'testing';
   catState.startTime = Date.now();
 
-  // Pre-fetch questions for all sections and difficulties
+  // Pre-fetch questions for all sections and difficulties.
+  // For Math + Mechanical: mix static + generated so repeat runs see different problems.
+  // For Reading: static only (can't generate reading passages).
   for (const section of catState.sections) {
     catState.availableQuestions[section] = {};
     const [easy, medium, hard] = await Promise.all([
-      Store.getQuestions({ section, difficulty: 1, limit: 15 }),
-      Store.getQuestions({ section, difficulty: 2, limit: 15 }),
-      Store.getQuestions({ section, difficulty: 3, limit: 15 })
+      Store.getQuestions({ section, difficulty: 1, limit: 20 }),
+      Store.getQuestions({ section, difficulty: 2, limit: 20 }),
+      Store.getQuestions({ section, difficulty: 3, limit: 20 })
     ]);
-    catState.availableQuestions[section][1] = shuffleArray(easy);
-    catState.availableQuestions[section][2] = shuffleArray(medium);
-    catState.availableQuestions[section][3] = shuffleArray(hard);
+
+    // For Math/Mechanical, mix in generated questions at each difficulty level
+    // so users don't see the same questions across multiple sim runs.
+    let genEasy = [], genMed = [], genHard = [];
+    if (section !== 'Reading' && typeof Store.getGeneratedQuestions === 'function') {
+      genEasy = Store.getGeneratedQuestions(10, { section, difficulty: 1 });
+      genMed  = Store.getGeneratedQuestions(10, { section, difficulty: 2 });
+      genHard = Store.getGeneratedQuestions(10, { section, difficulty: 3 });
+    }
+
+    catState.availableQuestions[section][1] = shuffleArray([...easy, ...genEasy]);
+    catState.availableQuestions[section][2] = shuffleArray([...medium, ...genMed]);
+    catState.availableQuestions[section][3] = shuffleArray([...hard, ...genHard]);
   }
 
   // Start first section timer
@@ -275,11 +287,12 @@ function renderCatQuestion() {
 }
 
 function renderCatOptions(q) {
+  const opts = q.options || [];
   const options = [
-    { key: 'A', text: q.option_a },
-    { key: 'B', text: q.option_b },
-    { key: 'C', text: q.option_c },
-    { key: 'D', text: q.option_d }
+    { key: 'A', text: opts[0] },
+    { key: 'B', text: opts[1] },
+    { key: 'C', text: opts[2] },
+    { key: 'D', text: opts[3] }
   ];
 
   return options.map((opt, idx) => `
@@ -303,7 +316,8 @@ function catSelectAnswer(key) {
   catState.answered = true;
 
   const q = catState._currentQuestion;
-  const correct = q.correct_answer;
+  // Convert correct_index (0-3) to letter (A-D)
+  const correct = ['A', 'B', 'C', 'D'][q.correct_index] || q.correct_answer || 'A';
   const isCorrect = key === correct;
   const timeMs = Date.now() - catState.questionStartTime;
   const section = catState.sections[catState.currentSectionIdx];
@@ -559,7 +573,8 @@ async function showCatResults() {
     reading_score: sectionScores.Reading,
     mechanical_score: sectionScores.Mechanical,
     total_time_seconds: totalTime,
-    question_sequence: catState.questionSequence
+    question_sequence: catState.questionSequence,
+    completed_at: new Date().toISOString()
   });
 
   const isReady = predictedScore >= 50;
@@ -691,11 +706,50 @@ async function showCatResults() {
       <!-- Actions -->
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="navigate('#/adaptive')">Take Again</button>
+        <button class="btn btn-secondary" onclick="shareCatResult(${predictedScore}, ${JSON.stringify(sectionScores).replace(/"/g, '&quot;')}, ${totalTime})">Share Result</button>
         <button class="btn btn-secondary" onclick="navigate('#/practice')">Practice Weak Areas</button>
         <button class="btn btn-secondary" onclick="navigate('#/dashboard')">Dashboard</button>
       </div>
     </div>
   `;
+}
+
+// ==========================================
+// SHARE CAT RESULT (score card modal)
+// ==========================================
+async function shareCatResult(predictedScore, sectionScores, totalTime) {
+  if (typeof sectionScores === 'string') {
+    try { sectionScores = JSON.parse(sectionScores); } catch(e) { sectionScores = {}; }
+  }
+  const user = typeof getUser === 'function' ? await getUser() : null;
+  const userName = user?.user_metadata?.full_name || user?.email || '';
+  const minutes = Math.floor((totalTime || 0) / 60);
+  const subline = minutes > 0
+    ? `Adaptive test completed in ${minutes} min`
+    : 'Adaptive test complete';
+
+  let badge = null;
+  if (predictedScore >= 65) badge = 'Elite Range';
+  else if (predictedScore >= 55) badge = 'Competitive';
+  else if (predictedScore >= 50) badge = 'Passing';
+
+  const breakdown = Object.entries(sectionScores || {})
+    .slice(0, 3)
+    .map(([sec, score]) => [sec.slice(0, 4), String(score)]);
+
+  if (typeof showScoreCardModal !== 'function') {
+    alert('Score card not available — please refresh.');
+    return;
+  }
+  await showScoreCardModal({
+    title: 'Adaptive CAT',
+    score: predictedScore,
+    scoreLabel: 'Predicted OAR',
+    subline: subline,
+    breakdown: breakdown,
+    badge: badge,
+    userName: userName,
+  });
 }
 
 

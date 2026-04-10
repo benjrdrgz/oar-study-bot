@@ -28,10 +28,11 @@ function resetQuizState() {
 // MODE CONFIG
 // ==========================================
 const QUIZ_MODES = {
-  drill:  { label: 'Quick Drill',    count: 5,  timer: 120,  description: '5 random questions, 2-minute timer' },
-  topic:  { label: 'Topic Practice', count: 15, timer: 0,    description: 'Filter by section/topic, untimed' },
-  full:   { label: 'Full Test',      count: 30, timer: 2400, description: '30 questions (10/section), 40-minute timer' },
-  lesson: { label: 'Lesson Quiz',    count: 5,  timer: 0,    description: '5 questions from a specific topic' }
+  drill:    { label: 'Quick Drill',     count: 5,  timer: 120,  description: '5 random questions, 2-minute timer' },
+  topic:    { label: 'Topic Practice',  count: 15, timer: 0,    description: 'Filter by section/topic, untimed' },
+  full:     { label: 'Full Test',       count: 30, timer: 2400, description: '30 questions (10/section), 40-minute timer' },
+  lesson:   { label: 'Lesson Quiz',     count: 5,  timer: 0,    description: '5 questions from a specific topic' },
+  infinite: { label: 'Infinite Drill',  count: 10, timer: 0,    description: '10 fresh parameterized problems (different numbers every time)' }
 };
 
 
@@ -66,9 +67,26 @@ async function renderPracticeLanding(urlParams) {
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
               <div class="card-title">Quick Drill</div>
-              <div class="card-subtitle">5 random questions &bull; 2-minute timer</div>
+              <div class="card-subtitle">5 real OAR-style questions &bull; 2-minute timer &bull; Math, Reading &amp; Mechanical</div>
             </div>
             <span style="font-size:24px">&#9889;</span>
+          </div>
+        </div>
+
+        <div class="card" style="border-color:var(--accent)">
+          <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="startQuiz('infinite')">
+            <div>
+              <div class="card-title">Infinite Drill <span class="badge badge-blue" style="margin-left:6px">UNLIMITED</span></div>
+              <div class="card-subtitle">10 fresh math &amp; mechanics problems &bull; New numbers every time &bull; Animated diagrams &bull; Untimed</div>
+            </div>
+            <span style="font-size:24px">&#8734;</span>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);align-items:center">
+            <span class="text-muted text-sm" style="margin-right:4px">Difficulty:</span>
+            <button class="btn btn-sm" onclick="event.stopPropagation();startQuiz('infinite',null,null,1)" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green);padding:4px 12px;font-size:12px">Easy</button>
+            <button class="btn btn-sm" onclick="event.stopPropagation();startQuiz('infinite',null,null,2)" style="background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow);padding:4px 12px;font-size:12px">Medium</button>
+            <button class="btn btn-sm" onclick="event.stopPropagation();startQuiz('infinite',null,null,3)" style="background:var(--red-bg);color:var(--red);border:1px solid var(--red);padding:4px 12px;font-size:12px">Hard</button>
+            <span class="text-muted text-sm" style="margin-left:auto">or click card for mixed</span>
           </div>
         </div>
 
@@ -134,6 +152,7 @@ async function loadRecentResults() {
     return;
   }
 
+  // Render as a compact list (not cards) so users don't confuse with drill mode cards
   container.innerHTML = history.map(r => {
     const pct = r.total_questions > 0 ? Math.round((r.correct / r.total_questions) * 100) : 0;
     const color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
@@ -141,16 +160,14 @@ async function loadRecentResults() {
     const modeLabel = QUIZ_MODES[r.mode]?.label || r.mode;
 
     return `
-      <div class="card" style="margin-bottom:8px;padding:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-weight:600;font-size:14px">${modeLabel}</div>
-            <div class="text-muted text-sm">${date} ${r.section ? '&bull; ' + r.section : ''}</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:20px;font-weight:800;color:${color}">${pct}%</div>
-            <div class="text-muted text-sm">${r.correct}/${r.total_questions}</div>
-          </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:14px">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">
+          <div style="font-weight:600;color:var(--text)">${modeLabel}</div>
+          <div class="text-muted text-sm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${date}${r.section ? ' • ' + r.section : ''}</div>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:8px;flex-shrink:0">
+          <span class="text-muted text-sm">${r.correct}/${r.total_questions}</span>
+          <span style="font-weight:700;color:${color};font-size:15px;min-width:42px;text-align:right">${pct}%</span>
         </div>
       </div>
     `;
@@ -206,7 +223,7 @@ async function showTopicSelector() {
 // ==========================================
 // START QUIZ
 // ==========================================
-async function startQuiz(mode, section, topic) {
+async function startQuiz(mode, section, topic, difficulty) {
   const app = document.getElementById('app');
   app.innerHTML = `
     <div style="text-align:center;padding:60px 0">
@@ -219,6 +236,7 @@ async function startQuiz(mode, section, topic) {
   quizState.mode = mode;
   quizState.section = section || null;
   quizState.topic = topic || null;
+  quizState.difficulty = difficulty || null;
 
   const config = QUIZ_MODES[mode] || QUIZ_MODES.drill;
   quizState.timerLimit = config.timer;
@@ -238,6 +256,18 @@ async function startQuiz(mode, section, topic) {
       Store.getQuestions({ section: 'Mechanical', limit: 10, random: true })
     ]);
     questions = [...math, ...reading, ...mechanical];
+  } else if (mode === 'infinite') {
+    // INFINITE DRILL: pure parameterized generators, untimed, unlimited practice.
+    // Every question has randomized numbers + animated diagrams where applicable.
+    // Math + mechanical only — Reading can't be generated.
+    const genFilter = {};
+    if (section && section !== 'all') genFilter.section = section;
+    if (difficulty) genFilter.difficulty = difficulty;
+    questions = Store.getGeneratedQuestions(config.count, genFilter);
+  } else if (mode === 'drill') {
+    // QUICK DRILL: 5 static hand-crafted OAR-style questions, 2-min timer.
+    // Pulls from the 190-question bank (Math, Reading, Mechanical) — real test feel.
+    questions = await Store.getQuestions(filters);
   } else {
     questions = await Store.getQuestions(filters);
   }
@@ -352,6 +382,13 @@ function renderQuestion() {
         ${q.difficulty ? `<span class="badge ${q.difficulty === 3 ? 'badge-red' : q.difficulty === 2 ? 'badge-yellow' : 'badge-green'}">${['', 'Easy', 'Medium', 'Hard'][q.difficulty] || ''}</span>` : ''}
       </div>
 
+      <!-- Diagram (if generator provided one) -->
+      ${q.diagram_svg ? `
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center">
+          ${q.diagram_svg}
+        </div>
+      ` : ''}
+
       <!-- Question text -->
       <div style="font-size:17px;line-height:1.7;margin-bottom:24px;font-weight:500" id="questionText">
         ${q.question_html || q.question_text || ''}
@@ -366,8 +403,8 @@ function renderQuestion() {
       <div id="explanation" style="display:none;margin-top:20px"></div>
 
       <!-- Navigation -->
-      <div id="quizNav" style="display:none;margin-top:20px;display:flex;justify-content:flex-end">
-        <button class="btn btn-primary" id="nextBtn" style="display:none" onclick="nextQuestion()">
+      <div id="quizNav" style="display:none;margin-top:20px;justify-content:flex-end">
+        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
           ${current === total ? 'Finish Quiz' : 'Next Question'} &rarr;
         </button>
       </div>
@@ -383,11 +420,13 @@ function renderQuestion() {
 }
 
 function renderAnswerOptions(q) {
+  // options is a JSON array from Supabase: ["choice1", "choice2", ...]
+  const opts = q.options || [];
   const options = [
-    { key: 'A', text: q.option_a },
-    { key: 'B', text: q.option_b },
-    { key: 'C', text: q.option_c },
-    { key: 'D', text: q.option_d }
+    { key: 'A', text: opts[0] },
+    { key: 'B', text: opts[1] },
+    { key: 'C', text: opts[2] },
+    { key: 'D', text: opts[3] }
   ];
 
   return options.map((opt, idx) => `
@@ -411,7 +450,8 @@ function selectAnswer(key) {
   quizState.answered = true;
 
   const q = quizState.questions[quizState.currentIndex];
-  const correct = q.correct_answer;
+  // Convert correct_index (0-3) to letter (A-D)
+  const correct = ['A', 'B', 'C', 'D'][q.correct_index] || q.correct_answer || 'A';
   const isCorrect = key === correct;
 
   // Store answer
@@ -454,9 +494,9 @@ function selectAnswer(key) {
     triggerMathJax();
   }
 
-  // Show next button
-  const nextBtn = document.getElementById('nextBtn');
-  if (nextBtn) nextBtn.style.display = 'inline-flex';
+  // Show nav bar with next button
+  const quizNav = document.getElementById('quizNav');
+  if (quizNav) quizNav.style.display = 'flex';
 }
 
 
@@ -581,8 +621,8 @@ async function endQuiz() {
             ${missed.map((q, i) => `
               <div style="padding:12px 0;${i > 0 ? 'border-top:1px solid var(--border)' : ''}">
                 <div style="font-size:14px;font-weight:600;margin-bottom:6px">Q${i + 1}: ${q.question_text || ''}</div>
-                <div style="font-size:13px;color:var(--red);margin-bottom:4px">Your answer: ${quizState.answers[q.id]?.selected || '?'}</div>
-                <div style="font-size:13px;color:var(--green);margin-bottom:4px">Correct: ${q.correct_answer}</div>
+                <div style="font-size:13px;color:var(--red);margin-bottom:4px">Your answer: ${quizState.answers[q.id]?.selected || '?'} — ${(q.options || [])[['A','B','C','D'].indexOf(quizState.answers[q.id]?.selected)] || ''}</div>
+                <div style="font-size:13px;color:var(--green);margin-bottom:4px">Correct: ${['A','B','C','D'][q.correct_index] || '?'} — ${(q.options || [])[q.correct_index] || ''}</div>
                 ${q.explanation ? `<div style="font-size:13px;color:var(--text-3)">${q.explanation}</div>` : ''}
               </div>
             `).join('')}
@@ -595,6 +635,9 @@ async function endQuiz() {
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="startQuiz('${quizState.mode}', ${quizState.section ? `'${quizState.section}'` : 'null'}, ${quizState.topic ? `'${quizState.topic}'` : 'null'})">
           Try Again
+        </button>
+        <button class="btn btn-secondary" onclick="shareQuickDrillResult(${pct}, ${correctCount}, ${totalQuestions}, ${totalTime})">
+          Share Result
         </button>
         <button class="btn btn-secondary" onclick="navigate('#/practice')">
           Change Mode
@@ -637,6 +680,38 @@ function parseQuizParams() {
     if (key && val) params[decodeURIComponent(key)] = decodeURIComponent(val);
   }
   return params;
+}
+
+
+// ==========================================
+// SHARE QUICK DRILL RESULT (score card modal)
+// ==========================================
+async function shareQuickDrillResult(pct, correct, total, totalTime) {
+  const user = typeof getUser === 'function' ? await getUser() : null;
+  const userName = user?.user_metadata?.full_name || user?.email || '';
+  const minutes = Math.floor(totalTime / 60);
+  const seconds = totalTime % 60;
+  const timeStr = `${minutes}:${String(seconds).padStart(2, '0')}`;
+  const label = (typeof quizState !== 'undefined' && quizState?.mode === 'infinite') ? 'Infinite Drill' : 'Quick Drill';
+
+  // Badge logic: personal best or elite
+  let badge = null;
+  if (pct === 100) badge = 'Perfect';
+  else if (pct >= 90) badge = 'Elite';
+  else if (pct >= 80) badge = 'Strong';
+
+  if (typeof showScoreCardModal !== 'function') {
+    alert('Score card not available — please refresh.');
+    return;
+  }
+  await showScoreCardModal({
+    title: label,
+    score: `${pct}%`,
+    scoreLabel: 'Accuracy',
+    subline: `${correct} of ${total} correct in ${timeStr}`,
+    badge: badge,
+    userName: userName,
+  });
 }
 
 

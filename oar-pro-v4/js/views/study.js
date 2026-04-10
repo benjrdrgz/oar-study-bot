@@ -24,23 +24,31 @@ async function renderStudySidebar(activeLessonId) {
     sections[sec].push(lesson);
   }
 
-  // Count completed
+  // Count completed + in-progress (in-progress = half credit so bar moves)
   const totalLessons = lessons.length;
   const completedLessons = progress.filter(p => p.status === 'completed').length;
-  const pct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  const inProgressLessons = progress.filter(p => p.status === 'in_progress').length;
+  // Full credit for completed, half credit for in-progress
+  const weighted = completedLessons + (inProgressLessons * 0.5);
+  const pct = totalLessons > 0 ? Math.round((weighted / totalLessons) * 100) : 0;
+  const pctDisplay = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+  // Minimum visual width so bar doesn't look dead at 0%
+  const visualPct = pct === 0 ? 0 : Math.max(pct, 4);
 
   let html = `
     <div class="sidebar-score">
-      <div class="score-value">${completedLessons}/${totalLessons}</div>
+      <div class="score-value">${completedLessons}<span style="font-size:16px;color:var(--text-3);font-weight:500">/${totalLessons}</span></div>
       <div class="score-label">Lessons Completed</div>
+      ${inProgressLessons > 0 ? `<div style="font-size:10px;color:var(--yellow);margin-top:2px;font-weight:600">${inProgressLessons} in progress</div>` : ''}
     </div>
     <div class="sidebar-progress">
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-3)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-bottom:6px">
         <span>Progress</span>
-        <span>${pct}%</span>
+        <span class="mono" style="color:${pct === 0 ? 'var(--text-3)' : 'var(--green)'};text-transform:none">${pctDisplay}%</span>
       </div>
-      <div class="sidebar-progress-bar">
-        <div class="sidebar-progress-fill" style="width:${pct}%"></div>
+      <div class="sidebar-progress-bar" style="height:6px">
+        <div class="sidebar-progress-fill" style="width:${visualPct}%"></div>
       </div>
     </div>
   `;
@@ -236,8 +244,11 @@ async function renderLessonView(lessonId) {
             Completed
           </button>
         `}
-        <button class="btn btn-secondary" onclick="navigate('#/practice?topic=${encodeURIComponent(topic)}&section=${encodeURIComponent(lesson.section)}')">
-          Practice This Topic
+        <button class="btn btn-primary" onclick="navigate('#/practice?mode=topic&topic=${encodeURIComponent(topic)}&section=${encodeURIComponent(lesson.section)}')">
+          Practice This Topic &rarr;
+        </button>
+        <button class="btn btn-secondary" onclick="navigate('#/practice?mode=infinite&section=${encodeURIComponent(lesson.section)}')">
+          Try Infinite Drill
         </button>
       </div>
     </div>
@@ -321,11 +332,14 @@ async function handleMarkComplete(lessonId) {
 // MATHJAX HELPER
 // ==========================================
 function triggerMathJax() {
-  if (typeof MathJax !== 'undefined' && MathJax.Hub) {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('app')]);
-    setTimeout(() => {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }, 500);
+  // MathJax v3 API: typesetPromise scans and re-renders the target element
+  if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+    const app = document.getElementById('app');
+    // Clear any previously typeset content so re-render works
+    if (typeof MathJax.typesetClear === 'function') {
+      try { MathJax.typesetClear([app]); } catch (e) { /* ignore */ }
+    }
+    MathJax.typesetPromise([app]).catch(err => console.warn('[MathJax]', err));
   }
 }
 

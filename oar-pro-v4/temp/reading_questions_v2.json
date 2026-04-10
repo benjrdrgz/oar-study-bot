@@ -1,0 +1,482 @@
+[
+  {
+    "id": "R21",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the main idea of the passage?",
+    "passage": "Naval aviators operating from carrier decks face a constellation of physiological and perceptual challenges that land-based pilots rarely encounter. The combination of reduced visual cues at sea, the moving platform of a carrier deck, and the psychological stress of night operations creates a threat environment unlike any other in aviation. Spatial disorientation — the inability to correctly perceive one's position relative to the earth's surface — accounts for a disproportionate share of Class A mishaps in carrier aviation. Unlike a fixed airfield with a stable horizon and abundant lighting, a carrier at sea offers no predictable visual anchors. Pilots must train extensively to trust their instruments rather than their instincts. The vestibular system, which governs our sense of balance and motion, is poorly adapted to the extreme accelerations and attitude changes involved in carrier approaches, often generating sensations that contradict what the instruments display. Effective mitigation requires both rigorous simulation training and a cultural willingness to acknowledge when disorientation is occurring — something that cuts against the self-reliant ethos of military aviation.",
+    "options": [
+      "Carrier aviation exposes pilots to unique physiological and perceptual hazards that require specialized training to manage.",
+      "Spatial disorientation is the leading cause of all aviation accidents worldwide.",
+      "The vestibular system is fundamentally incompatible with any form of flight.",
+      "Night carrier landings should be eliminated due to excessive risk."
+    ],
+    "correct_index": 0,
+    "explanation": "The passage surveys the full range of challenges in carrier aviation — moving platforms, absent visual cues, vestibular conflict — and frames all of them as problems requiring training and cultural change. Option B overstates the claim (the passage says carrier mishaps, not all aviation); Option C is too absolute and misreads the passage's narrower point about carrier conditions; Option D is a recommendation never made in the text.",
+    "difficulty": 2
+  },
+  {
+    "id": "R22",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "What is the primary purpose of this passage?",
+    "passage": "Every year, organizations invest billions of dollars in leadership development programs — workshops, executive coaches, multi-day retreats — and yet the evidence that these interventions produce lasting behavioral change is surprisingly thin. A 2019 meta-analysis examining over four hundred studies found that most leadership training produces measurable gains on self-reported assessments administered immediately after the program, but those gains largely evaporate within ninety days. The problem is not necessarily the quality of the training content; it is the organizational context into which trained leaders return. Without structural reinforcement — changed incentive systems, follow-up coaching, peer accountability — new behaviors compete against entrenched patterns and typically lose. Companies that treat leadership development as a one-time event rather than an ongoing cultural process are, in effect, spending money to temporarily improve survey scores.",
+    "options": [
+      "To outline the steps organizations should take to redesign their leadership programs.",
+      "To argue that leadership development spending is entirely wasteful and should be redirected.",
+      "To critique the effectiveness of conventional leadership development programs and identify a structural cause.",
+      "To summarize the findings of a single major research study on leadership training."
+    ],
+    "correct_index": 2,
+    "explanation": "The author's goal is to expose a gap between investment and lasting results, then point to the structural cause (lack of reinforcement). Option A is not addressed — no redesign steps are offered. Option B overstates the argument; the author says training can work under the right conditions, not that it is entirely wasteful. Option D is too narrow; the meta-analysis is cited as evidence, not the sole subject of the passage.",
+    "difficulty": 2
+  },
+  {
+    "id": "R23",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Based on the passage, what can be inferred about the relationship between altitude and pressure altitude in aviation?",
+    "passage": "In standard flight operations, pilots distinguish carefully between indicated altitude and pressure altitude. Indicated altitude is what an altimeter displays when set to the local altimeter setting, reflecting the actual height above mean sea level adjusted for current atmospheric pressure at the surface. Pressure altitude, by contrast, is the altitude indicated when the altimeter is set to the standard sea-level pressure of 29.92 inches of mercury, regardless of actual surface conditions. This distinction matters enormously for aircraft performance calculations, including density altitude — a function of pressure altitude corrected for temperature. On a hot, humid summer day, the density altitude at a field sitting at 2,000 feet indicated might effectively be 5,000 feet for performance purposes, meaning the aircraft will behave as though it is operating at the higher elevation. Pilots who ignore this correction risk attempting takeoffs for which their aircraft has insufficient performance margin.",
+    "options": [
+      "Pressure altitude and indicated altitude are always identical when conditions are standard.",
+      "An aircraft's altimeter is unreliable below 10,000 feet and should not be trusted.",
+      "Density altitude can significantly exceed indicated altitude under hot and humid conditions, affecting aircraft performance.",
+      "Setting the altimeter to 29.92 always produces a safer and more accurate reading than using a local setting."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage illustrates exactly this: a 2,000-foot indicated field can produce a 5,000-foot density altitude in hot, humid conditions, degrading performance. Option A is a correct but narrow observation about standard conditions, not an inference. Option B is not supported; the passage does not question altimeter reliability. Option D conflates pressure altitude with accuracy — the passage clarifies that 29.92 is used for performance math, not as a more accurate surface reading.",
+    "difficulty": 2
+  },
+  {
+    "id": "R24",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what distinguishes a Type I supernova from a Type II supernova?",
+    "passage": "Supernovae — the cataclysmic explosions that mark the deaths of certain stars — are classified primarily by the features present or absent in their spectra. A Type I supernova lacks hydrogen lines in its spectrum, while a Type II supernova shows prominent hydrogen absorption features. This spectral difference reflects a fundamental difference in progenitor star type. Type II supernovae arise from massive stars — typically more than eight times the mass of our Sun — that retain their hydrogen envelopes until a core-collapse event triggered by the exhaustion of nuclear fuel. Type Ia supernovae, the most cosmologically important subclass, result from a different mechanism entirely: a white dwarf star in a binary system accretes matter from its companion until it exceeds the Chandrasekhar limit of approximately 1.4 solar masses, triggering a thermonuclear runaway. Because all Type Ia supernovae occur at roughly the same mass threshold, they release comparable amounts of energy and serve as reliable standard candles for measuring cosmic distances.",
+    "options": [
+      "Type I supernovae occur in binary star systems, while Type II supernovae occur in star clusters.",
+      "Type I supernovae lack hydrogen lines in their spectra; Type II supernovae show prominent hydrogen features.",
+      "Type II supernovae are brighter and therefore more useful for measuring cosmic distances.",
+      "Type I supernovae arise from stars more than eight times the mass of the Sun."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage states this distinction directly in the second sentence. Option A is partially true only for Type Ia and incorrectly attributes cluster origin to Type II. Option C reverses the passage's claim — Type Ia supernovae are described as standard candles, not Type II. Option D misattributes the mass criterion: the passage assigns the eight-solar-mass threshold to Type II progenitors.",
+    "difficulty": 1
+  },
+  {
+    "id": "R25",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "Which word best describes the author's tone in this passage?",
+    "passage": "The proliferation of self-help literature promising radical personal transformation in thirty days, ninety days, or a single weekend seminar is a testament less to human optimism than to the marketing acumen of its publishers. The core premise — that deep psychological and behavioral patterns developed over decades can be reliably dismantled and rebuilt through brief, structured exercises — enjoys little support from the psychological literature on habit formation and identity change. Studies consistently show that meaningful behavior change requires months of sustained, low-novelty repetition rather than high-intensity episodic intervention. Yet the market for quick-change programs expands every year. Readers seeking genuine, lasting growth would be better served by realistic timelines, incremental goals, and a therapist's patience — tools that, unfortunately, do not make for bestselling titles.",
+    "options": [
+      "Nostalgic",
+      "Skeptical and slightly sardonic",
+      "Impartial and purely informational",
+      "Enthusiastic and encouraging"
+    ],
+    "correct_index": 1,
+    "explanation": "The author questions the credibility of self-help claims, cites contradicting research, and closes with a wry observation about why evidence-based approaches don't sell well — all markers of skepticism shaded with dry wit (sardonic). Option A has no basis in the text. Option C is incorrect because the author takes a clear critical stance. Option D is the opposite of the passage's tone, which deflates rather than promotes.",
+    "difficulty": 2
+  },
+  {
+    "id": "R26",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the main idea of the passage?",
+    "passage": "Coral reefs occupy less than one percent of the ocean floor yet support approximately twenty-five percent of all marine species. Their ecological importance is matched by their fragility: reefs are highly sensitive to water temperature, acidity, and sediment load. Mass bleaching events — triggered when sustained temperature anomalies cause corals to expel the symbiotic algae that provide them with up to ninety percent of their energy — have become dramatically more frequent since the 1980s. The Great Barrier Reef experienced four mass bleaching events between 2016 and 2022 alone, compared to two in the preceding three decades. Ocean acidification, a consequence of increased atmospheric CO2 dissolving in seawater, further compromises coral calcification. Even if aggressive emissions reductions began immediately, thermal stress sufficient to cause annual bleaching is projected to affect most reefs by mid-century. The challenge facing marine conservationists is no longer how to prevent degradation but how to maximize the resilience of what remains.",
+    "options": [
+      "Coral reefs can recover from bleaching events if given enough time without human disturbance.",
+      "Coral reefs are critically important and increasingly threatened ecosystems whose degradation may be difficult to prevent even with intervention.",
+      "Ocean acidification is a more serious threat to coral reefs than rising sea temperatures.",
+      "Marine conservationists have developed effective strategies to restore bleached reefs to full health."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage establishes both the importance of reefs and the accelerating pace of their decline, then closes by conceding that prevention may be unrealistic. Option A contradicts the passage's pessimistic projection. Option C creates a hierarchy of threats not supported by the text — both acidification and temperature are presented as significant. Option D is the opposite of the passage's final point, which is that full restoration strategies have not been achieved.",
+    "difficulty": 1
+  },
+  {
+    "id": "R27",
+    "section": "Reading",
+    "topic": "Vocabulary in Context",
+    "question_text": "As used in the passage, the word \"attenuate\" most nearly means:",
+    "passage": "The Navy's use of radar-absorbent materials in fifth-generation aircraft represents a departure from the passive stealth approaches that characterized earlier designs. Rather than relying solely on geometric shaping to deflect radar returns away from the emitter, modern low-observable aircraft combine shaping with coatings that convert electromagnetic energy into heat. These coatings attenuate the radar cross-section not by deflection but by absorption, reducing the energy returned to the enemy receiver. Maintenance of these coatings is labor-intensive and sensitive to environmental conditions — a single crack or delamination can create a reflection spike that partially defeats the aircraft's stealth characteristics. The balance between operational tempo and coating maintenance is one of the more persistent sustainment challenges facing low-observable fleet operators.",
+    "options": [
+      "Amplify",
+      "Redirect",
+      "Reduce or weaken",
+      "Disguise or camouflage"
+    ],
+    "correct_index": 2,
+    "explanation": "In context, the coatings attenuate the radar cross-section by absorbing energy rather than reflecting it — meaning they reduce the signal. Option A is the opposite. Option B describes deflection, which the passage explicitly contrasts with absorption. Option D conflates physical concealment with signal reduction, which are distinct concepts in stealth technology.",
+    "difficulty": 2
+  },
+  {
+    "id": "R28",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Which conclusion is most strongly supported by the passage?",
+    "passage": "Between 1940 and 1945, the United States converted its peacetime industrial base into the largest war production apparatus in history with a speed that astonished contemporaries and continues to impress historians. The output is difficult to comprehend in human terms: over 300,000 aircraft, 86,000 tanks, 8.5 million rifles, and 40 billion rounds of ammunition. What made this transformation possible was not simply the availability of raw materials or the motivation of a nation at war, but a pre-existing infrastructure of mass production techniques — pioneered in industries like automobile manufacturing — that could be rapidly retooled. Factories that had been making passenger cars in 1941 were producing bombers by 1943. This industrial capacity, historians argue, was as decisive as any single battle in determining the war's outcome. The Axis powers, by contrast, never achieved comparable production efficiency despite early technological advantages.",
+    "options": [
+      "The United States entered the war primarily to defend its industrial base rather than from political motivations.",
+      "American military strategy during World War II was superior to that of all other belligerents.",
+      "The Axis powers lost the war solely because they lacked natural resources.",
+      "Pre-existing mass production infrastructure gave the United States a decisive strategic advantage in World War II."
+    ],
+    "correct_index": 3,
+    "explanation": "The passage explicitly states that historians consider industrial capacity as decisive as any battle, and traces its roots to pre-existing mass production techniques. Option A conflates industrial capability with motivation — the passage makes no claim about why the U.S. entered the war. Option B broadens beyond what the passage argues (industrial output, not overall strategy). Option C contradicts the passage, which attributes the Axis disadvantage to production efficiency, not resource scarcity.",
+    "difficulty": 1
+  },
+  {
+    "id": "R29",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The author's primary purpose in writing this passage is to:",
+    "passage": "Behavioral economists have documented a consistent pattern they call the default effect: when people are enrolled in a program automatically and must actively opt out, participation rates are dramatically higher than when they must opt in. In organ donation registries, countries using opt-out systems — where citizens are presumed to be donors unless they choose otherwise — show donation consent rates above ninety percent. Countries using opt-in systems typically see rates below thirty percent. The same gap appears in retirement savings programs, energy-efficient utility plans, and cafeteria food layouts. Critics of opt-out designs argue that they are paternalistic, constraining genuine freedom of choice. Proponents counter that all choice environments involve design — a neutral default does not exist — and that defaulting to socially beneficial outcomes simply makes benign assumptions explicit.",
+    "options": [
+      "To persuade readers to support opt-out organ donation laws in their countries.",
+      "To explain the default effect, present evidence for its impact, and summarize the central debate it generates.",
+      "To argue that individual freedom of choice should always supersede policy nudges.",
+      "To compare organ donation rates across European countries."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage is structured to introduce a concept, provide data across multiple domains, and then present both sides of the ethical debate — a balanced explanatory purpose. Option A would require the author to recommend a position, which the passage does not do; it presents both sides. Option C favors one side of the debate the passage presents neutrally. Option D is too narrow — organ donation is one of several examples, not the subject.",
+    "difficulty": 2
+  },
+  {
+    "id": "R30",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "Which statement best captures the central argument of the passage?",
+    "passage": "The widespread assumption that multitasking improves cognitive productivity has been consistently refuted by experimental research. Studies using task-switching paradigms demonstrate that the brain does not actually perform two cognitive tasks simultaneously; instead, it rapidly alternates attention between them, with each switch incurring a measurable time cost called the switch penalty. In complex tasks requiring working memory — reading comprehension, mathematical reasoning, coding — switch penalties accumulate to reduce overall output by an estimated twenty to forty percent. Neuroscientists attribute this to the prefrontal cortex's role as a bottleneck in executive function: it serializes rather than parallelizes high-demand cognitive work. The practical implication is counterintuitive for knowledge workers raised on open-plan offices and notification-saturated environments: sustained, uninterrupted focus on a single task consistently outperforms the divided attention mode that most modern work environments inadvertently reward.",
+    "options": [
+      "The prefrontal cortex is the most important region of the brain for all types of learning.",
+      "Research shows that multitasking impairs complex cognitive work because the brain cannot truly perform two demanding tasks at once.",
+      "Workers in open-plan offices are fundamentally incapable of productive work.",
+      "Switch penalties are only significant in mathematical and coding contexts."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage establishes that true simultaneous multitasking is a myth, that switch penalties reduce output, and that focused single-tasking is more productive — all of which this option captures. Option A overextends the passage's specific claim about executive function. Option C is an extreme version of the passage's nuanced point about work environments. Option D contradicts the passage, which mentions reading comprehension, math, and coding as examples, not exclusive cases.",
+    "difficulty": 1
+  },
+  {
+    "id": "R31",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what was the primary function of the Civilian Conservation Corps?",
+    "passage": "Established by executive order in 1933, the Civilian Conservation Corps represented one of the New Deal's most ambitious attempts to simultaneously address unemployment and environmental degradation. At its peak, the CCC enrolled more than 500,000 young men between the ages of seventeen and twenty-eight, many of whom came from families on relief rolls. Enrollees lived in quasi-military camps administered jointly by the Departments of Labor and War, receiving food, shelter, clothing, and a monthly wage of thirty dollars — the bulk of which was sent directly to their families. Their work was overwhelmingly land-based: planting over three billion trees, constructing 800 state parks, building 125,000 miles of roads through federal lands, and implementing erosion-control measures across the country's degraded agricultural interior. The program was disbanded in 1942 as wartime industrial mobilization absorbed the available labor surplus. Critics argued it was inherently temporary; proponents noted that its environmental legacy outlasted its political moment by generations.",
+    "options": [
+      "To train young men for eventual military service in the anticipated European war.",
+      "To provide young unemployed men with work in land conservation and infrastructure projects while supporting their families financially.",
+      "To implement agricultural price supports for struggling Midwestern farmers.",
+      "To build a national highway system connecting major urban centers."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage explicitly describes the CCC's dual purpose: reducing unemployment among young men and improving the natural environment. The thirty-dollar wage sent home to families is also cited, confirming the financial support aspect. Option A is not supported — military training is not mentioned as a purpose, and the camps were merely administered with military structure. Option C describes a different New Deal program. Option D mischaracterizes the road-building work, which was within federal lands, not a national highway network.",
+    "difficulty": 1
+  },
+  {
+    "id": "R32",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "How does the tone of the passage shift between the first and second halves?",
+    "passage": "The early years of commercial aviation were characterized by a spirit of genuine adventure. Passengers aboard the first transcontinental routes in the late 1920s strapped themselves into wicker chairs inside converted mail-carrying biplanes, accepted cotton earplugs against the engine roar, and trusted their lives to pilots who navigated largely by landmarks and instinct. The discomfort was considerable and the risk palpable — flight delays due to weather were measured in days, and fatal accidents were not uncommon. Yet the diaries and letters of early passengers are suffused with wonder, describing the experience of looking down on mountains and rivers from altitude as transformative and almost spiritual. Today's aviation is a different species. Safety records are exceptional, cabin pressurization eliminates altitude discomfort, and entertainment systems ensure that passengers can spend an eight-hour flight without once glancing at a window. The journey has become a logistical inconvenience rather than an event. Something essential — whatever it was that made early passengers grip armrests not from fear but from awe — has been optimized out of existence.",
+    "options": [
+      "From optimistic to despairing",
+      "From nostalgic and admiring to elegiac and subtly regretful",
+      "From factual and neutral to argumentative and hostile",
+      "From fearful to reassured"
+    ],
+    "correct_index": 1,
+    "explanation": "The first half evokes the early era with warmth and respect for the adventurous spirit — nostalgic and admiring. The second half acknowledges modern safety gains but mourns the loss of wonder, closing with the phrase 'optimized out of existence' — elegiac and subtly regretful. Option A overreads the second half's tone as despair, which is too strong. Option C mischaracterizes the first half as neutral and the second as hostile. Option D inverts the passage's movement — it begins with wonder, not fear.",
+    "difficulty": 3
+  },
+  {
+    "id": "R33",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "What does the passage imply about the relationship between market competition and innovation in the pharmaceutical industry?",
+    "passage": "The economics of pharmaceutical R&D create a structural tension that policy analysts have long debated. Developing a new drug from initial discovery to market approval costs an estimated $2.6 billion on average and takes more than a decade. These costs are largely fixed — they must be recovered whether the drug succeeds or fails — and they are concentrated in the pre-revenue period before a single unit is sold. Patents protect manufacturers' ability to recoup these investments by granting temporary market exclusivity, typically twenty years from the filing date, though much of that period is consumed by the development timeline itself. Once patents expire and generic manufacturers enter the market, prices fall dramatically, often by seventy percent or more. This generic entry improves access for patients but eliminates the profit margin that funds future research. Without continued reinvestment from profitable exclusivity periods, the pipeline of novel treatments would dry up. The policy challenge is calibrating exclusivity length to incentivize innovation without creating prolonged access barriers.",
+    "options": [
+      "The pharmaceutical industry is fundamentally corrupt and exploits patients through artificial pricing.",
+      "Generic drugs are medically inferior to brand-name drugs and should be regulated more tightly.",
+      "Market exclusivity periods incentivize investment in drug development, but their expiration reduces prices at the cost of future research funding.",
+      "The government should nationalize pharmaceutical companies to eliminate R&D inefficiencies."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage traces the logic from fixed development costs through patents to generic competition, making clear that exclusivity drives innovation but that its end creates a trade-off between access and future research. Option A introduces a value judgment not present in the analytically neutral passage. Option B is not supported — the passage does not comment on generic drug quality. Option D is a policy prescription the passage does not advocate; it instead calls for calibrating existing mechanisms.",
+    "difficulty": 2
+  },
+  {
+    "id": "R34",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the central point the author is making in this passage?",
+    "passage": "In the decades following World War II, the United States built a remarkable system of veterans' benefits that succeeded not merely in supporting returning service members individually, but in reshaping American society at scale. The GI Bill of 1944 sent over two million veterans to college — an institution that had previously been reserved largely for the wealthy — and subsidized low-interest home loans that created the suburban landscape that now defines how most Americans live. The Veterans Administration hospital system became one of the nation's largest healthcare providers. These programs were not conceived primarily as social engineering; they were political responses to concerns about unemployment and civic unrest. Yet their aggregate effect was transformative in ways their designers did not anticipate. They are studied now not only as policy successes but as evidence of how targeted, large-scale public investment can reshape opportunity structures across generations.",
+    "options": [
+      "The GI Bill created more college graduates than any other program in American history.",
+      "Post-WWII veterans' benefits succeeded individually and, as an unintended aggregate effect, transformed American society and its opportunity structures.",
+      "Public programs are generally ineffective unless their social engineering goals are stated explicitly.",
+      "The suburban landscape is a direct consequence of intentional government housing policy after World War II."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage distinguishes between the individual benefits and the unintended but transformative aggregate effect — this is the central argument. Option A is a supporting fact, not the central claim. Option C contradicts the passage's point that the programs succeeded precisely without explicit social engineering goals. Option D is partially true but omits the passage's emphasis on the unintended and generational nature of these effects.",
+    "difficulty": 2
+  },
+  {
+    "id": "R35",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Which of the following can be inferred from the passage?",
+    "passage": "The cognitive phenomenon known as confirmation bias — the tendency to seek, interpret, and remember information in ways that confirm one's preexisting beliefs — is not a flaw unique to unsophisticated thinkers. Studies examining its prevalence find that education level, professional training, and measured intelligence do not reliably reduce its occurrence; in some cases, more analytically capable individuals are better at constructing rationalizations for positions they already hold. Scientists and physicians, whose professions nominally require systematic weighing of evidence, exhibit confirmation bias in peer review processes and in clinical diagnosis. The bias operates largely at the preconscious level, influencing which sources one clicks on, how ambiguous data is interpreted, and what inconsistencies register as significant. Its mitigation requires structural interventions — blind review, devil's advocate processes, formal preregistration of hypotheses — rather than simply trying harder to be objective.",
+    "options": [
+      "Confirmation bias can be fully eliminated by sufficiently intelligent individuals who are aware of it.",
+      "The only reliable way to reduce confirmation bias is to lower the intelligence demands of professional roles.",
+      "Awareness of confirmation bias alone is likely insufficient to counteract it, making structural safeguards important.",
+      "Confirmation bias is most severe in individuals with the least formal education."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage states that education and intelligence do not reliably reduce confirmation bias, and that mitigation requires structural interventions — implying that personal awareness is insufficient. Option A directly contradicts the passage's finding that analytically capable individuals may be more skilled at rationalization, not less prone to bias. Option B is not suggested anywhere in the text. Option D is contradicted by the passage's finding that the bias is not correlated with lower education.",
+    "difficulty": 2
+  },
+  {
+    "id": "R36",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "What is the author's primary purpose in this passage?",
+    "passage": "The F-35 Joint Strike Fighter program represents both the ambition and the dysfunction of modern defense acquisition. Conceived in the 1990s as an affordable, multi-role replacement for three different legacy aircraft across three service branches, it promised to achieve economies of scale through common design elements while preserving service-specific performance requirements. By 2023, program costs had exceeded $400 billion — the most expensive weapons acquisition program in history — and the aircraft had repeatedly missed capability milestones. Yet dismissing the F-35 as simply a procurement failure misses important nuance. The aircraft incorporates sensor fusion, electronic warfare capabilities, and stealth characteristics that represent genuine generational advances. Its troubled history reflects less any singular incompetence than the inherent tension between imposing commonality across service cultures with fundamentally different operational requirements and the iterative design compromises that inevitably result.",
+    "options": [
+      "To advocate for the cancellation of the F-35 program due to its cost overruns.",
+      "To provide a balanced analysis of the F-35 program, acknowledging its failures while contextualizing them.",
+      "To celebrate the F-35 as a triumph of American engineering.",
+      "To argue that multi-service acquisition programs are always inferior to service-specific designs."
+    ],
+    "correct_index": 1,
+    "explanation": "The author presents both the cost failures and genuine technological advances, and explains the structural reasons for the program's difficulties without condemning or celebrating it. Option A is refuted by the passage's final paragraph, which argues against dismissing the aircraft as simply a failure. Option C ignores the extended discussion of cost overruns and missed milestones. Option D is a generalization the passage does not make — it explains this specific case, not a universal rule.",
+    "difficulty": 2
+  },
+  {
+    "id": "R37",
+    "section": "Reading",
+    "topic": "Vocabulary in Context",
+    "question_text": "As used in the passage, the word \"attrite\" most nearly means:",
+    "passage": "Attrition warfare, a doctrine associated with prolonged industrial-age conflicts, seeks to win by systematically degrading the enemy's capacity to fight rather than by decisive maneuver. A force practicing attrition does not necessarily need to capture territory or encircle enemy formations; it needs only to attrite them — eliminating equipment, personnel, and logistical assets faster than the enemy can replace them. This approach requires patience, industrial depth, and tolerance for one's own casualties, all of which favored larger nations with robust manufacturing bases during the World Wars. Critics of attrition doctrine argue that it is morally costly, strategically unimaginative, and susceptible to failure if the opponent proves more resilient than expected. Maneuver theorists counter that even successful maneuver campaigns frequently require attritional phases to reduce defensive strongpoints before decisive movement becomes possible.",
+    "options": [
+      "To encircle or entrap",
+      "To systematically reduce or wear down through sustained losses",
+      "To supply with reinforcements",
+      "To demoralize through psychological operations"
+    ],
+    "correct_index": 1,
+    "explanation": "The passage uses 'attrite' as a verb derived directly from 'attrition,' which the author defines as systematically degrading capacity by eliminating equipment, personnel, and logistical assets. Option A describes encirclement, which the passage explicitly says is not required. Option C is the opposite of what attrition accomplishes. Option D narrows the concept to psychological effects, which is not how the passage uses the term.",
+    "difficulty": 3
+  },
+  {
+    "id": "R38",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what physical characteristic makes the mantis shrimp's vision remarkable?",
+    "passage": "Human color vision relies on three types of photoreceptor cells — cones — each sensitive to a different range of wavelengths, allowing the brain to distinguish millions of color combinations through comparative processing. The mantis shrimp, a marine crustacean, possesses sixteen distinct types of photoreceptor cells, a fact that has attracted considerable scientific attention and popular fascination. Surprisingly, however, research published in the journal Science suggests that the mantis shrimp does not use its sixteen receptor types to distinguish among a broader range of colors than humans. Instead, it appears to classify colors using a fundamentally different neural strategy: rather than comparing signals between receptors, the mantis shrimp matches wavelengths directly to receptor tuning curves. This parallel-processing approach sacrifices fine color discrimination — the shrimp performs poorly on tasks requiring discrimination between similar hues — but allows extraordinarily fast color identification, useful for rapidly categorizing prey and threats in the complex, spectrally varied reef environment.",
+    "options": [
+      "The mantis shrimp can detect ultraviolet light, which is invisible to all other marine animals.",
+      "The mantis shrimp has sixteen types of photoreceptor cells, though it uses them for rapid color identification rather than finer color discrimination.",
+      "The mantis shrimp's visual system is the most accurate color-discriminating system in the animal kingdom.",
+      "The mantis shrimp can see in complete darkness due to the sensitivity of its photoreceptors."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage states both that the shrimp has sixteen receptor types and that this does not translate into superior color discrimination but rather faster identification — Option B captures both elements accurately. Option A is not mentioned in the passage. Option C directly contradicts the passage, which says the shrimp performs poorly on tasks requiring discrimination between similar hues. Option D has no basis in the passage.",
+    "difficulty": 2
+  },
+  {
+    "id": "R39",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "What is the predominant tone of this passage?",
+    "passage": "The results of the decade-long longitudinal study were unambiguous: children who participated in structured mentorship programs between the ages of ten and fourteen showed statistically significant improvements in high school graduation rates, post-secondary enrollment, and ten-year earnings compared to matched peers who did not. The effect sizes, while modest by the standards of social science research, were consistent across income strata, racial groups, and geographic regions — a robustness that is rare in intervention studies and that strengthens causal confidence. Program costs per participant were comparable to one semester of community college tuition. The study's authors note several methodological limitations, including reliance on administrative records rather than direct outcome measurement, and call for replication in international contexts. Nevertheless, for policymakers seeking evidence-based levers for youth development, the findings represent a meaningful and actionable signal.",
+    "options": [
+      "Passionate and advocacy-driven",
+      "Measured and evidence-based, with cautious optimism",
+      "Alarmist and urgent",
+      "Dismissive of the study's findings"
+    ],
+    "correct_index": 1,
+    "explanation": "The passage presents positive findings with precise language ('statistically significant,' 'effect sizes modest'), acknowledges limitations, and closes with careful optimism ('meaningful and actionable signal'). This is the tone of research reporting — measured and cautiously positive. Option A overstates the emotional register; the passage is careful, not passionate. Option C is unsupported — there is no sense of urgency or alarm. Option D contradicts the positive framing of the results.",
+    "difficulty": 1
+  },
+  {
+    "id": "R40",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "What can be inferred about the author's view of the precautionary principle as applied to emerging technology?",
+    "passage": "The precautionary principle holds that when an action raises threats to human health or the environment, precautionary measures should be taken even if some cause-and-effect relationships are not fully established scientifically. Its appeal is obvious in contexts where the costs of inaction are catastrophic and irreversible. Applied without nuance, however, the precautionary principle can become a de facto prohibition on innovation. Technologies whose benefits were later demonstrated to be substantial — vaccines, synthetic fertilizers, gene therapies — all faced precautionary resistance at critical junctures, delaying adoption and imposing costs measured in preventable deaths and foregone nutrition. A more calibrated approach acknowledges asymmetric risk: where potential harms are severe and non-reversible, precaution is warranted even absent full proof. Where potential harms are speculative and reversible, and potential benefits are concrete, accelerating development with active safety monitoring is the more defensible choice.",
+    "options": [
+      "The author believes the precautionary principle should be abandoned entirely.",
+      "The author supports applying the precautionary principle uniformly to all emerging technologies.",
+      "The author favors a risk-calibrated application of the precautionary principle rather than uniform adoption or rejection.",
+      "The author implies that all historical resistance to new technologies was irrational."
+    ],
+    "correct_index": 2,
+    "explanation": "The author explicitly argues for a calibrated approach that varies with the nature of risks and benefits — neither blanket precaution nor blanket acceleration. Option A is refuted by the author's acknowledgment that precaution is warranted where harms are severe and irreversible. Option B is what the author argues against — uniform application. Option D overstates the critique; the passage acknowledges the appeal of precaution and does not call historical resistance irrational, only costly in specific cases.",
+    "difficulty": 3
+  },
+  {
+    "id": "R41",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the main idea of the passage?",
+    "passage": "Wildfire behavior in the American West has become increasingly difficult to predict and control, not because firefighting techniques have degraded, but because the conditions underlying fire behavior have changed fundamentally. A century of aggressive fire suppression eliminated the low-intensity burns that historically thinned forest fuel loads. At the same time, urban growth pushed residential development into the wildland-urban interface, creating a vast zone of high-value structures in fire-prone terrain. Climate change has extended fire seasons and intensified drought conditions that prime vegetation for rapid ignition. The result is a compounding problem: more fuel, more ignition opportunity, more at-risk structures, and a climate that increasingly favors fire spread. Prescribed burning and forest thinning programs have demonstrated effectiveness in reducing fuel loads, but they operate far too slowly relative to the accumulation of risk. Managing wildfire in the twenty-first century requires confronting not just how fires are suppressed, but how land use, forest policy, and climate mitigation interact.",
+    "options": [
+      "Climate change is the sole cause of worsening wildfire seasons in the American West.",
+      "Wildfire risk in the American West has escalated due to interacting factors including suppression history, development patterns, and climate change, requiring a comprehensive policy response.",
+      "The only effective solution to wildfire risk is to prohibit residential construction in fire-prone areas.",
+      "Firefighting technology has become outdated and must be modernized to address current fire conditions."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage explicitly identifies multiple interacting causes and closes by calling for a comprehensive, multi-domain policy approach. Option A is a reductive version of the passage's multi-causal argument. Option C is a specific policy recommendation the passage does not make; it lists development as a factor but does not advocate prohibition. Option D is contradicted by the passage, which attributes the problem to changing conditions, not degraded firefighting techniques.",
+    "difficulty": 1
+  },
+  {
+    "id": "R42",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The author's primary purpose in writing this passage is to:",
+    "passage": "Military historians have long grappled with the question of why the Maginot Line — a massive, technologically sophisticated fortification system on France's eastern border — failed to prevent German conquest in 1940. The standard popular account attributes French defeat to rigidity of mind: generals fighting the last war, locked into defensive thinking. This narrative is comforting in its simplicity and largely wrong. French military planners in 1940 were not unimaginative; the Maginot Line was never intended to stop a German advance by itself. It was designed to channel any German attack through Belgium, where more mobile Allied forces could engage it. The German breakthrough through the Ardennes Forest — judged impassable for armored formations and therefore lightly defended — invalidated a specific operational assumption, not a general failure of French strategic thinking. Understanding this distinction matters because the 'generals always fight the last war' trope, when applied uncritically, obscures the role of specific intelligence failures and operational assumptions in producing defeat.",
+    "options": [
+      "To rehabilitate the reputations of French military commanders who have been unfairly criticized.",
+      "To argue that the Maginot Line was a successful strategic concept undermined by a specific operational failure, and to correct a misleading popular narrative.",
+      "To provide a detailed technical description of the Maginot Line's construction and armament.",
+      "To compare the military strategies of France and Germany in the lead-up to World War II."
+    ],
+    "correct_index": 1,
+    "explanation": "The author explicitly challenges the popular narrative, explains the Maginot Line's actual strategic logic, identifies the specific failure (the Ardennes assumption), and argues this distinction matters for how we understand military defeat. Option A mistakes the purpose — the author is correcting a historical narrative, not vindicating individuals. Option C is not addressed; there is no technical description. Option D is too broad; the passage focuses on correcting a specific interpretation, not a systematic comparison.",
+    "difficulty": 2
+  },
+  {
+    "id": "R43",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Which of the following best describes what the passage implies about the limitations of GDP as a measure of societal well-being?",
+    "passage": "Gross domestic product measures the monetary value of all goods and services produced within a country's borders in a given period. It was designed as a wartime accounting tool in the 1940s and became, by default, the world's primary measure of economic progress. But GDP has structural blind spots. It counts the economic activity generated by a car accident — emergency services, vehicle repairs, medical treatment — but ignores the unmeasured value of preventive safety measures. It includes the production of cigarettes and excludes the labor of parents raising children. Environmental degradation is invisible until it generates remediation activity. Robert Kennedy noted in 1968 that GDP measures 'everything except that which makes life worthwhile.' Alternate composite indicators — including the Human Development Index and Genuine Progress Indicator — attempt to account for health, education, inequality, and environmental depletion, but none has displaced GDP in global policy discourse, partly because GDP's simplicity is itself valuable in a world of competing political priorities.",
+    "options": [
+      "GDP is an accurate measure of economic activity but was never intended to capture broader well-being, and alternatives remain marginalized despite their advantages.",
+      "GDP should be immediately replaced by the Human Development Index in all policy settings.",
+      "The designers of GDP deliberately excluded environmental and social factors to benefit large corporations.",
+      "Countries with high GDP invariably have high levels of citizen happiness."
+    ],
+    "correct_index": 0,
+    "explanation": "The passage establishes GDP's original limited purpose, its structural blind spots, and then explains why alternatives haven't displaced it — capturing the implied tension between GDP's acknowledged inadequacy and its continued dominance. Option B is a policy prescription the passage does not endorse; it notes that alternatives exist but doesn't advocate replacing GDP immediately. Option C attributes intent the passage does not; the passage says GDP became a default measure, not that it was deliberately designed to exclude social factors. Option D contradicts the passage's examples showing GDP can rise from harmful events.",
+    "difficulty": 3
+  },
+  {
+    "id": "R44",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what is the mechanism by which CRISPR-Cas9 cuts DNA?",
+    "passage": "The CRISPR-Cas9 system, adapted from a bacterial immune defense mechanism, has transformed molecular biology since its gene-editing applications were demonstrated in 2012. The system works in two parts: a guide RNA molecule, engineered to match a specific DNA sequence, and the Cas9 protein, which functions as a molecular scissors. The guide RNA directs the Cas9 protein to the target location in the genome by base-pairing with the complementary DNA strand. Once bound, the Cas9 protein undergoes a conformational change that activates its two nuclease domains, each of which cuts one strand of the DNA double helix, producing what is called a double-strand break. The cell's own repair machinery then attempts to fix the break, either through an error-prone process that typically disables the gene, or through a template-directed process that can introduce specific genetic changes if a repair template is provided. The precision of the guide RNA's targeting is the system's central advantage over earlier gene-editing platforms.",
+    "options": [
+      "CRISPR-Cas9 cuts DNA by dissolving the hydrogen bonds that hold the double helix together using an enzymatic solvent.",
+      "The guide RNA directly cuts both strands of the DNA without involving any protein component.",
+      "The Cas9 protein, guided to the target sequence by the guide RNA, undergoes a conformational change activating two nuclease domains that each cut one strand of the DNA.",
+      "CRISPR-Cas9 replaces target DNA segments rather than cutting them, making cuts unnecessary."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage describes this mechanism precisely: guide RNA directs Cas9 to the target, Cas9 undergoes a conformational change, two nuclease domains each cut one strand. Option A invents a mechanism not described in the passage. Option B contradicts the passage by excluding the Cas9 protein. Option D misrepresents the mechanism; the passage clearly describes cutting, with replacement occurring afterward through cellular repair.",
+    "difficulty": 2
+  },
+  {
+    "id": "R45",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "Which of the following best describes the author's tone throughout this passage?",
+    "passage": "Supply chain disruptions between 2020 and 2023 exposed the fragility of the just-in-time manufacturing philosophy that had dominated industrial strategy for four decades. Companies that had optimized aggressively for efficiency — minimizing inventory, concentrating production in low-cost regions, reducing supplier redundancy — found themselves unable to source basic inputs when port congestion, shipping container shortages, and regional shutdowns cascaded simultaneously. Semiconductor shortages idled automobile assembly lines that had eliminated buffer inventory. Personal protective equipment manufacturers discovered that concentrating production in a single region had traded resilience for margin. The decade-long consensus that efficiency was the paramount virtue of supply chain design was not invalidated — efficiency gains are real and meaningful — but the episode demonstrated that it had been pursued in ways that systematically underweighted the cost of tail-risk events. The post-pandemic reassessment of supply chain strategy involves recalibrating this balance, not abandoning efficiency as a goal.",
+    "options": [
+      "Alarmist, warning that global supply chains are on the verge of permanent collapse",
+      "Analytical and nuanced, presenting both the value and the demonstrated limits of just-in-time philosophy",
+      "Highly critical of corporate executives who chose efficiency over resilience",
+      "Optimistic, suggesting that supply chains are now stronger than they were before 2020"
+    ],
+    "correct_index": 1,
+    "explanation": "The author consistently acknowledges both sides: efficiency gains are real, but tail-risk was underweighted; the solution is recalibration, not abandonment. This balanced analysis defines an analytical, nuanced tone. Option A overstates the passage's conclusion — no claim about imminent collapse is made. Option C attributes blame to executives, which the passage does not do; it analyzes a philosophy, not specific decision-makers. Option D is not supported; the passage discusses reassessment, not a demonstrated improvement.",
+    "difficulty": 2
+  },
+  {
+    "id": "R46",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the main idea of the passage?",
+    "passage": "The professionalization of youth sports over the past three decades has produced measurable benefits in athletic development for elite athletes while generating substantial costs for the majority of participants. Specialization before puberty, year-round training, and competitive travel schedules have become the norm in sports that were once seasonal recreational activities. Orthopedic surgeons report a marked increase in overuse injuries — including stress fractures and tendinopathies — among adolescent athletes, attributed to repetitive loading of developing musculoskeletal systems without adequate recovery. Dropout rates from organized sports spike sharply between ages eleven and thirteen, precisely the demographic experiencing the greatest pressure to commit to a single sport. Psychologists note elevated rates of burnout and anxiety in early-specialized athletes compared to those who maintained multi-sport participation through adolescence. Long-term athletic development frameworks, endorsed by several national governing bodies, recommend delayed specialization and cross-training, but market forces — college recruitment timelines, club revenue models, parental investment anxiety — push in the opposite direction.",
+    "options": [
+      "Youth sports programs should be redesigned to focus exclusively on elite athlete development.",
+      "The professionalization of youth sports produces clear benefits for all participants regardless of competitive level.",
+      "While early specialization benefits a small elite, it generates physical and psychological costs for most young athletes, and structural incentives sustain practices that experts recommend against.",
+      "Overuse injuries are the primary reason young athletes abandon sports before reaching their potential."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage systematically documents the costs of specialization (injuries, dropout, burnout) for the majority, notes that expert recommendations favor delayed specialization, and explains why structural incentives override those recommendations. Option A is a prescription the passage does not advocate and in fact contradicts. Option B directly contradicts the passage's distinction between elite benefits and costs for the majority. Option D presents overuse injuries as the primary cause of dropout, but the passage also cites burnout and anxiety, and the passage's focus is broader.",
+    "difficulty": 2
+  },
+  {
+    "id": "R47",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "What does the passage imply about the author's underlying assumption regarding the purpose of a college education?",
+    "passage": "Debates about the value of a college degree have intensified as tuition costs have outpaced inflation for four consecutive decades, producing graduates who carry average debt loads that dwarf those of prior generations. Advocates of the human capital perspective argue that degrees signal cognitive capability and work ethic to employers, making the investment rational even for fields where specific coursework has limited direct application. Critics contend that this signaling function could be provided more cheaply through alternative credentialing systems, and that the university's current role as default credential-issuer is an inefficiency propped up by accreditation barriers. Missing from both camps is serious engagement with what universities have historically claimed to offer beyond workforce preparation: exposure to disciplinary depth, civic formation, the practice of sustained inquiry. Whether these goods are still being delivered — and whether they justify current costs — is a question that neither the human capital camp nor the credentialing reformers adequately addresses.",
+    "options": [
+      "The author believes that workforce preparation is the only legitimate goal of higher education.",
+      "The author implies that a college education has historically been understood to serve goals beyond workforce preparation, and that current debates fail to adequately examine whether those goals are being met.",
+      "The author suggests that online credentialing programs are clearly superior to traditional four-year degrees.",
+      "The author believes student debt is primarily caused by administrative inefficiency at universities."
+    ],
+    "correct_index": 1,
+    "explanation": "The author's critique of both camps rests on identifying what they ignore: the non-economic purposes historically attributed to universities — civic formation, disciplinary depth, sustained inquiry. This implies the author sees those purposes as legitimate and worth examining. Option A is the opposite of the author's implied view. Option C is not supported; the passage mentions alternative credentialing as one side of the debate, not as the author's recommendation. Option D is a specific causal claim the passage does not make.",
+    "difficulty": 3
+  },
+  {
+    "id": "R48",
+    "section": "Reading",
+    "topic": "Vocabulary in Context",
+    "question_text": "As used in the passage, the word \"salient\" most nearly means:",
+    "passage": "Naval tactics in the pre-missile era relied heavily on a commander's ability to read the visual signatures — smoke patterns, hull profiles, flag configurations — of enemy vessels at engagement distances. What officers were trained to do was rapidly identify the most salient features of an enemy formation: the presence of capital ships, the angle of approach, the density of the screen. This rapid triage of visual information determined whether to engage, withdraw, or maneuver for advantage. The same cognitive principle — selective attention to the most operationally significant features of a complex environment — underlies modern sensor fusion systems, which automatically weight and prioritize incoming data streams from multiple sources to present commanders with a simplified operational picture. The underlying challenge has not changed: identifying what matters fastest determines the quality of decisions made under time pressure.",
+    "options": [
+      "Obscure or difficult to observe",
+      "Threatening or hostile",
+      "Most prominent or operationally significant",
+      "Stationary or fixed in position"
+    ],
+    "correct_index": 2,
+    "explanation": "In context, 'salient features' are those officers identify during rapid triage — the most operationally important elements of an enemy formation, such as capital ships and angle of approach. The passage reinforces this meaning by describing it as selective attention to 'operationally significant features.' Option A is the opposite of salient. Option B introduces a threat connotation not implied in the passage's usage. Option D has no connection to the term's usage in the passage.",
+    "difficulty": 2
+  },
+  {
+    "id": "R49",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "Which of the following best describes the author's purpose?",
+    "passage": "The history of dietary science is a catalogue of confident consensus positions later overturned or substantially revised. Dietary fat, particularly saturated fat, was identified as the primary driver of cardiovascular disease in the 1960s and 1970s, leading to decades of public health messaging promoting low-fat diets. The food industry obligingly reformulated products to remove fat, typically replacing it with refined carbohydrates. Obesity and type 2 diabetes rates rose throughout the low-fat era. More recent research implicates refined carbohydrate and sugar consumption as major independent contributors to metabolic disease, and questions the degree to which saturated fat is the principal dietary villain. None of this should be read as evidence that dietary science is incapable of generating reliable knowledge, or that consensus should be automatically distrusted. It should be read as evidence that nutritional research faces methodological challenges — confounded observational studies, long latency between exposure and disease, variation in individual responses — that make premature certainty particularly costly.",
+    "options": [
+      "To discourage readers from following any official dietary guidelines.",
+      "To argue that the food industry deliberately caused the obesity epidemic.",
+      "To illustrate how methodological limitations in nutritional science have led to costly premature consensus, without dismissing the field entirely.",
+      "To demonstrate that saturated fat is not harmful and that low-fat diets should be abandoned."
+    ],
+    "correct_index": 2,
+    "explanation": "The author recounts a specific historical case of a revised consensus, identifies methodological reasons why nutritional science is prone to premature certainty, but explicitly cautions against over-correcting to distrust all dietary science. Option A is contradicted by the author's closing caveat that the field can generate reliable knowledge. Option B attributes deliberate intent to the food industry, which the passage does not claim. Option D makes a specific dietary claim the author does not assert; the author uses the saturated fat case to illustrate a methodological point, not to vindicate any particular diet.",
+    "difficulty": 3
+  },
+  {
+    "id": "R50",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "What does the passage most strongly imply about the role of redundancy in complex engineered systems?",
+    "passage": "The Columbia Space Shuttle disaster of 2003 was preceded by a well-documented warning: sixteen days before re-entry, debris strike damage to the leading edge of the left wing was observed on launch footage. Engineers at NASA flagged the concern and requested satellite imagery to better characterize the damage. The request was declined by managers who assessed — incorrectly — that nothing could be done even if serious damage were confirmed, and who were operating under schedule pressure. This decision-making sequence has been studied extensively in the organizational accident literature. What the Columbia case illustrates is not simply that a safety system failed, but that the redundancies built into NASA's safety structure — the reporting channels, the review boards, the independent safety panels — were ineffective because they had been informally subordinated to schedule and cost pressures over time. Redundancy designed to prevent catastrophic failure had been preserved in form while being eroded in function.",
+    "options": [
+      "Redundant safety systems in spacecraft are fundamentally unworkable and should be replaced by simpler designs.",
+      "Schedule pressure is an unusual occurrence in space programs and rarely affects safety decisions.",
+      "Formal redundancy in safety systems can be rendered ineffective when organizational culture and pressure erode how those systems function in practice.",
+      "The Columbia disaster could have been prevented if NASA had used better imaging technology to detect the damage earlier."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage's central insight is captured in the final line: redundancy was 'preserved in form while being eroded in function' by organizational pressures. This directly supports the inference that formal structures are insufficient without the cultural conditions to make them function. Option A is not implied; the passage argues the existing systems failed due to organizational dynamics, not inherent design flaws. Option B contradicts the passage, which treats schedule pressure as a common, recurring force in the decision chain. Option D is too narrow and focuses on a technical fix rather than the passage's organizational argument.",
+    "difficulty": 3
+  }
+]

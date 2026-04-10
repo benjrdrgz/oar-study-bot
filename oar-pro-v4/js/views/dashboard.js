@@ -1,6 +1,16 @@
 // OAR Pro v4 — Dashboard View (Authenticated Users)
 // Route: #/dashboard
 
+// XSS-safe HTML escaping — use for ALL user-controlled strings in innerHTML
+function esc(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 route('/dashboard', async () => {
   // Show sidebar, remove full-width
   document.getElementById('sidebar').style.display = '';
@@ -9,14 +19,80 @@ route('/dashboard', async () => {
 
   const app = document.getElementById('app');
 
+  // ── Upgrade gate for free (unpaid) users ────────────────────────────────
+  // Router sends unpaid users HERE from all content routes — show the upgrade wall.
+  const paid = await isPaid();
+  if (!paid) {
+    document.getElementById('sidebar').style.display = 'none';
+    app.classList.add('full-width');
+    app.innerHTML = `
+      <div style="max-width:520px;margin:80px auto;text-align:center;padding:0 20px">
+        <div style="font-size:56px;margin-bottom:16px">⚓</div>
+        <h1 style="font-size:28px;font-weight:800;margin-bottom:8px">Unlock OAR Pro</h1>
+        <p class="text-muted" style="margin-bottom:28px;font-size:15px">
+          You're in — but your account needs a license to access study content.
+        </p>
+        <div class="card" style="text-align:left;padding:24px;margin-bottom:20px">
+          <div style="font-size:13px;color:var(--text-3);margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">What you get</div>
+          ${[
+            'All 20 structured lessons (Math, Reading, Mechanical)',
+            '190+ practice questions with explanations',
+            '5 full-length adaptive practice tests',
+            'Score predictor &amp; topic mastery heatmap',
+            'Personalized study plan',
+            'Lifetime access — one payment, no subscriptions'
+          ].map(f => `
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0">
+              <span style="color:var(--green);font-size:16px;line-height:1.4">&#10003;</span>
+              <span style="font-size:14px">${f}</span>
+            </div>
+          `).join('')}
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+            <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px"></div>
+            <button class="btn btn-primary btn-lg btn-block" onclick="handleCheckoutClick(this)">
+              Get Access &rarr;
+            </button>
+            <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:10px">
+              &#128274; Secure payment via Stripe &middot; 30-day money-back guarantee
+            </p>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--text-3)">
+          Already purchased? Your access will activate automatically once payment is confirmed (usually instant).
+          <br>Need help? <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>
+        </p>
+      </div>
+    `;
+    return;
+  }
+
   // Show loading skeleton while fetching
   app.innerHTML = `
-    <div class="skeleton skeleton-title"></div>
-    <div class="skeleton skeleton-card"></div>
-    <div class="grid-3">
-      <div class="skeleton skeleton-card"></div>
-      <div class="skeleton skeleton-card"></div>
-      <div class="skeleton skeleton-card"></div>
+    <div style="max-width:900px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;gap:16px">
+        <div style="flex:1">
+          <div class="skeleton" style="height:32px;width:60%;margin-bottom:8px"></div>
+          <div class="skeleton" style="height:16px;width:40%"></div>
+        </div>
+        <div style="text-align:right">
+          <div class="skeleton" style="height:12px;width:100px;margin-bottom:6px"></div>
+          <div class="skeleton" style="height:40px;width:80px"></div>
+        </div>
+      </div>
+      <div class="skeleton" style="height:96px;border-radius:14px;margin-bottom:20px"></div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px">
+        <div class="skeleton" style="height:92px;border-radius:14px"></div>
+        <div class="skeleton" style="height:92px;border-radius:14px"></div>
+        <div class="skeleton" style="height:92px;border-radius:14px"></div>
+        <div class="skeleton" style="height:92px;border-radius:14px"></div>
+        <div class="skeleton" style="height:92px;border-radius:14px"></div>
+      </div>
+      <div class="skeleton" style="height:20px;width:180px;margin-bottom:14px"></div>
+      <div class="grid-3">
+        <div class="skeleton" style="height:140px;border-radius:14px"></div>
+        <div class="skeleton" style="height:140px;border-radius:14px"></div>
+        <div class="skeleton" style="height:140px;border-radius:14px"></div>
+      </div>
     </div>
   `;
 
@@ -34,7 +110,7 @@ route('/dashboard', async () => {
   ]);
 
   // Render sidebar
-  await renderStudySidebar(lessons, lessonProgress);
+  await renderDashboardSidebar(lessons, lessonProgress);
 
   // Determine last lesson for continue card
   const inProgressLessons = lessonProgress.filter(lp => lp.status === 'in_progress');
@@ -68,7 +144,7 @@ route('/dashboard', async () => {
   const streakMap = {};
   for (const s of streaks) { streakMap[s.study_date] = s.questions_answered || s.minutes_studied; }
 
-  const displayName = profile?.display_name || 'Candidate';
+  const displayName = esc(profile?.display_name || 'Candidate');
   const predictedScore = score.total || '--';
 
   app.innerHTML = `
@@ -105,20 +181,41 @@ route('/dashboard', async () => {
     ` : ''}
 
     <!-- QUICK ACTIONS -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px">
       ${[
-        ['🎯', 'Quick Drill', '5 random Qs', '#/practice'],
+        ['⚡', 'Quick Drill', 'Timed', '#/practice'],
+        ['∞', 'Infinite Drill', 'Unlimited', '#/practice'],
         ['📖', 'Resume Study', 'Next lesson', lastLesson ? `#/study/${lastLesson.id}` : '#/study'],
-        ['📐', 'Formula Review', 'Quick ref', '#/formulas'],
-        ['🧪', 'Full Test Sim', 'Adaptive CAT', '#/adaptive']
+        ['📐', 'Formulas', 'Reference', '#/formulas'],
+        ['🧪', 'Test Sim', 'Adaptive CAT', '#/adaptive']
       ].map(([icon, title, sub, href]) => `
         <div class="card" style="text-align:center;padding:20px 12px;cursor:pointer" onclick="navigate('${href}')">
-          <div style="font-size:28px;margin-bottom:8px">${icon}</div>
-          <div style="font-size:14px;font-weight:700">${title}</div>
-          <div style="font-size:12px;color:var(--text-3);margin-top:2px">${sub}</div>
+          <div style="font-size:26px;margin-bottom:6px">${icon}</div>
+          <div style="font-size:13px;font-weight:700">${title}</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px">${sub}</div>
         </div>
       `).join('')}
     </div>
+
+    <!-- WEAK TOPICS CTA -->
+    ${(() => {
+      const weak = mastery.filter(m => m.mastery_level === 'weak' || m.mastery_level === 'developing').slice(0, 5);
+      if (!weak.length) return '';
+      return `
+        <div class="card" style="margin-bottom:28px;border-color:var(--red);background:var(--red-bg)">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+            <div>
+              <div style="font-size:12px;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">⚠ Focus Here</div>
+              <div style="font-size:16px;font-weight:700;margin-bottom:6px">${weak.length} topic${weak.length === 1 ? '' : 's'} need work</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                ${weak.map(w => `<span class="badge badge-red" style="font-size:11px">${w.topic} (${w.correct}/${w.attempted})</span>`).join('')}
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="navigate('#/practice')">Drill Weak Topics &rarr;</button>
+          </div>
+        </div>
+      `;
+    })()}
 
     <!-- PROGRESS OVERVIEW (3 sections) -->
     <h2 style="font-size:18px;font-weight:700;margin-bottom:14px">Section Progress</h2>
@@ -208,24 +305,71 @@ route('/dashboard', async () => {
         </div>
       </div>
 
-      <!-- TOPIC MASTERY HEATMAP -->
+      <!-- TOPIC MASTERY — labeled, sortable, actually useful -->
       <div class="card">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:14px">Topic Mastery</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <h3 style="font-size:15px;font-weight:700;margin:0">Topic Mastery</h3>
+          ${mastery.length > 0 ? `<span class="text-muted text-sm">${mastery.length} topic${mastery.length === 1 ? '' : 's'} tracked</span>` : ''}
+        </div>
         ${mastery.length === 0
-          ? '<p style="font-size:13px;color:var(--text-3)">Complete some practice questions to see your mastery heatmap.</p>'
-          : `<div style="display:flex;flex-wrap:wrap;gap:4px">
-              ${mastery.map(m => {
-                const colors = { mastered: 'var(--green)', strong: '#22C55E', developing: 'var(--yellow)', weak: 'var(--red)', unstarted: 'var(--surface-3)' };
-                const bg = colors[m.mastery_level] || colors.unstarted;
-                const acc = m.attempted > 0 ? Math.round((m.correct / m.attempted) * 100) : 0;
-                return `<div title="${m.topic}: ${m.mastery_level} (${acc}%)" style="width:28px;height:28px;border-radius:5px;background:${bg};opacity:${m.mastery_level === 'unstarted' ? '0.3' : '0.85'};cursor:help"></div>`;
-              }).join('')}
-            </div>
-            <div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--text-3)">
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--green);vertical-align:middle;margin-right:3px"></span>Mastered</span>
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--yellow);vertical-align:middle;margin-right:3px"></span>Developing</span>
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--red);vertical-align:middle;margin-right:3px"></span>Weak</span>
-            </div>`
+          ? `<p style="font-size:13px;color:var(--text-3)">Start practicing to see which topics you've mastered and which need work. Topics update automatically after every quiz.</p>`
+          : (() => {
+              // Sort: weakest first so they're top of mind
+              const sorted = [...mastery].sort((a, b) => {
+                const order = { weak: 0, developing: 1, strong: 2, mastered: 3, unstarted: 4 };
+                const oa = order[a.mastery_level] ?? 5;
+                const ob = order[b.mastery_level] ?? 5;
+                if (oa !== ob) return oa - ob;
+                const accA = a.attempted > 0 ? a.correct / a.attempted : 0;
+                const accB = b.attempted > 0 ? b.correct / b.attempted : 0;
+                return accA - accB;
+              });
+              return `
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  ${sorted.map(m => {
+                    const colors = {
+                      mastered: { bg: 'var(--green-bg)', border: 'hsla(152, 68%, 50%, .3)', text: 'var(--green)', label: 'Mastered' },
+                      strong:   { bg: 'var(--green-bg)', border: 'hsla(152, 68%, 50%, .2)', text: 'var(--green)', label: 'Strong' },
+                      developing:{bg: 'var(--yellow-bg)', border: 'hsla(38, 94%, 58%, .3)', text: 'var(--yellow)', label: 'Developing' },
+                      weak:     { bg: 'var(--red-bg)', border: 'hsla(4, 90%, 64%, .3)', text: 'var(--red)', label: 'Weak' },
+                      unstarted:{ bg: 'var(--surface-2)', border: 'var(--border)', text: 'var(--text-3)', label: 'Not started' }
+                    };
+                    const c = colors[m.mastery_level] || colors.unstarted;
+                    const acc = m.attempted > 0 ? Math.round((m.correct / m.attempted) * 100) : 0;
+                    const fillPct = m.mastery_level === 'unstarted' ? 0 : Math.max(acc, 5);
+                    return `
+                      <div
+                        onclick="navigate('#/practice?mode=topic&section=${encodeURIComponent(m.section || '')}&topic=${encodeURIComponent(m.topic)}')"
+                        style="cursor:pointer;background:var(--bg-elevated);border:1px solid var(--border);border-radius:9px;padding:10px 12px;transition:all var(--dur-fast) var(--ease-out);position:relative;overflow:hidden"
+                        onmouseover="this.style.borderColor='${c.border}'"
+                        onmouseout="this.style.borderColor='var(--border)'"
+                        title="Click to drill ${m.topic}"
+                      >
+                        <div style="position:absolute;inset:0;background:${c.bg};opacity:.4;pointer-events:none"></div>
+                        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px">
+                          <div style="min-width:0;flex:1">
+                            <div style="font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.topic}</div>
+                            <div style="display:flex;align-items:center;gap:8px;margin-top:3px">
+                              <span class="badge" style="background:${c.bg};color:${c.text};border-color:${c.border};font-size:9.5px">${c.label}</span>
+                              <span class="text-muted text-sm mono" style="font-size:11px">${m.correct}/${m.attempted}</span>
+                            </div>
+                          </div>
+                          <div style="text-align:right;min-width:44px">
+                            <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:${c.text};line-height:1">${acc}%</div>
+                          </div>
+                        </div>
+                        <div style="position:relative;height:3px;margin-top:8px;background:var(--surface-2);border-radius:2px;overflow:hidden">
+                          <div style="height:100%;width:${fillPct}%;background:${c.text};border-radius:2px;transition:width var(--dur-base) var(--ease-out)"></div>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+                <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text-3);text-align:center">
+                  Click any topic to drill it
+                </div>
+              `;
+            })()
         }
       </div>
     </div>
@@ -273,7 +417,7 @@ route('/dashboard', async () => {
 });
 
 // Render study sidebar with lesson list
-async function renderStudySidebar(lessons, lessonProgress) {
+async function renderDashboardSidebar(lessons, lessonProgress) {
   const sidebar = document.getElementById('sidebar');
   if (!lessons) lessons = await Store.getLessons();
   if (!lessonProgress) lessonProgress = await Store.getAllLessonProgress();

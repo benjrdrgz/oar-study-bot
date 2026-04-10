@@ -187,6 +187,78 @@ route('/profile', async () => {
         ` : ''}
       </div>
 
+      <!-- Quiz History Card -->
+      ${quizHistory.length > 0 ? `
+      <div class="card" style="padding:20px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="card-title">Recent Quizzes</div>
+          <span class="text-muted text-sm">${quizHistory.length} total</span>
+        </div>
+        <div style="max-height:320px;overflow-y:auto">
+          ${quizHistory.slice(0, 20).map(r => {
+            const pct = r.total_questions > 0 ? Math.round((r.correct / r.total_questions) * 100) : 0;
+            const color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+            const date = new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const modeLabels = { drill: 'Quick Drill', infinite: 'Infinite Drill', topic: 'Topic Practice', full: 'Full Test', lesson: 'Lesson Quiz' };
+            const modeLabel = modeLabels[r.mode] || r.mode;
+            return `
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px">
+                <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+                  <div style="font-weight:600">${modeLabel}</div>
+                  <div class="text-muted text-sm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${date}${r.section ? ' • ' + r.section : ''}</div>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span class="text-muted text-sm">${r.correct}/${r.total_questions}</span>
+                  <span style="font-weight:700;color:${color};min-width:38px;text-align:right">${pct}%</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Refer & Earn Card (paid users only) -->
+      ${profile.is_paid ? `
+      <div class="card" style="padding:20px;margin-bottom:16px">
+        <div style="font-weight:700;margin-bottom:4px">Refer &amp; Earn</div>
+        <p class="text-muted text-sm" style="margin-bottom:14px">
+          Share your referral link. Friends save $30, you earn 25% of their sale (~$16.75 per referral).
+        </p>
+        ${profile.referral_code ? `
+          <div style="margin-bottom:14px">
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Your Referral Link</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <code id="referralLinkDisplay" style="flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block">
+                ${window.location.origin}${window.location.pathname}#/?ref=${profile.referral_code}
+              </code>
+              <button class="btn btn-secondary btn-sm" onclick="copyReferralLink('${profile.referral_code}')" style="flex-shrink:0" id="copyRefBtn">
+                Copy
+              </button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <div style="text-align:center;padding:12px;background:var(--surface-2);border-radius:8px">
+              <div style="font-size:22px;font-weight:800;color:var(--green)" class="mono">${profile.referral_count || 0}</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px">Referrals</div>
+            </div>
+            <div style="text-align:center;padding:12px;background:var(--surface-2);border-radius:8px">
+              <div style="font-size:22px;font-weight:800;color:var(--green)" class="mono">$${((profile.referral_earnings_cents || 0) / 100).toFixed(2)}</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px">Earned</div>
+            </div>
+          </div>
+          ${(profile.referral_earnings_cents || 0) > 0 ? `
+            <p style="font-size:12px;color:var(--text-3)">Payouts processed manually. Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a> to request payout.</p>
+          ` : ''}
+        ` : `
+          <button class="btn btn-secondary btn-sm" onclick="generateMyReferralCode()">
+            Get My Referral Link
+          </button>
+          <div id="refCodeMsg" style="display:none;margin-top:8px;font-size:13px"></div>
+        `}
+      </div>
+      ` : ''}
+
       <!-- Danger Zone Card -->
       <div class="card" style="padding:20px;margin-bottom:16px;border-color:rgba(239,68,68,.25)">
         <div style="font-weight:700;margin-bottom:4px;color:var(--red)">Danger Zone</div>
@@ -194,6 +266,15 @@ route('/profile', async () => {
         <button class="btn btn-danger btn-sm" onclick="showResetModal()">
           &#9888; Reset All Progress
         </button>
+      </div>
+
+      <!-- Support -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title" style="margin-bottom:8px">Need Help?</div>
+        <p class="text-muted text-sm" style="margin-bottom:12px">Questions, bug reports, or study advice — reach out directly.</p>
+        <a href="mailto:ben@rodriguezwi.com?subject=OAR%20Pro%20%E2%80%94%20Support" class="btn btn-secondary btn-block">
+          &#9993; Email Support
+        </a>
       </div>
 
       <!-- Sign Out -->
@@ -327,4 +408,47 @@ function showProfileMsg(el, text, type) {
   el.style.color = type === 'success' ? 'var(--green)' : 'var(--red)';
   el.textContent = text;
   setTimeout(() => { el.style.display = 'none'; }, 3500);
+}
+
+function copyReferralLink(code) {
+  const link = `${window.location.origin}${window.location.pathname}#/?ref=${code}`;
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.getElementById('copyRefBtn');
+    if (btn) {
+      const prev = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => { btn.textContent = prev; btn.style.color = ''; }, 2000);
+    }
+  }).catch(() => {
+    // Fallback: select the text in the display element
+    const el = document.getElementById('referralLinkDisplay');
+    if (el) {
+      const range = document.createRange();
+      range.selectNode(el);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    }
+  });
+}
+
+async function generateMyReferralCode() {
+  const msg = document.getElementById('refCodeMsg');
+  try {
+    const user = await getUser();
+    if (!user) return;
+    // Call the Supabase RPC to generate a referral code
+    const { data, error } = await supabase.rpc('generate_profile_referral_code', {
+      p_user_id: user.id,
+    });
+    if (error) throw error;
+    // Reload the profile page to show the new code
+    navigate('#/profile');
+  } catch (e) {
+    if (msg) {
+      msg.style.display = 'block';
+      msg.style.color = 'var(--red)';
+      msg.textContent = 'Failed to generate code. Try again.';
+    }
+  }
 }

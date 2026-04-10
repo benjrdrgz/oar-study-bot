@@ -55,7 +55,7 @@ async function handleRoute() {
   }
 
   // Auth guard — check if route requires auth
-  const publicRoutes = ['/', '/login', '/signup', '/payment-success'];
+  const publicRoutes = ['/', '/login', '/signup', '/payment-success', '/diagnostic', '/checkout'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
   if (!publicRoutes.includes(path)) {
@@ -102,9 +102,12 @@ async function handleRoute() {
       updateSidebar(path);
     }
 
-    // Re-render MathJax if available
-    if (typeof MathJax !== 'undefined' && MathJax.Hub) {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub, app]);
+    // Re-render MathJax (v3 API)
+    if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+      if (typeof MathJax.typesetClear === 'function') {
+        try { MathJax.typesetClear([app]); } catch (e) { /* ignore */ }
+      }
+      MathJax.typesetPromise([app]).catch(() => {});
     }
 
     // Update Tawk.to context

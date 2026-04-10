@@ -398,7 +398,7 @@ function onTutorDiffChange() {
   if (sel) tutorState.difficulty = sel.value;
 }
 
-function loadTutorProblem() {
+async function loadTutorProblem() {
   const topicSel = document.getElementById('topicSelect');
   const diffSel = document.getElementById('diffSelect');
   if (topicSel) tutorState.topic = topicSel.value;
@@ -409,15 +409,48 @@ function loadTutorProblem() {
     return;
   }
 
-  const topicProblems = SAMPLE_PROBLEMS[tutorState.topic];
-  const diffProblems = topicProblems ? topicProblems[tutorState.difficulty] : [];
+  // Map UI difficulty string to the integer used in Supabase
+  const diffMap = { Easy: 1, Medium: 2, Hard: 3 };
+  const diffInt = diffMap[tutorState.difficulty];
 
-  if (!diffProblems || !diffProblems.length) {
+  // Try Supabase first — fetch all problems for this topic/difficulty
+  let diffProblems = [];
+  try {
+    const dbProblems = await Store.getWorkedProblems(tutorState.topic, diffInt);
+    if (Array.isArray(dbProblems) && dbProblems.length > 0) {
+      // Normalize DB schema to match the shape the UI expects
+      diffProblems = dbProblems.map(p => ({
+        id: p.id,
+        statement: p.problem_text,
+        prompt: 'Before checking hints: write out what you know and what you need to find.',
+        hints: Array.isArray(p.hints) ? p.hints : [],
+        solution: Array.isArray(p.solution_steps) ? p.solution_steps : [],
+        finalAnswer: p.final_answer,
+        explanation: p.explanation
+      }));
+    }
+  } catch (e) {
+    console.warn('[Tutor] Supabase fetch failed, falling back to samples:', e.message);
+  }
+
+  // Fallback to hardcoded samples if Supabase returned nothing
+  if (!diffProblems.length) {
+    const topicProblems = SAMPLE_PROBLEMS[tutorState.topic];
+    diffProblems = (topicProblems && topicProblems[tutorState.difficulty]) || [];
+  }
+
+  if (!diffProblems.length) {
     renderTutorMessage(
       `No ${tutorState.difficulty} problems available for this topic yet. Try another difficulty or topic.`,
       'tip'
     );
     return;
+  }
+
+  // Shuffle so students don't see the same order every time
+  for (let i = diffProblems.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [diffProblems[i], diffProblems[j]] = [diffProblems[j], diffProblems[i]];
   }
 
   tutorState.problems = diffProblems;

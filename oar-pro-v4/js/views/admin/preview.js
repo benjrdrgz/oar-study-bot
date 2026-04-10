@@ -103,8 +103,10 @@ async function createPreviewAccount() {
   }
 
   try {
-    // Create user via Supabase Auth admin API (requires service role)
-    // For client-side, we'll use signUp and then update the profile
+    // Save admin session BEFORE creating the preview account
+    // (otherwise supabase.auth.signUp will sign the admin out)
+    const { data: { session: adminSession } } = await supabase.auth.getSession();
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -120,6 +122,14 @@ async function createPreviewAccount() {
         account_type: 'preview',
         is_paid: true
       }).eq('id', authData.user.id);
+    }
+
+    // Restore admin session so the admin stays logged in
+    if (adminSession) {
+      await supabase.auth.setSession({
+        access_token: adminSession.access_token,
+        refresh_token: adminSession.refresh_token
+      });
     }
 
     result.style.display = 'block';

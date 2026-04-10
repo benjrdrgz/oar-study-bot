@@ -1,6 +1,6 @@
 # OAR Study Bot — Directory Map
-> **Auto-generated:** 2026-04-08 09:05
-> **Total:** 135 files across 179 folders
+> **Auto-generated:** 2026-04-09 21:18
+> **Total:** 180 files across 254 folders
 > **Generator:** `Scripts/update_directory_map.py` (run manually or via hook)
 
 ---
@@ -53,12 +53,45 @@ OAR Study Bot/
     ├── Google_Business_Profile_Setup_Guide_v1.0.md (9 KB)
     ├── SEO_Delivery_Checklist_v1.0.md (2 KB)
     ├── Tool_Comparison_Report_v1.0.md (16 KB)
-├── **Logs/** (4 files)
-  ├── **Session-Logs/** (4 files)
+├── **Logs/** (6 files)
+  ├── **Session-Logs/** (6 files)
     ├── session-log-2026-03-25-MASTER.md (3 KB)
     ├── session-log-2026-03-25-v2.md (6 KB)
     ├── session-log-2026-03-25-v3.md (3 KB)
     ├── session-log-2026-03-25.md (4 KB)
+    ├── session-log-2026-04-09-oar-pro-mega-build.md (4 KB)
+    ├── session-log-2026-04-09-oar-pro-v4-supabase-fix.md (4 KB)
+├── **oar-pro-v4/** (36 files)
+  ├── **assets/** (0 files)
+  ├── **css/** (0 files)
+  ├── **js/** (17 files)
+    ├── **views/** (13 files)
+      ├── **admin/** (3 files)
+      ├── adaptive.js (28 KB)
+      ├── dashboard.js (17 KB)
+      ├── formulas.js (21 KB)
+      ├── landing.js (13 KB)
+      ├── onboarding.js (24 KB)
+      ├── practice.js (23 KB)
+      ├── profile.js (14 KB)
+      ├── strategies.js (23 KB)
+      ├── study.js (12 KB)
+      ├── tutor.js (24 KB)
+    ├── auth.js (8 KB)
+    ├── router.js (4 KB)
+    ├── store.js (11 KB)
+    ├── supabase-init.js (3 KB)
+  ├── **supabase/** (13 files)
+    ├── **functions/** (1 files)
+      ├── **stripe-webhook/** (1 files)
+    ├── **migrations/** (4 files)
+      ├── 001_schema.sql (7 KB)
+      ├── 002_rls.sql (4 KB)
+      ├── 003_seed_content.sql (179 KB)
+      ├── migrate_content.py (6 KB)
+  ├── .env (569 B)
+  ├── .gitignore (8 B)
+  ├── index.html (12 KB)
 ├── **Outputs/** (17 files)
   ├── **Claude-Context/** (5 files)
     ├── Agency_Quick_Brief.md (4 KB)
@@ -84,11 +117,15 @@ OAR Study Bot/
   ├── **Lead-Factory/** (0 files)
   ├── **Sales-Factory/** (0 files)
   ├── **Site-Factory/** (0 files)
-├── **Reports/** (6 files)
+├── **Reports/** (10 files)
   ├── DELIVERY_SUMMARY_v1.0.md (9 KB)
   ├── Financial_Projection_90Day_v1.0.xlsx (11 KB)
   ├── Financial_Projection_README_v1.0.md (6 KB)
+  ├── mometrix_scraped_content.md (5 KB)
   ├── QUICK_START.md (3 KB)
+  ├── research_external_sources.md (2 KB)
+  ├── research_learning_science.md (1 KB)
+  ├── scrape_progress_v2.md (11 KB)
   ├── Weekly_Report_README_v1.0.md (10 KB)
   ├── Weekly_Report_Template_v1.0.xlsx (11 KB)
 ├── **Scripts/** (49 files)
@@ -182,12 +219,20 @@ OAR Study Bot/
   ├── Voicemail_SMS_Scripts_v1.0.md (3 KB)
   ├── Website_Audit_Scorecard_v1.0.md (4 KB)
 ├── .claudeignore (166 B)
-├── .gitignore (56 B)
-├── DIRECTORY_MAP.md (5 KB)
+├── .gitignore (16 B)
+├── app.html (56 KB)
+├── DIRECTORY_MAP.md (10 KB)
+├── formulas.html (105 KB)
+├── index.html (25 KB)
 ├── kpis_v2.0.md (3 KB)
+├── OAR_Cram_Sheet.html (48 KB)
+├── OAR_Eval.html (32 KB)
 ├── OAR_Study_Bot_v1.0.html (115 KB)
+├── practice.html (85 KB)
 ├── QUICK_START.md (2 KB)
 ├── sop_v2.0.md (4 KB)
+├── strategies.html (64 KB)
+├── study.html (113 KB)
 ```
 
 ---
@@ -223,9 +268,9 @@ OAR Study Bot/
 | `Reports/DELIVERY_SUMMARY_v1.0.md` | — |
 | `Reports/Financial_Projection_README_v1.0.md` | — |
 | `Reports/Weekly_Report_README_v1.0.md` | — |
+| `Reports/scrape_progress_v2.md` | — |
 | `Scripts/docx/package.json` | — |
 | `Scripts/requirements.txt` | — |
-| `Templates/Client_Monthly_Report_Template_v1.0.md` | — |
 
 ---
 

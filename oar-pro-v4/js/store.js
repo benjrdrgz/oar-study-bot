@@ -295,16 +295,57 @@ const Store = {
   },
 
   async getQuestions(filters = {}) {
+    // Fetch a broader pool, then shuffle client-side and slice.
+    // Supabase doesn't support ORDER BY random() via PostgREST, so we shuffle in JS.
     let query = supabase.from('questions').select('*');
 
     if (filters.section) query = query.eq('section', filters.section);
     if (filters.topic) query = query.eq('topic', filters.topic);
     if (filters.difficulty) query = query.eq('difficulty', filters.difficulty);
-    if (filters.limit) query = query.limit(filters.limit);
-    if (filters.random) query = query.order('id'); // TODO: random ordering
 
     const { data } = await query;
-    return data || [];
+    let rows = data || [];
+
+    if (filters.random) {
+      // Fisher-Yates shuffle for uniform randomness
+      for (let i = rows.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rows[i], rows[j]] = [rows[j], rows[i]];
+      }
+    }
+
+    if (filters.limit) rows = rows.slice(0, filters.limit);
+    return rows;
+  },
+
+  // Generate fresh parameterized questions (no memorization possible)
+  getGeneratedQuestions(count, filter = {}) {
+    if (typeof generateQuestions === 'function') {
+      return generateQuestions(count, filter);
+    }
+    return [];
+  },
+
+  // Mix static + generated questions for a drill.
+  // ratio = percentage of generated (0.0 to 1.0). Default 0.5 = half and half.
+  async getMixedQuestions(totalCount, filters = {}, generatedRatio = 0.5) {
+    const generatedCount = Math.round(totalCount * generatedRatio);
+    const staticCount = totalCount - generatedCount;
+
+    const [staticQs, genQs] = await Promise.all([
+      staticCount > 0
+        ? this.getQuestions({ ...filters, limit: staticCount, random: true })
+        : Promise.resolve([]),
+      Promise.resolve(this.getGeneratedQuestions(generatedCount, filters))
+    ]);
+
+    // Interleave and shuffle
+    const mixed = [...staticQs, ...genQs];
+    for (let i = mixed.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [mixed[i], mixed[j]] = [mixed[j], mixed[i]];
+    }
+    return mixed;
   },
 
   async getFormulas() {

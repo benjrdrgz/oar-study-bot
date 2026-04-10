@@ -183,8 +183,17 @@ function copyLink(code) {
 async function markPaid(affiliateId, amount) {
   if (!confirm(`Mark $${amount.toFixed(2)} as paid?`)) return;
 
+  // Fetch current total_paid and accumulate, don't overwrite
+  const { data: existing } = await supabase
+    .from('affiliates')
+    .select('total_paid')
+    .eq('id', affiliateId)
+    .single();
+
+  const newTotal = (Number(existing?.total_paid) || 0) + Number(amount);
+
   await supabase.from('affiliates').update({
-    total_paid: supabase.rpc ? amount : amount // simplified — would use RPC in production
+    total_paid: newTotal
   }).eq('id', affiliateId);
 
   // Mark all unpaid referrals for this affiliate as paid

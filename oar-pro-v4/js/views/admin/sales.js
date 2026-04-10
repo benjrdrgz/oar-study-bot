@@ -1,5 +1,8 @@
 // OAR Pro v4 — Admin Sales Dashboard
 
+// Redirect bare /admin to /admin/sales
+route('/admin', async () => { navigate('#/admin/sales'); });
+
 route('/admin/sales', async () => {
   const app = document.getElementById('app');
   app.classList.add('full-width');

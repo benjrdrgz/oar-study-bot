@@ -401,7 +401,7 @@ async function finishDiagnostic() {
       // Update profile
       const updates = { onboarding_complete: true };
       if (onboardingState.name) updates.display_name = onboardingState.name;
-      if (onboardingState.testDate) updates.target_test_date = onboardingState.testDate;
+      if (onboardingState.testDate) updates.test_date = onboardingState.testDate;
       await Store.updateProfile(updates);
     }
   } catch (err) {

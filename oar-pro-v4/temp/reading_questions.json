@@ -1,0 +1,322 @@
+[
+  {
+    "id": "R1",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the main idea of the passage?",
+    "passage": "The cockpit of a modern naval aircraft is a study in information management. Pilots are simultaneously monitoring airspeed, altitude, fuel state, radar returns, and radio traffic while executing demanding maneuvers at low altitude or high speed. The introduction of glass cockpit technology — replacing analog gauges with integrated digital displays — has reduced pilot workload in some respects but introduced new challenges in others. Pilots must now interpret symbology-dense screens rather than glancing at discrete instruments. Human factors researchers have found that information overload remains a leading contributor to controlled flight into terrain (CFIT) and other pilot-error accidents. As a result, modern aviator training places increasing emphasis on cockpit resource management (CRM), a discipline focused on how pilots prioritize, communicate, and delegate tasks under pressure. The goal is not to process every input simultaneously, but to maintain situational awareness by knowing which inputs matter most at any given moment.",
+    "options": [
+      "Modern cockpit technology has eliminated the information overload problem for naval pilots.",
+      "Effective information management is central to naval aviation safety, and training increasingly reflects this priority.",
+      "Glass cockpit displays are more dangerous than traditional analog instruments.",
+      "Cockpit resource management was developed to replace analog gauges in naval aircraft."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage describes the challenge of information overload in modern cockpits, the limitations of glass cockpit technology, and how CRM training addresses the problem — making information management the unifying theme. Option A is directly contradicted by the passage, which says new challenges were introduced. Option C overstates a nuance the passage does not support. Option D misrepresents CRM as a hardware solution when the passage defines it as a human-factors discipline.",
+    "difficulty": 2
+  },
+  {
+    "id": "R2",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The primary purpose of this passage is to:",
+    "passage": "Every year, thousands of applicants sit for military officer selection tests believing that raw intelligence is the primary determinant of success. Admissions data tell a different story. Studies conducted by the Navy Personnel Research and Development Center found that composite scores including spatial reasoning, math fluency, and reading comprehension predicted flight school attrition more accurately than general cognitive ability scores alone. Candidates who scored in the top quartile on the Aviation Selection Test Battery but demonstrated weak mechanical comprehension washed out of flight training at nearly twice the rate of those with balanced profiles. The lesson is practical: targeted preparation across all tested domains outperforms cramming on a single dimension. Officers who enter training with well-rounded aptitude profiles are better equipped to handle the cross-disciplinary demands of aviation — from aerodynamics to emergency procedures — that no single skill can encompass.",
+    "options": [
+      "To argue that raw intelligence is not a valid predictor of aviation performance.",
+      "To discourage candidates from taking military officer selection tests.",
+      "To explain why balanced test preparation is more effective than focusing on a single skill area.",
+      "To summarize the history of the Aviation Selection Test Battery."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage opens by challenging a common assumption and then uses research data to build toward the practical conclusion that balanced preparation outperforms single-dimension study. This is an explanatory and prescriptive purpose, not a polemic against intelligence testing (Option A oversimplifies) nor a discouragement from taking tests (Option B). Option D describes a topic the passage never covers — no historical timeline is presented.",
+    "difficulty": 2
+  },
+  {
+    "id": "R3",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Based on the passage, it can be inferred that the author believes:",
+    "passage": "The Mediterranean diet has attracted considerable attention from cardiologists not because of any single nutrient, but because of what the dietary pattern as a whole appears to do to systemic inflammation. Populations in Greece and southern Italy who adhere closely to this pattern — high in olive oil, legumes, whole grains, fish, and vegetables, with minimal red meat and processed food — consistently show lower rates of cardiovascular disease than age-matched populations in northern Europe and North America eating Western diets. Critics note that these populations also differ in stress levels, social cohesion, and physical activity, making dietary attribution difficult. Researchers have attempted to isolate the effect through randomized controlled trials, with results that are promising but not definitive. What the evidence does support clearly is that the totality of food choices, rather than any supplement or superfood, drives the observed health outcomes.",
+    "options": [
+      "The Mediterranean diet has been proven beyond doubt to prevent cardiovascular disease.",
+      "Nutritional research should focus exclusively on randomized controlled trials.",
+      "Isolating the effect of diet from other lifestyle factors remains a meaningful scientific challenge.",
+      "Populations in northern Europe have higher cardiovascular disease rates due primarily to stress."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage explicitly acknowledges critics who note that Mediterranean populations differ from comparison groups in stress, social cohesion, and physical activity — making dietary attribution difficult. This directly supports inferring that the author sees isolating dietary effects as a genuine challenge. Option A is contradicted by 'promising but not definitive.' Option B is not stated or implied. Option D attributes causation to stress specifically, but the passage lists stress as one of several confounding variables without singling it out.",
+    "difficulty": 2
+  },
+  {
+    "id": "R4",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what was the primary cause of the initial failure of the Quebec Bridge?",
+    "passage": "The collapse of the Quebec Bridge on August 29, 1907, stands as one of the most instructive engineering disasters in North American history. Seventy-five workers died when the southern cantilever arm buckled and fell into the St. Lawrence River. A subsequent royal commission determined that the collapse resulted not from sabotage or natural forces, but from a fundamental error in the original design calculations. The chief engineer, Theodore Cooper, had approved an increase in the bridge's dead load without ordering a full recalculation of the stresses on the lower chord members. These members had been designed to a margin sufficient for the original specifications but were inadequate for the increased load. Warning signs were present weeks before the collapse — workers noticed bending in the compression members — but Cooper, working remotely and reluctant to halt the project, dismissed the reports. The disaster ultimately led to sweeping reforms in engineering licensure in Canada, including the symbolic Iron Ring ceremony still practiced today.",
+    "options": [
+      "A sudden flood in the St. Lawrence River undermined the bridge's foundation.",
+      "Sabotage by workers who opposed the bridge's construction.",
+      "An increase in the bridge's dead load that was approved without recalculating structural stresses.",
+      "The use of substandard iron supplied by a corrupt vendor."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage states explicitly that the royal commission determined the collapse resulted from an error in design calculations — specifically, Cooper approved an increased dead load without ordering a recalculation of stresses on the lower chord members. Option A is directly contradicted ('not from sabotage or natural forces'). Option B is also directly contradicted. Option D introduces a detail not mentioned anywhere in the passage.",
+    "difficulty": 1
+  },
+  {
+    "id": "R5",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "The tone of this passage is best described as:",
+    "passage": "Let us be direct about what standardized testing does and does not measure. A high score on a timed multiple-choice examination tells us that a candidate can select correct answers quickly under pressure. It does not tell us whether that candidate can lead a team through a crisis, maintain composure when a plan disintegrates, or make a sound ethical judgment at 0200 with incomplete information and no supervisor available. The military has invested billions in selection instruments, and those instruments predict certain training outcomes with reasonable accuracy. What they cannot do — what no paper test can do — is capture the irreducible complexity of human performance under the conditions that actually define officer effectiveness. We should use these tools for what they are: one data point among many, not a verdict.",
+    "options": [
+      "Enthusiastic and celebratory",
+      "Analytical and cautionary",
+      "Dismissive and hostile",
+      "Neutral and purely descriptive"
+    ],
+    "correct_index": 1,
+    "explanation": "The author takes a measured, reasoned position: acknowledging what standardized tests can do ('predict certain training outcomes with reasonable accuracy') while warning against overreliance on them. This is analytical and cautionary. Option A is clearly wrong — there is no celebration. Option C goes too far; the author respects the tools while cautioning against misuse, which is not the same as hostility. Option D is wrong because the author clearly advocates a position rather than simply describing facts.",
+    "difficulty": 2
+  },
+  {
+    "id": "R6",
+    "section": "Reading",
+    "topic": "Vocabulary",
+    "question_text": "As used in the passage, the word 'attenuated' most nearly means:",
+    "passage": "Sound travels efficiently through water, a property that has made acoustic detection — sonar — the foundational technology of submarine warfare since World War I. In the open ocean, a submarine running quietly can be detected at ranges exceeding fifty miles under favorable thermal conditions. However, the littoral environment — shallow coastal waters — presents a radically different acoustic picture. Sound waves reflected from the seafloor and surface create a complex interference pattern, and the signal-to-noise ratio degrades sharply. The useful detection range is attenuated to a fraction of its deep-water value, sometimes less than a mile. This acoustic complexity is one reason why littoral anti-submarine warfare (ASW) remains one of the most technically demanding missions in naval operations, requiring sensor fusion, pattern recognition, and experienced operators rather than simple automated detection.",
+    "options": [
+      "Enhanced",
+      "Amplified",
+      "Reduced",
+      "Redirected"
+    ],
+    "correct_index": 2,
+    "explanation": "The context makes the meaning clear: in shallow coastal water, the detection range 'degrades sharply' and is described as 'a fraction of its deep-water value' — meaning it gets smaller. 'Attenuated' means reduced or weakened. Options A and B (enhanced, amplified) are antonyms in this context. Option D (redirected) describes a change in direction, not magnitude, which does not fit the passage's meaning.",
+    "difficulty": 1
+  },
+  {
+    "id": "R7",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "Which of the following best states the main idea of the passage?",
+    "passage": "Sleep deprivation is not merely an inconvenience — it is a form of cognitive impairment with measurable consequences for decision quality. Research from the Walter Reed Army Institute of Research demonstrated that subjects who were restricted to six hours of sleep per night for two weeks performed on cognitive tasks at a level equivalent to subjects who had been awake for 24 hours straight. Crucially, the sleep-deprived subjects did not perceive themselves as significantly impaired — they rated their own performance as only slightly below normal even as objective measures showed significant degradation. This disconnect between perceived and actual performance is particularly dangerous in operational environments where leaders must assess their own readiness. Military doctrine has increasingly incorporated sleep science into planning processes, establishing mandatory crew rest requirements and building sleep planning into mission briefs. The recognition is formal: sleep is a force multiplier, and its deprivation is an operational risk.",
+    "options": [
+      "Soldiers who sleep fewer than six hours per night will always make poor decisions in combat.",
+      "Sleep deprivation produces measurable cognitive impairment that operators often fail to self-detect, creating operational risk.",
+      "Walter Reed researchers have proven that six hours of sleep is sufficient for peak military performance.",
+      "Military doctrine currently neglects the importance of sleep in operational planning."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage covers three related ideas: the cognitive impairment caused by sleep deprivation, the dangerous gap between perceived and actual performance, and the military's recognition of this as operational risk. Option B captures all three. Option A overstates with 'always' and misreads the study's parameters. Option C inverts the study's finding — six hours produced impairment, not sufficiency. Option D is directly contradicted by the passage, which states doctrine has incorporated sleep science.",
+    "difficulty": 2
+  },
+  {
+    "id": "R8",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The author's primary purpose in writing this passage is to:",
+    "passage": "The history of cartography is, in many ways, a history of power. Maps do not simply record geography — they assert it. The decision of what to name a coastline, where to place the center of a projection, which territories to depict as large or small, and which trade routes to highlight are not neutral technical choices. They reflect the interests, assumptions, and ambitions of whoever commissioned the map. European maps of Africa in the sixteenth and seventeenth centuries routinely depicted the interior as blank or populated with mythological creatures — not because the information did not exist, but because Arab and African geographic knowledge was not consulted. The Peters projection, introduced in 1974, deliberately distorts the shapes of continents to restore proportional accuracy in land area, a direct critique of the Mercator projection's implicit elevation of northern hemisphere landmasses. To read a map critically is to ask not only 'what does this show?' but 'who made it, and why?'",
+    "options": [
+      "To teach readers how to navigate using historical maps.",
+      "To argue that the Peters projection is more accurate than the Mercator projection.",
+      "To demonstrate that maps reflect the values and interests of their creators rather than objective reality.",
+      "To summarize the key developments in European cartography from 1500 to 1975."
+    ],
+    "correct_index": 2,
+    "explanation": "The passage consistently advances the thesis that maps are not neutral — they reflect power, interests, and assumptions. The examples (African interior, projections) all serve this argument. Option A is not the purpose; navigation is never mentioned. Option B is too narrow — the Peters projection is one example, not the thesis. Option D describes a historical survey, but the passage is an argument, not a timeline.",
+    "difficulty": 2
+  },
+  {
+    "id": "R9",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Which of the following conclusions is best supported by the passage?",
+    "passage": "The Stoic philosophers of ancient Rome were not academics cloistered in lecture halls — they were soldiers, senators, and emperors who developed their philosophy as a practical operating system for navigating adversity. Marcus Aurelius wrote the Meditations not for publication but as private notes to himself, a daily practice of reminding himself of principles he found difficult to maintain under the pressures of ruling an empire at war. Epictetus, who had been a slave, distilled Stoicism into a single distinction: some things are within our control, and some things are not. Wealth, reputation, other people's opinions, and outcomes in the world are not within our control. Our judgments, impulses, desires, and responses are. This dichotomy, Epictetus argued, is the foundation of all equanimity. The person who confuses these two categories — who treats external circumstances as within their control, or treats their own responses as beyond it — will suffer unnecessarily.",
+    "options": [
+      "Marcus Aurelius published the Meditations as a guide for military commanders.",
+      "Stoicism is primarily a theoretical philosophy developed for academic audiences.",
+      "According to Stoic thinking, emotional suffering often arises from mistakenly attributing control to things outside oneself.",
+      "Epictetus believed wealth and reputation could be achieved through disciplined Stoic practice."
+    ],
+    "correct_index": 2,
+    "explanation": "Epictetus's dichotomy holds that people who confuse what is within their control with what is not 'will suffer unnecessarily.' This directly supports the inference that suffering arises from misattributing control. Option A is directly contradicted — Meditations were private notes, not published. Option B is contradicted by the opening sentence, which describes Stoicism as a practical philosophy for soldiers and rulers. Option D inverts Epictetus's teaching — he placed wealth and reputation in the category of things not within our control.",
+    "difficulty": 3
+  },
+  {
+    "id": "R10",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, which of the following best describes how the OODA loop is used in military decision-making?",
+    "passage": "Colonel John Boyd, a fighter pilot and military theorist, introduced the OODA loop in the 1970s as a model for understanding how combatants make decisions under pressure. OODA stands for Observe, Orient, Decide, Act — a cycle that every individual or organization continuously executes, whether consciously or not. Boyd's central insight was not that faster decisions are better, but that disrupting an adversary's OODA loop — causing them to observe incorrectly, orient based on false assumptions, or act on outdated decisions — is more decisive than any single engagement. A force that can operate inside an adversary's decision cycle forces the adversary to react to a situation that has already changed, creating compounding confusion. Modern maneuver warfare doctrine, deception operations, and electronic warfare are all, in part, applications of Boyd's framework. The OODA loop is not a checklist but a mental model for understanding the tempo of competitive decision-making.",
+    "options": [
+      "As a rigid checklist that commanders must follow in exactly four steps before taking action.",
+      "As a model for understanding decision cycles, with the goal of disrupting an adversary's cycle rather than simply speeding up one's own.",
+      "As a training tool designed exclusively for fighter pilots to improve their reaction time.",
+      "As a replacement for traditional intelligence gathering in modern warfare."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage states explicitly that Boyd's insight was 'not that faster decisions are better' but that disrupting an adversary's OODA loop is decisive — and that modern doctrine applies this framework. Option A contradicts the passage's explicit statement that it is 'not a checklist.' Option C misreads the passage — while Boyd was a fighter pilot, the passage describes broad military doctrine application. Option D is not supported; intelligence gathering is not mentioned as something the OODA loop replaces.",
+    "difficulty": 1
+  },
+  {
+    "id": "R11",
+    "section": "Reading",
+    "topic": "Vocabulary",
+    "question_text": "As used in the passage, the word 'endemic' most nearly means:",
+    "passage": "Corruption in post-conflict reconstruction is not an anomaly — it is endemic to the environment. When state institutions have collapsed, when legal systems are non-functional, and when large sums of foreign money flow into a society without adequate oversight, corruption does not require active cultivation. It emerges as a rational response to institutional vacuum. International reconstruction agencies have documented this pattern repeatedly across post-conflict environments in the Balkans, West Africa, and the Middle East. Yet the policy response has often been inadequate, treating corruption as a problem to be reported rather than a structural condition to be designed around. Effective reconstruction programs build accountability mechanisms into project design from the outset — independent audits, local oversight committees, phased disbursement tied to verified outcomes — rather than attempting to impose compliance on systems that lack the institutional capacity to sustain it.",
+    "options": [
+      "Rare and difficult to observe",
+      "Deliberately introduced by outside actors",
+      "Naturally and persistently present in a particular environment",
+      "Linked to a specific individual or organization"
+    ],
+    "correct_index": 2,
+    "explanation": "The passage contrasts 'endemic' with 'anomaly' — something that does not require active cultivation but emerges naturally in a given environment. 'Endemic' means inherent to or persistently present in a particular context. Option A (rare) is the opposite of what the passage describes. Option B (deliberately introduced) is contradicted by 'does not require active cultivation.' Option D (linked to an individual) describes a specific attribution, whereas 'endemic' refers to a systemic condition.",
+    "difficulty": 3
+  },
+  {
+    "id": "R12",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "What is the central argument of this passage?",
+    "passage": "The popular narrative of scientific progress as a steady accumulation of knowledge obscures the discontinuous, often violent nature of how paradigms actually change. Thomas Kuhn, in The Structure of Scientific Revolutions, argued that science proceeds through long periods of 'normal science' — puzzle-solving within an accepted framework — interrupted by crises and revolutionary shifts he called paradigm changes. These shifts do not occur simply because new evidence accumulates; they occur when anomalies within the existing framework become so numerous and significant that the framework itself is abandoned in favor of a new one. Crucially, Kuhn argued that competing paradigms are incommensurable — they do not share the same standards of evidence or even the same definition of the key problems. This means that scientific revolutions are not purely rational events. They involve sociological factors: the retirement of older scientists committed to the old framework, the rise of a new generation trained in the new one, and the rhetorical persuasion of a scientific community.",
+    "options": [
+      "Thomas Kuhn believed that scientific progress is always the result of rational evidence evaluation.",
+      "Scientific progress is not a smooth accumulation of knowledge but involves paradigm-shifting crises driven partly by social and rhetorical factors.",
+      "The concept of incommensurability proves that different scientific theories can never be compared.",
+      "Normal science is the most productive phase of scientific development."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage describes Kuhn's model in which science advances through discontinuous paradigm shifts, and explicitly states that these shifts involve sociological and rhetorical factors — not purely rational evidence evaluation. Option A is directly contradicted. Option C overstates incommensurability — the passage says paradigms don't share the same standards, not that they can never be compared at all. Option D is not supported; the passage treats normal science as one phase, without ranking it above revolutionary phases.",
+    "difficulty": 3
+  },
+  {
+    "id": "R13",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Based on the passage, what can be inferred about how the author views rote memorization as a study strategy for the OAR?",
+    "passage": "Aptitude tests in the military selection context are designed specifically to resist short-term cramming. Unlike a subject-matter test, where memorizing a defined body of facts yields predictable returns, an aptitude test measures underlying cognitive processes — the speed and accuracy with which a candidate processes numerical relationships, spatial transformations, or written arguments. These processes are trained over years, not days. Research in cognitive psychology consistently shows that massed practice — studying intensively in the days before a test — produces short-lived gains that decay rapidly. Distributed practice, by contrast — studying the same material over weeks with spaced repetition — produces durable changes to long-term memory and processing fluency. The implication for candidates is clear: beginning preparation months in advance and practicing across all sections consistently will substantially outperform a last-minute sprint, regardless of the candidate's baseline ability level.",
+    "options": [
+      "Rote memorization is the most effective technique for mastering the mathematical sections of the OAR.",
+      "Rote memorization is likely insufficient for OAR preparation because the test measures cognitive processes rather than factual recall.",
+      "The author believes rote memorization should be combined with intensive cramming for best results.",
+      "Rote memorization is only effective for candidates who already have strong baseline aptitude scores."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage argues that aptitude tests measure underlying cognitive processes rather than factual recall, and that massed practice (cramming, which often relies on rote memorization) produces short-lived gains. The inference is that rote memorization is mismatched to what the test measures. Option A contradicts the passage's logic. Option C contradicts the explicit finding that massed practice produces only short-lived gains. Option D introduces a qualification about baseline scores that the passage does not make.",
+    "difficulty": 3
+  },
+  {
+    "id": "R14",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The author includes the example of the 1918 influenza pandemic primarily to:",
+    "passage": "Public health systems are only as strong as their least-funded components. The 1918 influenza pandemic, which killed an estimated 50 to 100 million people worldwide, spread in part because local health departments in rural counties and small cities lacked the surveillance infrastructure, reporting protocols, and trained personnel to detect and respond to an emerging outbreak. Urban centers with better-resourced health departments saw higher early mortality simply because they were the first to receive infected travelers — but their response capacity also meant faster containment once the scale of the threat was recognized. The lesson that epidemiologists drew from 1918 was structural: a global pandemic cannot be stopped at its peak; it must be interrupted early, at the margins, by the health systems that most people assume matter least. Investment in local and rural public health infrastructure is not charity — it is the foundation of national security.",
+    "options": [
+      "To argue that urban health departments are more important than rural ones.",
+      "To provide a specific historical example that illustrates the danger of underfunded local public health systems.",
+      "To explain the medical cause of the 1918 influenza pandemic.",
+      "To compare the mortality rates of the 1918 pandemic with more recent outbreaks."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage uses the 1918 pandemic as evidence for the opening claim that weak local systems undermine overall public health capacity. The example shows specifically how rural underfunding enabled spread and how urban response capacity (while imperfect) allowed faster containment — directly illustrating the argument. Option A inverts the passage's argument, which actually argues for local/rural investment. Option C is wrong; the passage does not address the medical cause of influenza. Option D is wrong; no comparison to other pandemics is made.",
+    "difficulty": 2
+  },
+  {
+    "id": "R15",
+    "section": "Reading",
+    "topic": "Tone",
+    "question_text": "The tone of the passage can best be described as:",
+    "passage": "It has become fashionable in certain circles to dismiss military history as the glorification of violence, as though understanding how the Battle of Midway was won or why the Maginot Line failed were somehow morally equivalent to celebrating the carnage involved. This is a confusion of subject matter with endorsement. A physician who studies pathology is not celebrating disease. A structural engineer who analyzes bridge collapses is not glorifying failure. Military history, at its best, is the systematic study of how human beings make decisions under conditions of extreme uncertainty, resource constraint, and irreversible consequence — conditions that apply, in modified form, to every organization that has ever tried to execute a plan in a competitive environment. Those who dismiss it as mere jingoism reveal less about the discipline than about the limits of their own intellectual curiosity.",
+    "options": [
+      "Reverent and patriotic",
+      "Resigned and melancholy",
+      "Critical and somewhat combative",
+      "Objective and dispassionate"
+    ],
+    "correct_index": 2,
+    "explanation": "The author takes a clear position against critics of military history and uses pointed language — 'fashionable in certain circles,' 'confusion of subject matter with endorsement,' and the closing line about critics revealing 'the limits of their own intellectual curiosity.' This is not neutral; it is an argument delivered with visible impatience, making 'critical and somewhat combative' the best fit. Option A does not fit — the author defends an intellectual discipline, not a nation. Option B is clearly wrong in tone. Option D is wrong because the author is obviously partisan to a position.",
+    "difficulty": 2
+  },
+  {
+    "id": "R16",
+    "section": "Reading",
+    "topic": "Vocabulary",
+    "question_text": "As used in the passage, 'salient' most nearly means:",
+    "passage": "When preparing a mission brief, effective commanders do not attempt to convey every piece of intelligence available — they identify the salient facts and strip away the rest. The difference between a well-constructed brief and a confusing one often comes down to this selection process. A brief that lists fourteen enemy vehicle positions, four possible courses of action, three weather windows, and six potential obstacles forces the audience to perform the cognitive work of prioritization that the commander should have already done. In contrast, a brief built around the two or three most operationally significant facts allows subordinates to internalize the situation quickly and make sound decisions autonomously when communications are interrupted. The Marine Corps planning doctrine explicitly addresses this through its concept of 'commander's intent' — a concise statement of purpose and key tasks that preserves subordinate initiative even when the original plan no longer applies.",
+    "options": [
+      "Classified or restricted",
+      "Most relevant and significant",
+      "Chronologically ordered",
+      "Difficult to verify"
+    ],
+    "correct_index": 1,
+    "explanation": "The passage contrasts a brief built around 'salient facts' with one that lists excessive detail, and explains that salient facts allow subordinates to 'internalize the situation quickly.' The context makes clear that salient means relevant and significant — the facts that matter most operationally. Option A (classified) introduces a security concept not discussed in the passage. Option C (chronologically ordered) describes a sequence, not significance. Option D (difficult to verify) is the opposite of what the passage implies — key facts are those that are clear and actionable.",
+    "difficulty": 1
+  },
+  {
+    "id": "R17",
+    "section": "Reading",
+    "topic": "Main Idea",
+    "question_text": "Which of the following best expresses the main idea of the passage?",
+    "passage": "Tidal energy has attracted renewed interest as a renewable power source because, unlike wind and solar, it is entirely predictable. The gravitational interaction between the Earth and Moon produces tidal cycles that can be calculated centuries in advance to within minutes. A tidal energy installation in a suitable estuary or tidal channel can therefore be integrated into a power grid with near-perfect reliability forecasts, eliminating the intermittency problem that makes wind and solar challenging to dispatch on demand. However, suitable locations are geographically constrained — high tidal ranges occur in a limited number of places globally, including the Bay of Fundy in Canada, the Severn Estuary in the United Kingdom, and portions of coastal France. Additionally, tidal installations carry significant upfront capital costs and can alter local hydrodynamics in ways that affect sediment transport and marine ecosystems. The technology is promising but not universally deployable.",
+    "options": [
+      "Tidal energy is the most effective form of renewable energy currently available.",
+      "Tidal energy offers significant advantages in predictability but is limited by geographic constraints and ecological considerations.",
+      "The Bay of Fundy and Severn Estuary are the only viable locations for tidal energy development.",
+      "Tidal energy should replace wind and solar power in coastal regions immediately."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage presents tidal energy's key advantage (predictability compared to wind and solar) and then immediately qualifies it with geographic constraints, capital costs, and ecological concerns — concluding that it is 'promising but not universally deployable.' Option B captures this balanced assessment. Option A overclaims — the passage never ranks tidal energy above other renewables. Option C overstates the limitation; the passage gives three examples but says 'limited number of places globally,' not exactly two. Option D is prescriptive in a way the passage never is.",
+    "difficulty": 1
+  },
+  {
+    "id": "R18",
+    "section": "Reading",
+    "topic": "Detail",
+    "question_text": "According to the passage, what distinguishes a Type I error from a Type II error in hypothesis testing?",
+    "passage": "Statistical hypothesis testing requires a researcher to make a binary decision — reject or fail to reject the null hypothesis — based on probabilistic evidence. This decision process can fail in two distinct ways. A Type I error, also called a false positive, occurs when the researcher rejects the null hypothesis when it is actually true. In a medical context, this would mean concluding that a drug is effective when it actually has no effect. A Type II error, also called a false negative, occurs when the researcher fails to reject the null hypothesis when it is actually false — concluding that a drug has no effect when it is genuinely effective. The probability of committing a Type I error is controlled by the significance threshold, commonly set at 0.05 in the social sciences. The probability of a Type II error depends on sample size, effect size, and the chosen significance threshold. Researchers who set very strict significance thresholds to minimize Type I errors inadvertently increase their Type II error rate — the two types of error exist in tension.",
+    "options": [
+      "A Type I error occurs when a study is not replicated; a Type II error occurs when it is replicated incorrectly.",
+      "A Type I error is a false positive (rejecting a true null hypothesis); a Type II error is a false negative (failing to reject a false null hypothesis).",
+      "A Type I error results from small sample sizes, while a Type II error results from setting the significance threshold too high.",
+      "A Type I error and a Type II error are both controlled by increasing the sample size."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage defines Type I error as rejecting the null hypothesis when true (false positive) and Type II error as failing to reject when false (false negative). Option B restates these definitions accurately. Option A invents a replication-based distinction not present in the passage. Option C partially misreads — the passage says sample size affects Type II error probability, but does not say it causes it; it also misstates what controls Type I error. Option D is not supported; the passage explains that reducing one type of error increases the other, meaning they cannot both be controlled simply by increasing sample size.",
+    "difficulty": 3
+  },
+  {
+    "id": "R19",
+    "section": "Reading",
+    "topic": "Inference",
+    "question_text": "Which of the following can be most reasonably inferred from the passage?",
+    "passage": "The naval officer qualification process has become longer and more complex over the past four decades, mirroring broader trends in military professionalization. Officers today are expected to be competent managers of technical systems, legal authorities familiar with the law of armed conflict, joint operators capable of working with other services and coalition partners, and strategic communicators who can explain military actions to domestic and foreign audiences. Each successive generation of officers carries a larger portfolio of required competencies than the last. Critics within the military community argue that this accretion of requirements has come at the expense of depth: officers are trained to a minimum standard in many areas but to mastery in few. Proponents counter that modern warfare is inherently joint and multi-domain, making breadth of competency a genuine operational requirement rather than bureaucratic overreach.",
+    "options": [
+      "The author believes the current officer qualification process should be eliminated entirely.",
+      "There is ongoing internal debate within the military about whether officer training has become too broad at the expense of depth.",
+      "Modern naval officers are less competent than officers from earlier generations.",
+      "The law of armed conflict is the most important competency for modern naval officers."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage presents both critics (breadth has come at the expense of depth) and proponents (breadth is operationally necessary), without resolving the debate — which itself implies an ongoing disagreement within the military community. Option B directly captures this inference. Option A is unsupported; the author describes a debate but never advocates eliminating the process. Option C is not supported — the passage describes expansion of requirements, not a decline in competence. Option D introduces a ranking not present in the passage.",
+    "difficulty": 2
+  },
+  {
+    "id": "R20",
+    "section": "Reading",
+    "topic": "Author's Purpose",
+    "question_text": "The author's primary purpose in this passage is to:",
+    "passage": "The concept of 'zero-defect culture' — the idea that military leaders should be evaluated and promoted based on the complete absence of mistakes — has been criticized by military scholars for decades, yet it persists in various forms. The problem is not that standards should be lowered; it is that a culture intolerant of all failure also becomes intolerant of the risk-taking that produces superior performance. A submarine commander who never pushes the boundaries of his crew's training never discovers where those boundaries are — and discovers them instead in an operational emergency when the cost of error is catastrophic. The Air Force's Weapons School famously requires instructors to debrief their own mistakes openly, by name, in front of students. This is not a cultural accident; it is a deliberate design choice rooted in the understanding that learning organizations must tolerate the admission of failure in order to extract lessons from it. The question is not whether to accept any failure — it is which failures to learn from and which to prevent.",
+    "options": [
+      "To argue that military standards should be lowered to improve morale.",
+      "To explain why zero-defect culture, while well-intentioned, can undermine the learning and risk-tolerance necessary for high performance.",
+      "To praise the Air Force Weapons School as the model for all military training programs.",
+      "To document the history of zero-defect culture policies across the branches of the military."
+    ],
+    "correct_index": 1,
+    "explanation": "The passage critiques zero-defect culture not by calling for lower standards but by arguing that intolerance of all failure suppresses the risk-taking and learning that high performance requires. The Air Force example is used as evidence, not as the main argument. Option A misreads the passage — the author explicitly says 'the problem is not that standards should be lowered.' Option C overstates the Air Force reference, which is a single illustrative example. Option D describes a historical survey the passage never conducts.",
+    "difficulty": 3
+  }
+]
