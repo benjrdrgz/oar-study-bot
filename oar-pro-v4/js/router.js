@@ -156,12 +156,21 @@ async function handleRoute() {
       updateSidebar(path);
     }
 
-    // Re-render MathJax (v3 API)
-    if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
-      if (typeof MathJax.typesetClear === 'function') {
-        try { MathJax.typesetClear([app]); } catch (e) { /* ignore */ }
+    // Re-render MathJax (v3 API) — wait for startup.promise if still loading async
+    if (typeof MathJax !== 'undefined') {
+      const doMathJax = () => {
+        if (typeof MathJax.typesetClear === 'function') {
+          try { MathJax.typesetClear([app]); } catch (e) { /* ignore */ }
+        }
+        if (typeof MathJax.typesetPromise === 'function') {
+          MathJax.typesetPromise([app]).catch(() => {});
+        }
+      };
+      if (MathJax.startup && typeof MathJax.startup.promise === 'object') {
+        MathJax.startup.promise.then(doMathJax).catch(() => {});
+      } else {
+        doMathJax();
       }
-      MathJax.typesetPromise([app]).catch(() => {});
     }
 
     // Update Tawk.to context

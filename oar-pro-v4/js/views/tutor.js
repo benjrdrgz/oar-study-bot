@@ -587,9 +587,21 @@ function renderTutorProblem() {
     </div>
   `;
 
-  // MathJax re-render
-  if (typeof MathJax !== 'undefined' && MathJax.Hub) {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, area]);
+  // MathJax v3 re-render
+  if (typeof MathJax !== 'undefined') {
+    const doTypeset = () => {
+      if (typeof MathJax.typesetClear === 'function') {
+        try { MathJax.typesetClear([area]); } catch (e) {}
+      }
+      if (typeof MathJax.typesetPromise === 'function') {
+        MathJax.typesetPromise([area]).catch(() => {});
+      }
+    };
+    if (MathJax.startup && typeof MathJax.startup.promise === 'object') {
+      MathJax.startup.promise.then(doTypeset).catch(() => {});
+    } else {
+      doTypeset();
+    }
   }
 }
 

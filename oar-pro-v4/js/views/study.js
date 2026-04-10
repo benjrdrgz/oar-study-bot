@@ -214,8 +214,13 @@ async function renderLessonView(lessonId) {
   // Determine topic for practice link
   const topic = lesson.tags?.[0] || lesson.title;
 
+  // Defensive unescape: DB content may have double-escaped LaTeX backslashes (\\[ instead of \[).
+  // MathJax requires single backslash delimiters. Replace all \\ → \ in content.
+  const lessonContent = (lesson.content_html || '<p class="text-muted">No content available for this lesson yet.</p>')
+    .replace(/\\\\/g, '\\');
+
   app.innerHTML = `
-    <div style="max-width:740px">
+    <div style="max-width:740px;margin:0 auto">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
         <a href="#/study" style="color:var(--text-3);font-size:13px">&larr; All Lessons</a>
         <span style="color:var(--text-3);font-size:13px">/</span>
@@ -229,7 +234,7 @@ async function renderLessonView(lessonId) {
       <div class="divider"></div>
 
       <div class="lesson-content" id="lessonContent">
-        ${lesson.content_html || '<p class="text-muted">No content available for this lesson yet.</p>'}
+        ${lessonContent}
       </div>
 
       <div class="divider"></div>
@@ -332,14 +337,25 @@ async function handleMarkComplete(lessonId) {
 // MATHJAX HELPER
 // ==========================================
 function triggerMathJax() {
-  // MathJax v3 API: typesetPromise scans and re-renders the target element
-  if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+  if (typeof MathJax === 'undefined') return;
+
+  const doTypeset = () => {
     const app = document.getElementById('app');
-    // Clear any previously typeset content so re-render works
+    if (!app) return;
+    // typesetClear removes previously rendered math so re-render is clean
     if (typeof MathJax.typesetClear === 'function') {
       try { MathJax.typesetClear([app]); } catch (e) { /* ignore */ }
     }
-    MathJax.typesetPromise([app]).catch(err => console.warn('[MathJax]', err));
+    if (typeof MathJax.typesetPromise === 'function') {
+      MathJax.typesetPromise([app]).catch(err => console.warn('[MathJax]', err));
+    }
+  };
+
+  // MathJax loads async — if startup.promise exists, wait for it before typesetting
+  if (MathJax.startup && typeof MathJax.startup.promise === 'object') {
+    MathJax.startup.promise.then(doTypeset).catch(() => {});
+  } else {
+    doTypeset();
   }
 }
 

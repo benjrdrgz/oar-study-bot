@@ -561,9 +561,21 @@ function renderFormulaSections() {
   container.innerHTML = html;
   emptyState.style.display = anyVisible ? 'none' : 'block';
 
-  // Re-typeset MathJax
-  if (typeof MathJax !== 'undefined' && MathJax.Hub) {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, container]);
+  // Re-typeset MathJax v3 API
+  if (typeof MathJax !== 'undefined') {
+    const doTypeset = () => {
+      if (typeof MathJax.typesetClear === 'function') {
+        try { MathJax.typesetClear([container]); } catch (e) {}
+      }
+      if (typeof MathJax.typesetPromise === 'function') {
+        MathJax.typesetPromise([container]).catch(() => {});
+      }
+    };
+    if (MathJax.startup && typeof MathJax.startup.promise === 'object') {
+      MathJax.startup.promise.then(doTypeset).catch(() => {});
+    } else {
+      doTypeset();
+    }
   }
 }
 
