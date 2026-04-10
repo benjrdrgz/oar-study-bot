@@ -16,17 +16,29 @@ Steps:
 """
 
 import json
+import os
+import pathlib
 import urllib.request
 import urllib.error
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
-SUPABASE_URL = "https://ugblwepfptumffzcljot.supabase.co"
-SERVICE_KEY  = (
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-    "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnYmx3ZXBmcHR1bWZmemNsam90Iiwicm9sZSI6"
-    "InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTc4OTUxNiwiZXhwIjoyMDkxMzY1NTE2fQ."
-    "REDACTED_ROTATED_KEY"
-)
+
+# Load .env from project root (zero external dependencies)
+_env_file = pathlib.Path(__file__).resolve().parent.parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://ugblwepfptumffzcljot.supabase.co")
+SERVICE_KEY  = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+if not SERVICE_KEY:
+    raise EnvironmentError(
+        "SUPABASE_SERVICE_ROLE_KEY not set.\n"
+        "Copy .env.example → .env and fill in your service role key."
+    )
 HEADERS = {
     "apikey":        SERVICE_KEY,
     "Authorization": f"Bearer {SERVICE_KEY}",

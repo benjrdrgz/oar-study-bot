@@ -1,1 +1,26 @@
+# Vercel
 .vercel
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+
+# Temp / scratch
+temp/
+tmp/
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Flow internal data
+.claude-flow/
