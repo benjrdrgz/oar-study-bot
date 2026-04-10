@@ -51,11 +51,27 @@ async function handleRoute() {
   }
 
   if (!matchedRoute) {
-    matchedRoute = routes['/'] || (() => { document.getElementById('app').innerHTML = '<h1>404</h1>'; });
+    matchedRoute = () => {
+      const app = document.getElementById('app');
+      app.classList.add('full-width');
+      document.getElementById('sidebar').style.display = 'none';
+      document.getElementById('mobileToggle').style.display = 'none';
+      app.innerHTML = `
+        <div style="max-width:480px;margin:100px auto;text-align:center;padding:0 24px">
+          <div style="font-size:64px;margin-bottom:16px">⚓</div>
+          <h1 style="font-size:32px;margin-bottom:12px">Page Not Found</h1>
+          <p class="text-muted" style="margin-bottom:28px">That route doesn't exist. You might have a typo in the URL.</p>
+          <a href="#/dashboard" class="btn btn-primary">Go to Dashboard</a>
+          <span style="margin:0 12px;color:var(--text-3)">or</span>
+          <a href="#/" class="btn btn-secondary">Home</a>
+        </div>
+      `;
+    };
   }
 
   // Auth guard — check if route requires auth
-  const publicRoutes = ['/', '/login', '/signup', '/payment-success', '/diagnostic', '/checkout'];
+  const publicRoutes = ['/', '/login', '/signup', '/payment-success', '/diagnostic', '/checkout',
+                        '/forgot-password', '/update-password'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
   if (!publicRoutes.includes(path)) {
@@ -91,6 +107,26 @@ async function handleRoute() {
   app.style.opacity = '0';
 
   setTimeout(async () => {
+    // ── Layout reset ──────────────────────────────────────────────────────────
+    // Prevents sidebar/full-width state from bleeding between routes.
+    // Public routes: hide sidebar, go full-width.
+    // Authenticated routes: show sidebar (individual views override if needed).
+    const _sidebar = document.getElementById('sidebar');
+    const _mobileToggle = document.getElementById('mobileToggle');
+    const _isPublic = ['/', '/login', '/signup', '/forgot-password', '/update-password',
+                        '/payment-success', '/checkout'].includes(path)
+                      || path.startsWith('/diagnostic');
+    if (_isPublic) {
+      _sidebar.style.display = 'none';
+      app.classList.add('full-width');
+      _mobileToggle.style.display = 'none';
+    } else {
+      _sidebar.style.display = '';
+      app.classList.remove('full-width');
+      _mobileToggle.style.display = '';
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     await matchedRoute(params);
     app.style.opacity = '1';
 

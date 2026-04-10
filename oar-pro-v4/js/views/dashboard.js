@@ -97,17 +97,30 @@ route('/dashboard', async () => {
   `;
 
   // Fetch all data in parallel
-  const [profile, score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory] = await Promise.all([
-    getProfile(),
-    Store.predictScore(),
-    Store.getCurrentStreak(),
-    Store.getStreaks(30),
-    Store.getAllTopicMastery(),
-    Store.getQuizHistory(20),
-    Store.getAllLessonProgress(),
-    Store.getLessons(),
-    Store.getAdaptiveTestHistory()
-  ]);
+  let profile, score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory;
+  try {
+    [profile, score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory] = await Promise.all([
+      getProfile(),
+      Store.predictScore(),
+      Store.getCurrentStreak(),
+      Store.getStreaks(30),
+      Store.getAllTopicMastery(),
+      Store.getQuizHistory(20),
+      Store.getAllLessonProgress(),
+      Store.getLessons(),
+      Store.getAdaptiveTestHistory()
+    ]);
+  } catch (err) {
+    console.error('[Dashboard] Data fetch failed:', err);
+    app.innerHTML = `
+      <div style="max-width:480px;margin:80px auto;text-align:center;padding:0 24px">
+        <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+        <h2 style="margin-bottom:12px">Couldn't Load Dashboard</h2>
+        <p class="text-muted" style="margin-bottom:24px">Check your connection and try again.</p>
+        <button class="btn btn-primary" onclick="navigate('#/dashboard')">Try Again</button>
+      </div>`;
+    return;
+  }
 
   // Render sidebar
   await renderDashboardSidebar(lessons, lessonProgress);
