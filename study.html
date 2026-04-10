@@ -104,6 +104,151 @@ a{color:inherit;text-decoration:none}
   .mobile-toggle{display:flex;align-items:center;justify-content:center}
   .lesson-content h1{font-size:22px}
 }
+
+/* Lecture-style enhancements */
+.callout-think {
+  background: rgba(139,92,246,.08);
+  border-left: 3px solid #8B5CF6;
+  padding: 16px 18px;
+  margin: 16px 0;
+  border-radius: 0 10px 10px 0;
+  line-height: 1.7;
+}
+.callout-think .callout-title {
+  color: #8B5CF6;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.callout-practice {
+  background: rgba(59,130,246,.06);
+  border: 1px dashed rgba(59,130,246,.3);
+  padding: 18px;
+  margin: 20px 0;
+  border-radius: 10px;
+  line-height: 1.7;
+}
+.callout-practice .callout-title {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.callout-practice .practice-answer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--text-2);
+}
+
+.callout-realworld {
+  background: rgba(245,158,11,.06);
+  border-left: 3px solid var(--yellow);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 10px 10px 0;
+  line-height: 1.7;
+}
+.callout-realworld .callout-title {
+  color: var(--yellow);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.callout-oar {
+  background: rgba(239,68,68,.06);
+  border-left: 3px solid var(--red);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 10px 10px 0;
+  line-height: 1.7;
+}
+.callout-oar .callout-title {
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+/* Spacer for "try it yourself" problems */
+.practice-spacer {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* Step-by-step walkthrough */
+.steps {
+  counter-reset: step;
+  padding-left: 0;
+  list-style: none;
+}
+.steps li {
+  counter-increment: step;
+  padding: 10px 0 10px 44px;
+  position: relative;
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+}
+.steps li:last-child { border-bottom: none; }
+.steps li::before {
+  content: "Step " counter(step);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* Conversational emphasis */
+.key-insight {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 16px 0;
+  line-height: 1.6;
+  border-left: 3px solid var(--green);
+  padding-left: 16px;
+  margin: 16px 0;
+}
+
+/* Better lesson content typography */
+.content-viewer p {
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+.content-viewer h2 {
+  margin-top: 32px;
+  margin-bottom: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.content-viewer h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+.content-viewer h3 {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
 </style>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -898,68 +1043,178 @@ const lessons = [
     tags: ["F=ma","Friction","Free Fall"],
     content: `
       <h1>Forces &amp; Newton's Laws</h1>
-      <p class="lesson-subtitle">The foundation of mechanical comprehension. Understand force, mass, and acceleration &mdash; and you unlock half the section.</p>
+      <p class="lesson-subtitle">OK, Newton's Laws. These three laws are the foundation of EVERYTHING in mechanical comprehension. And here's the beautiful thing &mdash; once you truly understand them, about half the mechanical questions on the OAR become obvious. Let me break each one down in a way that actually sticks.</p>
 
-      <h2>Newton's First Law (Inertia)</h2>
-      <p>An object at rest stays at rest, and an object in motion stays in motion at constant velocity, <strong>unless acted upon by a net external force</strong>.</p>
+      <!-- ===== FIRST LAW ===== -->
+      <h2>Newton's First Law &mdash; Inertia</h2>
+      <p>Here's the idea in plain English: <strong>an object at rest stays at rest, and an object in motion stays in motion &mdash; UNLESS something pushes or pulls it.</strong> That's it. Objects are lazy. They don't change what they're doing unless a force makes them.</p>
+
       <div class="callout callout-tip">
-        <div class="callout-title">Key Insight</div>
-        If an object moves at <strong>constant velocity</strong>, the net force on it is <strong>zero</strong>. Forces are balanced.
+        <div class="callout-title">Think About It This Way</div>
+        Why do you lurch forward when a car slams the brakes? Your body was moving and wanted to <strong>keep moving</strong>. The car stopped, but you didn't &mdash; at least not until the seatbelt caught you. That's inertia in action. It's also why your coffee spills when you brake suddenly &mdash; the coffee was moving forward and it doesn't "know" the cup stopped.
       </div>
 
-      <h2>Newton's Second Law</h2>
+      <p>Inertia is just a fancy word for <em>resistance to change</em>. The more mass something has, the more inertia it has. A bowling ball is harder to get rolling than a tennis ball &mdash; and once it IS rolling, it's harder to stop. Same concept.</p>
+
+      <div class="callout callout-example">
+        <div class="callout-title">OAR-Style Question</div>
+        "A ball is sitting on a table in a vacuum. No forces act on it. What happens?"<br><br>
+        The answer is always: <strong>nothing</strong>. It just sits there. Forever. An object at rest stays at rest unless something pushes it. Don't overthink these &mdash; the first law makes them free points.
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">More Real-World Examples</div>
+        <ul>
+          <li><strong>Seatbelts</strong> &mdash; exist because of inertia. In a crash, the car stops but your body keeps going.</li>
+          <li><strong>Astronauts floating</strong> &mdash; in space there's no friction or air resistance, so once you push off a wall, you drift forever until something stops you. Pure first law.</li>
+          <li><strong>Tablecloth trick</strong> &mdash; yank a tablecloth fast enough and the dishes stay put. Their inertia resists the quick horizontal pull.</li>
+        </ul>
+      </div>
+
+      <p>One more critical insight: if an object is moving at <strong>constant velocity</strong> (not speeding up, not slowing down, not changing direction), then the net force on it is <strong>zero</strong>. All the forces are balanced. The OAR loves testing this &mdash; constant velocity means zero net force, every time.</p>
+
+      <!-- ===== SECOND LAW ===== -->
+      <h2>Newton's Second Law &mdash; F = ma</h2>
+      <p>This is THE formula of physics. If you remember one equation from this entire course, make it this one:</p>
+
       <div class="formula-block">\\[F = m \\times a\\]</div>
-      <p>Force equals mass times acceleration. This is the most-used formula in mechanical comprehension.</p>
+
+      <p>Force equals mass times acceleration. Let me unpack what that actually means: if you push something, it accelerates. Push it harder (more force), it accelerates faster. But if the thing is heavier (more mass), it accelerates slower for the same push. That's the whole law.</p>
+
       <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        A 5 kg object has a 20N force applied. Acceleration:<br>
-        a = F/m = 20/5 = <strong>4 m/s&sup2;</strong>
-      </div>
-      <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        1000 kg car accelerates from 0 to 20 m/s in 10 seconds.<br>
-        a = (20-0)/10 = 2 m/s&sup2;<br>
-        F = 1000 &times; 2 = <strong>2000 N</strong>
+        <div class="callout-title">Let's Walk Through One</div>
+        A 5 kg box sits on a frictionless floor. You push it with 20 N of force. How fast does it accelerate?<br><br>
+        Rearrange: \\(a = \\frac{F}{m} = \\frac{20}{5} = 4 \\text{ m/s}^2\\)<br><br>
+        OK, but what does <strong>4 m/s&sup2;</strong> actually MEAN? It means every second, the box speeds up by 4 meters per second. After 1 second it's going 4 m/s. After 2 seconds, 8 m/s. After 3 seconds, 12 m/s. It keeps getting faster as long as you keep pushing.
       </div>
 
-      <h2>Newton's Third Law</h2>
-      <p>For every action, there is an <strong>equal and opposite reaction</strong> on a <strong>different object</strong>.</p>
-      <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        You push a wall with 15N. The wall pushes back on your hand with <strong>15N</strong> in the opposite direction.
-      </div>
-      <div class="callout callout-warning">
-        <div class="callout-title">Common Trap</div>
-        The action-reaction pair acts on <strong>different objects</strong>. They don't cancel out because they're not on the same object.
-      </div>
-
-      <h2>Weight</h2>
-      <div class="formula-block">\\[W = m \\times g \\quad (g = 9.8 \\text{ m/s}^{2} \\text{ or } 10 \\text{ m/s}^{2} \\text{ on OAR})\\]</div>
-      <p>Weight is the force of gravity on an object. Mass is constant everywhere; weight changes with gravity.</p>
-
-      <h2>Friction</h2>
-      <div class="formula-block">\\[F_{\\text{friction}} = \\mu \\times N\\]</div>
-      <p>Where &mu; is the coefficient of friction and N is the normal force (usually equal to weight on a flat surface).</p>
-      <div class="callout callout-tip">
-        <div class="callout-title">Key Fact</div>
-        <strong>Static friction > Kinetic friction.</strong> It takes more force to START an object moving than to KEEP it moving.
-      </div>
-      <div class="callout callout-example">
-        <div class="callout-title">Example: Net Force</div>
-        50N push to the right, 20N friction to the left:<br>
-        Net force = 50 - 20 = <strong>30N to the right</strong>
-      </div>
-
-      <h2>Free Fall</h2>
       <div class="callout callout-formula">
-        <div class="callout-title">Key Formulas</div>
-        <code>v = g &times; t</code> (velocity after falling for time t)<br>
-        <code>d = &frac12; &times; g &times; t&sup2;</code> (distance fallen)
+        <div class="callout-title">The Three Rearrangements You Need</div>
+        <strong>Find Force:</strong> \\(F = m \\times a\\)<br>
+        <strong>Find Mass:</strong> \\(m = \\frac{F}{a}\\)<br>
+        <strong>Find Acceleration:</strong> \\(a = \\frac{F}{m}\\)<br><br>
+        It's all the same equation, just solved for different things. The OAR will give you two values and ask for the third. Every time.
       </div>
+
       <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        A 2 kg object dropped for 3 seconds (g = 10 m/s&sup2;):<br>
-        v = 10 &times; 3 = <strong>30 m/s</strong>
+        <div class="callout-title">Bigger Example</div>
+        A 1000 kg car accelerates from 0 to 20 m/s in 10 seconds. What's the net force?<br><br>
+        Step 1: Find acceleration. \\(a = \\frac{\\Delta v}{t} = \\frac{20 - 0}{10} = 2 \\text{ m/s}^2\\)<br>
+        Step 2: Find force. \\(F = m \\times a = 1000 \\times 2 = \\textbf{2000 N}\\)<br><br>
+        That's about 450 pounds of force. You can feel that push in your seat when a car accelerates &mdash; that's 2000 N pushing you forward.
+      </div>
+
+      <h3>Weight = F = ma (Where a = Gravity)</h3>
+      <p>Here's something that trips people up: your <strong>weight</strong> is just a force. Specifically, it's F = ma where "a" is gravity (9.8 m/s&sup2;, or 10 on the OAR for easy math).</p>
+
+      <div class="formula-block">\\[W = m \\times g \\quad (g = 9.8 \\text{ m/s}^2, \\text{ or } 10 \\text{ on the OAR})\\]</div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Quick Weight Calculation</div>
+        A 100 kg person: \\(W = 100 \\times 9.8 = 980 \\text{ N}\\)<br>
+        (Or with OAR rounding: \\(100 \\times 10 = 1000 \\text{ N}\\))<br><br>
+        <strong>Mass</strong> is how much stuff is in you &mdash; it never changes. <strong>Weight</strong> is how hard gravity pulls on that stuff &mdash; it changes depending on where you are. You'd weigh less on the Moon (weaker gravity) but your mass stays the same.
+      </div>
+
+      <!-- ===== THIRD LAW ===== -->
+      <h2>Newton's Third Law &mdash; Action/Reaction</h2>
+      <p>For every action, there is an <strong>equal and opposite reaction</strong>. Sounds simple, right? But here's what MOST people get wrong about this law: <strong>the two forces act on DIFFERENT objects</strong>.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">The #1 Mistake on the OAR</div>
+        Students see "equal and opposite" and think the forces cancel out. They don't! They CAN'T cancel out because they act on different objects. If I push a wall with 15 N, the wall pushes ME back with 15 N. One force is on the wall, the other is on me &mdash; two different objects, two different forces.<br><br>
+        <strong>If the OAR asks "do action-reaction forces cancel?" the answer is ALWAYS no.</strong>
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">The Wall Push</div>
+        You push a wall with 15 N. What happens?<br><br>
+        &bull; Force 1: Your hand pushes the wall &rarr; 15 N (on the wall)<br>
+        &bull; Force 2: The wall pushes your hand &rarr; 15 N backward (on you)<br><br>
+        The wall doesn't move because it's anchored to the ground. But YOU might slide backward on a slippery floor &mdash; because the wall is pushing you!
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">Think About It This Way &mdash; Rockets</div>
+        How does a rocket work in space where there's nothing to push against? Third law! The rocket's engines blast exhaust gas backward (action). The gas pushes the rocket forward (reaction). The rocket pushes on the gas, and the gas pushes on the rocket &mdash; equal forces, opposite directions, different objects. That's how you move in a vacuum.
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">More Pairs to Recognize</div>
+        <ul>
+          <li><strong>Walking:</strong> Your foot pushes the ground backward, the ground pushes your foot forward.</li>
+          <li><strong>Swimming:</strong> Your hands push water backward, the water pushes you forward.</li>
+          <li><strong>Jumping:</strong> You push the Earth down, the Earth pushes you up.</li>
+        </ul>
+        In every case, the forces are equal in size, opposite in direction, and on <strong>different objects</strong>.
+      </div>
+
+      <!-- ===== FRICTION ===== -->
+      <h2>Friction</h2>
+      <p>Friction is the force that opposes motion between two surfaces in contact. You need to know one formula and one critical fact:</p>
+
+      <div class="formula-block">\\[F_{\\text{friction}} = \\mu \\times N\\]</div>
+
+      <p>Where \\(\\mu\\) (mu) is the coefficient of friction (how "grippy" the surfaces are) and N is the normal force (on a flat surface, this equals the object's weight).</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">Critical Fact</div>
+        <strong>Static friction is GREATER than kinetic friction.</strong> It takes more force to START an object moving than to KEEP it moving. Think about pushing a heavy dresser &mdash; that first push to get it unstuck is the hardest part. Once it's sliding, it gets easier. The OAR tests this concept frequently.
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Net Force with Friction</div>
+        You push a box to the right with 50 N. Friction pushes back to the left with 20 N. What's the net force?<br><br>
+        \\(F_{\\text{net}} = 50 - 20 = \\textbf{30 N to the right}\\)<br><br>
+        The box accelerates to the right. If you want the acceleration, just plug into F = ma: if the box is 10 kg, then \\(a = 30/10 = 3 \\text{ m/s}^2\\).
+      </div>
+
+      <!-- ===== FREE FALL ===== -->
+      <h2>Free Fall</h2>
+      <p>Here's a fact that's counterintuitive but absolutely critical: <strong>ALL objects fall at the same rate</strong> (in a vacuum, ignoring air resistance). A bowling ball and a feather dropped from the same height hit the ground at the exact same time. This is because acceleration due to gravity doesn't depend on mass &mdash; everything accelerates at g = 9.8 m/s&sup2;.</p>
+
+      <div class="callout callout-formula">
+        <div class="callout-title">Free Fall Formulas</div>
+        <strong>Velocity after falling for time t:</strong> \\(v = g \\times t\\)<br>
+        <strong>Distance fallen:</strong> \\(d = \\frac{1}{2} \\times g \\times t^2\\)
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Let's Walk Through It</div>
+        An object is dropped from a tall building. After 3 seconds of free fall (using g = 9.8 m/s&sup2;):<br><br>
+        <strong>How fast is it going?</strong><br>
+        \\(v = 9.8 \\times 3 = 29.4 \\text{ m/s}\\)<br>
+        That's about 66 mph! After just 3 seconds!<br><br>
+        <strong>How far has it fallen?</strong><br>
+        \\(d = \\frac{1}{2} \\times 9.8 \\times 3^2 = \\frac{1}{2} \\times 9.8 \\times 9 = 44.1 \\text{ m}\\)<br>
+        That's about 145 feet &mdash; roughly a 14-story building.
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">OAR Tip</div>
+        The OAR often uses g = 10 m/s&sup2; to keep the math clean. If the numbers come out ugly, try using 10 instead of 9.8 &mdash; that's probably what they intended.
+      </div>
+
+      <!-- ===== PRACTICE ===== -->
+      <h2>Try It Yourself</h2>
+      <div class="callout callout-example">
+        <div class="callout-title">Practice Problems</div>
+        <strong>1.</strong> A 3 kg ball is kicked with a force of 24 N. What is its acceleration?<br>
+        <em>Hint: a = F/m</em><br><br>
+        <strong>2.</strong> You're standing on a scale in an elevator. The scale reads your normal weight. The elevator starts accelerating upward. Does the scale reading increase, decrease, or stay the same?<br>
+        <em>Hint: Think about what "acceleration upward" does to the normal force.</em><br><br>
+        <strong>3.</strong> A 50 kg skydiver is in free fall for 4 seconds. How fast are they going? (Use g = 10)<br>
+        <em>Hint: v = g &times; t</em><br><br>
+        <strong>4.</strong> Two objects &mdash; a 1 kg ball and a 100 kg anvil &mdash; are dropped from the same height in a vacuum. Which hits the ground first?<br>
+        <em>Hint: Re-read the free fall section!</em>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">Answers</div>
+        1. \\(a = 24/3 = 8 \\text{ m/s}^2\\)<br>
+        2. <strong>Increases</strong> &mdash; accelerating upward adds to the normal force. You feel heavier.<br>
+        3. \\(v = 10 \\times 4 = 40 \\text{ m/s}\\) (about 90 mph!)<br>
+        4. <strong>They hit at the same time.</strong> In a vacuum, all objects fall at the same rate regardless of mass.
       </div>
     `
   },
@@ -969,55 +1224,144 @@ const lessons = [
     tags: ["Levers","Torque","MA"],
     content: `
       <h1>Levers &amp; Torque</h1>
-      <p class="lesson-subtitle">Levers are the most tested simple machine on the OAR. Learn the three classes, the balance formula, and torque.</p>
+      <p class="lesson-subtitle">Levers are the most tested simple machine on the OAR &mdash; and for good reason. They show up everywhere in real life, and the math behind them is beautifully simple once you see the pattern. Let's make sure you never miss a lever question again.</p>
 
-      <h2>The FLE System</h2>
-      <p>Remember lever classes by what's in the <strong>middle</strong>:</p>
+      <!-- ===== FLE SYSTEM ===== -->
+      <h2>The FLE System &mdash; Three Classes of Levers</h2>
+      <p>There are three classes of levers, and I'm going to make sure you NEVER forget which is which. The secret is three letters: <strong>F-L-E</strong>. The letters tell you what's in the <strong>MIDDLE</strong>:</p>
+
       <div class="callout callout-formula">
-        <div class="callout-title">Three Classes</div>
-        <strong>1st Class</strong> &mdash; <strong>F</strong>ulcrum in the middle (seesaw, scissors)<br>
-        <strong>2nd Class</strong> &mdash; <strong>L</strong>oad in the middle (wheelbarrow, nutcracker)<br>
-        <strong>3rd Class</strong> &mdash; <strong>E</strong>ffort in the middle (tweezers, fishing rod)
+        <div class="callout-title">The FLE Memory System</div>
+        <strong>1st Class = F</strong>ulcrum in the middle<br>
+        <strong>2nd Class = L</strong>oad in the middle<br>
+        <strong>3rd Class = E</strong>ffort in the middle
       </div>
+
+      <p>OK, but what does that actually look like? Let me give you one object for each class that you'll never forget:</p>
+
       <div class="callout callout-tip">
-        <div class="callout-title">Memory Trick</div>
-        <strong>F-L-E</strong> = 1-2-3. Fulcrum, Load, Effort &mdash; whichever is in the middle tells you the class.
+        <div class="callout-title">Think About It This Way</div>
+        <ul>
+          <li><strong>1st Class &mdash; SEESAW.</strong> Picture a playground seesaw. The pivot point (fulcrum) is right in the middle. One kid pushes down on one side (effort), and the other kid goes up on the other side (load). Fulcrum in the middle = 1st class. Scissors work the same way &mdash; the pivot is between your hand and what you're cutting.</li>
+          <li><strong>2nd Class &mdash; WHEELBARROW.</strong> Picture a wheelbarrow full of dirt. The wheel is the fulcrum (at one end). The heavy dirt is the load (in the middle). You lift from the handles (effort at the other end). Load in the middle = 2nd class. A nutcracker works this way too &mdash; the nut sits between the hinge and your hand.</li>
+          <li><strong>3rd Class &mdash; FISHING ROD.</strong> You hold the butt of the rod with one hand (that's the fulcrum). Your other hand pulls up in the middle of the rod (effort in the middle). The fish is at the far end (load). Effort in the middle = 3rd class. Your forearm works like this too &mdash; your elbow is the fulcrum, your bicep pulls in the middle, and whatever you're holding is the load.</li>
+        </ul>
       </div>
 
-      <h2>Lever Formula</h2>
-      <div class="formula-block">\\[F_{1} \\times D_{1} = F_{2} \\times D_{2}\\]</div>
-      <p>Force times distance on one side must equal force times distance on the other for balance.</p>
-      <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        40 kg sits 3m from the fulcrum. Where does 60 kg sit to balance?<br>
-        40 &times; 3 = 60 &times; D &rarr; D = 120/60 = <strong>2m</strong>
-      </div>
-      <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        Effort arm = 6ft, load arm = 2ft. How much force to lift 300 lbs?<br>
-        F &times; 6 = 300 &times; 2 &rarr; F = 600/6 = <strong>100 lbs</strong>
+      <div class="callout callout-warning">
+        <div class="callout-title">The Trick That Makes This Stick Forever</div>
+        Picture these three objects in order: <strong>seesaw, wheelbarrow, fishing rod</strong>. That's 1st, 2nd, 3rd. Three objects, three classes, done. On test day, just think "seesaw &mdash; wheelbarrow &mdash; fishing rod" and you'll instantly know which class any lever belongs to.
       </div>
 
+      <div class="callout callout-example">
+        <div class="callout-title">OAR-Style Question</div>
+        "A crowbar is used to pry open a crate. The edge of the crate acts as the fulcrum, which is between where you push and the lid being lifted. What class of lever is this?"<br><br>
+        Fulcrum is in the middle &rarr; <strong>1st class</strong>. Just like a seesaw.
+      </div>
+
+      <!-- ===== BALANCE FORMULA ===== -->
+      <h2>The Balance Formula</h2>
+      <p>This is the most important equation for lever problems, and it's beautifully intuitive:</p>
+
+      <div class="formula-block">\\[F_1 \\times D_1 = F_2 \\times D_2\\]</div>
+
+      <p>Think of it like a seesaw. A heavier kid has to sit <strong>closer</strong> to the middle to balance a lighter kid who sits farther away. Force times distance on one side must equal force times distance on the other side. That's it.</p>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Let's Walk Through One Together</div>
+        A 40 kg kid sits 3 meters from the fulcrum on one side of a seesaw. Where does a 60 kg kid need to sit on the other side to balance?<br><br>
+        Set up the equation: \\(40 \\times 3 = 60 \\times d\\)<br>
+        Simplify the left side: \\(120 = 60 \\times d\\)<br>
+        Solve for d: \\(d = \\frac{120}{60} = \\textbf{2 meters}\\)<br><br>
+        Makes sense, right? The heavier kid (60 kg) sits closer (2 m) than the lighter kid (40 kg, at 3 m). That's how seesaws work in real life.
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Another One &mdash; With a Crowbar</div>
+        You're using a lever to lift a 300 lb rock. Your effort arm is 6 ft and the load arm is 2 ft. How much force do you need?<br><br>
+        \\(F \\times 6 = 300 \\times 2\\)<br>
+        \\(F \\times 6 = 600\\)<br>
+        \\(F = \\frac{600}{6} = \\textbf{100 lbs}\\)<br><br>
+        You only need 100 lbs of force to lift a 300 lb rock! That's the magic of levers.
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">OAR Pattern</div>
+        The OAR gives you three of the four numbers (F1, D1, F2, D2) and asks for the fourth. It's always just cross-multiplication. Set up the equation, plug in what you know, and solve for what you don't. No tricks &mdash; just arithmetic.
+      </div>
+
+      <!-- ===== MECHANICAL ADVANTAGE ===== -->
       <h2>Mechanical Advantage</h2>
+      <p>Mechanical advantage (MA) tells you how much a lever multiplies your force. The formula is simple:</p>
+
       <div class="formula-block">\\[MA = \\frac{\\text{Effort Arm}}{\\text{Load Arm}}\\]</div>
+
       <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        Effort arm = 8ft, load arm = 2ft:<br>
-        MA = 8/2 = <strong>4</strong><br>
-        This means you apply 1/4 the force to lift the load.
+        <div class="callout-title">What MA Actually Means</div>
+        Effort arm = 8 ft, load arm = 2 ft:<br>
+        \\(MA = \\frac{8}{2} = \\textbf{4}\\)<br><br>
+        An MA of 4 means you only need <strong>1/4 the force</strong> to lift the load. If the load weighs 200 lbs, you only need to push with 50 lbs. Pretty powerful, right?
       </div>
 
-      <h2>Torque</h2>
-      <div class="formula-block">\\[\\tau = F \\times d \\quad \\text{(from pivot)}\\]</div>
-      <p>Torque is the rotational equivalent of force. Measured in Newton-meters (N&middot;m).</p>
-      <div class="callout callout-example">
-        <div class="callout-title">Example</div>
-        Need 30 N&middot;m of torque. Wrench is 0.5m long. Force needed:<br>
-        30 = F &times; 0.5 &rarr; F = <strong>60N</strong>
+      <div class="callout callout-warning">
+        <div class="callout-title">The Golden Rule &mdash; You Never Get Something for Nothing</div>
+        Here's the catch that the OAR loves to test: if your effort arm is 4 times longer than the load arm, you need only 1/4 the force &mdash; but you have to push <strong>4 times farther</strong>. You're trading distance for force.<br><br>
+        <strong>Force &times; Distance = constant.</strong> Less force always means more distance. Always. This is true for levers, pulleys, ramps &mdash; every simple machine. There are no free lunches in physics.
       </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Real-World Connection</div>
+        Think about a car jack. You pump the handle up and down many times (lots of distance) to lift a car just a few inches (small distance). But you're doing it with one hand &mdash; because the mechanical advantage is huge. You're trading many small pushes for one big lift.
+      </div>
+
+      <!-- ===== TORQUE ===== -->
+      <h2>Torque</h2>
+      <p>Torque is what makes things rotate. If force is a push or pull in a straight line, torque is a push or pull that makes something <strong>spin</strong>. The formula is straightforward:</p>
+
+      <div class="formula-block">\\[\\tau = F \\times d \\quad \\text{(distance from the pivot point)}\\]</div>
+
+      <p>Torque equals force times the distance from the pivot. It's measured in Newton-meters (N&middot;m). And here's the key insight: <strong>the farther from the pivot you apply the force, the more torque you get</strong>.</p>
+
       <div class="callout callout-tip">
-        <div class="callout-title">Pro Tip</div>
-        Longer wrench = less force needed. That's why mechanics use breaker bars for stubborn bolts.
+        <div class="callout-title">Think About It This Way</div>
+        Why is it easier to loosen a bolt with a longer wrench? Because torque = force &times; distance. A longer wrench means a bigger distance from the pivot (the bolt), so you get more torque with the same effort. That's why mechanics use breaker bars for really stubborn bolts &mdash; they're just extra-long wrenches.
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Let's Work Through One</div>
+        You need 30 N&middot;m of torque to loosen a bolt. Your wrench is 0.5 m long. How much force do you need?<br><br>
+        \\(30 = F \\times 0.5\\)<br>
+        \\(F = \\frac{30}{0.5} = \\textbf{60 N}\\)<br><br>
+        Now what if you grabbed a wrench that's 1 m long instead?<br>
+        \\(F = \\frac{30}{1.0} = \\textbf{30 N}\\)<br><br>
+        Double the wrench length, half the force needed. See the pattern?
+      </div>
+
+      <div class="callout callout-example">
+        <div class="callout-title">Why Doors Have Handles on the Edge</div>
+        Ever tried to push a door open near the hinge? It's almost impossible. But push at the handle (far from the hinge) and it swings right open. Same force, but the handle is farther from the pivot &mdash; so you get way more torque. Door designers put handles at the edge for this exact reason.
+      </div>
+
+      <!-- ===== PRACTICE ===== -->
+      <h2>Try It Yourself</h2>
+      <div class="callout callout-example">
+        <div class="callout-title">Practice Problems</div>
+        <strong>1.</strong> A nutcracker cracks a nut. The hinge is at one end, the nut is between the hinge and your hand. What class of lever is this?<br>
+        <em>Hint: What's in the middle &mdash; fulcrum, load, or effort?</em><br><br>
+        <strong>2.</strong> A 25 kg child sits 4 m from the fulcrum of a seesaw. How far from the fulcrum should a 50 kg child sit to balance?<br>
+        <em>Hint: F1 &times; D1 = F2 &times; D2</em><br><br>
+        <strong>3.</strong> A lever has an effort arm of 10 ft and a load arm of 2 ft. What is its mechanical advantage? If the load weighs 500 lbs, how much effort is needed?<br>
+        <em>Hint: MA = effort arm / load arm</em><br><br>
+        <strong>4.</strong> You need 50 N&middot;m of torque. You have a 0.25 m wrench. How much force must you apply?<br>
+        <em>Hint: &tau; = F &times; d</em>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">Answers</div>
+        1. <strong>2nd class</strong> &mdash; the load (nut) is in the middle. L = 2nd class. Like a wheelbarrow.<br>
+        2. \\(25 \\times 4 = 50 \\times d \\rightarrow d = 100/50 = \\textbf{2 m}\\)<br>
+        3. \\(MA = 10/2 = 5\\). Effort = \\(500/5 = \\textbf{100 lbs}\\)<br>
+        4. \\(F = 50/0.25 = \\textbf{200 N}\\) &mdash; that's a lot of force! You'd want a longer wrench.
       </div>
     `
   },
