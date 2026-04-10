@@ -22,7 +22,7 @@ async function renderNav() {
       <div class="nav-inner">
         <a href="#/" class="nav-logo">⚓ OAR <span>Pro</span></a>
         <div class="nav-links">
-          <a href="#/login" class="nav-link">Log In</a>
+          <a href="#/login" class="btn btn-secondary btn-sm">Log In</a>
           <button class="btn btn-primary btn-sm" onclick="handleCheckoutClick(this)">Get Access</button>
         </div>
         <!-- Mobile: show Log In + Get Access in hamburger menu -->

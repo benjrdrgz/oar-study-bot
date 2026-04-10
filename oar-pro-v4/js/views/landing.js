@@ -31,6 +31,9 @@ route('/', async () => {
           See Features
         </a>
       </div>
+      <p style="margin-top:14px;font-size:13px;color:var(--text-3)">
+        Already have access? <a href="#/login" style="color:var(--text-2);text-decoration:underline;text-underline-offset:3px">Sign in here</a>
+      </p>
       <div class="hero-meta">
         <span>&#9889; <span class="mono">90s</span></span>
         <span class="hero-meta-sep">&bull;</span>
