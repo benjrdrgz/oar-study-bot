@@ -511,6 +511,11 @@
     /* === MathJax === */
     .MathJax{color:#e0e7ff !important;font-size:1.1em !important}
 
+    /* === TABLE OVERFLOW — sitewide fix for data-heavy admin tables === */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+    /* Prevent any child content from breaking the layout */
+    .app-main{min-width:0;overflow-x:hidden}
+
     /* === MISC === */
     .text-muted{color:var(--text-2)}
     .text-sm{font-size:13px}

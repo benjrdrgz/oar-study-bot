@@ -3,6 +3,7 @@
 route('/admin/preview', async () => {
   const app = document.getElementById('app');
   app.classList.remove('full-width');
+  if (typeof renderDashboardSidebar === 'function') renderDashboardSidebar();
 
   const { data: previews } = await supabase
     .from('profiles')

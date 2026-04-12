@@ -3,6 +3,8 @@
 route('/admin/affiliates', async () => {
   const app = document.getElementById('app');
   app.classList.remove('full-width');
+  // Populate sidebar if not already rendered (e.g. direct navigation to admin)
+  if (typeof renderDashboardSidebar === 'function') renderDashboardSidebar();
 
   const { data: affiliates } = await supabase
     .from('affiliates')
@@ -83,7 +85,8 @@ route('/admin/affiliates', async () => {
       <!-- Affiliates Table -->
       <div class="card mb-8">
         <h3 style="margin-bottom:16px">All Affiliates</h3>
-        <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <div class="table-scroll">
+        <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:800px">
           <thead>
             <tr style="border-bottom:2px solid var(--border);text-align:left">
               <th style="padding:10px">Name</th>
@@ -134,13 +137,14 @@ route('/admin/affiliates', async () => {
             }).join('')}
           </tbody>
         </table>
+        </div>
       </div>
 
       <!-- Recent Referrals -->
       <div class="card">
         <h3 style="margin-bottom:16px">Recent Referrals</h3>
         ${(referrals || []).length === 0 ? '<p class="text-muted">No referrals yet.</p>' :
-          `<table style="width:100%;border-collapse:collapse;font-size:14px">
+          `<div class="table-scroll"><table style="width:100%;border-collapse:collapse;font-size:14px;min-width:500px">
             <thead>
               <tr style="border-bottom:2px solid var(--border);text-align:left">
                 <th style="padding:10px">Date</th>
@@ -163,7 +167,7 @@ route('/admin/affiliates', async () => {
                 </tr>
               `).join('')}
             </tbody>
-          </table>`
+          </table></div>`
         }
       </div>
 
@@ -175,7 +179,7 @@ route('/admin/affiliates', async () => {
         </div>
         ${!cashoutRequests || cashoutRequests.length === 0
           ? '<p class="text-muted">No cashout requests yet.</p>'
-          : `<table style="width:100%;border-collapse:collapse;font-size:14px">
+          : `<div class="table-scroll"><table style="width:100%;border-collapse:collapse;font-size:14px;min-width:600px">
               <thead>
                 <tr style="border-bottom:2px solid var(--border);text-align:left">
                   <th style="padding:10px">Date</th>
@@ -209,7 +213,7 @@ route('/admin/affiliates', async () => {
                   </tr>
                 `).join('')}
               </tbody>
-            </table>`
+            </table></div>`
         }
       </div>
     </div>
