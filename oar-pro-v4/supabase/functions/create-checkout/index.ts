@@ -29,8 +29,10 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const FULL_PRICE_CENTS = 9700; // $97.00
-const DEAL_PRICE_CENTS = 6700; // $67.00 (valid referral code required)
+const PRICE_ID_FULL    = 'price_1TLSKOJ5g57Qu9urZXKPADqg'; // $97 — OAR Pro Lifetime
+const PRICE_ID_REFERRAL = 'price_1TLSKPJ5g57Qu9urh2tqtYau'; // $67 — Referral discount
+const FULL_PRICE_CENTS = 9700;
+const DEAL_PRICE_CENTS = 6700;
 
 /**
  * Validate an affiliate/referral code against the DB.
@@ -75,10 +77,8 @@ serve(async (req) => {
     // Validate the code against the DB — no discount for fake codes
     const validatedCode = await validateAffiliateCode(affiliate_code || "");
     const hasCode = !!validatedCode;
+    const priceId = hasCode ? PRICE_ID_REFERRAL : PRICE_ID_FULL;
     const unitAmount = hasCode ? DEAL_PRICE_CENTS : FULL_PRICE_CENTS;
-    const priceLabel = hasCode
-      ? "OAR Pro — Lifetime Access (Referral Discount Applied)"
-      : "OAR Pro — Lifetime Access";
 
     const origin =
       req.headers.get("origin") ||
@@ -89,15 +89,7 @@ serve(async (req) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: priceLabel,
-              description:
-                "All 20 lessons · 190+ questions · 5 practice tests · Adaptive CAT · Lifetime access",
-            },
-            unit_amount: unitAmount,
-          },
+          price: priceId,
           quantity: 1,
         },
       ],
