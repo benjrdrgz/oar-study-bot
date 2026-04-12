@@ -5,7 +5,7 @@ route('/admin', async () => { navigate('#/admin/sales'); });
 
 route('/admin/sales', async () => {
   const app = document.getElementById('app');
-  app.classList.add('full-width');
+  app.classList.remove('full-width');
 
   // Fetch all paid profiles using service role via RPC or direct query
   // Note: Admin RLS policy must be set up for Benjamin's UID

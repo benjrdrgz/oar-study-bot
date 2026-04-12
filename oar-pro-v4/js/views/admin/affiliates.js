@@ -2,7 +2,7 @@
 
 route('/admin/affiliates', async () => {
   const app = document.getElementById('app');
-  app.classList.add('full-width');
+  app.classList.remove('full-width');
 
   const { data: affiliates } = await supabase
     .from('affiliates')
