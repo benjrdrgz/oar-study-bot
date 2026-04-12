@@ -127,7 +127,7 @@ route('/test-day', async () => {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           ${[
             ['Arithmetic', ['Percent: (p/100)×n', 'Percent change: (new−old)/old ×100']],
-            ['Algebra', ['Quadratic: x = (−b ± √(b²−4ac))/2a', 'Slope: (y₂−y₁)/(x₂−x₁)']],
+            ['Algebra', ['Quadratic: \\(x = \\dfrac{-b \\pm \\sqrt{b^2-4ac}}{2a}\\)', 'Slope: \\(\\dfrac{y_2-y_1}{x_2-x_1}\\)']],
             ['Geometry', ['Pythagorean: a² + b² = c²', 'Circle: A = πr², C = 2πr', 'Triangle: A = ½bh']],
             ['Kinematics', ['v = at', 'd = ½at²', 'v² = u² + 2as']],
             ['Forces', ['F = ma', 'Weight = mg', 'μmg = friction force']],
@@ -138,7 +138,10 @@ route('/test-day', async () => {
           ].map(([cat, items]) => `
             <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:12px 14px">
               <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:600;margin-bottom:6px">${cat}</div>
-              ${items.map(f => `<div class="mono" style="font-size:12px;color:var(--text);margin-bottom:3px">${f}</div>`).join('')}
+              ${items.map(f => {
+                const hasMath = f.includes('\\(');
+                return `<div ${hasMath ? '' : 'class="mono"'} style="font-size:12px;color:var(--text);margin-bottom:3px">${f}</div>`;
+              }).join('')}
             </div>
           `).join('')}
         </div>
