@@ -4,7 +4,13 @@
 // JetBrains Mono (.num/.stat/.mono) for numerics.
 // — Benjamin Rodriguez
 
-route('/', async () => {
+route('/', async ({ ref } = {}) => {
+  // Capture affiliate ref code from URL (?ref=CODE) → sessionStorage
+  // This is what makes affiliate links work. Must run before renderPricingCard().
+  if (ref) {
+    try { sessionStorage.setItem('oar_affiliate_ref', ref.trim().toUpperCase()); } catch (_) {}
+  }
+
   // Hide sidebar, go full-width for landing
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('app').classList.add('full-width');

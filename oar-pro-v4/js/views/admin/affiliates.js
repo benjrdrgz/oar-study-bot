@@ -77,6 +77,7 @@ route('/admin/affiliates', async () => {
             <tr style="border-bottom:2px solid var(--border);text-align:left">
               <th style="padding:10px">Name</th>
               <th style="padding:10px">Code</th>
+              <th style="padding:10px">Status</th>
               <th style="padding:10px">Link</th>
               <th style="padding:10px">Rate</th>
               <th style="padding:10px">Referrals</th>
@@ -89,12 +90,16 @@ route('/admin/affiliates', async () => {
           <tbody>
             ${(affiliates || []).map(a => {
               const owed = Number(a.total_earned) - Number(a.total_paid);
+              const isActive = a.active !== false;
               return `
-              <tr style="border-bottom:1px solid var(--border)">
-                <td style="padding:10px">${a.name}</td>
+              <tr style="border-bottom:1px solid var(--border);opacity:${isActive ? '1' : '0.5'}">
+                <td style="padding:10px">${a.name}${a.email ? `<br><span style="font-size:12px;color:var(--text-3)">${a.email}</span>` : ''}</td>
                 <td style="padding:10px"><code style="background:var(--surface-2);padding:2px 8px;border-radius:4px">${a.code}</code></td>
+                <td style="padding:10px">
+                  <span class="badge ${isActive ? 'badge-green' : 'badge-red'}">${isActive ? 'Active' : 'Paused'}</span>
+                </td>
                 <td style="padding:10px;font-size:12px;color:var(--text-3)">
-                  <span style="cursor:pointer" onclick="copyLink('${a.code}')" title="Click to copy">📋 Copy Link</span>
+                  <span style="cursor:pointer" onclick="copyLink('${a.code}')" title="Click to copy">📋 Copy</span>
                 </td>
                 <td style="padding:10px">${(Number(a.commission_rate) * 100).toFixed(0)}%</td>
                 <td style="padding:10px;font-weight:600">${a.total_referred}</td>
@@ -102,7 +107,11 @@ route('/admin/affiliates', async () => {
                 <td style="padding:10px">$${Number(a.total_paid).toFixed(2)}</td>
                 <td style="padding:10px;color:${owed > 0 ? 'var(--red)' : 'var(--text-3)'};font-weight:${owed > 0 ? '700' : '400'}">$${owed.toFixed(2)}</td>
                 <td style="padding:10px">
-                  ${owed > 0 ? `<button class="btn btn-sm btn-success" onclick="markPaid('${a.id}', ${owed})">Mark Paid</button>` : '<span class="text-muted">—</span>'}
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    ${owed > 0 ? `<button class="btn btn-sm btn-success" onclick="markPaid('${a.id}', ${owed})">Mark Paid</button>` : ''}
+                    <button class="btn btn-sm btn-secondary" onclick="toggleAffiliate('${a.id}', ${isActive})" title="${isActive ? 'Pause' : 'Activate'}">${isActive ? '⏸' : '▶'}</button>
+                    <button class="btn btn-sm" style="background:var(--red-bg);color:var(--red);border-color:var(--red)40" onclick="deleteAffiliate('${a.id}', '${a.name}', ${a.total_referred})" title="Delete">🗑</button>
+                  </div>
                 </td>
               </tr>`;
             }).join('')}
@@ -178,6 +187,32 @@ function copyLink(code) {
   navigator.clipboard.writeText(link).then(() => {
     alert(`Copied: ${link}`);
   });
+}
+
+async function toggleAffiliate(affiliateId, currentActive) {
+  const action = currentActive ? 'pause' : 'activate';
+  if (!confirm(`${action.charAt(0).toUpperCase() + action.slice(1)} this affiliate? ${currentActive ? 'Their code will stop generating discounts.' : 'Their code will work again.'}`)) return;
+
+  const { error } = await supabase.from('affiliates').update({ active: !currentActive }).eq('id', affiliateId);
+  if (error) { alert('Error: ' + error.message); return; }
+  navigate('#/admin/affiliates');
+}
+
+async function deleteAffiliate(affiliateId, name, totalReferred) {
+  const hasReferrals = totalReferred > 0;
+  const msg = hasReferrals
+    ? `Delete ${name}? They have ${totalReferred} referral(s). Referral records will be kept for accounting but the affiliate code will be removed. Type DELETE to confirm.`
+    : `Delete ${name}? This cannot be undone. Type DELETE to confirm.`;
+  if (prompt(msg) !== 'DELETE') return;
+
+  // If they have referrals, keep referral records but detach by nulling affiliate_id
+  if (hasReferrals) {
+    await supabase.from('affiliate_referrals').update({ affiliate_id: null }).eq('affiliate_id', affiliateId);
+  }
+
+  const { error } = await supabase.from('affiliates').delete().eq('id', affiliateId);
+  if (error) { alert('Error: ' + error.message); return; }
+  navigate('#/admin/affiliates');
 }
 
 async function markPaid(affiliateId, amount) {
