@@ -159,6 +159,7 @@ route('/dashboard', async () => {
 
   const displayName = esc(profile?.display_name || 'Candidate');
   const predictedScore = score.total || '--';
+  const isNewUser = lessonProgress.length === 0 && quizHistory.length === 0 && (!adaptiveHistory || adaptiveHistory.length === 0);
 
   // Test-date countdown badge
   let testDayBadge = '';
@@ -177,7 +178,7 @@ route('/dashboard', async () => {
     <!-- WELCOME HEADER -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:28px">
       <div>
-        <h1 style="font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px">Welcome back, ${displayName}</h1>
+        <h1 style="font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px">${isNewUser ? `Welcome, ${displayName}` : `Welcome back, ${displayName}`}</h1>
         <p style="color:var(--text-2);font-size:14px">
           ${progressPct}% complete &bull; ${completedCount}/${totalLessons} lessons finished
         </p>
@@ -190,8 +191,33 @@ route('/dashboard', async () => {
       </div>
     </div>
 
+    <!-- NEW USER ONBOARDING -->
+    ${isNewUser ? `
+    <div class="card" style="margin-bottom:20px;border-color:var(--accent);background:linear-gradient(135deg,var(--surface) 0%,var(--surface-2) 100%)">
+      <div style="font-size:12px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">&#127919; Your Game Plan — 3 Steps</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        ${[
+          ['1', 'Take the Diagnostic', 'Find your weak spots in 5 minutes', '#/diagnostic', 'var(--accent)'],
+          ['2', 'Study Your Weak Topics', 'Structured lessons + AI tutor for stuck moments', '#/study', 'var(--yellow)'],
+          ['3', 'Simulate the Real Test', '30-question adaptive CAT, just like test day', '#/adaptive', 'var(--green)']
+        ].map(([num, title, desc, href, col]) => `
+          <div onclick="navigate('${href}')" style="cursor:pointer;background:var(--bg-elevated);border:1px solid ${col}30;border-radius:10px;padding:14px;transition:border-color var(--dur-fast) var(--ease-out)"
+               onmouseover="this.style.borderColor='${col}'" onmouseout="this.style.borderColor='${col}30'">
+            <div style="font-size:20px;font-weight:800;color:${col};margin-bottom:6px">${num}</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px">${title}</div>
+            <div style="font-size:12px;color:var(--text-3);line-height:1.5">${desc}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span style="font-size:13px;color:var(--text-3)">Recommended starting point: take the diagnostic first — it personalizes your study plan.</span>
+        <a href="#/diagnostic" class="btn btn-primary btn-sm">Start Diagnostic &rarr;</a>
+      </div>
+    </div>
+    ` : ''}
+
     <!-- CONTINUE CARD -->
-    ${lastLesson ? `
+    ${!isNewUser && lastLesson ? `
     <div class="card" style="margin-bottom:20px;border-color:var(--accent);cursor:pointer" onclick="navigate('#/study/${lastLesson.id}')">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
         <div>
@@ -208,17 +234,20 @@ route('/dashboard', async () => {
     ` : ''}
 
     <!-- QUICK ACTIONS -->
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px">
       ${[
-        ['⚡', 'Quick Drill', 'Timed', '#/practice'],
-        ['∞', 'Infinite Drill', 'Unlimited', '#/practice'],
-        ['📖', 'Resume Study', 'Next lesson', lastLesson ? `#/study/${lastLesson.id}` : '#/study'],
-        ['📐', 'Formulas', 'Reference', '#/formulas'],
-        ['🧪', 'Test Sim', 'Adaptive CAT', '#/adaptive']
-      ].map(([icon, title, sub, href]) => `
-        <div class="card" style="text-align:center;padding:20px 12px;cursor:pointer" onclick="navigate('${href}')">
+        ['📖', 'Study Lessons', 'Structured content', lastLesson ? `#/study/${lastLesson.id}` : '#/study', ''],
+        ['⚡', 'Practice Drill', 'Targeted questions', '#/practice', ''],
+        ['🧪', 'Test Simulator', 'Adaptive CAT', '#/adaptive', ''],
+        ['🎓', 'Problem Tutor', 'Step-by-step help', '#/tutor', 'var(--accent)'],
+        ['📅', 'Test Day Mode', 'Full game plan', '#/test-day', 'var(--yellow)'],
+        ['📐', 'Formula Sheet', 'Quick reference', '#/formulas', '']
+      ].map(([icon, title, sub, href, accentColor]) => `
+        <div class="card" style="text-align:center;padding:18px 12px;cursor:pointer;${accentColor ? `border-color:${accentColor}40` : ''}" onclick="navigate('${href}')"
+             onmouseover="this.style.borderColor='${accentColor || 'var(--border-hover, var(--border))'}'"
+             onmouseout="this.style.borderColor='${accentColor ? accentColor + '40' : 'var(--border)'}'">
           <div style="font-size:26px;margin-bottom:6px">${icon}</div>
-          <div style="font-size:13px;font-weight:700">${title}</div>
+          <div style="font-size:13px;font-weight:700;${accentColor ? `color:${accentColor}` : ''}">${title}</div>
           <div style="font-size:11px;color:var(--text-3);margin-top:2px">${sub}</div>
         </div>
       `).join('')}

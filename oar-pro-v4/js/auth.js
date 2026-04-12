@@ -62,9 +62,10 @@ async function renderNav() {
           <a href="#/dashboard" class="nav-link">Dashboard</a>
           <a href="#/study" class="nav-link">Study</a>
           <a href="#/practice" class="nav-link">Practice</a>
+          <a href="#/tutor" class="nav-link">Tutor</a>
           <a href="#/adaptive" class="nav-link">Test Sim</a>
+          <a href="#/test-day" class="nav-link">Test Day</a>
           <a href="#/formulas" class="nav-link">Formulas</a>
-          <a href="#/strategies" class="nav-link">Strategies</a>
           ${isAdminUser ? '<a href="#/admin/sales" class="nav-link" style="color:var(--yellow)">Admin</a>' : ''}
         </div>
         <div class="nav-user">
