@@ -14,7 +14,14 @@ route('/admin/affiliates', async () => {
     .select('*, affiliates(name, code)')
     .order('created_at', { ascending: false });
 
+  const { data: cashoutRequests } = await supabase
+    .from('cashout_requests')
+    .select('*, affiliates(name, code)')
+    .order('created_at', { ascending: false });
+
   const totalOwed = (affiliates || []).reduce((sum, a) => sum + Number(a.total_earned) - Number(a.total_paid), 0);
+  const pendingCashouts = (cashoutRequests || []).filter(r => r.status === 'pending');
+  const totalPendingCashout = pendingCashouts.reduce((sum, r) => sum + Number(r.amount), 0);
 
   app.innerHTML = `
     <div style="max-width:1000px;margin:0 auto">
@@ -54,7 +61,7 @@ route('/admin/affiliates', async () => {
       </div>
 
       <!-- Stats -->
-      <div class="grid-3 mb-8">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:32px">
         <div class="card" style="text-align:center">
           <div style="font-size:28px;font-weight:800;color:var(--accent)">${(affiliates || []).length}</div>
           <div class="text-muted text-sm">Active Affiliates</div>
@@ -67,6 +74,10 @@ route('/admin/affiliates', async () => {
           <div style="font-size:28px;font-weight:800;color:var(--red)">$${totalOwed.toFixed(2)}</div>
           <div class="text-muted text-sm">Outstanding Payouts</div>
         </div>
+        <div class="card" style="text-align:center;${pendingCashouts.length > 0 ? 'border-color:var(--yellow)' : ''}">
+          <div style="font-size:28px;font-weight:800;color:var(--yellow)">${pendingCashouts.length}</div>
+          <div class="text-muted text-sm">Pending Cashouts${totalPendingCashout > 0 ? ` ($${totalPendingCashout.toFixed(2)})` : ''}</div>
+        </div>
       </div>
 
       <!-- Affiliates Table -->
@@ -78,7 +89,8 @@ route('/admin/affiliates', async () => {
               <th style="padding:10px">Name</th>
               <th style="padding:10px">Code</th>
               <th style="padding:10px">Status</th>
-              <th style="padding:10px">Link</th>
+              <th style="padding:10px">Referral Link</th>
+              <th style="padding:10px">Portal</th>
               <th style="padding:10px">Rate</th>
               <th style="padding:10px">Referrals</th>
               <th style="padding:10px">Earned</th>
@@ -100,6 +112,11 @@ route('/admin/affiliates', async () => {
                 </td>
                 <td style="padding:10px;font-size:12px;color:var(--text-3)">
                   <span style="cursor:pointer" onclick="copyLink('${a.code}')" title="Click to copy">📋 Copy</span>
+                </td>
+                <td style="padding:10px;font-size:12px">
+                  ${a.portal_token
+                    ? `<span style="cursor:pointer;color:var(--accent)" onclick="copyPortalLinkAdmin('${a.portal_token}')" title="Copy their private portal link">🔗 Copy</span>`
+                    : '<span style="color:var(--text-3)">—</span>'}
                 </td>
                 <td style="padding:10px">${(Number(a.commission_rate) * 100).toFixed(0)}%</td>
                 <td style="padding:10px;font-weight:600">${a.total_referred}</td>
@@ -147,6 +164,52 @@ route('/admin/affiliates', async () => {
               `).join('')}
             </tbody>
           </table>`
+        }
+      </div>
+
+      <!-- Cashout Requests -->
+      <div class="card" style="margin-top:32px;${pendingCashouts.length > 0 ? 'border-color:var(--yellow)' : ''}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h3 style="margin:0">Cashout Requests</h3>
+          ${pendingCashouts.length > 0 ? `<span class="badge badge-yellow">${pendingCashouts.length} pending</span>` : ''}
+        </div>
+        ${!cashoutRequests || cashoutRequests.length === 0
+          ? '<p class="text-muted">No cashout requests yet.</p>'
+          : `<table style="width:100%;border-collapse:collapse;font-size:14px">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border);text-align:left">
+                  <th style="padding:10px">Date</th>
+                  <th style="padding:10px">Affiliate</th>
+                  <th style="padding:10px">Amount</th>
+                  <th style="padding:10px">Via</th>
+                  <th style="padding:10px">Handle</th>
+                  <th style="padding:10px">Status</th>
+                  <th style="padding:10px">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${cashoutRequests.map(r => `
+                  <tr style="border-bottom:1px solid var(--border)">
+                    <td style="padding:10px;color:var(--text-2)">${new Date(r.created_at).toLocaleDateString()}</td>
+                    <td style="padding:10px;font-weight:600">${r.affiliates?.name || '—'} (${r.affiliates?.code || '—'})</td>
+                    <td style="padding:10px;font-weight:700;color:var(--yellow)">$${Number(r.amount).toFixed(2)}</td>
+                    <td style="padding:10px;text-transform:capitalize">${r.payment_method}</td>
+                    <td style="padding:10px"><code style="background:var(--surface-2);padding:2px 8px;border-radius:4px;font-size:12px">${r.payment_handle}</code></td>
+                    <td style="padding:10px">
+                      <span class="badge ${{pending:'badge-yellow',approved:'badge-blue',paid:'badge-green',rejected:'badge-red'}[r.status] || ''}">${r.status}</span>
+                    </td>
+                    <td style="padding:10px">
+                      <div style="display:flex;gap:6px;flex-wrap:wrap">
+                        ${r.status === 'pending' ? `
+                          <button class="btn btn-sm btn-success" onclick="processCashout('${r.id}', 'paid', ${Number(r.amount)}, '${r.affiliate_id}')">Mark Paid</button>
+                          <button class="btn btn-sm btn-secondary" onclick="processCashout('${r.id}', 'rejected', 0, '${r.affiliate_id}')">Reject</button>
+                        ` : '—'}
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`
         }
       </div>
     </div>
@@ -236,6 +299,35 @@ async function markPaid(affiliateId, amount) {
     paid_out: true,
     paid_at: new Date().toISOString()
   }).eq('affiliate_id', affiliateId).eq('paid_out', false);
+
+  navigate('#/admin/affiliates');
+}
+
+function copyPortalLinkAdmin(portalToken) {
+  const link = `${window.location.origin}${window.location.pathname}#/affiliate/${portalToken}`;
+  navigator.clipboard.writeText(link).then(() => alert(`Portal link copied!\n\nShare this privately with the affiliate:\n${link}`));
+}
+
+async function processCashout(requestId, action, amount, affiliateId) {
+  const label = action === 'paid' ? `Mark $${Number(amount).toFixed(2)} as paid?` : 'Reject this cashout request?';
+  if (!confirm(label)) return;
+  const adminNote = action === 'rejected' ? (prompt('Rejection reason (optional):') || '') : '';
+
+  await supabase.from('cashout_requests').update({
+    status: action,
+    admin_note: adminNote || null,
+    processed_at: new Date().toISOString()
+  }).eq('id', requestId);
+
+  if (action === 'paid' && Number(amount) > 0) {
+    const { data: existing } = await supabase
+      .from('affiliates').select('total_paid').eq('id', affiliateId).single();
+    const newTotal = (Number(existing?.total_paid) || 0) + Number(amount);
+    await supabase.from('affiliates').update({ total_paid: newTotal }).eq('id', affiliateId);
+    await supabase.from('affiliate_referrals').update({
+      paid_out: true, paid_at: new Date().toISOString()
+    }).eq('affiliate_id', affiliateId).eq('paid_out', false);
+  }
 
   navigate('#/admin/affiliates');
 }
