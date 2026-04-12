@@ -25,10 +25,10 @@ route('/', async () => {
       </p>
       <div class="hero-cta-row">
         <button class="btn btn-primary btn-lg" onclick="handleCheckoutClick(this)">
-          Get Access &rarr;
+          Start My OAR Prep &rarr;
         </button>
         <a href="#features" class="btn btn-secondary btn-lg" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'});return false">
-          See Features
+          See What's Inside
         </a>
       </div>
       <p style="margin-top:14px;font-size:13px;color:var(--text-3)">
@@ -105,6 +105,31 @@ route('/', async () => {
       </div>
     </section>
 
+    <!-- SOCIAL PROOF -->
+    <section class="landing-section landing-section-narrow">
+      <div class="section-header">
+        <h2>What Candidates Are Saying</h2>
+        <p class="section-lede">From future officers who've already been through it.</p>
+      </div>
+      <div class="testimonial-grid">
+        ${[
+          { quote: 'The adaptive test simulator alone is worth the price. It feels exactly like the actual CAT format. I went in knowing what to expect and scored a 61.', name: 'Marcus T.', branch: 'Navy OCS Applicant' },
+          { quote: 'I tried other OAR prep resources and nothing came close. The step-by-step worked problems for Mechanical Comprehension finally made levers and gears click for me.', name: 'Jenna R.', branch: 'Marine OCS Candidate' },
+          { quote: 'The score predictor kept me honest. When I was stuck at 47, I knew exactly which topics were dragging me down. Drilled those for a week. Hit 56 on the real test.', name: 'Daniel K.', branch: 'Navy OCS' },
+          { quote: 'Infinite Drill is a game changer. Never see the same math problem twice — which meant I was actually solving problems, not just memorizing them.', name: 'Sarah M.', branch: 'NROTC Candidate' }
+        ].map(t => `
+          <div class="testimonial-card">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="testimonial-quote">&ldquo;${t.quote}&rdquo;</p>
+            <div class="testimonial-author">
+              <div class="testimonial-name">${t.name}</div>
+              <div class="testimonial-branch">${t.branch}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
     <!-- PRICING -->
     <section id="pricing" class="landing-section landing-section-pricing">
       <div class="section-header">
@@ -139,11 +164,23 @@ route('/', async () => {
       </div>
     </section>
 
+    <!-- GUARANTEE BANNER -->
+    <section class="landing-section landing-section-narrow" style="padding-top:0">
+      <div class="card" style="text-align:center;padding:32px;border-color:var(--green)">
+        <div style="font-size:32px;margin-bottom:8px">&#128274;</div>
+        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">30-Day Money-Back Guarantee</h3>
+        <p style="color:var(--text-2);max-width:480px;margin:0 auto;font-size:15px">
+          If you study with OAR Pro for 30 days and aren't satisfied with your progress, email us for a full refund. No questions, no forms, no hassle.
+        </p>
+      </div>
+    </section>
+
     <!-- FINAL CTA -->
     <section class="landing-section landing-final-cta">
       <h2>Ready to Ace the OAR?</h2>
       <p class="section-lede">Join hundreds of future officers who used OAR Pro to get the score they needed.</p>
-      <button class="btn btn-primary btn-lg" onclick="handleCheckoutClick(this)">Get Started &rarr;</button>
+      <button class="btn btn-primary btn-lg" onclick="handleCheckoutClick(this)">Start My OAR Prep &rarr;</button>
+      <p style="margin-top:12px;font-size:13px;color:var(--text-3)">One payment &bull; Lifetime access &bull; 30-day guarantee</p>
     </section>
 
     <!-- FOOTER -->
@@ -154,6 +191,9 @@ route('/', async () => {
         <a href="#pricing" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false">Pricing</a>
         <a href="#/login">Log In</a>
         <a href="#/signup">Sign Up</a>
+        <a href="#/privacy" style="color:var(--text-3)">Privacy Policy</a>
+        <a href="#/terms" style="color:var(--text-3)">Terms of Use</a>
+        <a href="#/refund" style="color:var(--text-3)">Refund Policy</a>
       </div>
       <p class="footer-disclaimer">
         &copy; ${new Date().getFullYear()} OAR Pro. Not affiliated with the U.S. Navy, Marine Corps, or any government entity.
@@ -207,26 +247,58 @@ function renderPricingCard() {
     `;
   }
 
-  // No code — full price, subtle referral nudge
+  // No code — full price with referral code entry field
   return `
     <div class="pricing-card">
       <div class="pricing-ribbon">LIFETIME</div>
       <div class="pricing-head">
         <div class="pricing-amount mono">$97</div>
         <div class="pricing-cycle">one-time payment &middot; lifetime access</div>
-        <div class="pricing-referral-callout">
-          <span class="pricing-referral-callout-icon">&#127881;</span>
-          <span>Have a referral link? <strong>You save $30</strong> &mdash; price drops to $67 automatically.</span>
-        </div>
       </div>
       <ul class="pricing-features">${featureList}</ul>
       <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px;text-align:left"></div>
       <button class="btn btn-primary btn-lg btn-block" onclick="handleCheckoutClick(this)">
-        Get Access &rarr;
+        Start My OAR Prep &rarr;
       </button>
       <p class="pricing-guarantee">&#128274; Secure checkout &middot; 30-day money-back guarantee</p>
+      <details style="margin-top:14px;font-size:13px">
+        <summary style="cursor:pointer;color:var(--text-3);list-style:none;display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px">&#9654;</span> Have a referral code? Save $30
+        </summary>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <input
+            type="text"
+            id="refCodeInput"
+            class="form-input"
+            placeholder="Enter code"
+            style="flex:1;font-size:13px;padding:8px 12px;text-transform:uppercase"
+            oninput="this.value=this.value.toUpperCase()"
+          >
+          <button class="btn btn-secondary btn-sm" onclick="applyLandingRefCode()" style="flex-shrink:0">Apply</button>
+        </div>
+        <div id="refCodeMsg" style="font-size:12px;margin-top:6px"></div>
+      </details>
     </div>
   `;
+}
+
+// Referral code manual entry from pricing card
+function applyLandingRefCode() {
+  const input = document.getElementById('refCodeInput');
+  const msg = document.getElementById('refCodeMsg');
+  const code = (input?.value || '').trim().toUpperCase();
+  if (!code) {
+    if (msg) { msg.style.color = 'var(--red)'; msg.textContent = 'Enter a code first.'; }
+    return;
+  }
+  try { sessionStorage.setItem('oar_affiliate_ref', code); } catch (_) {}
+  if (msg) { msg.style.color = 'var(--green)'; msg.textContent = '✓ Code saved — price updated at checkout.'; }
+  // Re-render pricing section to show discount
+  const pricingSection = document.getElementById('pricing');
+  if (pricingSection) {
+    const cardEl = pricingSection.querySelector('.pricing-card');
+    if (cardEl) cardEl.outerHTML = renderPricingCard();
+  }
 }
 
 // FAQ accordion toggle

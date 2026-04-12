@@ -26,10 +26,11 @@ CREATE POLICY "Users can update own profile"
   ON profiles FOR UPDATE
   USING (id = auth.uid());
 
--- Admin can read ALL profiles (replace with Benjamin's actual UID after signup)
+-- Admin can read ALL profiles
+-- Policy applied live 2026-04-12. UID = acf2af6e-7882-4a66-bfab-7e3e63c81e9e (ben@rodriguezwi.com)
 -- CREATE POLICY "Admin reads all profiles"
 --   ON profiles FOR SELECT
---   USING (auth.uid() = 'BENJAMIN_ADMIN_UID_HERE');
+--   USING (auth.uid() = 'acf2af6e-7882-4a66-bfab-7e3e63c81e9e');
 
 -- ============================================
 -- CONTENT — only paid users (or preview/admin) can read

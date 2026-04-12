@@ -323,9 +323,15 @@ function catSelectAnswer(key) {
   const section = catState.sections[catState.currentSectionIdx];
   const difficulty = catState._currentActualDifficulty;
 
-  // Record in sequence
+  // Record in sequence — store full question data for post-test review
   catState.questionSequence.push({
     question_id: q.id,
+    question_html: q.question_html || q.question_text || '',
+    options: q.options || [],
+    correct_index: typeof q.correct_index === 'number' ? q.correct_index : ['A','B','C','D'].indexOf(correct),
+    explanation: q.explanation || '',
+    selected_key: key,
+    correct_key: correct,
     section,
     difficulty_shown: difficulty,
     correct: isCorrect,
@@ -709,6 +715,52 @@ async function showCatResults() {
         <button class="btn btn-secondary" onclick="shareCatResult(${predictedScore}, ${JSON.stringify(sectionScores).replace(/"/g, '&quot;')}, ${totalTime})">Share Result</button>
         <button class="btn btn-secondary" onclick="navigate('#/practice')">Practice Weak Areas</button>
         <button class="btn btn-secondary" onclick="navigate('#/dashboard')">Dashboard</button>
+      </div>
+
+      <!-- POST-TEST QUESTION REVIEW -->
+      <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <h2 style="font-size:18px;font-weight:700;margin:0">Question Review</h2>
+          <span style="font-size:13px;color:var(--text-3)">${catState.questionSequence.length} questions</span>
+        </div>
+        ${catState.questionSequence.map((entry, i) => {
+          const opts = entry.options || [];
+          const correctLetter = entry.correct_key || ['A','B','C','D'][entry.correct_index] || 'A';
+          const selectedLetter = entry.selected_key || '';
+          const diffLabel = ['', 'Easy', 'Medium', 'Hard'][entry.difficulty_shown] || '';
+          const diffBadge = entry.difficulty_shown === 3 ? 'badge-red' : entry.difficulty_shown === 2 ? 'badge-yellow' : 'badge-green';
+          return `
+            <div class="card" style="margin-bottom:12px;border-left:3px solid ${entry.correct ? 'var(--green)' : 'var(--red)'}">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                  <span style="font-size:11px;font-weight:700;color:var(--text-3);background:var(--surface-2);padding:2px 6px;border-radius:4px">Q${i + 1}</span>
+                  <span class="badge ${diffBadge}">${diffLabel}</span>
+                  <span class="badge">${entry.section}</span>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:${entry.correct ? 'var(--green)' : 'var(--red)'};white-space:nowrap">
+                  ${entry.correct ? '&#10003; Correct' : '&#10005; Wrong'}
+                </span>
+              </div>
+              ${entry.question_html ? `<div style="font-size:14px;line-height:1.6;margin-bottom:12px">${entry.question_html}</div>` : ''}
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:${entry.explanation ? '10px' : '0'}">
+                ${['A','B','C','D'].map((letter, idx) => {
+                  const optText = opts[idx] || '';
+                  if (!optText) return '';
+                  const isCorrect = letter === correctLetter;
+                  const isSelected = letter === selectedLetter && !isCorrect;
+                  const bg = isCorrect ? 'var(--green-bg)' : isSelected ? 'var(--red-bg)' : 'var(--surface-2)';
+                  const border = isCorrect ? 'var(--green)' : isSelected ? 'var(--red)' : 'var(--border)';
+                  const marker = isCorrect ? ' &#10003;' : isSelected ? ' &#10005;' : '';
+                  return `<div style="display:flex;gap:8px;padding:7px 12px;background:${bg};border:1px solid ${border};border-radius:8px;font-size:13px">
+                    <span style="font-weight:700;flex-shrink:0;min-width:20px">${letter}${marker}</span>
+                    <span style="flex:1">${optText}</span>
+                  </div>`;
+                }).join('')}
+              </div>
+              ${entry.explanation ? `<div style="font-size:13px;color:var(--text-2);padding:10px 12px;background:var(--surface-2);border-radius:8px;border-left:3px solid var(--accent);margin-top:4px">${entry.explanation}</div>` : ''}
+            </div>
+          `;
+        }).join('')}
       </div>
     </div>
   `;

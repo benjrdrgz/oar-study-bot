@@ -417,7 +417,7 @@ function renderDiagnosticResults() {
             <a href="#/signup" class="btn btn-primary btn-lg">Create Free Account &rarr;</a>
             <a href="#/" class="btn btn-secondary btn-lg">See Pricing</a>
           </div>
-          <div style="margin-top:14px;font-size:12px;color:var(--text-3)">One-time $29 &bull; Lifetime access &bull; 30-day guarantee</div>
+          <div style="margin-top:14px;font-size:12px;color:var(--text-3)">One-time $97 &bull; Lifetime access &bull; 30-day guarantee</div>
         </div>
       </div>
 

@@ -89,7 +89,7 @@ async function handleRoute() {
 
   // Auth guard — check if route requires auth
   const publicRoutes = ['/', '/login', '/signup', '/payment-success', '/diagnostic', '/checkout',
-                        '/forgot-password', '/update-password'];
+                        '/forgot-password', '/update-password', '/privacy', '/terms', '/refund'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
   if (!publicRoutes.includes(path)) {
@@ -100,7 +100,7 @@ async function handleRoute() {
     }
 
     // Check paid access for content routes
-    const contentRoutes = ['/study', '/practice', '/adaptive', '/formulas', '/strategies', '/tutor'];
+    const contentRoutes = ['/study', '/practice', '/adaptive', '/formulas', '/strategies', '/tutor', '/test-day'];
     const isContentRoute = contentRoutes.some(r => path.startsWith(r));
     if (isContentRoute) {
       const paid = await isPaid();
@@ -132,7 +132,7 @@ async function handleRoute() {
     const _sidebar = document.getElementById('sidebar');
     const _mobileToggle = document.getElementById('mobileToggle');
     const _isPublic = ['/', '/login', '/signup', '/forgot-password', '/update-password',
-                        '/payment-success', '/checkout'].includes(path)
+                        '/payment-success', '/checkout', '/privacy', '/terms', '/refund'].includes(path)
                       || path.startsWith('/diagnostic');
     if (_isPublic) {
       _sidebar.style.display = 'none';

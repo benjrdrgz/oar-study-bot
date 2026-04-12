@@ -160,6 +160,19 @@ route('/dashboard', async () => {
   const displayName = esc(profile?.display_name || 'Candidate');
   const predictedScore = score.total || '--';
 
+  // Test-date countdown badge
+  let testDayBadge = '';
+  if (profile?.test_date) {
+    const td = new Date(profile.test_date + 'T00:00:00');
+    const days = Math.ceil((td.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    if (days > 0) {
+      const col = days <= 7 ? 'var(--red)' : days <= 14 ? 'var(--yellow)' : 'var(--accent)';
+      testDayBadge = `<a href="#/test-day" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:${col};font-weight:700;background:var(--surface-2);padding:3px 10px;border-radius:6px;border:1px solid ${col}40;margin-top:6px;text-decoration:none">&#128197; ${days} day${days === 1 ? '' : 's'} to test &rarr;</a>`;
+    } else if (days === 0) {
+      testDayBadge = `<a href="#/test-day" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--green);font-weight:700;background:var(--surface-2);padding:3px 10px;border-radius:6px;border:1px solid var(--green)40;margin-top:6px;text-decoration:none">&#127942; Test Day — go get it!</a>`;
+    }
+  }
+
   app.innerHTML = `
     <!-- WELCOME HEADER -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:28px">
@@ -168,6 +181,7 @@ route('/dashboard', async () => {
         <p style="color:var(--text-2);font-size:14px">
           ${progressPct}% complete &bull; ${completedCount}/${totalLessons} lessons finished
         </p>
+        ${testDayBadge}
       </div>
       <div style="text-align:right">
         <div style="font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px">Predicted OAR</div>

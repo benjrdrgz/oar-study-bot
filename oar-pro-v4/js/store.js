@@ -111,14 +111,17 @@ const Store = {
     const user = await getUser();
     if (!user) return;
 
-    // Group answers by topic
+    // Group answers by topic, weighting by difficulty so hard questions count more
     const topicStats = {};
     for (const [qId, answer] of Object.entries(answers)) {
       const topic = answer.topic || 'Unknown';
       const section = answer.section || 'Unknown';
       if (!topicStats[topic]) topicStats[topic] = { section, correct: 0, total: 0 };
-      topicStats[topic].total++;
-      if (answer.correct) topicStats[topic].correct++;
+      // Weight: Hard=2.0, Medium=1.5, Easy=1.0 — mirrors CAT scoring philosophy
+      const diff = answer.difficulty || answer.difficulty_shown || 1;
+      const w = diff === 3 ? 2.0 : diff === 2 ? 1.5 : 1.0;
+      topicStats[topic].total += w;
+      if (answer.correct) topicStats[topic].correct += w;
     }
 
     // Upsert each topic
@@ -136,7 +139,8 @@ const Store = {
       const accuracy = totalAttempted > 0 ? totalCorrect / totalAttempted : 0;
 
       let level = 'unstarted';
-      if (totalAttempted >= 3) {
+      if (totalAttempted >= 8) {
+        // Require meaningful sample before assigning mastery (8 weighted attempts)
         if (accuracy >= 0.9) level = 'mastered';
         else if (accuracy >= 0.7) level = 'strong';
         else if (accuracy >= 0.5) level = 'developing';
@@ -419,8 +423,9 @@ const Store = {
     const mechAcc = avgAccuracy(sections.Mechanical);
     const overallAcc = (mathAcc + readAcc + mechAcc) / 3;
 
-    // Scale to 20-80 OAR range
-    const scale = (acc) => Math.round(20 + acc * 60);
+    // Scale to 20-80 OAR range with power curve (more realistic — harder to get 80)
+    // Linear was too generous: 50% acc → 50 score felt wrong. Power curve: 50%→44, 75%→60, 90%→72, 100%→80
+    const scale = (acc) => Math.round(20 + Math.pow(acc, 1.3) * 60);
 
     return {
       total: scale(overallAcc),

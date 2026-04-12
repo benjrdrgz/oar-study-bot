@@ -467,6 +467,7 @@ route('/payment-success', async () => {
           <span>Get your personalized study plan</span>
         </div>
       </div>
+      <div id="paymentStatusMsg" style="display:none;font-size:13px;color:var(--text-3);margin-bottom:10px;font-style:italic"></div>
       <button class="btn btn-primary btn-lg btn-block" onclick="handlePaymentSuccess()">
         Continue &rarr;
       </button>
@@ -486,19 +487,57 @@ async function handlePaymentSuccess() {
       const profile = await getProfile();
       navigate(profile?.onboarding_complete ? '#/dashboard' : '#/onboarding');
     } else {
-      // Logged in but payment not yet confirmed — wait a moment and recheck
-      // (webhook may still be processing — Stripe can take a few seconds)
+      // Logged in but payment not yet confirmed — retry with backoff
+      // (Stripe webhook can take 5-30 seconds to fire and update the DB)
       const btn = document.querySelector('[onclick="handlePaymentSuccess()"]');
-      if (btn) { btn.disabled = true; btn.textContent = 'Confirming payment...'; }
+      const statusEl = document.getElementById('paymentStatusMsg');
 
-      await new Promise(r => setTimeout(r, 3000));
-      const paidAfterWait = await isPaid();
-      if (paidAfterWait) {
-        const profile = await getProfile();
-        navigate(profile?.onboarding_complete ? '#/dashboard' : '#/onboarding');
-      } else {
-        // Still not confirmed — send to dashboard which shows the upgrade wall with a helpful message
-        navigate('#/dashboard');
+      const MAX_ATTEMPTS = 8;
+      const INTERVAL_MS = 4000;
+
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = `Confirming payment${'.'.repeat(attempt % 4)}`;
+        }
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.textContent = `Verifying with Stripe… (${attempt}/${MAX_ATTEMPTS})`;
+        }
+
+        await new Promise(r => setTimeout(r, INTERVAL_MS));
+
+        const paidNow = await isPaid();
+        if (paidNow) {
+          if (statusEl) statusEl.textContent = '✓ Payment confirmed!';
+          const profile = await getProfile();
+          navigate(profile?.onboarding_complete ? '#/dashboard' : '#/onboarding');
+          return;
+        }
+      }
+
+      // All retries exhausted — show helpful message instead of upgrade wall
+      const app = document.getElementById('app');
+      if (app) {
+        app.innerHTML = `
+          <div style="max-width:500px;margin:80px auto;text-align:center;padding:0 20px">
+            <div style="font-size:48px;margin-bottom:16px">⏳</div>
+            <h1 style="font-size:28px;margin-bottom:12px">Still Processing</h1>
+            <p class="text-muted mb-8" style="font-size:16px">
+              Your payment went through — we're just waiting on confirmation from Stripe.
+              This usually resolves within 2 minutes.
+            </p>
+            <div class="callout callout-warning" style="text-align:left;margin-bottom:24px">
+              <strong>What to do:</strong>
+              <ol style="margin:8px 0 0 16px;padding:0">
+                <li style="margin-bottom:4px">Wait 2 minutes and refresh the page</li>
+                <li style="margin-bottom:4px">Then sign in at <a href="#/login">#/login</a></li>
+                <li>Still stuck? Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a> — you'll get access manually within the hour</li>
+              </ol>
+            </div>
+            <a href="#/login" class="btn btn-primary btn-lg">Try Signing In &rarr;</a>
+          </div>
+        `;
       }
     }
   } else {

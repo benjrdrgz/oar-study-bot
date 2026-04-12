@@ -68,10 +68,16 @@ async function startCheckout(email, btnEl) {
 
 /**
  * Called from a button: passes the button element for loading state handling.
+ * Pre-fills the logged-in user's email for a smoother Stripe checkout experience.
  * Usage: onclick="handleCheckoutClick(this)"
  */
-function handleCheckoutClick(btn) {
-  startCheckout(undefined, btn);
+async function handleCheckoutClick(btn) {
+  let email;
+  try {
+    const user = await getUser();
+    email = user?.email || undefined;
+  } catch (_) { /* unauthenticated — proceed without email */ }
+  startCheckout(email, btn);
 }
 
 // Render the checkout/pricing route (#/checkout) — bridge page
