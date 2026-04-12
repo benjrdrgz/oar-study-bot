@@ -92,7 +92,10 @@ async function handleRoute() {
                         '/forgot-password', '/update-password', '/privacy', '/terms', '/refund'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
-  if (!publicRoutes.includes(path)) {
+  // Affiliate portal is public (token-gated, no Supabase auth required)
+  const isPublic = publicRoutes.includes(path) || path.startsWith('/affiliate/');
+
+  if (!isPublic) {
     const user = await getUser();
     if (!user) {
       navigate('#/login');
