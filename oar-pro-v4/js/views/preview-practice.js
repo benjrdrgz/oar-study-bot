@@ -24,10 +24,13 @@ route('/preview-practice', async () => {
   app.innerHTML = `<div style="text-align:center;padding:80px 24px;color:var(--text-3)">Loading questions…</div>`;
 
   try {
+    // RLS policy enforces difficulty=1 + test_types contains OAR server-side,
+    // so no test_types filter needed in the URL (avoids PostgREST array literal issues).
     const res = await fetch(
-      `https://ugblwepfptumffzcljot.supabase.co/rest/v1/questions?difficulty=eq.1&test_types=cs.{OAR}&select=id,section,question_text,options,correct_index,explanation&limit=60`,
+      `https://ugblwepfptumffzcljot.supabase.co/rest/v1/questions?difficulty=eq.1&select=id,section,question_text,options,correct_index,explanation&limit=60`,
       { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
     );
+    if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
     const all = await res.json();
     if (!Array.isArray(all) || all.length === 0) throw new Error('no questions');
 
