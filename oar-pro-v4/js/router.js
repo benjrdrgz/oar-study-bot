@@ -143,15 +143,19 @@ async function handleRoute() {
     const _mobileToggle = document.getElementById('mobileToggle');
     const _nav = document.getElementById('topnav');
     const _isPublic = ['/', '/login', '/signup', '/forgot-password', '/update-password',
-                        '/payment-success', '/checkout', '/privacy', '/terms', '/refund', '/recruiters'].includes(path)
+                        '/payment-success', '/checkout', '/privacy', '/terms', '/refund', '/recruiters',
+                        '/lessons-preview', '/preview-practice', '/formulas-preview'].includes(path)
                       || path.startsWith('/diagnostic')
-                      || path.startsWith('/tests');
+                      || path.startsWith('/tests')
+                      || path.startsWith('/lesson-preview/');
     // Public pages with no nav chrome — empty nav renders as a ghost dark bar
     const _isNoNav = ['/', '/checkout', '/privacy', '/terms', '/refund',
                       '/login', '/signup', '/forgot-password', '/update-password',
-                      '/payment-success', '/recruiters'].includes(path)
+                      '/payment-success', '/recruiters',
+                      '/lessons-preview', '/preview-practice', '/formulas-preview'].includes(path)
                      || path.startsWith('/diagnostic')
-                     || path.startsWith('/tests');
+                     || path.startsWith('/tests')
+                     || path.startsWith('/lesson-preview/');
     if (_isPublic) {
       _sidebar.style.display = 'none';
       app.classList.add('full-width');

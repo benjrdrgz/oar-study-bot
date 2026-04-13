@@ -27,7 +27,7 @@ route('/preview-practice', async () => {
     // RLS policy enforces difficulty=1 + test_types contains OAR server-side,
     // so no test_types filter needed in the URL (avoids PostgREST array literal issues).
     const res = await fetch(
-      `https://ugblwepfptumffzcljot.supabase.co/rest/v1/questions?difficulty=eq.1&select=id,section,question_text,options,correct_index,explanation&limit=60`,
+      `https://ugblwepfptumffzcljot.supabase.co/rest/v1/questions?difficulty=eq.1&select=id,section,question_text,passage,options,correct_index,explanation&limit=60`,
       { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
     );
     if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
@@ -146,8 +146,16 @@ function _ppRunQuiz(app, questions) {
           <div style="height:4px;background:var(--accent);border-radius:2px;width:${((current / questions.length) * 100).toFixed(1)}%;transition:width .3s"></div>
         </div>
 
-        <!-- Question -->
+        <!-- Section label -->
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:14px">${q.section || 'OAR'}</div>
+
+        <!-- Passage (Reading comprehension only) -->
+        ${q.passage ? `
+        <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:18px;font-size:13px;color:var(--text-2);line-height:1.7;max-height:220px;overflow-y:auto">
+          ${q.passage}
+        </div>` : ''}
+
+        <!-- Question text -->
         <h3 style="font-size:17px;font-weight:600;line-height:1.55;margin-bottom:24px;color:var(--text)">${q.question_text}</h3>
 
         <!-- Options -->
@@ -200,22 +208,30 @@ function _ppRunQuiz(app, questions) {
   }
 
   function renderResults() {
-    const pct = Math.round((correct / questions.length) * 100);
-    const icon = pct >= 70 ? '🎯' : pct >= 50 ? '📈' : '💪';
-    const msg  = pct >= 70
-      ? "Strong work — you're already competitive on the easier questions."
-      : pct >= 50
-      ? 'Solid foundation. Focused prep will move you into billet-competitive range.'
-      : "This is your starting point. Most candidates improve 15-20 points with targeted practice.";
-    const scoreColor = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+    const pct = correct / questions.length;
+    // Estimate OAR baseline from difficulty-1 performance.
+    // OAR scores range 20–80; competitive is 50+, aviation billets want 60+.
+    // Difficulty-1 only → conservative estimate (real OAR includes harder questions).
+    const oarEst = Math.round(20 + pct * 45);
+    const icon = oarEst >= 55 ? '🎯' : oarEst >= 45 ? '📈' : '💪';
+    const scoreColor = oarEst >= 55 ? 'var(--green)' : oarEst >= 45 ? 'var(--yellow)' : 'var(--red)';
+    const msg = oarEst >= 55
+      ? "You're already competitive on easy-tier questions. Harder drills will sharpen the edge."
+      : oarEst >= 45
+      ? 'Solid foundation. Targeted prep on your weak section can push you past 50.'
+      : 'Below most cutoffs — but that\'s why you\'re here. Most candidates gain 10–15 points with focused practice.';
+    const cutoffNote = oarEst >= 50
+      ? 'You\'re above the 50 baseline most programs require. Keep going.'
+      : 'Most programs require 50+. Aviation billets require 60+.';
 
     app.innerHTML = `
       <div style="max-width:600px;margin:0 auto;padding:40px 24px 80px">
         <div style="text-align:center;margin-bottom:36px">
           <div style="font-size:56px;margin-bottom:16px">${icon}</div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:10px">Practice Quiz Complete</div>
-          <div style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:${scoreColor};letter-spacing:-.03em;margin-bottom:6px">${pct}%</div>
-          <div style="font-size:16px;color:var(--text-2);margin-bottom:12px">${correct} of ${questions.length} correct</div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:10px">Estimated OAR Baseline</div>
+          <div style="font-size:clamp(2.5rem,6vw,3.5rem);font-weight:900;color:${scoreColor};letter-spacing:-.03em;margin-bottom:4px">${oarEst}</div>
+          <div style="font-size:13px;color:var(--text-3);margin-bottom:6px">${Math.round(correct)} of ${questions.length} correct · Based on difficulty-1 questions only</div>
+          <div style="font-size:12px;color:${scoreColor};font-weight:600;margin-bottom:14px">${cutoffNote}</div>
           <p style="color:var(--text-2);font-size:14px;line-height:1.6;max-width:420px;margin:0 auto">${msg}</p>
         </div>
 
