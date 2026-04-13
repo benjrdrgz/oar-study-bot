@@ -6,11 +6,11 @@ const OAR_FUNCTIONS_URL = 'https://ugblwepfptumffzcljot.supabase.co/functions/v1
 
 /**
  * Kick off Stripe checkout.
- * @param {string} [email]       - Pre-fill customer email (optional)
- * @param {HTMLElement} [btnEl]  - Button to disable/restore on error (optional)
+ * @param {string} [email]      - Pre-fill customer email (optional)
+ * @param {HTMLElement} [btnEl] - Button to disable/restore on error (optional)
+ * @param {string} [testType]   - Which test to purchase ('OAR', 'ASVAB', etc.) — defaults 'OAR'
  */
-async function startCheckout(email, btnEl) {
-  // Show loading state if a button element was passed
+async function startCheckout(email, btnEl, testType = 'OAR') {
   const originalText = btnEl ? btnEl.textContent : null;
   if (btnEl) {
     btnEl.disabled = true;
@@ -29,13 +29,13 @@ async function startCheckout(email, btnEl) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Supabase Edge Functions require the anon key for auth
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         'apikey': SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({
         email: email && email.trim() ? email.trim() : undefined,
         affiliate_code: affiliateCode || undefined,
+        test_type: testType,
       }),
     });
 
@@ -61,14 +61,13 @@ async function startCheckout(email, btnEl) {
       errContainer.textContent = 'Checkout failed — please try again or contact support.';
       errContainer.style.display = 'block';
     } else {
-      alert('Checkout failed. Please try again or email ben@rodriguezwi.com');
+      alert('Checkout failed. Please try again or email hello@armedprep.com');
     }
   }
 }
 
 /**
- * Called from a button: passes the button element for loading state handling.
- * Pre-fills the logged-in user's email for a smoother Stripe checkout experience.
+ * Called from a button: OAR checkout (backward compat).
  * Usage: onclick="handleCheckoutClick(this)"
  */
 async function handleCheckoutClick(btn) {
@@ -76,8 +75,21 @@ async function handleCheckoutClick(btn) {
   try {
     const user = await getUser();
     email = user?.email || undefined;
-  } catch (_) { /* unauthenticated — proceed without email */ }
-  startCheckout(email, btn);
+  } catch (_) { /* unauthenticated */ }
+  startCheckout(email, btn, 'OAR');
+}
+
+/**
+ * Called from test-specific buy buttons.
+ * Usage: onclick="handleTestCheckoutClick(this, 'ASVAB')"
+ */
+async function handleTestCheckoutClick(btn, testType) {
+  let email;
+  try {
+    const user = await getUser();
+    email = user?.email || undefined;
+  } catch (_) { /* unauthenticated */ }
+  startCheckout(email, btn, testType || 'OAR');
 }
 
 // Render the checkout/pricing route (#/checkout) — bridge page

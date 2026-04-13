@@ -248,7 +248,7 @@ route('/profile', async () => {
             </div>
           </div>
           ${(profile.referral_earnings_cents || 0) > 0 ? `
-            <p style="font-size:12px;color:var(--text-3)">Payouts processed manually. Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a> to request payout.</p>
+            <p style="font-size:12px;color:var(--text-3)">Payouts processed manually. Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a> to request payout.</p>
           ` : ''}
         ` : `
           <button class="btn btn-secondary btn-sm" onclick="generateMyReferralCode()">
@@ -272,7 +272,7 @@ route('/profile', async () => {
       <div class="card" style="margin-bottom:20px">
         <div class="card-title" style="margin-bottom:8px">Need Help?</div>
         <p class="text-muted text-sm" style="margin-bottom:12px">Questions, bug reports, or study advice — reach out directly.</p>
-        <a href="mailto:ben@rodriguezwi.com?subject=OAR%20Pro%20%E2%80%94%20Support" class="btn btn-secondary btn-block">
+        <a href="mailto:hello@armedprep.com?subject=OAR%20Pro%20%E2%80%94%20Support" class="btn btn-secondary btn-block">
           &#9993; Email Support
         </a>
       </div>

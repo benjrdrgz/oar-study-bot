@@ -19,47 +19,122 @@ route('/dashboard', async () => {
 
   const app = document.getElementById('app');
 
-  // ── Upgrade gate for free (unpaid) users ────────────────────────────────
-  // Router sends unpaid users HERE from all content routes — show the upgrade wall.
-  const paid = await isPaid();
-  if (!paid) {
+  // ── Upgrade gate — show test catalog if user has no access ─────────────────
+  const profile = await getProfile();
+  const purchasedTests = profile?.purchased_tests || [];
+  const hasAnyAccess = purchasedTests.length > 0
+    || profile?.is_paid === true
+    || profile?.account_type === 'preview'
+    || profile?.account_type === 'admin';
+
+  if (!hasAnyAccess) {
     document.getElementById('sidebar').style.display = 'none';
     app.classList.add('full-width');
+
+    // Test catalog for the upgrade wall
+    const TEST_CARDS = [
+      {
+        key: 'OAR',
+        emoji: '⚓',
+        name: 'OAR',
+        subtitle: 'Officer Aptitude Rating',
+        branch: 'Navy · Marine Corps · Coast Guard',
+        price: '$97',
+        dealPrice: '$67',
+        features: ['Math · Reading · Mechanical', '190+ questions, 20 lessons', 'Adaptive CAT simulator'],
+        cta: 'Get OAR Access',
+      },
+      {
+        key: 'ASVAB',
+        emoji: '🎖️',
+        name: 'ASVAB',
+        subtitle: 'Armed Services Vocational Aptitude Battery',
+        branch: 'All Branches · Enlisted',
+        price: '$47',
+        dealPrice: '$37',
+        features: ['Math · Reading · Word Knowledge', 'Adaptive practice tests', 'Score predictor'],
+        cta: 'Get ASVAB Access',
+        badge: 'Most Popular',
+      },
+      {
+        key: 'AFOQT',
+        emoji: '✈️',
+        name: 'AFOQT',
+        subtitle: 'Air Force Officer Qualifying Test',
+        branch: 'Air Force · Space Force',
+        price: '$97',
+        dealPrice: '$67',
+        features: ['Verbal · Quantitative · Situational', 'Updated for Form T', 'Pilot score prep'],
+        cta: 'Get AFOQT Access',
+        badge: 'Coming Soon',
+        disabled: true,
+      },
+      {
+        key: 'SIFT',
+        emoji: '🚁',
+        name: 'SIFT',
+        subtitle: 'Selection Instrument for Flight Training',
+        branch: 'Army Aviation · WOFT',
+        price: '$127',
+        dealPrice: '$97',
+        features: ['Aviation info · Math · Mechanical', 'Strict simulator mode', '2-attempt lifetime prep'],
+        cta: 'Get SIFT Access',
+        badge: 'Coming Soon',
+        disabled: true,
+      },
+    ];
+
+    const affiliateCode = (() => { try { return sessionStorage.getItem('oar_affiliate_ref') || ''; } catch (_) { return ''; } })();
+    const hasCode = !!affiliateCode;
+
     app.innerHTML = `
-      <div style="max-width:520px;margin:80px auto;text-align:center;padding:0 20px">
-        <div style="font-size:56px;margin-bottom:16px">⚓</div>
-        <h1 style="font-size:28px;font-weight:800;margin-bottom:8px">Unlock OAR Pro</h1>
-        <p class="text-muted" style="margin-bottom:28px;font-size:15px">
-          You're in — but your account needs a license to access study content.
-        </p>
-        <div class="card" style="text-align:left;padding:24px;margin-bottom:20px">
-          <div style="font-size:13px;color:var(--text-3);margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">What you get</div>
-          ${[
-            'All 20 structured lessons (Math, Reading, Mechanical)',
-            '190+ practice questions with explanations',
-            '5 full-length adaptive practice tests',
-            'Score predictor &amp; topic mastery heatmap',
-            'Personalized study plan',
-            'Lifetime access — one payment, no subscriptions'
-          ].map(f => `
-            <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0">
-              <span style="color:var(--green);font-size:16px;line-height:1.4">&#10003;</span>
-              <span style="font-size:14px">${f}</span>
+      <div style="max-width:900px;margin:0 auto;padding:40px 20px 80px">
+        <div style="text-align:center;margin-bottom:40px">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--text-3);font-weight:600;margin-bottom:10px">Military Test Prep</div>
+          <h1 style="font-size:30px;font-weight:800;line-height:1.2;margin-bottom:12px">Choose your test. Start studying today.</h1>
+          <p style="font-size:15px;color:var(--text-2);max-width:520px;margin:0 auto">
+            Adaptive practice tests, real-time tutoring, and science-backed study plans. One payment, lifetime access.
+          </p>
+          ${hasCode ? `<div style="margin-top:16px;display:inline-block;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:8px;font-size:13px;color:var(--green)">&#10003; Referral code applied — $30 off your purchase</div>` : ''}
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px">
+          ${TEST_CARDS.map(tc => `
+            <div style="border:1px solid var(--border);border-radius:14px;padding:24px;background:var(--surface-1);display:flex;flex-direction:column;gap:12px;position:relative;${tc.disabled ? 'opacity:.6' : ''}">
+              ${tc.badge ? `<div style="position:absolute;top:-1px;right:16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:0 0 8px 8px;background:${tc.badge === 'Most Popular' ? 'var(--accent)' : 'var(--surface-2)'};color:${tc.badge === 'Most Popular' ? '#fff' : 'var(--text-3)'}">${tc.badge}</div>` : ''}
+              <div>
+                <div style="font-size:28px;margin-bottom:8px">${tc.emoji}</div>
+                <div style="font-size:20px;font-weight:800;margin-bottom:2px">${tc.name}</div>
+                <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">${tc.subtitle}</div>
+                <div style="font-size:11px;color:var(--text-3);font-weight:600">${tc.branch}</div>
+              </div>
+              <ul style="list-style:none;margin:0;padding:0;flex:1">
+                ${tc.features.map(f => `<li style="font-size:12px;color:var(--text-2);padding:3px 0;display:flex;gap:7px;align-items:flex-start"><span style="color:var(--green);flex-shrink:0">✓</span>${f}</li>`).join('')}
+              </ul>
+              <div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+                  <span style="font-size:24px;font-weight:800;font-family:var(--font-mono)">${hasCode ? tc.dealPrice : tc.price}</span>
+                  ${hasCode ? `<span style="font-size:13px;color:var(--text-3);text-decoration:line-through;font-family:var(--font-mono)">${tc.price}</span>` : ''}
+                  <span style="font-size:11px;color:var(--text-3)">one-time</span>
+                </div>
+                <button
+                  class="btn btn-primary btn-sm"
+                  style="width:100%"
+                  ${tc.disabled ? 'disabled title="Coming soon"' : `onclick="handleTestCheckoutClick(this,'${tc.key}')"`}
+                >
+                  ${tc.disabled ? 'Coming Soon' : tc.cta + ' →'}
+                </button>
+              </div>
             </div>
           `).join('')}
-          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
-            <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px"></div>
-            <button class="btn btn-primary btn-lg btn-block" onclick="handleCheckoutClick(this)">
-              Get Access &rarr;
-            </button>
-            <p style="font-size:12px;color:var(--text-3);text-align:center;margin-top:10px">
-              &#128274; Secure payment via Stripe &middot; 30-day money-back guarantee
-            </p>
-          </div>
         </div>
-        <p style="font-size:13px;color:var(--text-3)">
-          Already purchased? Your access will activate automatically once payment is confirmed (usually instant).
-          <br>Need help? <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>
+
+        <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:12px;background:rgba(239,68,68,.1);border-radius:8px;text-align:center"></div>
+
+        <p style="font-size:12px;color:var(--text-3);text-align:center">
+          &#128274; Secure payment via Stripe &middot; 30-day money-back guarantee &middot;
+          Already purchased? Your access activates automatically after payment.
+          &middot; Questions? <a href="mailto:hello@armedprep.com">hello@armedprep.com</a>
         </p>
       </div>
     `;
@@ -96,11 +171,10 @@ route('/dashboard', async () => {
     </div>
   `;
 
-  // Fetch all data in parallel
-  let profile, score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory;
+  // Fetch all data in parallel (profile already fetched above for access check — reuse it)
+  let score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory;
   try {
-    [profile, score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory] = await Promise.all([
-      getProfile(),
+    [score, streak, streaks, mastery, quizHistory, lessonProgress, lessons, adaptiveHistory] = await Promise.all([
       Store.predictScore(),
       Store.getCurrentStreak(),
       Store.getStreaks(30),
@@ -174,7 +248,53 @@ route('/dashboard', async () => {
     }
   }
 
-  app.innerHTML = `
+  // ── Your Tests grid (multi-test) ────────────────────────────────────────
+  const ALL_TESTS = [
+    { key: 'OAR',   emoji: '⚓', name: 'OAR',   branch: 'Navy · USMC',       price: '$97',  studyPath: '#/study',    practicePath: '#/practice',    note: 'Officer Aptitude Rating' },
+    { key: 'ASVAB', emoji: '🎖️', name: 'ASVAB', branch: 'All Branches',      price: '$47',  studyPath: '#/study?test=ASVAB', practicePath: '#/practice?test=ASVAB', note: 'Enlisted qualifying test' },
+    { key: 'AFOQT', emoji: '✈️', name: 'AFOQT', branch: 'Air Force · Space', price: '$97',  studyPath: '#/study?test=AFOQT', practicePath: '#/practice?test=AFOQT', note: 'Coming soon' },
+    { key: 'SIFT',  emoji: '🚁', name: 'SIFT',  branch: 'Army Aviation',      price: '$127', studyPath: '#/study?test=SIFT',  practicePath: '#/practice?test=SIFT',  note: 'Coming soon' },
+  ];
+
+  const testGridHTML = `
+    <div style="margin-bottom:28px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="font-size:16px;font-weight:700;margin:0">Your Tests</h2>
+        <a href="#/tests" style="font-size:12px;color:var(--accent);text-decoration:none">Browse all →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">
+        ${ALL_TESTS.map(t => {
+          const owned = purchasedTests.includes(t.key) || (t.key === 'OAR' && profile?.is_paid);
+          const admin = profile?.account_type === 'admin' || profile?.account_type === 'preview';
+          const canAccess = owned || admin;
+          const isComing = !canAccess && (t.key === 'AFOQT' || t.key === 'SIFT');
+          return `
+            <div style="border:1px solid ${canAccess ? 'var(--accent)30' : 'var(--border)'};border-radius:12px;padding:16px;background:var(--surface-1);opacity:${isComing ? '.55' : '1'}">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                <span style="font-size:22px">${t.emoji}</span>
+                ${canAccess
+                  ? `<span style="font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,.12);padding:2px 8px;border-radius:6px">ACTIVE</span>`
+                  : isComing
+                    ? `<span style="font-size:10px;color:var(--text-3)">SOON</span>`
+                    : `<span style="font-size:10px;font-weight:700;color:var(--accent)">${t.price}</span>`
+                }
+              </div>
+              <div style="font-size:15px;font-weight:800;margin-bottom:2px">${t.name}</div>
+              <div style="font-size:11px;color:var(--text-3);margin-bottom:10px">${t.branch}</div>
+              ${canAccess
+                ? `<a href="${t.studyPath}" class="btn btn-primary btn-sm" style="width:100%;text-align:center;font-size:12px">Study →</a>`
+                : isComing
+                  ? `<button class="btn btn-sm" style="width:100%;font-size:12px" disabled>Coming Soon</button>`
+                  : `<button class="btn btn-sm" style="width:100%;font-size:12px" onclick="handleTestCheckoutClick(this,'${t.key}')">Get Access →</button>`
+              }
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  app.innerHTML = testGridHTML + `
     <!-- WELCOME HEADER -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:28px">
       <div>

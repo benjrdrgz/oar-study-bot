@@ -18,7 +18,7 @@ function renderLegalShell(title, content) {
         ${content}
       </div>
       <div style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text-3)">
-        Questions? Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>
+        Questions? Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a>
       </div>
     </div>
   `;
@@ -51,13 +51,13 @@ route('/privacy', () => {
     <p>Each provider has their own privacy policy governing how they handle data.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">Data Retention</h2>
-    <p>Your study data is retained for as long as your account is active. If you close your account, you may request full deletion by emailing ben@rodriguezwi.com. We will delete your account and associated data within 30 days.</p>
+    <p>Your study data is retained for as long as your account is active. If you close your account, you may request full deletion by emailing hello@armedprep.com. We will delete your account and associated data within 30 days.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">Cookies</h2>
     <p>OAR Pro uses cookies and session storage only for authentication (keeping you logged in) and storing your study session preferences. We do not use tracking cookies or advertising cookies.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">Contact</h2>
-    <p>For any privacy questions or data requests, email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>.</p>
+    <p>For any privacy questions or data requests, email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a>.</p>
   `);
 });
 
@@ -105,7 +105,7 @@ route('/refund', () => {
     <p>If you're not satisfied with OAR Pro for any reason within 30 days of purchase, we will refund your payment in full — no questions, no forms, no hassle.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">How to Request a Refund</h2>
-    <p>Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a> with the subject line "Refund Request" and include the email address associated with your account. That's it. We will process your refund within 5 business days.</p>
+    <p>Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a> with the subject line "Refund Request" and include the email address associated with your account. That's it. We will process your refund within 5 business days.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">Refund Timeline</h2>
     <p>Once processed, refunds typically appear on your original payment method within 5-10 business days, depending on your bank or card issuer. The exact timing is controlled by your financial institution, not by us.</p>
@@ -114,6 +114,6 @@ route('/refund', () => {
     <p>Upon refund, your access to OAR Pro study content will be removed. Your account will be closed. If you later decide to repurchase, you are welcome to do so at the current price.</p>
 
     <h2 style="font-size:18px;font-weight:700;color:var(--text);margin:24px 0 10px">Contact</h2>
-    <p>Questions about your purchase? Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>. We respond to all billing inquiries within one business day.</p>
+    <p>Questions about your purchase? Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a>. We respond to all billing inquiries within one business day.</p>
   `);
 });
