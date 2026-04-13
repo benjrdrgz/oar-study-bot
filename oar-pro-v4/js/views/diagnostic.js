@@ -89,21 +89,25 @@ function shuffle(arr) {
 }
 
 /**
- * OAR scoring model (research-accurate as of 2024 Navy data):
+ * OAR scoring model (calibrated against 2024 Navy ASTB-E data):
  *
- *  - Range: 20-80, standardized score (mean = 50, SD = 10, normal distribution)
- *  - Real OAR uses Item Response Theory + Computerized Adaptive Testing
- *  - Correct answers on HARDER questions count more than correct answers on easy ones
- *  - A 50 is exactly average (50th percentile); 60 = 84th percentile; 70 = 97.5th percentile
- *  - Minimum cutoff: 35 (varies by program); Competitive SNA/SNFO: 55+; Elite: 65+
- *  - With only 5 diagnostic questions the prediction has ±8 point uncertainty
+ *  - Range: 20-80, T-score scale (norming mean = 50, SD ≈ 10)
+ *  - Real OAR uses Item Response Theory + Computerized Adaptive Testing (~90 items)
+ *  - KEY CALIBRATION INSIGHT: our questions are all difficulty-2 (medium).
+ *    On a real CAT, 50% correct on medium items → the test drops to easier items →
+ *    final score lands below the population mean (~43-46), NOT at 50.
+ *    60% correct on medium items → roughly average OAR performance (~50).
+ *    80% correct on medium → the CAT escalates to hard items → competitive (~58-60).
+ *  - Practical mean for all test-takers: ~45-48.
+ *    Mean for professionally recommended packages: ~49-55 (by designator).
+ *  - Minimum cutoff: 35; SWO competitive: 50+; SNA/SNFO: 55+; NUPOC/IP: 50+
+ *  - With only 5 questions the prediction has ±7 point uncertainty.
  *
  * Algorithm:
  *  1. Weight each question by difficulty (easy=0.8, med=1.0, hard=1.4)
  *  2. Sum raw weighted correct / max possible weighted = pct
- *  3. Map pct → OAR via an empirically-tuned piecewise curve
- *     (NOT linear — reflects that the middle of the distribution is dense)
- *  4. Return a range bracketed by uncertainty
+ *  3. Map pct → OAR via calibrated piecewise curve (anchored to CAT behavior)
+ *  4. Return score bracketed by uncertainty band
  */
 function computeDiagnosticScore(answers, questions) {
   let raw = 0;
@@ -117,18 +121,16 @@ function computeDiagnosticScore(answers, questions) {
   }
   const pct = max > 0 ? raw / max : 0;
 
-  // Piecewise linear OAR curve. Bell-curve distribution means the middle
-  // 40%-60% of responses map to a tight score band (45-55), and extremes
-  // stretch to the tails. These anchor points are calibrated against published
-  // ASTB-E OAR percentile tables.
+  // Piecewise curve calibrated to adaptive test behavior.
+  // Anchor logic: medium-difficulty correct rate maps to OAR score assuming the
+  // real CAT would adjust difficulty accordingly. 60% correct on medium = ~50 on real OAR.
   const curve = [
-    [0.00, 28],   // Got all wrong → bottom of range (still not 20, we only have 5 Qs)
-    [0.20, 38],   // 1/5 correct → below cutoff
-    [0.40, 46],   // 2/5 correct → below mean
-    [0.50, 50],   // Half correct → exactly average (the mean)
-    [0.60, 54],   // 3/5 correct → slightly above
-    [0.80, 62],   // 4/5 correct → competitive
-    [1.00, 72],   // All correct → elite-approaching
+    [0.00, 24],   // 0/5 correct → well below cutoff
+    [0.20, 35],   // 1/5 correct → at the minimum floor (35 is the waiverable cutoff)
+    [0.40, 43],   // 2/5 correct → below average; needs significant prep
+    [0.60, 50],   // 3/5 correct → at the population mean (~47-50 for all takers)
+    [0.80, 58],   // 4/5 correct → competitive for SWO/SNA (55+ threshold)
+    [1.00, 67],   // 5/5 correct → high-competitive; real test would escalate to hard items
   ];
 
   let mean = 50;
@@ -143,9 +145,8 @@ function computeDiagnosticScore(answers, questions) {
   }
   mean = Math.round(mean);
 
-  // Wide confidence interval — 5 questions can't pin down a score precisely.
-  // Real ASTB-E tests ~30 items per section, so our SE is ~2.5x bigger.
-  const band = 8;
+  // Confidence interval: 5 questions → wide SE (~2.5x a full section).
+  const band = 7;
 
   return {
     correct: answers.filter(a => a.correct).length,
@@ -160,44 +161,43 @@ function computeDiagnosticScore(answers, questions) {
 }
 
 /**
- * Verdict uses REAL OAR bands from Navy aviation selection data:
- *  - 20-34: Below minimum cutoff (most programs reject)
- *  - 35-44: Minimum passing but rarely competitive
- *  - 45-54: Average range (50 = exactly 50th percentile)
- *  - 55-64: Competitive for SNA/SNFO pilot selection
- *  - 65-74: Elite (~top 10%)
- *  - 75-80: Top 2.5% — extremely rare
+ * Verdict bands from Navy ASTB-E selection data (2024):
+ *  - 20-34: Below minimum cutoff (most programs reject; 35 is the waiverable floor)
+ *  - 35-44: Minimum-passing; rarely competitive above SWO unrestricted line
+ *  - 45-54: Average range for all test-takers; 50 = population mean
+ *  - 55-64: Competitive for SNA/SWO/SNFO; IP/INTEL minimums hit here
+ *  - 65+:   High-competitive / elite (~top 10% of takers)
  */
 function verdictFor(mean) {
   if (mean >= 65) return {
     label: 'Elite Range',
     percentile: '~top 10%',
     color: 'var(--green)',
-    message: 'You scored in the elite range. For reference: the OAR mean is 50 and 60+ is considered competitive for SNA/SNFO pilot selection. You\'re already past that. Tighten your weakest section and you\'re in top-tier territory.'
+    message: 'Strong result. Scores in this range put you well past competitive thresholds for SNA, SWO, and IP designators. The OAR population mean is around 47-50 — you\'re significantly above it. Lock in your weakest section and you\'re in top-tier billet territory.'
   };
   if (mean >= 55) return {
     label: 'Competitive',
-    percentile: '~top 30%',
+    percentile: '~top 25%',
     color: 'var(--green)',
-    message: 'You\'re above the OAR mean of 50 and into competitive range for most aviation programs. SNA/SNFO boards typically look for 55+. Structured prep on your weakest section could push you into the 60s — where elite competitiveness starts.'
+    message: 'You\'re above the OAR population mean (~47-50) and into competitive range. SNA/SNFO boards typically want 55+, SWO competitive threshold is 50+. Focused prep on your weakest section can push you into the 60s — where elite selection begins.'
   };
   if (mean >= 45) return {
-    label: 'Near Mean',
+    label: 'Average',
     percentile: '~middle 40%',
     color: 'var(--yellow)',
-    message: 'You\'re hovering around the OAR mean (50 = 50th percentile). Most competitive programs want 55+. The good news: candidates in this range typically move 8-12 points in 4 weeks of structured prep. Totally doable.'
+    message: 'You\'re in the average band for all OAR test-takers. Most competitive programs want 55+, which means you have a gap to close. Candidates in this range typically gain 8-12 points in 4 weeks of structured prep — that\'s a realistic path from average to competitive.'
   };
   if (mean >= 35) return {
     label: 'Minimum Passing',
     percentile: '~bottom 30%',
     color: 'var(--yellow)',
-    message: 'You\'re in the minimum-passing band (the official OAR cutoff is 35). You can technically pass, but you won\'t be competitive for pilot selection without prep. Most candidates in this range move up 10-15 points in 6 weeks of focused study.'
+    message: 'You\'re in the minimum-passing band (35 is the waiverable OAR floor for most programs). You can get through, but you won\'t be competitive for SNA or IP without improvement. Most candidates in this band move up 10-15 points in 6 weeks of targeted prep.'
   };
   return {
     label: 'Below Cutoff',
-    percentile: '~bottom 10%',
+    percentile: '~bottom 15%',
     color: 'var(--red)',
-    message: 'You\'re currently below the official 35 cutoff. That\'s the honest starting point — and the candidates who gain the most are the ones who face it. With 6-10 weeks of structured prep, most candidates in this range reach 50+. This is where OAR Pro pays off the most.'
+    message: 'You\'re currently below the 35 minimum cutoff. That\'s the honest baseline — and candidates who see this and act on it tend to make the biggest gains. With 6-10 weeks of structured prep, most reach 50+. This is where deliberate practice pays off most.'
   };
 }
 
@@ -350,16 +350,6 @@ function renderDiagnosticResults() {
   const verdict = verdictFor(score.scoreMean);
   const elapsed = Math.round((Date.now() - DIAG_STATE.startedAt) / 1000);
 
-  // Capture in sessionStorage so signup can show "resume from diagnostic"
-  try {
-    sessionStorage.setItem('oar_diag_result', JSON.stringify({
-      score: score.scoreMean,
-      correct: score.correct,
-      total: score.total,
-      at: Date.now()
-    }));
-  } catch (_) {}
-
   // Breakdown by section
   const bySection = {};
   for (const a of DIAG_STATE.answers) {
@@ -367,6 +357,23 @@ function renderDiagnosticResults() {
     bySection[a.section].total++;
     if (a.correct) bySection[a.section].correct++;
   }
+
+  // Identify weak sections (< 67% correct), sorted worst-first
+  const weakSections = Object.entries(bySection)
+    .filter(([, s]) => s.total > 0 && (s.correct / s.total) < 0.67)
+    .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
+    .map(([sec]) => sec);
+
+  // Capture in sessionStorage — includes weak_sections for email capture
+  try {
+    sessionStorage.setItem('oar_diag_result', JSON.stringify({
+      score: score.scoreMean,
+      correct: score.correct,
+      total: score.total,
+      weak_sections: weakSections,
+      at: Date.now()
+    }));
+  } catch (_) {}
 
   app.innerHTML = `
     <div style="max-width:640px;margin:40px auto 60px;padding:0 20px">
@@ -405,17 +412,53 @@ function renderDiagnosticResults() {
         </div>
       </div>
 
+      <!-- Email capture — personalized study plan gate -->
+      <div class="card" id="diag-email-gate" style="margin-bottom:20px;border-color:var(--accent)">
+        <div id="diag-email-form-wrap">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--accent);font-weight:700;margin-bottom:8px">FREE — PERSONALIZED STUDY PLAN</div>
+          <h3 style="margin:0 0 8px;font-size:17px">Get your study plan + 3 free practice questions</h3>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin:0 0 16px">
+            We'll send your personalized plan based on this score — which sections to tackle first and free questions to start drilling right now.
+          </p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input
+              type="email"
+              id="diag-email-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+              style="flex:1;min-width:200px;padding:10px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;outline:none"
+              onkeydown="if(event.key==='Enter')submitDiagEmail()"
+            />
+            <button
+              id="diag-email-btn"
+              onclick="submitDiagEmail()"
+              class="btn btn-primary"
+              style="white-space:nowrap"
+            >Send My Plan &rarr;</button>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--text-3)">No spam. Unsubscribe anytime.</div>
+        </div>
+        <div id="diag-email-success" style="display:none;text-align:center;padding:8px 0">
+          <div style="font-size:28px;margin-bottom:8px">&#128236;</div>
+          <div style="font-weight:600;margin-bottom:4px">Study plan sent!</div>
+          <div style="font-size:13px;color:var(--text-2)">Check your inbox. Here are 3 free questions from your weakest section to start now:</div>
+        </div>
+      </div>
+
+      <!-- Free questions container — populated after email submit -->
+      <div id="diag-free-questions" style="display:none;margin-bottom:20px"></div>
+
       <!-- Unlock full platform -->
       <div class="card" style="background:linear-gradient(135deg, hsla(214,100%,62%,.12), hsla(264,80%,68%,.08));border-color:var(--accent);margin-bottom:16px">
         <div style="text-align:center">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--accent);font-weight:700;margin-bottom:8px">Unlock the full platform</div>
           <h2 style="margin-bottom:10px">Ready to raise your score?</h2>
           <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto">
-            Get 220 practice questions, 20 lecture-style lessons, 41 parameterized generators with unlimited drills, adaptive CAT simulation, animated mechanical diagrams, and a personalized study plan based on your weak topics.
+            220 practice questions, 20 lesson modules, adaptive CAT simulation, 41 unlimited drill generators, animated mechanical diagrams.
           </p>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-            <a href="#/signup" class="btn btn-primary btn-lg">Create Free Account &rarr;</a>
-            <a href="#/" class="btn btn-secondary btn-lg">See Pricing</a>
+            <a href="#/checkout?test=OAR" class="btn btn-primary btn-lg">Get OAR Pro &mdash; $97 &rarr;</a>
+            <a href="#/" class="btn btn-secondary btn-lg">See What's Included</a>
           </div>
           <div style="margin-top:14px;font-size:12px;color:var(--text-3)">One-time $97 &bull; Lifetime access &bull; 30-day guarantee</div>
         </div>
@@ -433,6 +476,95 @@ route('/diagnostic', async () => {
   renderDiagnosticIntro();
 });
 
+// ── Email capture submit ─────────────────────────────────────────────────────
+
+async function submitDiagEmail() {
+  const input = document.getElementById('diag-email-input');
+  const btn   = document.getElementById('diag-email-btn');
+  if (!input || !btn) return;
+
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'var(--red)';
+    input.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  input.style.borderColor = 'var(--border)';
+
+  await window._emailCapture.submitLeadCapture({
+    email: email,
+    onSuccess: function (data) {
+      // Store preview token → unlocks lesson preview page for 72 hours
+      try {
+        const diagResult = JSON.parse(sessionStorage.getItem('oar_diag_result') || '{}');
+        const rawWeak = (diagResult.weak_sections && diagResult.weak_sections[0]) || 'Math';
+        const sectionMap = { 'Math':'MATH SKILLS', 'Reading':'READING COMPREHENSION', 'Mechanical':'MECHANICAL COMPREHENSION' };
+        const fullSection = sectionMap[rawWeak] || 'MATH SKILLS';
+        localStorage.setItem('oar_preview_email', email);
+        localStorage.setItem('oar_preview_expires', String(Date.now() + 72 * 60 * 60 * 1000));
+        localStorage.setItem('oar_preview_weak_section', fullSection);
+      } catch (_) {}
+
+      // Swap form → success message
+      const formWrap = document.getElementById('diag-email-form-wrap');
+      const success  = document.getElementById('diag-email-success');
+      if (formWrap) formWrap.style.display = 'none';
+      if (success) {
+        success.style.display = 'block';
+        success.innerHTML = `
+          <div style="font-size:28px;margin-bottom:8px">📬</div>
+          <div style="font-weight:700;margin-bottom:6px">Study plan sent!</div>
+          <div style="font-size:13px;color:var(--text-2);margin-bottom:16px">Check your inbox. You also unlocked <strong>3 free starter lessons</strong>:</div>
+          <a href="#/lessons-preview" class="btn btn-primary" style="display:inline-flex;margin-bottom:10px">Start Your Free Lessons →</a>
+          <div style="font-size:11px;color:var(--text-3)">3 of 20 lessons &bull; No account needed &bull; 72-hour access</div>
+        `;
+      }
+
+      // Render the 3 free practice questions returned by the edge function
+      const container = document.getElementById('diag-free-questions');
+      const qs = (data && Array.isArray(data.sample_questions)) ? data.sample_questions : [];
+      if (qs.length && container) {
+        container.style.display = 'block';
+        container.innerHTML = `
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--text-3);font-weight:600;margin-bottom:12px">
+            3 Free Practice Questions
+          </div>
+          ${qs.map(function (q, i) {
+            let opts;
+            try { opts = typeof q.options === 'string' ? JSON.parse(q.options) : q.options; }
+            catch (_) { opts = []; }
+            return `
+              <div class="card" style="margin-bottom:12px">
+                <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">Q${i + 1} &mdash; ${q.section || ''}</div>
+                <div style="font-size:14px;font-weight:500;margin-bottom:12px">${q.question_text || ''}</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  ${(opts || []).map(function (opt, oi) {
+                    const isCorrect = oi === Number(q.correct_index);
+                    return `
+                      <div style="padding:8px 12px;background:${isCorrect ? 'hsla(142,70%,45%,.12)' : 'var(--surface-2)'};border:1px solid ${isCorrect ? 'var(--green)' : 'var(--border)'};border-radius:6px;font-size:13px">
+                        ${isCorrect ? '&#10003; ' : ''}${opt}
+                      </div>`;
+                  }).join('')}
+                </div>
+                ${q.explanation ? `<div style="margin-top:10px;font-size:12px;color:var(--text-3)">${q.explanation}</div>` : ''}
+              </div>
+            `;
+          }).join('')}
+        `;
+      }
+    },
+    onError: function () {
+      btn.disabled = false;
+      btn.textContent = 'Send My Plan →';
+      input.style.borderColor = 'var(--red)';
+    },
+  });
+}
+
 // Globals for inline handlers
 window.startDiagnostic = startDiagnostic;
 window.selectDiagAnswer = selectDiagAnswer;
+window.submitDiagEmail = submitDiagEmail;

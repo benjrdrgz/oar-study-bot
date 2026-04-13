@@ -1,238 +1,303 @@
-// OAR Pro v4 — Landing Page (Public Sales Page)
-// Route: #/ (unauthenticated visitors)
-// Design system: Space Grotesk @ 600 for headings, Inter for body,
-// JetBrains Mono (.num/.stat/.mono) for numerics.
+// OAR Pro v4 — Landing Page v3
+// Full redesign matching ArmedPrep design system.
+// Route: #/ (public, no auth required)
 // — Benjamin Rodriguez
 
 route('/', async ({ ref } = {}) => {
-  // Capture affiliate ref code from URL (?ref=CODE) → sessionStorage
-  // This is what makes affiliate links work. Must run before renderPricingCard().
+  // Persist affiliate ref code from URL (?ref=CODE)
   if (ref) {
     try { sessionStorage.setItem('oar_affiliate_ref', ref.trim().toUpperCase()); } catch (_) {}
   }
 
-  // Hide sidebar, go full-width for landing
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('app').classList.add('full-width');
   document.getElementById('mobileToggle').style.display = 'none';
 
   const app = document.getElementById('app');
   app.innerHTML = `
-    <!-- HERO -->
-    <section class="landing-hero">
-      <div class="eyebrow">#1 OAR Study Platform</div>
-      <h1 class="display hero-title">
-        Ace the OAR.<br><span class="hero-accent">Guaranteed.</span>
-      </h1>
-      <p class="hero-lede">
-        The most comprehensive Officer Aptitude Rating study platform. Adaptive testing,
-        science-backed lessons, and real-time score prediction &mdash; everything you need to
-        dominate all three OAR sections.
-      </p>
-      <div class="hero-cta-row">
-        <button class="btn btn-primary btn-lg" onclick="handleCheckoutClick(this)">
-          Start My OAR Prep &rarr;
-        </button>
-        <a href="#features" class="btn btn-secondary btn-lg" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'});return false">
-          See What's Inside
-        </a>
+
+    <!-- ── TOP NAV ──────────────────────────────────────────────── -->
+    <nav style="position:sticky;top:0;z-index:100;background:rgba(6,11,24,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)">
+      <div class="ap-wrap" style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px">
+        <div style="font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--text)">&#9875; OAR <span style="color:var(--accent)">Pro</span></div>
+        <a href="#/login" class="ap-btn ap-btn-secondary" style="padding:7px 18px;font-size:13px">Sign In</a>
       </div>
-      <p style="margin-top:14px;font-size:13px;color:var(--text-3)">
-        Already have access? <a href="#/login" style="color:var(--text-2);text-decoration:underline;text-underline-offset:3px">Sign in here</a>
-      </p>
-      <div class="hero-meta">
-        <span>&#9889; <span class="mono">90s</span></span>
-        <span class="hero-meta-sep">&bull;</span>
-        <span>No account required</span>
-        <span class="hero-meta-sep">&bull;</span>
-        <span><span class="mono">5</span> questions &middot; <span class="mono">3</span> sections</span>
+    </nav>
+
+    <!-- ── HERO ──────────────────────────────────────────────────── -->
+    <section class="ap-hero">
+      <div class="ap-wrap">
+        <div class="ap-badge">
+          <span class="ap-badge-dot"></span> Free Diagnostic — See Where You Stand
+        </div>
+        <h1>Ace the OAR.<br><span class="ap-gradient">Score Guaranteed.</span></h1>
+        <p class="ap-hero-sub">
+          The most comprehensive Officer Aptitude Rating prep platform.
+          Adaptive testing, AI tutoring, 190+ questions — built for the OAR, not recycled from generic test prep.
+        </p>
+        <div class="ap-hero-actions">
+          <button class="ap-btn ap-btn-primary ap-btn-lg" onclick="handleCheckoutClick(this)">
+            Get OAR Pro — $97 →
+          </button>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+            <a href="#/lessons-preview" class="ap-btn ap-btn-secondary ap-btn-lg">Get Free Access →</a>
+            <span style="font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:.04em"><span class="ap-free-badge">3 lessons free</span> &bull; No account required</span>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:8px">
+          <a href="#/diagnostic" style="font-size:12px;color:var(--text-3);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--text-2)'" onmouseout="this.style.color='var(--text-3)'">Or get a free OAR score estimate — 90-second diagnostic →</a>
+        </div>
+        <div class="ap-hero-meta">
+          <span>📖 3 lessons free</span>
+          <span>·</span>
+          <span>No account needed</span>
+          <span>·</span>
+          <span>Score 55+ on the OAR</span>
+        </div>
+
+        <!-- Score mockup -->
+        <div class="ap-score-mockup">
+          <div class="ap-sm-chrome">
+            <div class="ap-sm-dots">
+              <span class="ap-sm-dot" style="background:#ff5f57"></span>
+              <span class="ap-sm-dot" style="background:#ffbd2e"></span>
+              <span class="ap-sm-dot" style="background:#28c940"></span>
+            </div>
+            <div class="ap-sm-url">oar.armedprep.com &mdash; Adaptive CAT Simulation</div>
+          </div>
+          <div class="ap-sm-body">
+            <div class="ap-sm-row">
+              <div>
+                <div class="ap-sm-label">Predicted OAR Score</div>
+                <div class="ap-sm-score">
+                  <span class="ap-sm-num" id="apScoreNum">35</span>
+                  <span class="ap-sm-delta">&#8593; +11 this week</span>
+                </div>
+                <div class="ap-sm-bars">
+                  <div class="ap-sm-bar-row">
+                    <div class="ap-sm-bar-meta"><span>Math</span><span>64%</span></div>
+                    <div class="ap-sm-bar-track"><div class="ap-sm-bar-fill" style="width:64%;background:#3b82f6;transition:width 1.2s ease"></div></div>
+                  </div>
+                  <div class="ap-sm-bar-row">
+                    <div class="ap-sm-bar-meta"><span>Reading</span><span>78%</span></div>
+                    <div class="ap-sm-bar-track"><div class="ap-sm-bar-fill" style="width:78%;background:#22c55e;transition:width 1.2s .2s ease"></div></div>
+                  </div>
+                  <div class="ap-sm-bar-row">
+                    <div class="ap-sm-bar-meta"><span>Mechanical</span><span>51%</span></div>
+                    <div class="ap-sm-bar-track"><div class="ap-sm-bar-fill" style="width:51%;background:#f59e0b;transition:width 1.2s .4s ease"></div></div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="ap-sm-stat-grid">
+                  <div class="ap-sm-stat">
+                    <div class="ap-sm-stat-n">87</div>
+                    <div class="ap-sm-stat-l">Questions<br>Answered</div>
+                  </div>
+                  <div class="ap-sm-stat">
+                    <div class="ap-sm-stat-n">14</div>
+                    <div class="ap-sm-stat-l">Day<br>Streak</div>
+                  </div>
+                  <div class="ap-sm-stat">
+                    <div class="ap-sm-stat-n">6/20</div>
+                    <div class="ap-sm-stat-l">Lessons<br>Done</div>
+                  </div>
+                  <div class="ap-sm-stat">
+                    <div class="ap-sm-stat-n">67%</div>
+                    <div class="ap-sm-stat-l">Overall<br>Accuracy</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- STATS BAR -->
-    <section class="landing-stats">
-      <div class="stats-grid">
-        ${[
-          ['190+', 'Practice Questions'],
-          ['20', 'Lessons'],
-          ['5', 'Practice Tests'],
-          ['3', 'OAR Sections']
-        ].map(([num, label]) => `
-          <div class="stat-card">
-            <div class="stat num">${num}</div>
-            <div class="stat-label">${label}</div>
+    <!-- ── STATS BAR ──────────────────────────────────────────────── -->
+    <div class="ap-stats-bar">
+      <div class="ap-stats-grid">
+        ${[['190+','Practice Questions'],['20','Structured Lessons'],['41','Drill Generators'],['3','OAR Sections']].map(([n,l]) => `
+          <div class="ap-stat-item">
+            <div class="ap-stat-n">${n}</div>
+            <div class="ap-stat-l">${l}</div>
           </div>
         `).join('')}
       </div>
-    </section>
+    </div>
 
-    <!-- FEATURES -->
-    <section id="features" class="landing-section">
-      <div class="section-header">
-        <h2>Everything You Need to Score High</h2>
-        <p class="section-lede">Built specifically for the OAR, not generic test prep.</p>
-      </div>
-      <div class="feature-grid">
-        ${[
-          ['Structured Lessons', 'Step-by-step lessons covering all Math, Reading, and Mechanical Comprehension topics tested on the OAR.'],
-          ['Targeted Questions', '190+ practice questions tagged by topic and difficulty. Drill your weak areas or mix it up.'],
-          ['Formula Reference', 'Every formula you need in one searchable reference. Geometry, physics, algebra &mdash; all covered.'],
-          ['Science Tools', 'Interactive mechanical comprehension tools: gear trains, pulley systems, lever analysis, and circuit diagrams.'],
-          ['CAT Strategies', 'The OAR is computer-adaptive. Learn pacing strategies, question triage, and how to maximize your score.'],
-          ['Smart Dashboard', 'AI-powered score prediction, study streaks, topic mastery heatmap, and personalized study plans.']
-        ].map(([title, desc]) => `
-          <div class="feature-card">
-            <h3>${title}</h3>
-            <p>${desc}</p>
-          </div>
-        `).join('')}
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="landing-section landing-section-narrow">
-      <div class="section-header">
-        <h2>How It Works</h2>
-      </div>
-      <div class="how-list">
-        ${[
-          ['01', 'Take the Diagnostic', 'A quick 15-question assessment identifies your strengths and weak spots across all 3 OAR sections.'],
-          ['02', 'Follow Your Study Plan', 'Get a personalized study plan that targets your weakest topics first. Every session counts.'],
-          ['03', 'Track Your Progress', "Watch your predicted OAR score climb as you master topics. Know exactly when you're ready."]
-        ].map(([num, title, desc]) => `
-          <div class="how-row">
-            <div class="how-num mono">${num}</div>
-            <div class="how-body">
+    <!-- ── FEATURES ───────────────────────────────────────────────── -->
+    <section class="ap-section">
+      <div class="ap-wrap">
+        <div class="ap-section-head">
+          <div class="ap-section-label">What's Included</div>
+          <h2>Everything You Need to Score High</h2>
+          <p>Built specifically for the OAR — not generic test prep recycled from another platform.</p>
+        </div>
+        <div class="ap-feature-grid">
+          ${[
+            ['📚','Structured Lessons','Step-by-step lessons covering all Math, Reading, and Mechanical Comprehension topics tested on the OAR.'],
+            ['🎯','Adaptive Practice','190+ questions tagged by topic and difficulty. The system finds your weak spots and drills them first.'],
+            ['🔢','Formula Reference','Every formula you need in one searchable card — geometry, physics, algebra, all covered.'],
+            ['⚙️','Mechanical Tools','Interactive diagrams: gear trains, pulleys, levers, circuits. Mechanical concepts actually stick.'],
+            ['🧠','AI Tutor','Stuck on a problem? The tutor walks through it step by step — unlimited, available 24/7.'],
+            ['📈','Score Predictor','Live OAR score estimate that updates as you practice. Know exactly where you stand.']
+          ].map(([icon,title,desc]) => `
+            <div class="ap-feature-card">
+              <div class="ap-feature-icon">${icon}</div>
               <h3>${title}</h3>
               <p>${desc}</p>
             </div>
-          </div>
-        `).join('')}
+          `).join('')}
+        </div>
       </div>
     </section>
 
-    <!-- SOCIAL PROOF -->
-    <section class="landing-section landing-section-narrow">
-      <div class="section-header">
-        <h2>What Candidates Are Saying</h2>
-        <p class="section-lede">From future officers who've already been through it.</p>
-      </div>
-      <div class="testimonial-grid">
-        ${[
-          { quote: 'The adaptive test simulator alone is worth the price. It feels exactly like the actual CAT format. I went in knowing what to expect and scored a 61.', name: 'Marcus T.', branch: 'Navy OCS Applicant' },
-          { quote: 'I tried other OAR prep resources and nothing came close. The step-by-step worked problems for Mechanical Comprehension finally made levers and gears click for me.', name: 'Jenna R.', branch: 'Marine OCS Candidate' },
-          { quote: 'The score predictor kept me honest. When I was stuck at 47, I knew exactly which topics were dragging me down. Drilled those for a week. Hit 56 on the real test.', name: 'Daniel K.', branch: 'Navy OCS' },
-          { quote: 'Infinite Drill is a game changer. Never see the same math problem twice — which meant I was actually solving problems, not just memorizing them.', name: 'Sarah M.', branch: 'NROTC Candidate' }
-        ].map(t => `
-          <div class="testimonial-card">
-            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="testimonial-quote">&ldquo;${t.quote}&rdquo;</p>
-            <div class="testimonial-author">
-              <div class="testimonial-name">${t.name}</div>
-              <div class="testimonial-branch">${t.branch}</div>
+    <!-- ── HOW IT WORKS ───────────────────────────────────────────── -->
+    <section class="ap-section ap-section-dark">
+      <div class="ap-wrap">
+        <div class="ap-section-head">
+          <div class="ap-section-label">How It Works</div>
+          <h2>Study Smarter. Score Higher.</h2>
+          <p>Most candidates waste 60% of study time on the wrong topics. We fix that.</p>
+        </div>
+        <div class="ap-how-grid">
+          ${[
+            ['01','Take the Free Diagnostic','A 5-question assessment across all 3 OAR sections. Tells you exactly where your score is coming from and where to improve.'],
+            ['02','Follow Your Study Plan','We target your weakest sections first. Every session is 20–30 minutes. Short, consistent sessions beat marathon cramming every time.'],
+            ['03','Track Your Score','Your predicted OAR score updates in real time as you practice. Know exactly when you\'re ready to walk in.']
+          ].map(([num,title,desc]) => `
+            <div class="ap-how-card">
+              <div class="ap-how-num">${num}</div>
+              <h3>${title}</h3>
+              <p>${desc}</p>
             </div>
-          </div>
-        `).join('')}
+          `).join('')}
+        </div>
       </div>
     </section>
 
-    <!-- PRICING -->
-    <section id="pricing" class="landing-section landing-section-pricing">
-      <div class="section-header">
-        <h2>Simple Pricing</h2>
-        <p class="section-lede">One payment. Lifetime access. No subscriptions.</p>
+    <!-- ── PRICING ────────────────────────────────────────────────── -->
+    <section class="ap-section ap-section-dark" id="pricing">
+      <div class="ap-wrap">
+        <div class="ap-section-head">
+          <div class="ap-section-label">Pricing</div>
+          <h2>Simple Pricing</h2>
+          <p>One payment. Lifetime access. No subscriptions, no renewals.</p>
+        </div>
+        ${renderPricingCard()}
       </div>
-      ${renderPricingCard()}
     </section>
 
-    <!-- FAQ -->
-    <section class="landing-section landing-section-narrow">
-      <div class="section-header">
-        <h2>Frequently Asked Questions</h2>
-      </div>
-      <div id="faqList" class="faq-list">
-        ${[
-          ['What is the OAR?', 'The Officer Aptitude Rating (OAR) is a section of the ASTB-E (Aviation Selection Test Battery) used by the U.S. Navy and Marine Corps. It measures your aptitude in Math Skills, Reading Comprehension, and Mechanical Comprehension. Your OAR score (20-80) is used in selection for Officer Candidate School (OCS) and other commissioning programs.'],
-          ['What score do I need?', 'Competitive OAR scores typically start around 50+, but requirements vary by program and fiscal year. Aviation programs generally want 50-55+, while some surface/sub programs may accept slightly lower. We recommend aiming for 55+ to be competitive across all programs.'],
-          ['How is the OAR scored?', 'The OAR is computer-adaptive (CAT), meaning question difficulty adjusts based on your answers. Your final score ranges from 20-80. The three sub-sections (Math, Reading, Mechanical) contribute equally to your composite score.'],
-          ['Can I retake the OAR?', 'Yes, but there are restrictions. You can take the ASTB-E up to 3 times in your lifetime, with a minimum wait period between attempts. This makes preparation critical &mdash; you want to score high on your first try.'],
-          ['How long should I study?', 'Most candidates need 2-4 weeks of focused study, depending on their baseline. Our diagnostic test will tell you where you stand and create a personalized study plan. Some candidates with strong math/science backgrounds may need less time.'],
-          ['Is this an official Navy product?', 'No. OAR Pro is an independent study platform created by military community members. We are not affiliated with, endorsed by, or connected to the U.S. Navy, Marine Corps, or any government entity. All content is based on publicly available information about the OAR exam format.']
-        ].map(([q, a], i) => `
-          <div class="faq-row" onclick="toggleFaq(${i})">
-            <div class="faq-q" id="faqQ${i}">
-              <span>${q}</span>
-              <span class="faq-icon" id="faqIcon${i}">+</span>
+    <!-- ── FAQ ───────────────────────────────────────────────────── -->
+    <section class="ap-section ap-section-dark">
+      <div class="ap-wrap">
+        <div class="ap-section-head">
+          <div class="ap-section-label">FAQ</div>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="ap-faq-list">
+          ${[
+            ['What is the OAR?','The Officer Aptitude Rating (OAR) is a section of the ASTB-E used by the U.S. Navy and Marine Corps. It measures Math Skills, Reading Comprehension, and Mechanical Comprehension. Your score (20–80) is used in selection for OCS and other commissioning programs.'],
+            ['What score do I need?','Competitive OAR scores typically start around 50+. Aviation programs generally want 50–55+. We recommend aiming for 55+ to stay competitive across all programs.'],
+            ['How is the OAR scored?','The OAR is computer-adaptive (CAT) — difficulty adjusts based on your answers. Final score ranges from 20–80. Math, Reading, and Mechanical contribute equally to your composite.'],
+            ['Can I retake the OAR?','Yes, but there are restrictions. You can take the ASTB-E up to 3 times in your lifetime with required wait periods between attempts. This makes preparation critical — score high the first time.'],
+            ['How long should I study?','Most candidates need 2–4 weeks of focused study depending on baseline. Our diagnostic tells you exactly where to start. Short sessions (20–30 min/day) beat marathon cramming every time.'],
+            ['Is this an official Navy product?','No. OAR Pro is an independent study platform. We are not affiliated with, endorsed by, or connected to the U.S. Navy, Marine Corps, or any government entity. All content is based on publicly available information about the OAR exam format.']
+          ].map(([q,a],i) => `
+            <div class="ap-faq-item" id="apFaq${i}">
+              <button class="ap-faq-q" onclick="toggleApFaq(${i})">
+                <span>${q}</span>
+                <span class="ap-faq-chevron" id="apFaqChev${i}">&#9660;</span>
+              </button>
+              <div class="ap-faq-a" id="apFaqA${i}">
+                <div class="ap-faq-a-inner">${a}</div>
+              </div>
             </div>
-            <div class="faq-a" id="faqA${i}">${a}</div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FINAL CTA ──────────────────────────────────────────────── -->
+    <section class="ap-section ap-final-cta">
+      <div class="ap-wrap">
+        <div class="ap-section-label" style="display:inline-block;margin-bottom:20px">Get Started</div>
+        <h2>Ready to Ace the OAR?</h2>
+        <p class="ap-final-sub">Join hundreds of future officers who used OAR Pro to score what they needed.</p>
+        <div class="ap-hero-actions" style="justify-content:center">
+          <button class="ap-btn ap-btn-primary ap-btn-lg" onclick="handleCheckoutClick(this)">Get OAR Pro — $97 →</button>
+          <a href="#/diagnostic" class="ap-btn ap-btn-secondary ap-btn-lg">Try Free Diagnostic</a>
+        </div>
+        <p class="ap-final-note">One payment &bull; Lifetime access &bull; 30-day guarantee</p>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+    <footer class="ap-footer">
+      <div class="ap-wrap">
+        <div class="ap-footer-inner">
+          <div class="ap-footer-brand">
+            <div class="ap-footer-logo">&#9875; OAR <span>Pro</span></div>
+            <p>The most comprehensive OAR study platform. Not affiliated with the U.S. Navy, Marine Corps, or any government entity.</p>
           </div>
-        `).join('')}
+          <div class="ap-footer-links">
+            <a href="#/">Home</a>
+            <a href="#/diagnostic">Free Diagnostic</a>
+            <a href="#/login">Log In</a>
+            <a href="#/signup">Sign Up</a>
+            <a href="https://armedprep.com">ArmedPrep</a>
+            <a href="#/privacy">Privacy</a>
+            <a href="#/terms">Terms</a>
+            <a href="#/refund">Refund Policy</a>
+            <a href="#/recruiters">Recruiters</a>
+          </div>
+        </div>
+        <div class="ap-footer-bottom">
+          <span>&copy; ${new Date().getFullYear()} OAR Pro by ArmedPrep</span>
+          <a href="https://armedprep.com">armedprep.com</a>
+        </div>
       </div>
-    </section>
-
-    <!-- GUARANTEE BANNER -->
-    <section class="landing-section landing-section-narrow" style="padding-top:0">
-      <div class="card" style="text-align:center;padding:32px;border-color:var(--green)">
-        <div style="font-size:32px;margin-bottom:8px">&#128274;</div>
-        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">30-Day Money-Back Guarantee</h3>
-        <p style="color:var(--text-2);max-width:480px;margin:0 auto;font-size:15px">
-          If you study with OAR Pro for 30 days and aren't satisfied with your progress, email us for a full refund. No questions, no forms, no hassle.
-        </p>
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="landing-section landing-final-cta">
-      <h2>Ready to Ace the OAR?</h2>
-      <p class="section-lede">Join hundreds of future officers who used OAR Pro to get the score they needed.</p>
-      <button class="btn btn-primary btn-lg" onclick="handleCheckoutClick(this)">Start My OAR Prep &rarr;</button>
-      <p style="margin-top:12px;font-size:13px;color:var(--text-3)">One payment &bull; Lifetime access &bull; 30-day guarantee</p>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="landing-footer">
-      <div class="footer-links">
-        <a href="#/">Home</a>
-        <a href="#features" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'});return false">Features</a>
-        <a href="#pricing" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false">Pricing</a>
-        <a href="#/login">Log In</a>
-        <a href="#/signup">Sign Up</a>
-        <a href="#/privacy" style="color:var(--text-3)">Privacy Policy</a>
-        <a href="#/terms" style="color:var(--text-3)">Terms of Use</a>
-        <a href="#/refund" style="color:var(--text-3)">Refund Policy</a>
-      </div>
-      <p class="footer-disclaimer">
-        &copy; ${new Date().getFullYear()} OAR Pro. Not affiliated with the U.S. Navy, Marine Corps, or any government entity.
-        <br>Built with purpose by veterans, for future officers.
-      </p>
     </footer>
   `;
+
+  // Animate score counter: 35 → 52
+  const numEl = document.getElementById('apScoreNum');
+  if (numEl) {
+    let count = 35;
+    const timer = setInterval(() => {
+      count++;
+      numEl.textContent = count;
+      if (count >= 52) clearInterval(timer);
+    }, 45);
+  }
 });
 
-// Pricing card — reacts to referral code presence in sessionStorage
+// ── Pricing card ──────────────────────────────────────────────────────────────
+// Reads affiliate ref from sessionStorage; shows discount if code present.
 function renderPricingCard() {
-  const refCode = (() => {
-    try { return sessionStorage.getItem('oar_affiliate_ref') || ''; } catch (_) { return ''; }
-  })();
+  const refCode = (() => { try { return sessionStorage.getItem('oar_affiliate_ref') || ''; } catch (_) { return ''; } })();
   const hasCode = !!refCode;
 
-  const featureList = [
+  const features = [
     'All 20 structured lessons',
     '190+ practice questions',
-    '5 full-length practice tests',
-    'Adaptive test simulations (CAT)',
+    'Adaptive CAT simulations',
     'Score predictor & analytics',
     'Formula quick-reference',
     'Mechanical comprehension tools',
     'Personalized study plan',
+    'AI Problem Tutor — unlimited',
     'Study streak tracking',
     'Lifetime updates'
-  ].map(f => `<li><span class="check">&#10003;</span>${f}</li>`).join('');
+  ];
+  const featureGrid = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;margin:16px 0 24px;padding-top:16px;border-top:1px solid var(--border)">
+    ${features.map(f => `<div style="display:flex;align-items:center;gap:7px;padding:5px 0;font-size:13px;color:var(--text)"><span style="color:var(--green);flex-shrink:0;font-size:14px">&#10003;</span>${f}</div>`).join('')}
+  </div>`;
 
   if (hasCode) {
-    // Referral visitor — discount front and center
     return `
-      <div class="pricing-card pricing-card-deal">
+      <div class="pricing-card pricing-card-deal" style="max-width:620px;margin:0 auto">
         <div class="pricing-ribbon pricing-ribbon-deal">$30 OFF</div>
         <div class="pricing-deal-banner">
           <span class="pricing-deal-icon">&#127881;</span>
@@ -243,43 +308,31 @@ function renderPricingCard() {
           <div class="pricing-amount mono pricing-amount-deal">$67</div>
           <div class="pricing-cycle">one-time payment &middot; lifetime access</div>
         </div>
-        <ul class="pricing-features">${featureList}</ul>
-        <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px;text-align:left"></div>
-        <button class="btn btn-primary btn-lg btn-block" onclick="handleCheckoutClick(this)">
-          Get Access for $67 &rarr;
-        </button>
-        <p class="pricing-guarantee">&#128274; Secure checkout &middot; 30-day money-back guarantee</p>
+        ${featureGrid}
+        <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px"></div>
+        <button class="ap-btn ap-btn-primary ap-btn-lg" style="width:100%;justify-content:center" onclick="handleCheckoutClick(this)">Get Access for $67 &rarr;</button>
+        <p style="text-align:center;font-size:12px;color:var(--text-3);margin:12px 0 0">&#128274; Secure checkout &middot; 30-day money-back guarantee</p>
       </div>
     `;
   }
 
-  // No code — full price with referral code entry field
   return `
-    <div class="pricing-card">
+    <div class="pricing-card" style="max-width:620px;margin:0 auto">
       <div class="pricing-ribbon">LIFETIME</div>
       <div class="pricing-head">
         <div class="pricing-amount mono">$97</div>
         <div class="pricing-cycle">one-time payment &middot; lifetime access</div>
       </div>
-      <ul class="pricing-features">${featureList}</ul>
-      <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px;text-align:left"></div>
-      <button class="btn btn-primary btn-lg btn-block" onclick="handleCheckoutClick(this)">
-        Start My OAR Prep &rarr;
-      </button>
-      <p class="pricing-guarantee">&#128274; Secure checkout &middot; 30-day money-back guarantee</p>
+      ${featureGrid}
+      <div id="checkoutError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;padding:10px;background:rgba(239,68,68,.1);border-radius:6px"></div>
+      <button class="ap-btn ap-btn-primary ap-btn-lg" style="width:100%;justify-content:center" onclick="handleCheckoutClick(this)">Start My OAR Prep &rarr;</button>
+      <p style="text-align:center;font-size:12px;color:var(--text-3);margin:12px 0 0">&#128274; Secure checkout &middot; 30-day money-back guarantee</p>
       <details style="margin-top:14px;font-size:13px">
         <summary style="cursor:pointer;color:var(--text-3);list-style:none;display:flex;align-items:center;gap:6px">
           <span style="font-size:11px">&#9654;</span> Have a referral code? Save $30
         </summary>
         <div style="margin-top:10px;display:flex;gap:8px">
-          <input
-            type="text"
-            id="refCodeInput"
-            class="form-input"
-            placeholder="Enter code"
-            style="flex:1;font-size:13px;padding:8px 12px;text-transform:uppercase"
-            oninput="this.value=this.value.toUpperCase()"
-          >
+          <input type="text" id="refCodeInput" class="form-input" placeholder="Enter code" style="flex:1;font-size:13px;padding:8px 12px;text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
           <button class="btn btn-secondary btn-sm" onclick="applyLandingRefCode()" style="flex-shrink:0">Apply</button>
         </div>
         <div id="refCodeMsg" style="font-size:12px;margin-top:6px"></div>
@@ -288,7 +341,7 @@ function renderPricingCard() {
   `;
 }
 
-// Referral code manual entry from pricing card
+// Apply referral code entered manually in the pricing card
 function applyLandingRefCode() {
   const input = document.getElementById('refCodeInput');
   const msg = document.getElementById('refCodeMsg');
@@ -298,8 +351,7 @@ function applyLandingRefCode() {
     return;
   }
   try { sessionStorage.setItem('oar_affiliate_ref', code); } catch (_) {}
-  if (msg) { msg.style.color = 'var(--green)'; msg.textContent = '✓ Code saved — price updated at checkout.'; }
-  // Re-render pricing section to show discount
+  if (msg) { msg.style.color = 'var(--green)'; msg.textContent = '&#10003; Code saved — discount applied at checkout.'; }
   const pricingSection = document.getElementById('pricing');
   if (pricingSection) {
     const cardEl = pricingSection.querySelector('.pricing-card');
@@ -307,23 +359,16 @@ function applyLandingRefCode() {
   }
 }
 
-// FAQ accordion toggle
-function toggleFaq(index) {
-  const answer = document.getElementById(`faqA${index}`);
-  const icon = document.getElementById(`faqIcon${index}`);
-  const isOpen = answer.classList.contains('open');
+// FAQ accordion — animated chevron, max-height transition
+function toggleApFaq(index) {
+  const item = document.getElementById(`apFaq${index}`);
+  const answer = document.getElementById(`apFaqA${index}`);
+  if (!item || !answer) return;
+  const isOpen = item.classList.contains('open');
 
   // Close all
-  document.querySelectorAll('.faq-a').forEach(el => el.classList.remove('open'));
-  document.querySelectorAll('.faq-icon').forEach(el => {
-    el.textContent = '+';
-    el.style.transform = '';
-  });
+  document.querySelectorAll('.ap-faq-item').forEach(el => el.classList.remove('open'));
 
-  // Toggle clicked
-  if (!isOpen) {
-    answer.classList.add('open');
-    icon.textContent = '\u2212';
-    icon.style.transform = 'rotate(0deg)';
-  }
+  // Open clicked (if it was closed)
+  if (!isOpen) item.classList.add('open');
 }

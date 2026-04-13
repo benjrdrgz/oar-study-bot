@@ -52,6 +52,12 @@ async function renderNav() {
     const initials = escHtml((profile?.display_name || profile?.email || '?').substring(0, 2).toUpperCase());
     const isAdminUser = profile?.account_type === 'admin';
 
+    // Check if this user is an affiliate (by email match)
+    const { data: affiliateRecord } = profile?.email
+      ? await supabase.from('affiliates').select('id').eq('email', profile.email).eq('active', true).maybeSingle()
+      : { data: null };
+    const isAffiliate = !!affiliateRecord;
+
     nav.innerHTML = `
       <div class="nav-inner">
         <div style="display:flex;align-items:center">
@@ -78,6 +84,7 @@ async function renderNav() {
             <a href="#/profile">⚙️ Settings</a>
             <a href="#/tutor">🧠 Problem Tutor</a>
             <a href="#/test-day">🎯 Test Day Mode</a>
+            ${isAffiliate ? '<a href="#/my-affiliate" style="color:var(--green)">💰 My Affiliate Stats</a>' : ''}
             ${isAdminUser ? '<a href="#/admin/sales">📊 Admin Dashboard</a>' : ''}
             <a href="#" onclick="signOut()" style="color:var(--red)">🚪 Sign Out</a>
           </div>
@@ -100,6 +107,7 @@ async function renderNav() {
         <a href="#/tutor">🧠 Tutor</a>
         <a href="#/test-day">🎯 Test Day</a>
         <a href="#/profile">👤 Profile</a>
+        ${isAffiliate ? '<a href="#/my-affiliate" style="color:var(--green)">💰 Affiliate Stats</a>' : ''}
         <a href="#" onclick="signOut();return false;" style="color:var(--red)">🚪 Sign Out</a>
       `;
     }
@@ -473,7 +481,7 @@ route('/payment-success', async () => {
         Continue &rarr;
       </button>
       <p class="text-muted mt-4" style="font-size:13px">
-        Need help? Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a>
+        Need help? Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a>
       </p>
     </div>
   `;
@@ -533,7 +541,7 @@ async function handlePaymentSuccess() {
               <ol style="margin:8px 0 0 16px;padding:0">
                 <li style="margin-bottom:4px">Wait 2 minutes and refresh the page</li>
                 <li style="margin-bottom:4px">Then sign in at <a href="#/login">#/login</a></li>
-                <li>Still stuck? Email <a href="mailto:ben@rodriguezwi.com">ben@rodriguezwi.com</a> — you'll get access manually within the hour</li>
+                <li>Still stuck? Email <a href="mailto:hello@armedprep.com">hello@armedprep.com</a> — you'll get access manually within the hour</li>
               </ol>
             </div>
             <a href="#/login" class="btn btn-primary btn-lg">Try Signing In &rarr;</a>

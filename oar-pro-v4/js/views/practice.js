@@ -8,6 +8,12 @@
 let quizState = null;
 
 function resetQuizState() {
+  // Clear any running timer and keyboard listener before blowing away state
+  if (quizState && quizState.timerInterval) {
+    clearInterval(quizState.timerInterval);
+  }
+  document.removeEventListener('keydown', handleQuizKeyboard);
+
   quizState = {
     mode: 'drill',
     section: null,
@@ -22,6 +28,14 @@ function resetQuizState() {
     answered: false
   };
 }
+
+// Clean up quiz state on any navigation away from practice
+window.addEventListener('hashchange', () => {
+  if (!window.location.hash.startsWith('#/practice')) {
+    if (quizState && quizState.timerInterval) clearInterval(quizState.timerInterval);
+    document.removeEventListener('keydown', handleQuizKeyboard);
+  }
+});
 
 
 // ==========================================
@@ -263,7 +277,7 @@ async function startQuiz(mode, section, topic, difficulty) {
     const genFilter = {};
     if (section && section !== 'all') genFilter.section = section;
     if (difficulty) genFilter.difficulty = difficulty;
-    questions = Store.getGeneratedQuestions(config.count, genFilter);
+    questions = generateQuestions(config.count, genFilter);
   } else if (mode === 'drill') {
     // QUICK DRILL: 5 static hand-crafted OAR-style questions, 2-min timer.
     // Pulls from the 190-question bank (Math, Reading, Mechanical) — real test feel.
