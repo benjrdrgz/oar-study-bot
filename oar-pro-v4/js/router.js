@@ -89,11 +89,16 @@ async function handleRoute() {
 
   // Auth guard — check if route requires auth
   const publicRoutes = ['/', '/login', '/signup', '/payment-success', '/diagnostic', '/checkout',
-                        '/forgot-password', '/update-password', '/privacy', '/terms', '/refund'];
+                        '/forgot-password', '/update-password', '/privacy', '/terms', '/refund', '/recruiters',
+                        '/tests', '/tests/asvab', '/tests/oar', '/tests/afoqt', '/tests/sift', '/tests/astb',
+                        '/lessons-preview', '/oar-score-guide', '/oar-formula-sheet',
+                        '/preview-practice', '/formulas-preview'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
   // Affiliate portal is public (token-gated, no Supabase auth required)
-  const isPublic = publicRoutes.includes(path) || path.startsWith('/affiliate/');
+  // lesson-preview/:id is also public (email-gated via localStorage, not Supabase auth)
+  const isPublic = publicRoutes.includes(path) || path.startsWith('/affiliate/')
+                   || path.startsWith('/lesson-preview/');
 
   if (!isPublic) {
     const user = await getUser();
@@ -103,12 +108,14 @@ async function handleRoute() {
     }
 
     // Check paid access for content routes
+    // Uses per-test access: ?test=ASVAB requires hasAccess('ASVAB'), defaults to 'OAR'.
     const contentRoutes = ['/study', '/practice', '/adaptive', '/formulas', '/strategies', '/tutor', '/test-day'];
     const isContentRoute = contentRoutes.some(r => path.startsWith(r));
     if (isContentRoute) {
-      const paid = await isPaid();
-      if (!paid) {
-        navigate('#/dashboard'); // Dashboard shows upgrade prompt
+      const testType = queryParams.test || 'OAR';
+      const access = await hasAccess(testType);
+      if (!access) {
+        navigate('#/dashboard'); // Dashboard shows per-test upgrade prompt
         return;
       }
     }
@@ -134,9 +141,17 @@ async function handleRoute() {
     // Authenticated routes: show sidebar (individual views override if needed).
     const _sidebar = document.getElementById('sidebar');
     const _mobileToggle = document.getElementById('mobileToggle');
+    const _nav = document.getElementById('topnav');
     const _isPublic = ['/', '/login', '/signup', '/forgot-password', '/update-password',
-                        '/payment-success', '/checkout', '/privacy', '/terms', '/refund'].includes(path)
-                      || path.startsWith('/diagnostic');
+                        '/payment-success', '/checkout', '/privacy', '/terms', '/refund', '/recruiters'].includes(path)
+                      || path.startsWith('/diagnostic')
+                      || path.startsWith('/tests');
+    // Public pages with no nav chrome — empty nav renders as a ghost dark bar
+    const _isNoNav = ['/', '/checkout', '/privacy', '/terms', '/refund',
+                      '/login', '/signup', '/forgot-password', '/update-password',
+                      '/payment-success', '/recruiters'].includes(path)
+                     || path.startsWith('/diagnostic')
+                     || path.startsWith('/tests');
     if (_isPublic) {
       _sidebar.style.display = 'none';
       app.classList.add('full-width');
@@ -145,6 +160,10 @@ async function handleRoute() {
       _sidebar.style.display = '';
       app.classList.remove('full-width');
       _mobileToggle.style.display = '';
+    }
+    if (_nav) {
+      _nav.style.display = _isNoNav ? 'none' : '';
+      document.querySelector('.app-layout').style.paddingTop = _isNoNav ? '0' : '';
     }
     // ─────────────────────────────────────────────────────────────────────────
 
