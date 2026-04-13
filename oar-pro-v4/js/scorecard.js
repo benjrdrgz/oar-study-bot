@@ -147,7 +147,7 @@ async function generateScoreCard(opts = {}) {
     ctx.fillText(opts.userName, 60, H - 50);
   }
   ctx.textAlign = 'right';
-  ctx.fillText('oar-pro-v4.vercel.app', W - 60, H - 50);
+  ctx.fillText('oar.armedprep.com', W - 60, H - 50);
 
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
@@ -225,11 +225,11 @@ async function showScoreCardModal(opts) {
           ⎘ Copy Image
         </button>
         <a class="btn btn-secondary" target="_blank" rel="noopener"
-           href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`Just scored ${opts.score} on the OAR Pro ${opts.title || 'practice'}. ${opts.subline || ''}`)}&url=${encodeURIComponent('https://oar-pro-v4.vercel.app')}">
+           href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`Just scored ${opts.score} on the OAR Pro ${opts.title || 'practice'}. ${opts.subline || ''}`)}&url=${encodeURIComponent('https://oar.armedprep.com')}">
           𝕏 Post to X
         </a>
         <a class="btn btn-secondary" target="_blank" rel="noopener"
-           href="https://www.reddit.com/submit?title=${encodeURIComponent(`My OAR Pro ${opts.title || 'practice'} score: ${opts.score}`)}&url=${encodeURIComponent('https://oar-pro-v4.vercel.app')}">
+           href="https://www.reddit.com/submit?title=${encodeURIComponent(`My OAR Pro ${opts.title || 'practice'} score: ${opts.score}`)}&url=${encodeURIComponent('https://oar.armedprep.com')}">
           ⬆ Post to Reddit
         </a>
       </div>

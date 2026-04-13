@@ -5,9 +5,9 @@
 // ==========================================
 // SIDEBAR RENDERER (shared with dashboard)
 // ==========================================
-async function renderStudySidebar(activeLessonId) {
+async function renderStudySidebar(activeLessonId, testType = 'OAR') {
   const sidebar = document.getElementById('sidebar');
-  const lessons = await Store.getLessons();
+  const lessons = await Store.getLessons(testType);
   const progress = await Store.getAllLessonProgress();
 
   // Build a lookup of lesson progress by lesson_id
@@ -56,7 +56,11 @@ async function renderStudySidebar(activeLessonId) {
   const sectionIcons = {
     'Math': '📐',
     'Reading': '📖',
-    'Mechanical': '⚙️'
+    'Mechanical': '⚙️',
+    'Word Knowledge': '📝',
+    'General Science': '🔬',
+    'Electronics': '⚡',
+    'Auto & Shop': '🔧'
   };
 
   for (const [sectionName, sectionLessons] of Object.entries(sections)) {
@@ -92,7 +96,7 @@ async function renderStudySidebar(activeLessonId) {
 // ==========================================
 // STUDY LANDING (no lesson selected)
 // ==========================================
-async function renderStudyLanding() {
+async function renderStudyLanding(testType = 'OAR') {
   const app = document.getElementById('app');
 
   // Show skeleton while loading
@@ -102,9 +106,9 @@ async function renderStudyLanding() {
     <div class="skeleton skeleton-card"></div>
   `;
 
-  await renderStudySidebar(null);
+  await renderStudySidebar(null, testType);
 
-  const lessons = await Store.getLessons();
+  const lessons = await Store.getLessons(testType);
   const progress = await Store.getAllLessonProgress();
   const progressMap = {};
   for (const p of progress) {
@@ -116,7 +120,7 @@ async function renderStudyLanding() {
 
   app.innerHTML = `
     <div style="max-width:640px">
-      <h1 style="font-size:28px;font-weight:800;margin-bottom:8px">Study Materials</h1>
+      <h1 style="font-size:28px;font-weight:800;margin-bottom:8px">Study Materials &mdash; ${testType}</h1>
       <p class="text-muted mb-8">Select a lesson from the sidebar to begin studying, or pick up where you left off.</p>
 
       ${nextLesson ? `
@@ -134,7 +138,7 @@ async function renderStudyLanding() {
       ` : `
         <div class="callout callout-tip">
           <div class="callout-title">All caught up!</div>
-          <p>You've completed all available lessons. Head to <a href="#/practice">Practice</a> to test your knowledge.</p>
+          <p>You've completed all available lessons. Head to <a href="#/practice?test=${testType}">Practice</a> to test your knowledge.</p>
         </div>
       `}
 
@@ -185,8 +189,13 @@ async function renderLessonView(lessonId) {
     Store.getLessonProgress(lessonId)
   ]);
 
+  // Inside renderLessonView, get testType from current URL for sidebar
+  const currentHash = window.location.hash || '';
+  const qIdx = currentHash.indexOf('?');
+  const testType = qIdx !== -1 ? new URLSearchParams(currentHash.slice(qIdx + 1)).get('test') || 'OAR' : 'OAR';
+
   // Update sidebar with active lesson highlighted
-  await renderStudySidebar(lessonId);
+  await renderStudySidebar(lessonId, testType);
 
   if (!lesson) {
     app.innerHTML = `
@@ -297,11 +306,16 @@ async function handleMarkComplete(lessonId) {
     btn.onclick = null;
   }
 
+  // Derive testType from current URL for sidebar refresh
+  const _hash = window.location.hash || '';
+  const _qIdx = _hash.indexOf('?');
+  const _testType = _qIdx !== -1 ? new URLSearchParams(_hash.slice(_qIdx + 1)).get('test') || 'OAR' : 'OAR';
+
   // Refresh sidebar to show updated status and find next lesson
-  await renderStudySidebar(lessonId);
+  await renderStudySidebar(lessonId, _testType);
 
   // Find and highlight next lesson
-  const lessons = await Store.getLessons();
+  const lessons = await Store.getLessons(_testType);
   const progress = await Store.getAllLessonProgress();
   const progressMap = {};
   for (const p of progress) {
@@ -393,8 +407,9 @@ function triggerMathJax() {
 // ==========================================
 // REGISTER ROUTES
 // ==========================================
-route('/study', async () => {
-  await renderStudyLanding();
+route('/study', async (params) => {
+  const testType = params.test || 'OAR';
+  await renderStudyLanding(testType);
 });
 
 route('/study/:id', async (params) => {

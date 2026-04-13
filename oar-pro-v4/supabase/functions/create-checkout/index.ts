@@ -1,13 +1,13 @@
-// OAR Pro v4 — Stripe Checkout Session Creator
-// Uses inline price_data — no STRIPE_PRICE_ID env var required.
+// OAR Pro v4 — Stripe Checkout Session Creator (multi-test)
+// Supports: OAR ($97/$67), ASVAB ($47/$37), AFOQT ($97/$67), SIFT ($127/$97)
 //
-// Pricing:
-//   No affiliate code (or invalid code): $97
-//   Valid affiliate code:                $67 ($30 discount)
+// Pricing: all prices set inline via price_data — no pre-created Stripe price IDs needed.
+// Affiliate codes: validated against DB before applying discount (same as before).
+// test_type passed via metadata so webhook knows which test to grant.
 //
-// Security: affiliate codes are validated against DB before applying discount.
-// Passing a random string does NOT get you $67 — code must exist in
-//   affiliates.code (active=true) OR profiles.referral_code.
+// Backward compat: test_type defaults to 'OAR' if not sent.
+//
+// — Benjamin Rodriguez
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -29,21 +29,34 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const PRICE_ID_FULL    = 'price_1TLSKOJ5g57Qu9urZXKPADqg'; // $97 — OAR Pro Lifetime
-const PRICE_ID_REFERRAL = 'price_1TLSKPJ5g57Qu9urh2tqtYau'; // $67 — Referral discount
-const FULL_PRICE_CENTS = 9700;
-const DEAL_PRICE_CENTS = 6700;
+// ── Test catalog ─────────────────────────────────────────────────────────────
+// Each entry: display name, full price (cents), affiliate/deal price (cents)
+// Add new tests here — no Stripe dashboard setup required (inline price_data).
+
+interface TestConfig {
+  name: string;
+  fullCents: number;
+  dealCents: number;
+}
+
+const TEST_CATALOG: Record<string, TestConfig> = {
+  'OAR':    { name: 'OAR Pro — Lifetime Access',          fullCents: 9700,  dealCents: 6700  },
+  'ASVAB':  { name: 'ASVAB Prep — Lifetime Access',       fullCents: 4700,  dealCents: 3700  },
+  'AFOQT':  { name: 'AFOQT Prep — Lifetime Access',       fullCents: 9700,  dealCents: 6700  },
+  'SIFT':   { name: 'SIFT Prep — Lifetime Access',        fullCents: 12700, dealCents: 9700  },
+  'ASTB-E': { name: 'ASTB-E Full — Lifetime Access',      fullCents: 12700, dealCents: 9700  },
+};
 
 /**
  * Validate an affiliate/referral code against the DB.
- * Returns the validated code (uppercase) if found, or "" if not.
+ * Returns the validated code (uppercase) or "" if not found.
  */
 async function validateAffiliateCode(code: string): Promise<string> {
   if (!code || code.trim().length === 0) return "";
 
   const clean = code.trim().toUpperCase();
 
-  // 1. Check admin-created affiliate codes
+  // 1. Admin-created affiliate codes
   const { data: affiliate } = await supabase
     .from("affiliates")
     .select("code")
@@ -53,7 +66,7 @@ async function validateAffiliateCode(code: string): Promise<string> {
 
   if (affiliate) return clean;
 
-  // 2. Check user referral codes (profiles.referral_code)
+  // 2. User referral codes (profiles.referral_code)
   const { data: referrer } = await supabase
     .from("profiles")
     .select("referral_code")
@@ -62,7 +75,6 @@ async function validateAffiliateCode(code: string): Promise<string> {
 
   if (referrer) return clean;
 
-  // Not found in either table — code is invalid, full price applies
   return "";
 }
 
@@ -72,24 +84,34 @@ serve(async (req) => {
   }
 
   try {
-    const { email, affiliate_code } = await req.json();
+    const { email, affiliate_code, test_type } = await req.json();
 
-    // Validate the code against the DB — no discount for fake codes
+    // Resolve test config — default to OAR for backward compat
+    const testKey = (test_type || 'OAR').trim().toUpperCase().replace('ASTB-E', 'ASTB-E');
+    const testConfig = TEST_CATALOG[testKey] || TEST_CATALOG['OAR'];
+
+    // Validate affiliate code
     const validatedCode = await validateAffiliateCode(affiliate_code || "");
     const hasCode = !!validatedCode;
-    const priceId = hasCode ? PRICE_ID_REFERRAL : PRICE_ID_FULL;
-    const unitAmount = hasCode ? DEAL_PRICE_CENTS : FULL_PRICE_CENTS;
+    const unitAmount = hasCode ? testConfig.dealCents : testConfig.fullCents;
 
     const origin =
       req.headers.get("origin") ||
-      "https://oar-pro-v4.vercel.app";
+      "https://oar.armedprep.com";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       line_items: [
         {
-          price: priceId,
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: testConfig.name,
+              description: "Adaptive practice tests • AI tutor • Lifetime access",
+            },
+            unit_amount: unitAmount,
+          },
           quantity: 1,
         },
       ],
@@ -98,8 +120,9 @@ serve(async (req) => {
       customer_email: email && email.trim() ? email.trim() : undefined,
       billing_address_collection: "auto",
       metadata: {
-        affiliate_code: validatedCode, // empty string if invalid
+        affiliate_code: validatedCode,    // empty string if invalid
         amount_cents: String(unitAmount),
+        test_type: testKey,               // NEW: tells webhook which test to grant
       },
     });
 

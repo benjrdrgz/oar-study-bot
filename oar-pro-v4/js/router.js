@@ -92,7 +92,8 @@ async function handleRoute() {
                         '/forgot-password', '/update-password', '/privacy', '/terms', '/refund', '/recruiters',
                         '/tests', '/tests/asvab', '/tests/oar', '/tests/afoqt', '/tests/sift', '/tests/astb',
                         '/lessons-preview', '/oar-score-guide', '/oar-formula-sheet',
-                        '/preview-practice', '/formulas-preview'];
+                        '/preview-practice', '/formulas-preview',
+                        '/asvab-score-guide', '/asvab-diagnostic', '/asvab-formulas'];
   const adminRoutes = ['/admin', '/admin/sales', '/admin/affiliates', '/admin/preview'];
 
   // Affiliate portal is public (token-gated, no Supabase auth required)
@@ -144,7 +145,8 @@ async function handleRoute() {
     const _nav = document.getElementById('topnav');
     const _isPublic = ['/', '/login', '/signup', '/forgot-password', '/update-password',
                         '/payment-success', '/checkout', '/privacy', '/terms', '/refund', '/recruiters',
-                        '/lessons-preview', '/preview-practice', '/formulas-preview'].includes(path)
+                        '/lessons-preview', '/preview-practice', '/formulas-preview',
+                        '/asvab-score-guide', '/asvab-diagnostic', '/asvab-formulas'].includes(path)
                       || path.startsWith('/diagnostic')
                       || path.startsWith('/tests')
                       || path.startsWith('/lesson-preview/');
@@ -152,7 +154,8 @@ async function handleRoute() {
     const _isNoNav = ['/', '/checkout', '/privacy', '/terms', '/refund',
                       '/login', '/signup', '/forgot-password', '/update-password',
                       '/payment-success', '/recruiters',
-                      '/lessons-preview', '/preview-practice', '/formulas-preview'].includes(path)
+                      '/lessons-preview', '/preview-practice', '/formulas-preview',
+                      '/asvab-score-guide', '/asvab-diagnostic', '/asvab-formulas'].includes(path)
                      || path.startsWith('/diagnostic')
                      || path.startsWith('/tests')
                      || path.startsWith('/lesson-preview/');

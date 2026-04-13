@@ -68,15 +68,22 @@ serve(async (req) => {
       }
 
       // ── 1. Mark user as paid ─────────────────────────────────────────────────
+      // Read test_type from metadata (migration-013 adds per-test access).
+      // Defaults to 'OAR' for any legacy webhook events without test_type.
+      const testType = (session.metadata?.test_type || "OAR").trim() || "OAR";
+
+      const profileUpdate: Record<string, unknown> = {
+        stripe_customer_id: stripeCustomerId,
+        stripe_payment_id: paymentId,
+        paid_at: new Date().toISOString(),
+        affiliate_code_used: affiliateCode || null,
+      };
+      // Legacy is_paid field: keep setting true for OAR purchases (backward compat)
+      if (testType === "OAR") profileUpdate.is_paid = true;
+
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .update({
-          is_paid: true,
-          stripe_customer_id: stripeCustomerId,
-          stripe_payment_id: paymentId,
-          paid_at: new Date().toISOString(),
-          affiliate_code_used: affiliateCode || null,
-        })
+        .update(profileUpdate)
         .eq("email", customerEmail)
         .select()
         .single();
@@ -93,6 +100,7 @@ serve(async (req) => {
               stripe_payment_id: paymentId,
               amount_cents: amountPaid,
               affiliate_code: affiliateCode || null,
+              test_type: testType,
             },
             { onConflict: "email" }
           );
@@ -100,10 +108,18 @@ serve(async (req) => {
         if (pendingError) {
           console.error(`[webhook] Failed to store pending payment for ${customerEmail}:`, pendingError.message);
         } else {
-          console.log(`[webhook] Stored pending payment for ${customerEmail} — reconcile on signup`);
+          console.log(`[webhook] Stored pending payment for ${customerEmail} (${testType}) — reconcile on signup`);
         }
       } else {
-        console.log(`[webhook] Marked ${customerEmail} as paid (${amountPaid / 100})`);
+        // Append the purchased test to the user's purchased_tests array
+        const { error: appendError } = await supabase.rpc("append_purchased_test", {
+          p_user_id: profile.id,
+          p_test_type: testType,
+        });
+        if (appendError) {
+          console.error(`[webhook] append_purchased_test error:`, appendError.message);
+        }
+        console.log(`[webhook] Marked ${customerEmail} as paid — granted ${testType} access`);
       }
 
       // ── 2. Affiliate attribution ─────────────────────────────────────────────

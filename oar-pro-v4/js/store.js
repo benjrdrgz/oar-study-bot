@@ -281,11 +281,14 @@ const Store = {
   // ==========================================
   // CONTENT FETCHING (RLS-protected)
   // ==========================================
-  async getLessons() {
-    const { data } = await supabase
+  async getLessons(testType) {
+    let query = supabase
       .from('lessons')
-      .select('id, section, title, description, tags, sort_order')
+      .select('id, section, title, description, tags, sort_order, test_types')
       .order('sort_order');
+    // Filter by test if provided — uses GIN index on test_types array
+    if (testType) query = query.contains('test_types', [testType]);
+    const { data } = await query;
     return data || [];
   },
 
@@ -303,6 +306,8 @@ const Store = {
     // Supabase doesn't support ORDER BY random() via PostgREST, so we shuffle in JS.
     let query = supabase.from('questions').select('*');
 
+    // Filter by test — uses GIN index on test_types array (migration 013)
+    if (filters.testType) query = query.contains('test_types', [filters.testType]);
     if (filters.section) query = query.eq('section', filters.section);
     if (filters.topic) query = query.eq('topic', filters.topic);
     if (filters.difficulty) query = query.eq('difficulty', filters.difficulty);

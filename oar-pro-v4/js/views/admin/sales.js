@@ -17,7 +17,7 @@ route('/admin/sales', async () => {
 
   const paidCustomers = (customers || []).filter(c => c.is_paid);
   const previewAccounts = (customers || []).filter(c => c.account_type === 'preview');
-  const totalRevenue = paidCustomers.length * 29;
+  const totalRevenue = paidCustomers.length * 97;
 
   // Fetch affiliate data
   const { data: affiliates } = await supabase.from('affiliates').select('*');

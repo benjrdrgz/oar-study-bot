@@ -47,9 +47,23 @@ async function getProfile() {
   return data;
 }
 
-async function isPaid() {
+// hasAccess(testType) — true if user has purchased the given test.
+// Admin/preview accounts always pass. Backward compat: is_paid=true grants 'OAR'.
+async function hasAccess(testType) {
   const profile = await getProfile();
-  return profile?.is_paid === true || profile?.account_type === 'preview' || profile?.account_type === 'admin';
+  if (!profile) return false;
+  if (profile.account_type === 'admin' || profile.account_type === 'preview') return true;
+  const t = testType || 'OAR';
+  // New per-test array (post-migration-013)
+  if (Array.isArray(profile.purchased_tests) && profile.purchased_tests.includes(t)) return true;
+  // Legacy: is_paid=true grants OAR (pre-migration-013 purchases)
+  if (t === 'OAR' && profile.is_paid === true) return true;
+  return false;
+}
+
+// isPaid() kept as backward-compat alias for OAR access
+async function isPaid() {
+  return hasAccess('OAR');
 }
 
 async function isAdmin() {

@@ -21,6 +21,13 @@ route('/admin/affiliates', async () => {
     .select('*, affiliates(name, code)')
     .order('created_at', { ascending: false });
 
+  const { data: applications } = await supabase
+    .from('affiliate_applications')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  const pendingApps = (applications || []).filter(a => a.status === 'pending');
+
   const totalOwed = (affiliates || []).reduce((sum, a) => sum + Number(a.total_earned) - Number(a.total_paid), 0);
   const pendingCashouts = (cashoutRequests || []).filter(r => r.status === 'pending');
   const totalPendingCashout = pendingCashouts.reduce((sum, r) => sum + Number(r.amount), 0);
@@ -80,7 +87,58 @@ route('/admin/affiliates', async () => {
           <div style="font-size:28px;font-weight:800;color:var(--yellow)">${pendingCashouts.length}</div>
           <div class="text-muted text-sm">Pending Cashouts${totalPendingCashout > 0 ? ` ($${totalPendingCashout.toFixed(2)})` : ''}</div>
         </div>
+        <div class="card" style="text-align:center;${pendingApps.length > 0 ? 'border-color:var(--accent)' : ''}">
+          <div style="font-size:28px;font-weight:800;color:var(--accent)">${pendingApps.length}</div>
+          <div class="text-muted text-sm">Affiliate Applications</div>
+        </div>
       </div>
+
+      <!-- Affiliate Applications -->
+      ${(applications || []).length > 0 ? `
+      <div class="card mb-8">
+        <h3 style="margin-bottom:16px">Recruiter Applications ${pendingApps.length > 0 ? `<span class="badge badge-yellow" style="margin-left:8px">${pendingApps.length} pending</span>` : ''}</h3>
+        <div class="table-scroll">
+          <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:600px">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);text-align:left">
+                <th style="padding:8px">Name</th>
+                <th style="padding:8px">Email</th>
+                <th style="padding:8px">Rank / Branch</th>
+                <th style="padding:8px">Volume/yr</th>
+                <th style="padding:8px">Notes</th>
+                <th style="padding:8px">Date</th>
+                <th style="padding:8px">Status</th>
+                <th style="padding:8px">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(applications || []).map(a => `
+                <tr style="border-bottom:1px solid var(--border);${a.status === 'pending' ? 'background:rgba(99,102,241,.04)' : ''}">
+                  <td style="padding:8px;font-weight:600">${a.name}</td>
+                  <td style="padding:8px;color:var(--text-2)">${a.email}</td>
+                  <td style="padding:8px;color:var(--text-2)">${[a.rank, a.branch].filter(Boolean).join(' · ') || '—'}</td>
+                  <td style="padding:8px;color:var(--text-2)">${a.volume || '—'}</td>
+                  <td style="padding:8px;color:var(--text-3);font-size:13px">${a.notes || '—'}</td>
+                  <td style="padding:8px;color:var(--text-3)">${new Date(a.created_at).toLocaleDateString()}</td>
+                  <td style="padding:8px">
+                    <span class="badge ${a.status === 'pending' ? 'badge-yellow' : a.status === 'approved' ? 'badge-green' : 'badge-red'}">${a.status}</span>
+                  </td>
+                  <td style="padding:8px">
+                    ${a.status === 'pending' ? `
+                      <div style="display:flex;gap:6px;align-items:center">
+                        <input type="text" placeholder="Code" id="appCode_${a.id}" style="width:80px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface-1);color:var(--text-1);font-size:12px;text-transform:uppercase" value="${a.name.split(' ').pop().toUpperCase()}">
+                        <button class="btn btn-sm btn-success" onclick="approveApplication('${a.id}')">Approve</button>
+                        <button class="btn btn-sm btn-danger" onclick="rejectApplication('${a.id}')">Reject</button>
+                      </div>
+                    ` : '—'}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>` : ''}
+
 
       <!-- Affiliates Table -->
       <div class="card mb-8">
@@ -333,5 +391,29 @@ async function processCashout(requestId, action, amount, affiliateId) {
     }).eq('affiliate_id', affiliateId).eq('paid_out', false);
   }
 
+  navigate('#/admin/affiliates');
+}
+
+async function approveApplication(applicationId) {
+  const codeEl = document.getElementById(`appCode_${applicationId}`);
+  const code = (codeEl?.value || '').trim().toUpperCase();
+  if (!code) { alert('Enter an affiliate code first.'); return; }
+
+  const { data, error } = await supabase.rpc('approve_affiliate_application', {
+    p_application_id: applicationId,
+    p_code: code
+  });
+
+  const result = Array.isArray(data) ? data[0] : data;
+  if (error || !result?.success) {
+    alert('Error: ' + (result?.error || error?.message || 'Unknown error'));
+  } else {
+    navigate('#/admin/affiliates');
+  }
+}
+
+async function rejectApplication(applicationId) {
+  if (!confirm('Reject this application?')) return;
+  await supabase.from('affiliate_applications').update({ status: 'rejected' }).eq('id', applicationId);
   navigate('#/admin/affiliates');
 }
