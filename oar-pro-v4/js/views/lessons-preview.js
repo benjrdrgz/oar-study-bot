@@ -74,6 +74,10 @@ function _sectionOrder(weakSection) {
 route('/lessons-preview', () => {
   const app = document.getElementById('app');
   app.classList.add('full-width');
+  const _sb = document.getElementById('sidebar');
+  const _mt = document.getElementById('mobileToggle');
+  if (_sb) _sb.style.display = 'none';
+  if (_mt) _mt.style.display = 'none';
 
   const { email, expires, weak } = _getPreviewToken();
   const remaining = expires - Date.now();
@@ -299,6 +303,10 @@ route('/lesson-preview/:id', async ({ id }) => {
   const lessonId = parseInt(id);
   const app = document.getElementById('app');
   app.classList.add('full-width');
+  const _sb = document.getElementById('sidebar');
+  const _mt = document.getElementById('mobileToggle');
+  if (_sb) _sb.style.display = 'none';
+  if (_mt) _mt.style.display = 'none';
 
   if (!PREVIEW_FREE_IDS.has(lessonId)) {
     const l = PREVIEW_LESSONS.find(x => x.id === lessonId);
