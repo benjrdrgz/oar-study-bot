@@ -47,13 +47,11 @@
 
     const weakSections = Array.isArray(diagData.weak_sections) ? diagData.weak_sections : []
 
-    // Resolve Supabase URL and anon key from window._env (injected by supabase-init.js)
-    const supabaseUrl = (window._env && window._env.SUPABASE_URL)
-      ? window._env.SUPABASE_URL
+    // SUPABASE_URL and SUPABASE_ANON_KEY are globals declared with var in supabase-init.js
+    const supabaseUrl = typeof SUPABASE_URL !== 'undefined'
+      ? SUPABASE_URL
       : 'https://ugblwepfptumffzcljot.supabase.co'
-    const anonKey = (window._env && window._env.SUPABASE_ANON_KEY)
-      ? window._env.SUPABASE_ANON_KEY
-      : ''
+    const anonKey = typeof SUPABASE_ANON_KEY !== 'undefined' ? SUPABASE_ANON_KEY : ''
 
     // Try edge function — but always call onSuccess regardless.
     // If the function isn't deployed yet, the token still gets set and lessons unlock.
