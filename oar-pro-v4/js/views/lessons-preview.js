@@ -4,7 +4,7 @@
 // 3 lessons unlocked (one per section), 17 locked with FOMO UI.
 // — Benjamin Rodriguez
 
-const PREVIEW_FREE_IDS = new Set([1, 5, 7]);
+const PREVIEW_FREE_IDS = new Set([1, 2, 5, 6, 7, 8]);
 
 const PREVIEW_LESSONS = [
   { id:1,  section:'MATH SKILLS',             title:'Arithmetic Fundamentals',               desc:'PEMDAS, fractions, decimals, percentages, and ratios' },
@@ -97,12 +97,12 @@ route('/lessons-preview', () => {
     <div style="position:sticky;top:0;z-index:50;background:var(--bg-elevated);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:20px">
         <a href="#/" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px;color:var(--text);text-decoration:none">⚓ OAR <span style="color:var(--accent)">Pro</span></a>
-        <span style="font-size:12px;color:var(--text-3)"><span style="color:var(--text-2);font-weight:700">3</span> / 20 lessons free</span>
+        <span style="font-size:12px;color:var(--text-3)"><span style="color:var(--text-2);font-weight:700">6</span> / 20 lessons free</span>
       </div>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         ${email
           ? `<span style="font-size:12px;color:var(--text-3)">Access expires: <span id="pvTimer" style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${remaining<=3600000?'var(--red)':'var(--yellow)'}">${_formatCountdown(remaining)}</span></span>`
-          : `<span style="font-size:12px;color:var(--text-3)">3 lessons free &bull; No account required</span>`}
+          : `<span style="font-size:12px;color:var(--text-3)">6 lessons free &bull; No account required</span>`}
         <button class="btn btn-primary btn-sm" onclick="handleCheckoutClick(this)">Upgrade — $97 →</button>
       </div>
     </div>
@@ -113,7 +113,7 @@ route('/lessons-preview', () => {
       <!-- Header -->
       <div style="text-align:center;margin-bottom:36px">
         <div style="display:inline-block;padding:5px 14px;border-radius:999px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#60a5fa;margin-bottom:14px">${email ? 'Your Free Access' : 'Free Preview'}</div>
-        <h1 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:10px;letter-spacing:-.025em">${email ? '3 Starter Lessons Unlocked' : 'Start Your Free OAR Prep'}</h1>
+        <h1 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:10px;letter-spacing:-.025em">${email ? '6 Starter Lessons Unlocked' : 'Start Your Free OAR Prep'}</h1>
         <p style="color:var(--text-2);font-size:14px;max-width:500px;margin:0 auto">
           ${email
             ? `Based on your diagnostic, we recommend starting with <strong style="color:var(--text)">${SECTION_SHORT[weak] || 'Math'}</strong>. Complete these, then upgrade to access all 20 lessons.`
@@ -125,13 +125,39 @@ route('/lessons-preview', () => {
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:36px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <span style="font-size:13px;font-weight:600">Your lesson progress</span>
-          <span style="font-size:12px;color:var(--text-3)">${completedCount} of 3 free completed</span>
+          <span style="font-size:12px;color:var(--text-3)">${completedCount} of 6 free completed</span>
         </div>
         <div style="display:flex;gap:3px;height:8px">
-          ${Array.from({length:20},(_,i)=>`<div style="flex:1;height:100%;border-radius:3px;background:${i<3?'var(--accent)':'var(--bg)'}"></div>`).join('')}
+          ${Array.from({length:20},(_,i)=>`<div style="flex:1;height:100%;border-radius:3px;background:${i<6?'var(--accent)':'var(--bg)'}"></div>`).join('')}
         </div>
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);margin-top:6px">
-          <span>Free (3)</span><span>OAR Pro unlocks 17 more</span>
+          <span>Free (6)</span><span>OAR Pro unlocks 14 more</span>
+        </div>
+      </div>
+
+      <!-- Free resources -->
+      <div style="margin-bottom:36px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="font-size:18px">🎓</span>
+          <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-2)">FREE RESOURCES</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div onclick="navigate('#/preview-practice')"
+            style="background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:16px 18px;cursor:pointer;transition:transform .15s"
+            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">
+            <div style="font-size:22px;margin-bottom:8px">📝</div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">Practice Quiz</div>
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">15 questions &bull; 5 per section</div>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.06em;background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);padding:3px 8px;border-radius:999px">FREE</span>
+          </div>
+          <div onclick="navigate('#/formulas-preview')"
+            style="background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:16px 18px;cursor:pointer;transition:transform .15s"
+            onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">
+            <div style="font-size:22px;margin-bottom:8px">📋</div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">Formula Sheet</div>
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:10px">Arithmetic & Algebra &bull; More with Pro</div>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.06em;background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);padding:3px 8px;border-radius:999px">FREE</span>
+          </div>
         </div>
       </div>
 
@@ -346,13 +372,15 @@ route('/lesson-preview/:id', async ({ id }) => {
       <!-- Next lesson / upgrade -->
       <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border)">
         ${next ? `
-          <div style="background:var(--surface);border:1px solid var(--border-hover);border-radius:14px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+          <div style="background:var(--surface);border:1px solid ${PREVIEW_FREE_IDS.has(next.id)?'var(--accent)':'var(--border-hover)'};border-radius:14px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px">
             <div>
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:4px">Up next — locked</div>
-              <div style="font-size:15px;font-weight:700;margin-bottom:3px">🔒 ${next.title}</div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:4px">Up next — ${PREVIEW_FREE_IDS.has(next.id)?'free':'locked'}</div>
+              <div style="font-size:15px;font-weight:700;margin-bottom:3px">${PREVIEW_FREE_IDS.has(next.id)?'':'🔒 '}${next.title}</div>
               <div style="font-size:12px;color:var(--text-3)">${next.desc}</div>
             </div>
-            <button class="btn btn-primary" onclick="handleCheckoutClick(this)">Unlock with OAR Pro →</button>
+            ${PREVIEW_FREE_IDS.has(next.id)
+              ? `<button class="btn btn-primary" onclick="navigate('#/lesson-preview/${next.id}')">Read Next Lesson →</button>`
+              : `<button class="btn btn-primary" onclick="handleCheckoutClick(this)">Unlock with OAR Pro →</button>`}
           </div>` : ''}
         <div style="text-align:center;background:linear-gradient(135deg,hsla(214,100%,62%,.1),hsla(264,80%,68%,.06));border:1px solid var(--accent);border-radius:14px;padding:32px 24px">
           <h3 style="font-size:18px;font-weight:800;margin-bottom:8px">Ready to keep going?</h3>
