@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArmedPrep — Military Exam Prep Platform</title>
+  <meta name="description" content="Ace your OAR, ASVAB, AFOQT, or SIFT exam. Adaptive test prep built specifically for military candidates — not generic recycled content.">
+  <meta name="keywords" content="OAR prep, ASVAB study, AFOQT test, SIFT prep, military exam, officer candidate school, navy OCS, army warrant officer">
+  <link rel="canonical" href="https://armedprep.com">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ArmedPrep — Military Exam Prep Platform">
+  <meta property="og:description" content="Adaptive test prep for OAR, ASVAB, AFOQT, and SIFT. Built for military candidates who need to score, not just study.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://armedprep.com">
+  <meta property="og:image" content="https://armedprep.com/assets/og.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ArmedPrep — Military Exam Prep Platform">
+  <meta name="twitter:description" content="Ace your military qualifying exam. Adaptive, exam-specific prep for OAR, ASVAB, AFOQT, SIFT.">
+
+  <!-- Subdomain routing -->
+  <script>
+    (function() {
+      var h = window.location.hostname;
+      if (h === 'asvab.armedprep.com') {
+        window.location.replace('https://oar-pro-v4.vercel.app/#/tests/asvab');
+      } else if (h === 'oar.armedprep.com') {
+        window.location.replace('https://oar-pro-v4.vercel.app/#/');
+      }
+    })();
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    /* ── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --bg:       #060b18;
+      --bg-2:     #0b1221;
+      --bg-3:     #0f1829;
+      --surface:  #111827;
+      --surface-2:#17243a;
+      --surface-3:#1e2f4a;
+      --border:   rgba(99,133,183,.10);
+      --border-2: rgba(99,133,183,.20);
+      --border-3: rgba(99,133,183,.35);
+      --text:     #f1f5f9;
+      --text-2:   #94a3b8;
+      --text-3:   #64748b;
+      --blue:     #3b82f6;
+      --blue-2:   #60a5fa;
+      --blue-3:   #1d4ed8;
+      --blue-glow:rgba(59,130,246,.18);
+      --gold:     #f59e0b;
+      --gold-dim: rgba(245,158,11,.12);
+      --green:    #22c55e;
+      --green-dim:rgba(34,197,94,.10);
+      --red:      #ef4444;
+      --radius:   12px;
+      --radius-sm:8px;
+      --nav-h:    64px;
+      --ease:     cubic-bezier(.22,1,.36,1);
+      --ease-in:  cubic-bezier(.4,0,1,1);
+    }
+
+    /* ── Base ───────────────────────────────────────────────────── */
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+
+    /* ── Typography ─────────────────────────────────────────────── */
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    h1 { font-size: clamp(2.6rem, 5.5vw, 4.2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; }
+    h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; }
+    h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.3; letter-spacing: -.015em; }
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    section { position: relative; }
+
+    /* ── Grid background ────────────────────────────────────────── */
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(59,130,246,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%);
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      background: rgba(6,11,24,.75);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s var(--ease), border-color .3s var(--ease);
+    }
+    .nav.scrolled { background: rgba(6,11,24,.92); border-color: var(--border-2); }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 24px; height: 100%;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .nav-logo {
+      font-size: 18px; font-weight: 800; letter-spacing: -.04em;
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .nav-logo-icon {
+      width: 30px; height: 30px; background: var(--blue); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: #fff;
+    }
+    .nav-logo-text { color: var(--text); }
+    .nav-logo-text span { color: var(--blue-2); }
+    .nav-links {
+      display: flex; gap: 4px; align-items: center; flex: 1;
+    }
+    .nav-link {
+      padding: 6px 12px; border-radius: 6px;
+      font-size: 14px; font-weight: 500; color: var(--text-2);
+      transition: color .15s, background .15s;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .nav-btn {
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600;
+      transition: all .15s var(--ease);
+    }
+    .nav-btn-ghost { color: var(--text-2); background: transparent; }
+    .nav-btn-ghost:hover { color: var(--text); background: rgba(255,255,255,.06); }
+    .nav-btn-primary {
+      background: var(--blue); color: #fff;
+      box-shadow: 0 0 0 0 var(--blue-glow);
+    }
+    .nav-btn-primary:hover {
+      background: var(--blue-2); transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+    .nav-mobile-toggle {
+      display: none; background: none; padding: 8px; color: var(--text-2);
+      font-size: 20px; margin-left: auto;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    .hero {
+      padding: calc(var(--nav-h) + 80px) 0 80px;
+      text-align: center;
+      background: radial-gradient(ellipse 90% 70% at 50% -10%, rgba(59,130,246,.12) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.25);
+      font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--blue-2); margin-bottom: 28px;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue-2);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.7); }
+    }
+    .hero h1 { margin-bottom: 20px; }
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--blue-2) 0%, #a78bfa 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      max-width: 580px; margin: 0 auto 36px;
+      font-size: 1.125rem; color: var(--text-2); line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: var(--radius);
+      font-size: 15px; font-weight: 600; transition: all .2s var(--ease);
+    }
+    .btn-primary {
+      background: var(--blue); color: #fff;
+      box-shadow: 0 0 0 0 var(--blue-glow);
+    }
+    .btn-primary:hover {
+      background: var(--blue-2); transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--blue-glow);
+    }
+    .btn-secondary {
+      background: var(--surface); color: var(--text-2);
+      border: 1px solid var(--border-2);
+    }
+    .btn-secondary:hover {
+      color: var(--text); background: var(--surface-2);
+      border-color: var(--border-3); transform: translateY(-2px);
+    }
+    .hero-meta {
+      display: flex; gap: 24px; justify-content: center;
+      font-size: 13px; color: var(--text-3); flex-wrap: wrap;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Score mockup ────────────────────────────────────────────── */
+    .score-mockup {
+      max-width: 680px; margin: 60px auto 0;
+      background: var(--surface); border: 1px solid var(--border-2);
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px var(--border);
+      transform: perspective(1000px) rotateX(2deg);
+    }
+    .sm-header {
+      padding: 12px 16px; background: var(--bg-3);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sm-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .sm-dot-r { background: #ff5f57; }
+    .sm-dot-y { background: #ffbd2e; }
+    .sm-dot-g { background: #28c940; }
+    .sm-url {
+      flex: 1; text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-3);
+    }
+    .sm-body { padding: 28px; }
+    .sm-title { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+    .sm-score-row { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; }
+    .sm-score-num { font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 600; color: var(--blue-2); line-height: 1; }
+    .sm-score-label { font-size: 12px; color: var(--text-3); margin-bottom: 8px; }
+    .sm-bars { display: flex; gap: 6px; margin-bottom: 20px; }
+    .sm-bar-wrap { flex: 1; }
+    .sm-bar-label { font-size: 11px; color: var(--text-3); margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .sm-bar-track { height: 6px; background: var(--bg-3); border-radius: 3px; overflow: hidden; }
+    .sm-bar-fill { height: 100%; border-radius: 3px; }
+    .sm-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .sm-stat {
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px;
+    }
+    .sm-stat-n { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .sm-stat-l { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+
+    /* ── Stats bar ───────────────────────────────────────────────── */
+    .stats-bar {
+      padding: 40px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat-item {
+      text-align: center; padding: 16px 24px;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-n {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.2rem; font-weight: 600; color: var(--text);
+      line-height: 1; margin-bottom: 6px;
+    }
+    .stat-n .unit { font-size: 1.2rem; color: var(--blue-2); }
+    .stat-l { font-size: 13px; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+
+    /* ── Section headers ─────────────────────────────────────────── */
+    .section-head {
+      text-align: center; margin-bottom: 60px;
+    }
+    .section-label {
+      display: inline-block; padding: 5px 14px; border-radius: 999px;
+      background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2);
+      font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--blue-2); margin-bottom: 16px;
+    }
+    .section-head h2 { margin-bottom: 14px; }
+    .section-head p { font-size: 1.075rem; color: var(--text-2); max-width: 520px; margin: 0 auto; }
+
+    /* ── Products ────────────────────────────────────────────────── */
+    .products { padding: 100px 0; background: var(--bg); }
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+    }
+    .product-card {
+      background: var(--surface); border: 1px solid var(--border-2);
+      border-radius: 16px; padding: 28px; position: relative;
+      transition: transform .25s var(--ease), border-color .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-3);
+      box-shadow: 0 20px 60px rgba(0,0,0,.3), 0 0 0 1px rgba(59,130,246,.15);
+    }
+    .product-card.live { border-color: rgba(59,130,246,.25); }
+    .product-card.live:hover { border-color: rgba(59,130,246,.45); }
+    .product-badge {
+      position: absolute; top: 20px; right: 20px;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .badge-live { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,.2); }
+    .badge-soon { background: rgba(148,163,184,.06); color: var(--text-3); border: 1px solid var(--border); }
+    .product-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .product-branch {
+      font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+    }
+    .product-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
+    .product-fullname { font-size: 12px; color: var(--text-3); margin-bottom: 14px; }
+    .product-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; flex: 1; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .product-price { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .product-price .sub { font-size: 11px; color: var(--text-3); font-weight: 400; display: block; }
+    .product-cta {
+      padding: 9px 18px; border-radius: var(--radius-sm);
+      font-size: 13px; font-weight: 600;
+      transition: all .15s var(--ease);
+    }
+    .cta-live { background: var(--blue); color: #fff; }
+    .cta-live:hover { background: var(--blue-2); transform: translateY(-1px); }
+    .cta-soon { background: var(--surface-2); color: var(--text-3); cursor: default; }
+
+    /* ── Why section ─────────────────────────────────────────────── */
+    .why { padding: 100px 0; background: var(--bg-2); }
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .why-card {
+      padding: 32px; border-radius: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      transition: border-color .2s, transform .2s var(--ease);
+    }
+    .why-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+    .why-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--blue-glow); border: 1px solid rgba(59,130,246,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 20px;
+    }
+    .why-card h3 { margin-bottom: 10px; }
+    .why-card p { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+
+    /* ── Testimonials ────────────────────────────────────────────── */
+    .testimonials { padding: 100px 0; background: var(--bg); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .testi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+      transition: border-color .2s;
+    }
+    .testi-card:hover { border-color: var(--border-2); }
+    .testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+    .testi-text { font-size: 15px; color: var(--text-2); line-height: 1.7; margin-bottom: 24px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--surface-3); border: 1px solid var(--border-2);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; color: var(--blue-2); flex-shrink: 0;
+    }
+    .testi-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .testi-role { font-size: 12px; color: var(--text-3); }
+
+    /* ── Affiliate ───────────────────────────────────────────────── */
+    .affiliate {
+      padding: 100px 0; background: var(--bg-3);
+      position: relative; overflow: hidden;
+    }
+    .affiliate::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .affiliate-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    .affiliate-content {}
+    .affiliate-content h2 { margin-bottom: 16px; }
+    .affiliate-content p { color: var(--text-2); line-height: 1.7; margin-bottom: 28px; }
+    .affiliate-perks { display: flex; flex-direction: column; gap: 14px; }
+    .affiliate-perk {
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .perk-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--gold-dim); border: 1px solid rgba(245,158,11,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0; margin-top: 1px;
+    }
+    .perk-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .perk-text span { font-size: 13px; color: var(--text-3); }
+
+    /* Affiliate form */
+    .affiliate-form-wrap {
+      background: var(--surface); border: 1px solid var(--border-2);
+      border-radius: 20px; padding: 36px;
+    }
+    .form-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .form-sub { font-size: 14px; color: var(--text-3); margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; }
+    .form-input {
+      width: 100%; padding: 12px 16px;
+      background: var(--bg-2); border: 1px solid var(--border-2);
+      border-radius: var(--radius-sm); color: var(--text);
+      font-family: inherit; font-size: 14px;
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+    }
+    .form-input::placeholder { color: var(--text-3); }
+    .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+    textarea.form-input { resize: vertical; min-height: 90px; }
+    .form-submit {
+      width: 100%; padding: 13px;
+      background: var(--gold); color: #0f1a2e;
+      border-radius: var(--radius-sm); font-size: 15px; font-weight: 700;
+      transition: all .2s var(--ease);
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,.25); }
+    .form-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    #affSuccess {
+      display: none; text-align: center; padding: 24px;
+      color: var(--green); font-size: 15px;
+    }
+
+    /* ── FAQ ─────────────────────────────────────────────────────── */
+    .faq { padding: 100px 0; background: var(--bg); }
+    .faq-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 4px; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color .15s;
+    }
+    .faq-item.open { border-color: var(--border-2); }
+    .faq-q {
+      width: 100%; text-align: left; padding: 20px 24px;
+      background: none; color: var(--text);
+      font-family: inherit; font-size: 15px; font-weight: 600;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      transition: color .15s;
+    }
+    .faq-q:hover { color: var(--blue-2); }
+    .faq-chevron {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: var(--text-3); flex-shrink: 0;
+      transition: transform .25s var(--ease), background .15s;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--blue-glow); color: var(--blue-2); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s var(--ease), padding .35s var(--ease);
+    }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner { padding: 0 24px 20px; font-size: 14px; color: var(--text-2); line-height: 1.7; }
+
+    /* ── Contact ─────────────────────────────────────────────────── */
+    .contact {
+      padding: 80px 0; background: var(--bg-2);
+      text-align: center;
+    }
+    .contact h2 { margin-bottom: 12px; }
+    .contact p { color: var(--text-2); margin-bottom: 32px; font-size: 1.05rem; }
+    .contact-email {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 28px; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--border-2);
+      font-size: 16px; font-weight: 600; color: var(--blue-2);
+      transition: all .2s var(--ease);
+    }
+    .contact-email:hover {
+      border-color: var(--border-3); background: var(--surface-2);
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    footer {
+      padding: 48px 0 32px; background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand {}
+    .footer-logo { font-size: 18px; font-weight: 800; letter-spacing: -.04em; margin-bottom: 12px; }
+    .footer-logo span { color: var(--blue-2); }
+    .footer-tagline { font-size: 14px; color: var(--text-3); line-height: 1.6; max-width: 240px; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 14px; color: var(--text-2); transition: color .15s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      padding-top: 24px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-3); }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { font-size: 13px; color: var(--text-3); transition: color .15s; }
+    .footer-legal a:hover { color: var(--text-2); }
+
+    /* ── Animations ──────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .fade-up:nth-child(2) { transition-delay: .08s; }
+    .fade-up:nth-child(3) { transition-delay: .16s; }
+    .fade-up:nth-child(4) { transition-delay: .24s; }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      :root { --nav-h: 56px; }
+      .nav-links { display: none; }
+      .nav-actions .nav-btn-ghost { display: none; }
+      .nav-mobile-toggle { display: block; }
+      h1 { font-size: 2.4rem; }
+      h2 { font-size: 2rem; }
+      .hero { padding: calc(var(--nav-h) + 48px) 0 48px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .affiliate-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .score-mockup { transform: none; }
+      .products-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 0 16px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Grid background -->
+<div class="grid-bg"></div>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────── -->
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">A</div>
+      <div class="nav-logo-text">Armed<span>Prep</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#exams" class="nav-link">Exams</a>
+      <a href="#why" class="nav-link">Why ArmedPrep</a>
+      <a href="#affiliate" class="nav-link">Affiliate</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://oar.armedprep.com/#/login" class="nav-btn nav-btn-ghost">Sign in</a>
+      <a href="https://oar.armedprep.com/#/diagnostic" class="nav-btn nav-btn-primary">Free Diagnostic</a>
+    </div>
+    <button class="nav-mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Mobile nav drawer -->
+<div id="mobileNav" style="display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(6,11,24,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:99;padding:16px 24px;flex-direction:column;gap:4px;">
+  <a href="#exams" class="nav-link" onclick="toggleMobileNav()">Exams</a>
+  <a href="#why" class="nav-link" onclick="toggleMobileNav()">Why ArmedPrep</a>
+  <a href="#affiliate" class="nav-link" onclick="toggleMobileNav()">Affiliate</a>
+  <a href="#faq" class="nav-link" onclick="toggleMobileNav()">FAQ</a>
+  <a href="#contact" class="nav-link" onclick="toggleMobileNav()">Contact</a>
+  <div style="height:1px;background:var(--border);margin:8px 0"></div>
+  <a href="https://oar.armedprep.com/#/login" class="nav-link">Sign in</a>
+  <a href="https://oar.armedprep.com/#/diagnostic" class="btn btn-primary" style="margin-top:4px;justify-content:center" onclick="toggleMobileNav()">Free Diagnostic</a>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-badge">Military Exam Prep Platform</div>
+    <h1>Every Branch.<br><span class="accent">Every Exam.</span><br>One Platform.</h1>
+    <p class="hero-sub">Adaptive, science-backed test prep built specifically for military qualifying exams. Not generic Kaplan content repackaged — built from the ground up for candidates who need to score.</p>
+    <div class="hero-actions">
+      <a href="https://oar.armedprep.com/#/diagnostic" class="btn btn-primary">
+        Take the Free OAR Diagnostic →
+      </a>
+      <a href="#exams" class="btn btn-secondary">See All Exams ↓</a>
+    </div>
+    <div class="hero-meta">
+      <span>⚡ 90-second diagnostic</span>
+      <span>· No account required</span>
+      <span>· Instant score prediction</span>
+      <span>· 30-day money-back guarantee</span>
+    </div>
+
+    <!-- Score mockup -->
+    <div class="score-mockup">
+      <div class="sm-header">
+        <div class="sm-dot sm-dot-r"></div>
+        <div class="sm-dot sm-dot-y"></div>
+        <div class="sm-dot sm-dot-g"></div>
+        <div class="sm-url">armedprep.com — OAR Pro Dashboard</div>
+      </div>
+      <div class="sm-body">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start">
+          <div>
+            <div class="sm-title">Predicted OAR Score</div>
+            <div class="sm-score-row">
+              <div class="sm-score-num" id="heroScore">0</div>
+              <div class="sm-score-label">/ 80</div>
+            </div>
+            <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:4px">↑ +12 pts since start</div>
+            <div style="font-size:11px;color:var(--text-3)">Competitive for aviation billets</div>
+          </div>
+          <div>
+            <div class="sm-bars">
+              <div class="sm-bar-wrap">
+                <div class="sm-bar-label"><span>Math</span><span style="color:var(--blue-2)">72%</span></div>
+                <div class="sm-bar-track"><div class="sm-bar-fill" style="width:72%;background:var(--blue);transition:width 1.5s var(--ease) .5s"></div></div>
+              </div>
+              <div class="sm-bar-wrap">
+                <div class="sm-bar-label"><span>Reading</span><span style="color:var(--green)">88%</span></div>
+                <div class="sm-bar-track"><div class="sm-bar-fill" style="width:88%;background:var(--green);transition:width 1.5s var(--ease) .7s"></div></div>
+              </div>
+              <div class="sm-bar-wrap">
+                <div class="sm-bar-label"><span>Mechanical</span><span style="color:var(--gold)">61%</span></div>
+                <div class="sm-bar-track"><div class="sm-bar-fill" style="width:61%;background:var(--gold);transition:width 1.5s var(--ease) .9s"></div></div>
+              </div>
+            </div>
+            <div class="sm-grid">
+              <div class="sm-stat">
+                <div class="sm-stat-n">220</div>
+                <div class="sm-stat-l">Questions</div>
+              </div>
+              <div class="sm-stat">
+                <div class="sm-stat-n">20</div>
+                <div class="sm-stat-l">Lessons</div>
+              </div>
+              <div class="sm-stat">
+                <div class="sm-stat-n">41</div>
+                <div class="sm-stat-l">Drills</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats bar ──────────────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-n"><span class="stat-counter" data-target="1000">0</span><span class="unit">+</span></div>
+        <div class="stat-l">Practice Questions</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-n"><span class="stat-counter" data-target="4">0</span></div>
+        <div class="stat-l">Military Exams</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-n"><span class="stat-counter" data-target="30">0</span><span class="unit">-day</span></div>
+        <div class="stat-l">Money-Back Guarantee</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-n"><span class="stat-counter" data-target="100">0</span><span class="unit">%</span></div>
+        <div class="stat-l">Exam-Specific Content</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Exams ───────────────────────────────────────────────────────────── -->
+<section class="products" id="exams">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div class="section-label">Exam Prep</div>
+      <h2>Every qualifying exam, covered.</h2>
+      <p>Built exam-by-exam from official test guides. No repurposed generic content.</p>
+    </div>
+    <div class="products-grid">
+
+      <!-- OAR -->
+      <div class="product-card live fade-up">
+        <div class="product-badge badge-live">Live</div>
+        <div class="product-icon" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.2)">⚓</div>
+        <div class="product-branch">Navy / Marine OCS</div>
+        <div class="product-name">OAR Pro</div>
+        <div class="product-fullname mono" style="font-size:11px">Officer Aptitude Rating</div>
+        <div class="product-desc">220 adaptive questions, 20 lesson modules, 41 drill generators. Covers all three sections: Math Skills, Reading Comprehension, Mechanical Comprehension. Adaptive CAT targets your exact weak topics.</div>
+        <div class="product-footer">
+          <div class="product-price">
+            $97
+            <span class="sub">one-time · lifetime access</span>
+          </div>
+          <a href="https://oar.armedprep.com/#/" class="product-cta cta-live">Start Prep →</a>
+        </div>
+      </div>
+
+      <!-- ASVAB -->
+      <div class="product-card fade-up">
+        <div class="product-badge badge-soon">Coming Soon</div>
+        <div class="product-icon" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)">🎖️</div>
+        <div class="product-branch">All Branches — Enlisted</div>
+        <div class="product-name">ASVAB Prep</div>
+        <div class="product-fullname mono" style="font-size:11px">Armed Services Vocational Aptitude Battery</div>
+        <div class="product-desc">Full AFQT + all 10 subtests. Adaptive practice targeting your MOS-qualifying scores. 153+ Word Knowledge questions already built. Launching soon.</div>
+        <div class="product-footer">
+          <div class="product-price">
+            TBD
+            <span class="sub">join waitlist for early access</span>
+          </div>
+          <button class="product-cta cta-soon" onclick="scrollToWaitlist()">Waitlist →</button>
+        </div>
+      </div>
+
+      <!-- AFOQT -->
+      <div class="product-card fade-up">
+        <div class="product-badge badge-soon">Coming Soon</div>
+        <div class="product-icon" style="background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2)">✈️</div>
+        <div class="product-branch">Air Force OTS / ROTC</div>
+        <div class="product-name">AFOQT Prep</div>
+        <div class="product-fullname mono" style="font-size:11px">Air Force Officer Qualifying Test</div>
+        <div class="product-desc">All 12 subtests, pilot aptitude, navigator aptitude, and verbal/quantitative sections. Built for OTS applicants who need competitive composite scores.</div>
+        <div class="product-footer">
+          <div class="product-price">
+            TBD
+            <span class="sub">join waitlist for early access</span>
+          </div>
+          <button class="product-cta cta-soon" onclick="scrollToWaitlist()">Waitlist →</button>
+        </div>
+      </div>
+
+      <!-- SIFT -->
+      <div class="product-card fade-up">
+        <div class="product-badge badge-soon">Coming Soon</div>
+        <div class="product-icon" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)">🚁</div>
+        <div class="product-branch">Army Aviation (WOFT)</div>
+        <div class="product-name">SIFT Prep</div>
+        <div class="product-fullname mono" style="font-size:11px">Selection Instrument for Flight Training</div>
+        <div class="product-desc">Simple Drawings, Hidden Figures, Army Aviation Information Test, Spatial Apperception, and more. Designed for Warrant Officer Flight Training applicants.</div>
+        <div class="product-footer">
+          <div class="product-price">
+            TBD
+            <span class="sub">join waitlist for early access</span>
+          </div>
+          <button class="product-cta cta-soon" onclick="scrollToWaitlist()">Waitlist →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Why ArmedPrep ───────────────────────────────────────────────────── -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div class="section-label">Why ArmedPrep</div>
+      <h2>Built for military exams.<br>Not adapted for them.</h2>
+      <p>Generic test prep services treat military exams as afterthoughts. We don't.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-up">
+        <div class="why-icon">🎯</div>
+        <h3>Exam-specific content</h3>
+        <p>Every question, lesson, and drill is built from official test frameworks. No Kaplan vocabulary lists recycled as military prep. The OAR tests mechanical comprehension — so we have animated pulley diagrams, not generic physics flashcards.</p>
+      </div>
+      <div class="why-card fade-up">
+        <div class="why-icon">📈</div>
+        <h3>Adaptive testing</h3>
+        <p>Our CAT engine identifies your weak sections after every session and automatically queues the right questions. You don't need to plan what to study — the platform does it based on your actual performance data.</p>
+      </div>
+      <div class="why-card fade-up">
+        <div class="why-icon">🔢</div>
+        <h3>Score prediction</h3>
+        <p>A free 90-second diagnostic gives you a predicted score before you spend a dollar. You'll know which section is costing you the most points, in what order to tackle them, and whether you're competitive for your target billet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ───────────────────────────────────────────────────── -->
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div class="section-label">Results</div>
+      <h2>Candidates who scored.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I was borderline on my first attempt at the diagnostic — 43. Spent three weeks using OAR Pro and hit a 58. The adaptive test is what made the difference. It kept hammering my weak spots until they weren't weak anymore."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">F</div>
+          <div>
+            <div class="testi-name">Fee</div>
+            <div class="testi-role">Navy OCS Candidate</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The mechanical comprehension section is what I was worried about. The animated diagrams in OAR Pro actually showed me how the concepts work, not just gave me more questions to guess at. Scored a 62."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">L</div>
+          <div>
+            <div class="testi-name">Lozano</div>
+            <div class="testi-role">Navy OCS Candidate</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Every other OAR prep resource felt like it was built for a different test. ArmedPrep knows exactly what's on the OAR and builds content around that. No filler, no wasted study time."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div>
+            <div class="testi-name">R. Harmon</div>
+            <div class="testi-role">Surface Warfare Officer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Affiliate ──────────────────────────────────────────────────────── -->
+<section class="affiliate" id="affiliate">
+  <div class="wrap">
+    <div class="affiliate-inner">
+      <div class="affiliate-content fade-up">
+        <div class="section-label" style="margin-bottom:16px">Affiliate Program</div>
+        <h2>Earn 20% on every sale you refer.</h2>
+        <p>Know people preparing for military exams? Refer them and earn a 20% commission on every purchase. No cap. No expiration. Tracked via your personal code.</p>
+        <div class="affiliate-perks">
+          <div class="affiliate-perk">
+            <div class="perk-icon">💰</div>
+            <div class="perk-text">
+              <strong>20% commission rate</strong>
+              <span>$19.40 per OAR Pro sale. Paid via PayPal or Venmo monthly.</span>
+            </div>
+          </div>
+          <div class="affiliate-perk">
+            <div class="perk-icon">🔗</div>
+            <div class="perk-text">
+              <strong>Your personal referral code</strong>
+              <span>Share it on Reddit, Discord, YouTube, TikTok — anywhere.</span>
+            </div>
+          </div>
+          <div class="affiliate-perk">
+            <div class="perk-icon">📊</div>
+            <div class="perk-text">
+              <strong>Real-time tracking</strong>
+              <span>Dashboard shows clicks, conversions, and payouts.</span>
+            </div>
+          </div>
+          <div class="affiliate-perk">
+            <div class="perk-icon">🚀</div>
+            <div class="perk-text">
+              <strong>Commission grows with catalog</strong>
+              <span>As more exams launch, your code covers all products.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="affiliate-form-wrap fade-up" id="waitlistAnchor">
+        <div class="form-title">Apply to be an affiliate</div>
+        <div class="form-sub">We review applications and respond within 48 hours.</div>
+        <form id="affForm" onsubmit="submitAffiliate(event)">
+          <div class="form-group">
+            <label class="form-label" for="affName">Full Name</label>
+            <input type="text" id="affName" class="form-input" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="affEmail">Email</label>
+            <input type="email" id="affEmail" class="form-input" placeholder="you@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="affChannel">Where will you promote ArmedPrep?</label>
+            <textarea id="affChannel" class="form-input" placeholder="Reddit r/newtothenavy, YouTube channel, Discord server, etc."></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="affSubmit">Submit Application →</button>
+        </form>
+        <div id="affSuccess">
+          <div style="font-size:32px;margin-bottom:12px">✓</div>
+          <strong>Application received.</strong><br>
+          <span style="font-size:13px;color:var(--text-3)">We'll email you within 48 hours with your affiliate code.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────────────── -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div class="section-label">FAQ</div>
+      <h2>Common questions.</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is ArmedPrep affiliated with the military?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">No. ArmedPrep is an independent test prep platform. We are not affiliated with, endorsed by, or connected to the United States military, Department of Defense, or any branch of the armed services. All exam content is based on publicly available test frameworks and official study guides.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What's the difference between the OAR and ASTB-E?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">The ASTB-E (Aviation Selection Test Battery) is a broader assessment used for Naval Aviation selection. The OAR (Officer Aptitude Rating) is a composite score derived from three ASTB-E subtests: Math Skills Test, Reading Skills Test, and Mechanical Comprehension Test. OAR Pro prepares you for those three sections specifically.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need to create an account to use the free diagnostic?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">No account required. The free OAR diagnostic takes about 90 seconds, gives you a predicted score and section breakdown, and shows you exactly where your weak spots are — all before creating an account or paying anything.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What's the refund policy?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">30-day money-back guarantee, no questions asked. If you purchase OAR Pro (or any ArmedPrep product) and aren't satisfied within 30 days, email hello@armedprep.com and we'll refund you in full.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          When will ASVAB, AFOQT, and SIFT prep launch?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">ASVAB is the next launch — Word Knowledge content is already built and we're expanding to all AFQT subtests. AFOQT and SIFT are in planning. Join the waitlist via the affiliate form above and we'll email you when each product launches. Waitlist members get early access and a discounted price.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is the OAR Pro purchase one-time or a subscription?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">One-time payment, lifetime access. Pay $97 once and you get access to OAR Pro permanently — including all future content updates to that product.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ────────────────────────────────────────────────────────── -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Questions? We respond within 24 hours.</h2>
+    <p>For support, billing, or exam-specific questions.</p>
+    <a href="mailto:hello@armedprep.com" class="contact-email">
+      <span style="font-size:18px">✉</span>
+      hello@armedprep.com
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Armed<span>Prep</span></div>
+        <div class="footer-tagline">Military exam prep built from the ground up. Not adapted. Built.</div>
+      </div>
+      <div class="footer-col">
+        <h4>Exams</h4>
+        <ul>
+          <li><a href="https://oar.armedprep.com/#/">OAR Pro</a></li>
+          <li><a href="#exams">ASVAB (soon)</a></li>
+          <li><a href="#exams">AFOQT (soon)</a></li>
+          <li><a href="#exams">SIFT (soon)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="https://oar.armedprep.com/#/diagnostic">Free Diagnostic</a></li>
+          <li><a href="#affiliate">Affiliate Program</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="https://oar.armedprep.com/#/privacy">Privacy Policy</a></li>
+          <li><a href="https://oar.armedprep.com/#/terms">Terms of Service</a></li>
+          <li><a href="https://oar.armedprep.com/#/refund">Refund Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 ArmedPrep. All rights reserved.</div>
+      <div class="footer-legal">
+        <a href="https://oar.armedprep.com/#/privacy">Privacy</a>
+        <a href="https://oar.armedprep.com/#/terms">Terms</a>
+        <a href="mailto:hello@armedprep.com">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Nav scroll effect ─────────────────────────────────────────────────
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Mobile nav ────────────────────────────────────────────────────────
+  let mobileNavOpen = false;
+  function toggleMobileNav() {
+    mobileNavOpen = !mobileNavOpen;
+    const mn = document.getElementById('mobileNav');
+    mn.style.display = mobileNavOpen ? 'flex' : 'none';
+  }
+
+  // ── Hero score counter ────────────────────────────────────────────────
+  (function() {
+    let v = 0;
+    const el = document.getElementById('heroScore');
+    const target = 57;
+    const t = setInterval(() => {
+      v += 2;
+      if (v >= target) { v = target; clearInterval(t); }
+      el.textContent = v;
+    }, 30);
+  })();
+
+  // ── Stat counters (IntersectionObserver) ─────────────────────────────
+  const counters = document.querySelectorAll('.stat-counter');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 40));
+      const interval = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current.toLocaleString();
+        if (current >= target) clearInterval(interval);
+      }, 35);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observer.observe(c));
+
+  // ── Fade-up on scroll ────────────────────────────────────────────────
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(el => fadeObs.observe(el));
+
+  // ── FAQ accordion ────────────────────────────────────────────────────
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Affiliate form ────────────────────────────────────────────────────
+  async function submitAffiliate(e) {
+    e.preventDefault();
+    const btn = document.getElementById('affSubmit');
+    const name = document.getElementById('affName').value.trim();
+    const email = document.getElementById('affEmail').value.trim();
+    const channel = document.getElementById('affChannel').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const SUPABASE_URL = 'https://ugblwepfptumffzcljot.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnYmx3ZXBmcHR1bWZmemNsam90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODk1MTYsImV4cCI6MjA5MTM2NTUxNn0.RopXMlYK5a2zMQQ3slEPrKlBhIeRWfoeLY3y8OOOF38';
+
+    try {
+      // Reuse capture-lead function — tag as affiliate inquiry via UTM
+      await fetch(`${SUPABASE_URL}/functions/v1/capture-lead`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          email,
+          utm_source: 'armedprep_platform',
+          utm_medium: 'affiliate_form',
+          utm_campaign: `affiliate_inquiry__${name.replace(/\s+/g,'_').toLowerCase()}__${channel.slice(0,50)}`,
+        }),
+      });
+      document.getElementById('affForm').style.display = 'none';
+      document.getElementById('affSuccess').style.display = 'block';
+    } catch (_) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Application →';
+      alert('Something went wrong. Email us directly at hello@armedprep.com');
+    }
+  }
+
+  // ── Scroll to waitlist ────────────────────────────────────────────────
+  function scrollToWaitlist() {
+    document.getElementById('waitlistAnchor').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('affEmail').focus();
+  }
+
+  // ── Smooth anchor nav ─────────────────────────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
