@@ -113,7 +113,9 @@ window._ppSubmitEmail = async function () {
     window._emailCapture.submitLeadCapture({ email, onSuccess: function () {}, onError: function () {} });
   }
 
-  navigate('#/preview-practice');
+  // navigate() is a no-op when already on #/preview-practice (same hash = no hashchange event).
+  // Call handleRoute() directly to re-run the route with localStorage now populated.
+  handleRoute();
 };
 
 // ── Quiz engine ───────────────────────────────────────────────────────────────

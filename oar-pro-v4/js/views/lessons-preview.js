@@ -319,7 +319,9 @@ async function _pvSubmitEmail(lessonId) {
     window._emailCapture.submitLeadCapture({ email: email, onSuccess: function () {}, onError: function () {} });
   }
 
-  navigate('#/lesson-preview/' + lessonId);
+  // navigate() is a no-op when already on #/lesson-preview/:id (same hash = no hashchange event).
+  // Call handleRoute() directly to re-run the route with localStorage now populated.
+  handleRoute();
 }
 window._pvSubmitEmail = _pvSubmitEmail;
 
